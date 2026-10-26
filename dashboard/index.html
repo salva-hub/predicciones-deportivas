@@ -43,6 +43,8 @@
 
   <h2>Prueba en papel (hasta 26-nov-2026, sin dinero real)</h2>
   <div class="card" id="papel"></div>
+  <h2>Prueba en papel por categoría (se comparan el 26-nov-2026)</h2>
+  <div class="card" id="papel-categorias"></div>
 
   <h2>Recomendaciones por liga</h2>
   <div class="card" id="por-liga"></div>
@@ -91,11 +93,12 @@ function agrupar(lista, clave) {
 }
 
 (async () => {
-  const [bank, apuestas, pronos, parlaysPapel] = await Promise.all([
+  const [bank, apuestas, pronos, parlaysPapel, resumenPapel] = await Promise.all([
     leer("registro/bank.json", {bank_inicial: 10000, movimientos: []}),
     leer("registro/apuestas.json", []),
     leer("registro/pronosticos.json", []),
     leer("registro/papel.json", []),
+    leer("registro/resumen_papel.json", {}),
   ]);
   document.getElementById("actualizado").textContent =
     `Bank inicial ${MXN(bank.bank_inicial)} · ${pronos.length} pronósticos · ${apuestas.length} apuestas · actualizado ${new Date().toLocaleString("es-MX", {timeZone: "America/Hermosillo"})} (hora de Sonora)`;
@@ -158,6 +161,13 @@ function agrupar(lista, clave) {
   tabla(document.getElementById("por-mercado"), cols, agrupar(recomendadas, x => x.mercado));
   tabla(document.getElementById("por-liga"), cols, agrupar(recomendadas, x => x.liga));
   tabla(document.getElementById("papel"), cols, papel.length ? [{k: "Total", ...rp}, ...agrupar(papel, x => x.mercado)] : []);
+
+  const nombres = {valor: "Valor", sencilla_fuerte: "Sencilla fuerte", combinada: "Combinada", total: "Total"};
+  tabla(document.getElementById("papel-categorias"), [
+    ["Categoría", f => nombres[f.k] || f.k], ["Apuestas", f => f.apuestas], ["Liquidadas", f => f.liquidadas],
+    ["Acierto", f => PCT(f.acierto)], ["Ganancia", f => MXN(f.ganancia), f => clase(f.ganancia)],
+    ["ROI", f => PCT(f.roi), f => clase(f.roi)], ["Peor racha", f => f.peor_racha + " perdidas"],
+  ], Object.entries(resumenPapel).filter(([, v]) => v.apuestas).map(([k, v]) => ({k, ...v})));
 
   tabla(document.getElementById("apuestas"), [
     ["Fecha", a => String(a.creado || "").slice(0, 10)], ["Tipo", a => a.tipo],

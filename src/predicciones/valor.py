@@ -12,6 +12,17 @@
   parlay completo con VE >= 5%. Objetivo: +200 o más con 2 selecciones.
 - Sin cuotas de Pinnacle: solo el modelo, con un nivel menos de confianza.
 - Prueba en papel hasta el 26-nov-2026 (ver bank.PRUEBA_PAPEL_HASTA).
+
+Tres categorías de apuesta (aprobadas por Salva el 26-oct-2026; se miden por
+separado en la prueba en papel y se comparan el 26-nov-2026):
+- "valor": las reglas de arriba (sencillas y parlays con valor).
+- "sencilla_fuerte": sencilla con cuota negativa en Winpot, probabilidad >= 60%,
+  confianza alta o media y cuota de Winpot dentro de la tolerancia (como mucho
+  4% por debajo de la cuota justa). Se apuesta para GANAR un objetivo fijo.
+- "combinada": 2 o 3 patas de partidos distintos, cada una con probabilidad
+  >= 55%, confianza alta o media y dentro de la tolerancia (o con valor); la
+  cuota total de Winpot entre +200 y +350.
+Si una selección cumple "valor" y otra categoría, cuenta como "valor".
 """
 from __future__ import annotations
 
@@ -27,6 +38,18 @@ UMBRAL_DOBLE_OPORTUNIDAD = 0.55
 PESO_MODELO = 0.0  # 0 = solo Pinnacle; la mezcla vieja 50/50 era 0.5
 DESACUERDO_FUERTE = 0.08
 ORDEN_CONFIANZA = ["baja", "media", "alta"]
+
+# categorías de apuesta
+VALOR, FUERTE, COMBINADA = "valor", "sencilla_fuerte", "combinada"
+CATEGORIAS = (VALOR, FUERTE, COMBINADA)
+TOLERANCIA_ATRACTIVA = 0.04       # Winpot puede pagar hasta 4% menos que la cuota justa (decimal)
+PROB_MIN_FUERTE = 0.60
+PROB_MIN_PATA_COMBINADA = 0.55
+CONFIANZAS_CATEGORIA = ("alta", "media")  # sencilla fuerte y combinada: nunca con confianza baja
+COMBINADA_CUOTA_MIN = 3.0          # +200
+COMBINADA_CUOTA_MAX = 4.5          # +350
+COMBINADA_PATAS = (2, 3)
+MAX_POR_DIA = {FUERTE: 1, COMBINADA: 2}  # por día de Sonora (día en que se evalúa)
 
 
 def familia(mercado: str) -> str:
@@ -89,6 +112,32 @@ def doble_oportunidad_permitida(p1: float, px: float, p2: float) -> bool:
 def tiene_valor(s: Seleccion) -> bool:
     v = s.ve()
     return v is not None and v >= s.ve_minimo
+
+
+def dentro_de_tolerancia(s: Seleccion) -> bool:
+    """Winpot paga la cuota justa o hasta 4% menos (en decimal)."""
+    return s.cuota_ofrecida is not None and s.cuota_ofrecida >= s.cuota_justa() * (1 - TOLERANCIA_ATRACTIVA)
+
+
+def es_sencilla_fuerte(s: Seleccion) -> bool:
+    return (s.cuota_ofrecida is not None and s.cuota_ofrecida < 2.0  # cuota negativa
+            and s.prob >= PROB_MIN_FUERTE and s.confianza in CONFIANZAS_CATEGORIA
+            and dentro_de_tolerancia(s))
+
+
+def categoria_sencilla(s: Seleccion) -> str | None:
+    """'valor', 'sencilla_fuerte' o None. Valor gana si cumple las dos."""
+    if tiene_valor(s):
+        return VALOR
+    if es_sencilla_fuerte(s):
+        return FUERTE
+    return None
+
+
+def sirve_para_combinada(s: Seleccion) -> bool:
+    return (s.cuota_ofrecida is not None and s.prob_devolucion == 0
+            and s.prob >= PROB_MIN_PATA_COMBINADA and s.confianza in CONFIANZAS_CATEGORIA
+            and (dentro_de_tolerancia(s) or tiene_valor(s)))
 
 
 @dataclass
@@ -156,3 +205,38 @@ def armar_parlays(candidatas: list[Seleccion], max_patas: int = 4, top: int = 5)
         if len(elegidos) >= top:
             break
     return elegidos
+
+
+def armar_combinadas(candidatas: list[Seleccion], top: int = MAX_POR_DIA[COMBINADA],
+                     excluir: set[frozenset] | None = None) -> list[Parlay]:
+    """Combinadas cortas: 2 o 3 patas de partidos distintos, cuota total +200 a +350.
+
+    Orden: primero las de 2 patas, luego la de mayor probabilidad conjunta. Ninguna
+    pata se repite entre las elegidas. `excluir`: juegos de patas ya elegidos como
+    parlay de valor (no se cuentan dos veces).
+    """
+    patas = [s for s in candidatas if sirve_para_combinada(s)]
+    excluir = excluir or set()
+    out: list[Parlay] = []
+    for n in COMBINADA_PATAS:
+        for combo in itertools.combinations(patas, n):
+            if len({c.partido for c in combo}) < n:
+                continue
+            p = Parlay(list(combo))
+            if COMBINADA_CUOTA_MIN <= p.cuota <= COMBINADA_CUOTA_MAX and clave_patas(p) not in excluir:
+                out.append(p)
+    out.sort(key=lambda p: (len(p.patas), -p.prob))
+    elegidas, usadas = [], set()
+    for p in out:
+        ids = set(clave_patas(p))
+        if ids & usadas:
+            continue
+        elegidas.append(p)
+        usadas |= ids
+        if len(elegidas) >= top:
+            break
+    return elegidas
+
+
+def clave_patas(p: Parlay) -> frozenset:
+    return frozenset((x.partido, x.mercado, x.seleccion) for x in p.patas)

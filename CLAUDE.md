@@ -121,12 +121,15 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    cada una con su fuente y cuánto ajustó.
 
    **Qué apostar:** las selecciones cuya cuota mínima es alcanzable, en orden de valor. Pide a Salva la cuota de Winpot de esas
-   selecciones (o que confirme si Winpot paga la mínima o más).
+   selecciones (o que confirme si Winpot paga la mínima o más). **Pide también la cuota de Winpot de las 3 o 4 selecciones
+   más probables del partido** (aunque no tengan valor): sirven para sencillas fuertes y para armar combinadas.
 
 7. **Cuando Salva da las cuotas de Winpot:**
    `python -m predicciones.cli evaluar --id <id> --winpot "goles:mas_2.5=-130" --winpot "tarjetas:mas_4.5=-133"`
-   Recomienda solo lo que salga con `apostar: true`, con el monto calculado. Para la jornada, arma parlays con
-   `python -m predicciones.cli parlays --fecha hoy`.
+   Recomienda solo lo que salga con `apostar: true`, con el monto calculado. Cada fila trae su `categoria`
+   (`valor`, `sencilla_fuerte` o vacía) y `sirve_para_combinada`. Para la jornada, arma parlays de valor y
+   combinadas con `python -m predicciones.cli parlays --fecha hoy` (cada uno trae su `categoria`).
+   Dile a Salva en qué categoría va cada apuesta. Si Salva apuesta, registra con `apostar ... --categoria <categoría>`.
    Respeta el `disponible_hoy` de `python -m predicciones.cli bank` (en la prueba en papel ya descuenta lo
    "apostado" en papel hoy; `evaluar` y `parlays` también lo respetan entre varias selecciones).
    **Prueba en papel hasta el 26-nov-2026 (inclusive):** `evaluar` devuelve `apostar: false` siempre y marca con
@@ -134,6 +137,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    GitHub Actions lo califica. `parlays` los lista como `parlays_papel`. Dile a Salva: "Prueba en papel hasta
    26-nov-2026: no apostar dinero", y muéstrale la selección y el monto que se habría apostado.
    `apostar` se niega en ese periodo; usa `--forzar` solo si Salva dice que ya apostó dinero real.
+   **Después del 26-nov-2026** solo la categoría `valor` sale con `apostar: true` (lista `CATEGORIAS_DINERO_REAL`
+   en `bank.py`); las otras dicen "categoría pendiente de aprobación tras la prueba en papel" hasta que Salva las apruebe.
 
 8. **Guarda el registro en GitHub** (Salva lo autorizó):
    `git add registro/ && git commit -m "Pronóstico: <partido>" && git pull --rebase origin main && git push origin HEAD:main`.
@@ -142,7 +147,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
 
 ## Cuando Salva confirma una apuesta o un movimiento
 
-- Sencilla: `python -m predicciones.cli apostar --pata "<id>:goles:mas_2.5=-130" --monto 500`
+- Sencilla: `python -m predicciones.cli apostar --pata "<id>:goles:mas_2.5=-130" --monto 500 --categoria valor`
+  (`--categoria`: valor, sencilla_fuerte o combinada; cuenta para el máximo por día).
 - Parlay: una `--pata` por selección, con su cuota de Winpot.
 - Retiro o depósito: `python -m predicciones.cli movimiento --tipo retiro --monto 2000`
 - Liquidar a mano (apuesta marcada "Revisar a mano", o si Winpot pagó distinto):
@@ -170,6 +176,22 @@ GitHub Actions califica todo automáticamente cada 3 horas y actualiza el dashbo
 - **Prueba en papel del 26-oct-2026 al 26-nov-2026:** nada de dinero real; se registran y califican las apuestas
   en papel. Al terminar, revisar sus resultados con Salva antes de apostar dinero.
 
+### Tres categorías de apuesta (aprobadas por Salva el 26-oct-2026)
+
+Las tres se registran en papel por separado y **el 26-nov-2026 se comparan con Salva** (dashboard: "Prueba en papel
+por categoría": apuestas, acierto, ganancia, ROI y peor racha). "Precio justo" = la cuota justa de la probabilidad final.
+"Dentro de tolerancia" = Winpot paga la cuota justa o hasta 4% menos (en decimal: Winpot ≥ justa × 0.96).
+
+1. **Valor** (`valor`): las reglas de arriba (sencillas y parlays con valor).
+2. **Sencilla fuerte** (`sencilla_fuerte`): cuota negativa en Winpot, probabilidad ≥ 60%, confianza alta o media
+   (nunca baja) y dentro de tolerancia. Se apuesta para **ganar** un objetivo (ver Montos). Máximo 1 por día.
+3. **Combinada** (`combinada`): 2 o 3 patas de partidos distintos, cada una con probabilidad ≥ 55%, confianza alta o
+   media y dentro de tolerancia (o con valor); cuota total de Winpot entre +200 y +350. Se prefieren las de 2 patas y
+   luego la de mayor probabilidad; ninguna pata se repite entre las combinadas del día. Máximo 2 por día.
+
+Si algo cumple valor y otra categoría, cuenta como valor (no se cuenta dos veces). Un parlay idéntico a uno de valor
+no se repite como combinada. Los máximos cuentan por día de Sonora en que se evalúa.
+
 ## Resultados del backtest (26-oct-2026)
 
 Temporadas 2022/23 a 2025/26, apostando contra la cuota de apertura de Pinnacle con la regla vieja
@@ -195,11 +217,18 @@ Temporadas 2022/23 a 2025/26, apostando contra la cuota de apertura de Pinnacle 
 - Sencilla: 5% como máximo (500 MXN con 10,000) con confianza alta y valor de al menos el doble del mínimo;
   3% con valor normal; 2% con confianza baja.
 - Ningún monto recomendado pasa de lo que queda del límite del día (`disponible_hoy`).
-- Parlay: 3% con confianza alta; 2% con confianza media o baja.
+- Parlay de valor: 3% con confianza alta; 2% con confianza media o baja.
+- Sencilla fuerte: lo necesario para **ganar** 5% del bank con confianza alta (con 10,000: ganar 500; a −120 se ponen 600)
+  o 2.5% con confianza media (ganar 250). Se redondea hacia arriba a 10 MXN.
+- Combinada: 5% del bank si todas las patas son de confianza alta; 3% si alguna es media.
 - Límite del día: 10% del bank; si ese día ya hay ganancia cobrada, 10% más la mitad de esa ganancia, hasta 20%.
+  Cubre las tres categorías juntas (reales o en papel). Si los montos pasan del disponible, se **recortan en orden**:
+  en `evaluar` primero valor y luego sencilla fuerte; en `parlays` primero los de valor y luego las combinadas. Cada uno
+  toma lo que queda; cuando ya no queda nada, esa apuesta no se hace.
 - Pausa: si las apuestas del mes pierden 50% de la base del mes (bank al inicio del mes + depósitos − retiros del mes),
   no se recomiendan apuestas y se revisa el modelo. Los retiros y depósitos no cuentan como pérdida ni ganancia.
-  En pausa, `evaluar` devuelve `apostar: false` y `parlays` no arma nada.
+  En pausa, `evaluar` devuelve `apostar: false` y `parlays` no arma nada, en las tres categorías.
+- `python -m predicciones.cli bank` muestra cuántas de cada categoría van hoy (`usadas_hoy`) y los montos de cada una.
 
 ## Otros deportes
 

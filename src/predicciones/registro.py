@@ -156,12 +156,86 @@ def guardar_parlays_papel(dia, nuevos: list[dict]) -> list[dict]:
     return doc["parlays"]
 
 
+def apuestas_papel_todas() -> list[dict]:
+    """Sencillas y parlays en papel en una sola lista, con su categoría y fecha.
+    Lo guardado antes de las categorías cuenta como "valor"."""
+    out = []
+    for p in pronosticos():
+        for x in p.get("apuestas_papel", []):
+            out.append({**x, "tipo": "sencilla", "partido": p.get("partido"),
+                        "categoria": x.get("categoria") or "valor", "fecha": x.get("evaluado", "")})
+    for x in parlays_papel():
+        out.append({**x, "categoria": x.get("categoria") or "valor", "fecha": x.get("creado", "")})
+    return sorted(out, key=lambda x: str(x["fecha"]))
+
+
+def _peor_racha(estados: list[str]) -> int:
+    """Más pérdidas seguidas (las devueltas no cortan ni suman)."""
+    peor = actual = 0
+    for e in estados:
+        if e == "perdida":
+            actual += 1
+            peor = max(peor, actual)
+        elif e == "ganada":
+            actual = 0
+    return peor
+
+
+def resumen_papel() -> dict:
+    """Resultados de la prueba en papel por categoría (para comparar el 26-nov-2026)."""
+    todas = apuestas_papel_todas()
+    out = {}
+    for cat in ("valor", "sencilla_fuerte", "combinada", "total"):
+        grupo = [x for x in todas if cat == "total" or x["categoria"] == cat]
+        liq = [x for x in grupo if x.get("estado") in LIQUIDADAS]
+        ganadas = sum(x["estado"] == "ganada" for x in liq)
+        decididas = sum(x["estado"] != "devuelta" for x in liq)
+        apostado = sum(float(x.get("monto", 0)) for x in liq)
+        gan = sum(float(x.get("ganancia", 0)) for x in liq)
+        out[cat] = {
+            "apuestas": len(grupo), "liquidadas": len(liq), "ganadas": ganadas,
+            "acierto": round(ganadas / decididas, 4) if decididas else None,
+            "apostado": round(apostado, 2), "ganancia": round(gan, 2),
+            "roi": round(gan / apostado, 4) if apostado else None,
+            "peor_racha": _peor_racha([x["estado"] for x in liq]),
+        }
+    return out
+
+
+def categorias_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -> dict[str, int]:
+    """Cuántas apuestas de cada categoría se pusieron hoy (día de Sonora), en papel o
+    reales. Mismas exclusiones que apostado_papel_hoy (lo que se va a reemplazar)."""
+    hoy = ahora().date()
+    cuenta: dict[str, int] = {}
+
+    def sumar(x: dict, fecha: str | None) -> None:
+        if fecha and _fecha_sonora(fecha).date() == hoy:
+            c = x.get("categoria") or "valor"
+            cuenta[c] = cuenta.get(c, 0) + 1
+
+    for p in pronosticos():
+        if p.get("id") != excluir:
+            for x in p.get("apuestas_papel", []):
+                sumar(x, x.get("evaluado"))
+    omitir = f"parlays-{reemplazar_parlays_de:%Y%m%d}" if reemplazar_parlays_de else None
+    for doc in archivos_parlays_papel():
+        for x in doc.get("parlays", []):
+            if not (doc.get("id") == omitir and x.get("estado") == "pendiente"):
+                sumar(x, x.get("creado"))
+    for a in apuestas():
+        if a.get("categoria"):
+            sumar(a, a.get("creado"))
+    return cuenta
+
+
 def exportar(salida: str | Path) -> None:
-    """Junta todo en pronosticos.json, apuestas.json, papel.json y bank.json (para el dashboard)."""
+    """Junta todo en pronosticos.json, apuestas.json, papel.json, resumen_papel.json
+    y bank.json (para el dashboard)."""
     salida = Path(salida)
     _escribir_ruta(salida / "pronosticos.json", pronosticos())
     _escribir_ruta(salida / "apuestas.json", apuestas())
     _escribir_ruta(salida / "papel.json", parlays_papel())
+    _escribir_ruta(salida / "resumen_papel.json", resumen_papel())
     _escribir_ruta(salida / "bank.json", bank_config())
 
 
