@@ -8,8 +8,6 @@ on:
     paths: ["registro/**", "dashboard/**"]
 permissions:
   contents: write
-  pages: write
-  id-token: write
 concurrency:
   group: registro
   cancel-in-progress: false
@@ -27,30 +25,25 @@ jobs:
       - name: Calificar pronósticos y apuestas terminados
         run: PYTHONPATH=src python -m predicciones.cli calificar
       - name: Guardar cambios en el registro
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add registro/
-          if ! git diff --cached --quiet; then
-            git commit -m "Calificación automática de resultados"
-            git pull --rebase origin main
-            git push origin HEAD:main
-          fi
+        run: .github/scripts/publicar.sh "Calificación automática de resultados" registro/
       - name: Preparar sitio
         run: |
           mkdir -p _site/registro
           cp dashboard/index.html _site/
-          cp registro/*.json _site/registro/
-      - uses: actions/configure-pages@v5
+          PYTHONPATH=src python -m predicciones.cli exportar --salida _site/registro
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
   publicar:
     needs: calificar
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
+      - uses: actions/configure-pages@v5
       - id: deploy
         uses: actions/deploy-pages@v4

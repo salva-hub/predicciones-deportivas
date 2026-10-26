@@ -4,7 +4,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: registro
+  group: backtest
   cancel-in-progress: false
 jobs:
   backtest:
@@ -26,12 +26,6 @@ jobs:
           mkdir -p resultados/backtest
           PYTHONPATH=src python -m predicciones.backtest --liga ${{ matrix.liga }} --desde 2022 --hasta 2025 --salida resultados/backtest/${{ matrix.liga }}.json
       - name: Guardar resultado
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add resultados/
-          if ! git diff --cached --quiet; then
-            git commit -m "Resultado de prueba contra el pasado: ${{ matrix.liga }}"
-            git pull --rebase origin main
-            git push origin HEAD:main
-          fi
+        env:
+          LIGA: ${{ matrix.liga }}
+        run: .github/scripts/publicar.sh "Resultado de prueba contra el pasado ($LIGA)" resultados/

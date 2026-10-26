@@ -1,8 +1,8 @@
 # Instrucciones para Claude: pronósticos deportivos de Salva
 
 Este repositorio es el sistema completo. Todo el estado vive aquí, no en el chat:
-- `registro/pronosticos.json`: cada pronóstico emitido y su resultado.
-- `registro/apuestas.json`: apuestas reales que Salva confirmó.
+- `registro/pronosticos/<id>.json`: un archivo por pronóstico emitido, con su resultado.
+- `registro/apuestas/<id>.json`: un archivo por apuesta real que Salva confirmó.
 - `registro/bank.json`: bank inicial y retiros o depósitos.
 - `datos/historial/*.csv`: historiales que GitHub Actions actualiza cada lunes.
 
@@ -75,8 +75,10 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
      --ajuste "goles_visitante:0.93:Baja de su delantero titular (Sportsgambler)" \
      --arbitro "Nombre" --arbitro-prom 5.4 --arbitro-partidos 30 --confianza alta
    ```
+   `--confianza` es obligatoria (paso 4). En cancha neutral (Mundial, Copa América, finales en sede neutral)
+   agrega `--neutral`: quita la ventaja de local.
    Si no hay clave de The Odds API, puedes pasar cuotas de referencia leídas en la web con `--pinnacle "1=-150,X=+280,2=+400"`.
-   El comando guarda el pronóstico en `registro/pronosticos.json` y devuelve su `id`.
+   El comando guarda el pronóstico en `registro/pronosticos/<id>.json` y devuelve su `id`.
 
 6. **Responde a Salva** con este formato:
 
@@ -99,7 +101,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    `python -m predicciones.cli parlays --fecha hoy`.
    Respeta el `disponible_hoy` de `python -m predicciones.cli bank`.
 
-8. **Guarda el registro en GitHub** (Salva lo autorizó): `git add registro/ && git commit -m "Pronóstico: <partido>" && git push origin HEAD:main`.
+8. **Guarda el registro en GitHub** (Salva lo autorizó):
+   `git add registro/ && git commit -m "Pronóstico: <partido>" && git pull --rebase origin main && git push origin HEAD:main`.
    Si el push a main es rechazado, crea una rama `registro/<fecha>` y abre un pull request.
    Solo `registro/` va directo a main; cambios de código van siempre por pull request.
 
@@ -110,7 +113,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
 - Retiro o depósito: `python -m predicciones.cli movimiento --tipo retiro --monto 2000`
 - Luego guarda el registro como en el paso 8.
 
-GitHub Actions califica todo automáticamente cada 3 horas y actualiza el dashboard.
+GitHub Actions califica todo automáticamente cada 3 horas y actualiza el dashboard. Si faltan datos de un partido
+(córners, tarjetas), lo vuelve a intentar en cada corrida durante 48 h; las patas sin datos quedan pendientes.
 
 ## Reglas de valor (aprobadas el 26-oct-2026)
 
@@ -123,10 +127,14 @@ GitHub Actions califica todo automáticamente cada 3 horas y actualiza el dashbo
 
 ## Montos (porcentaje del bank actual)
 
-- Sencilla: hasta 5% (500 MXN con 10,000) con confianza alta y valor alto; 3% con valor normal; 2% con confianza baja.
+- Sencilla: 5% como máximo (500 MXN con 10,000) con confianza alta y valor de al menos el doble del mínimo;
+  3% con valor normal; 2% con confianza baja.
+- Ningún monto recomendado pasa de lo que queda del límite del día (`disponible_hoy`).
 - Parlay: 3% con confianza alta; 2% con confianza media o baja.
 - Límite del día: 10% del bank; si ese día ya hay ganancia cobrada, 10% más la mitad de esa ganancia, hasta 20%.
-- Pausa: si el bank cae 50% respecto al inicio del mes, no se recomiendan apuestas y se revisa el modelo.
+- Pausa: si las apuestas del mes pierden 50% de la base del mes (bank al inicio del mes + depósitos − retiros del mes),
+  no se recomiendan apuestas y se revisa el modelo. Los retiros y depósitos no cuentan como pérdida ni ganancia.
+  En pausa, `evaluar` devuelve `apostar: false` y `parlays` no arma nada.
 
 ## Otros deportes
 

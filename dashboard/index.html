@@ -51,6 +51,9 @@
   <div class="card" id="pronosticos"></div>
 </main>
 <script>
+// todo texto que viene del registro se escapa antes de ir a innerHTML
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+const celda = v => Array.isArray(v) ? (v.map(esc).join("<br>") || "—") : esc(v);
 const MXN = n => (n < 0 ? "−" : "") + "$" + Math.abs(n).toLocaleString("es-MX", {maximumFractionDigits: 0});
 const PCT = n => (n == null || isNaN(n)) ? "—" : (n * 100).toFixed(1) + "%";
 const clase = n => n > 0 ? "pos" : n < 0 ? "neg" : "";
@@ -64,8 +67,8 @@ async function leer(ruta, defecto) {
 
 function tabla(el, columnas, filas) {
   if (!filas.length) { el.innerHTML = '<div class="vacio">Sin datos todavía.</div>'; return; }
-  el.innerHTML = "<table><thead><tr>" + columnas.map(c => `<th>${c[0]}</th>`).join("") + "</tr></thead><tbody>" +
-    filas.map(f => "<tr>" + columnas.map(c => `<td class="${c[2] ? c[2](f) : ""}">${c[1](f)}</td>`).join("") + "</tr>").join("") +
+  el.innerHTML = "<table><thead><tr>" + columnas.map(c => `<th>${esc(c[0])}</th>`).join("") + "</tr></thead><tbody>" +
+    filas.map(f => "<tr>" + columnas.map(c => `<td class="${esc(c[2] ? c[2](f) : "")}">${celda(c[1](f))}</td>`).join("") + "</tr>").join("") +
     "</tbody></table>";
 }
 
@@ -120,7 +123,7 @@ function agrupar(lista, clave) {
     ["ROI recomendaciones", PCT(rr.roi), clase(rr.roi)],
     ["Pendientes", String(apuestas.filter(a => a.estado === "pendiente").length), ""],
   ];
-  document.getElementById("kpis").innerHTML = kpis.map(k => `<div class="kpi"><div class="l">${k[0]}</div><div class="v ${k[2]}">${k[1]}</div></div>`).join("");
+  document.getElementById("kpis").innerHTML = kpis.map(k => `<div class="kpi"><div class="l">${esc(k[0])}</div><div class="v ${esc(k[2])}">${esc(k[1])}</div></div>`).join("");
 
   if (puntos.length > 1 && window.Chart) {
     const css = getComputedStyle(document.documentElement);
@@ -141,8 +144,8 @@ function agrupar(lista, clave) {
   tabla(document.getElementById("por-liga"), cols, agrupar(recomendadas, x => x.liga));
 
   tabla(document.getElementById("apuestas"), [
-    ["Fecha", a => a.creado.slice(0, 10)], ["Tipo", a => a.tipo],
-    ["Selecciones", a => a.patas.map(p => `${p.partido}: ${p.mercado} ${p.seleccion}`).join("<br>")],
+    ["Fecha", a => String(a.creado || "").slice(0, 10)], ["Tipo", a => a.tipo],
+    ["Selecciones", a => (a.patas || []).map(p => `${p.partido}: ${p.mercado} ${p.seleccion}`)],
     ["Cuota", a => a.cuota_americana || americana(a.cuota)], ["Monto", a => MXN(a.monto)],
     ["Estado", a => a.estado], ["Ganancia", a => a.ganancia == null ? "—" : MXN(a.ganancia), a => clase(a.ganancia || 0)],
   ], apuestas.slice().reverse().slice(0, 50));
@@ -151,7 +154,7 @@ function agrupar(lista, clave) {
     ["Partido", p => p.partido], ["Liga", p => p.liga], ["Inicio (Sonora)", p => p.inicio_sonora],
     ["Goles esperados", p => (p.goles_esperados || []).join(" – ")],
     ["Resultado", p => p.resultado ? `${p.resultado.goles_local}–${p.resultado.goles_visitante}` : "pendiente"],
-    ["Con valor", p => (p.evaluacion || []).filter(e => e.apostar).map(e => `${e.mercado} ${e.seleccion} (${e.cuota_winpot})`).join("<br>") || "—"],
+    ["Con valor", p => (p.evaluacion || []).filter(e => e.apostar).map(e => `${e.mercado} ${e.seleccion} (${e.cuota_winpot})`)],
   ], pronos.slice().reverse().slice(0, 50));
 })();
 </script>
