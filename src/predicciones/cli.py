@@ -226,6 +226,9 @@ def cmd_evaluar(a) -> None:
         propio = sum(x.get("monto", 0.0) for x in conservar if R._fecha_sonora(x["evaluado"]).date() == hoy)
         disponible = max(0.0, disponible - R.apostado_papel_hoy(excluir=p["id"]) - propio)
     disponible_inicial = disponible
+    # sin trampa: una vez empezado el partido no se agregan apuestas en papel
+    iniciado = bool(p.get("resultado")) or bool(
+        p.get("inicio_utc") and datetime.fromisoformat(p["inicio_utc"]) <= R.ahora())
     resultado = []
     en_papel = []
     for mercado, seleccion, dec in cuotas:
@@ -255,6 +258,9 @@ def cmd_evaluar(a) -> None:
         elif papel and (mercado, seleccion) in calificadas:
             fila_res.update(apostar=False, monto_sencilla=0, apostar_papel=False, monto_papel=0,
                             motivo="ya calificada en papel")
+        elif papel and iniciado:
+            fila_res.update(apostar=False, monto_sencilla=0, apostar_papel=False, monto_papel=0,
+                            sirve_para_parlay=False, motivo="el partido ya empezó: no cuenta en papel")
         elif papel:
             pasa = fila_res["apostar"]
             fila_res.update(apostar=False, monto_sencilla=0, apostar_papel=pasa, monto_papel=monto if pasa else 0)
@@ -268,16 +274,21 @@ def cmd_evaluar(a) -> None:
         if fila_res.get("apostar") or fila_res.get("apostar_papel"):
             disponible = max(0.0, disponible - monto)  # el límite del día cubre todas las selecciones
         resultado.append(fila_res)
-    p["cuotas_winpot"] = {f"{r['mercado']}:{r['seleccion']}": r.get("cuota_winpot") for r in resultado if "error" not in r}
-    p["evaluacion"] = resultado
+    # se mezcla por selección: lo evaluado antes y no repetido ahora se conserva
+    nuevas = {(r["mercado"], r["seleccion"]) for r in resultado}
+    p["evaluacion"] = [r for r in p.get("evaluacion", []) if (r["mercado"], r["seleccion"]) not in nuevas] + resultado
+    p["cuotas_winpot"] = {**p.get("cuotas_winpot", {}),
+                          **{f"{r['mercado']}:{r['seleccion']}": r.get("cuota_winpot") for r in resultado if "error" not in r}}
     if papel and not pausa:
-        p["apuestas_papel"] = conservar + en_papel
+        p["apuestas_papel"] = conservar + ([] if iniciado else en_papel)
         if p.get("resultado"):
             _calificar_papel(p)  # el partido ya se calificó: se califican ya
     R.actualizar_pronostico(p)
     salida = {"bank_actual": bank_hoy, "disponible_hoy": disponible_inicial, "en_pausa": pausa, "prueba_papel": papel}
     if papel and not pausa:
         salida["aviso"] = B.MENSAJE_PAPEL
+        if iniciado:
+            salida["nota"] = "El partido ya empezó o terminó: la evaluación se muestra, pero no se agregan apuestas en papel"
     _imprimir({**salida, "evaluacion": resultado})
 
 
@@ -287,24 +298,28 @@ def cmd_parlays(a) -> None:
         return
     dia = _fecha(a.fecha)
     candidatas = []
-    ids: dict[tuple, dict] = {}
-    for p in R.pronosticos():
-        if not str(p.get("inicio_sonora", "")).startswith(str(dia)):
-            continue
+    ids: dict[int, dict] = {}  # id(selección) -> su pronóstico
+    # si un partido tiene varios pronósticos, vale el más reciente
+    ultimos: dict[str, dict] = {}
+    for p in R.pronosticos():  # ordenados por fecha de creación
+        if str(p.get("inicio_sonora", "")).startswith(str(dia)):
+            ultimos[p.get("espn_id") or p["partido"]] = p
+    for p in ultimos.values():
         for r in p.get("evaluacion", []):
             if r.get("sirve_para_parlay"):
                 fila = next((s for s in p.get("selecciones", [])
                              if s["mercado"] == r["mercado"] and s["seleccion"] == r["seleccion"]), {})
-                ids[(p["partido"], r["mercado"], r["seleccion"])] = p
-                candidatas.append(V.Seleccion(p["partido"], r["mercado"], r["seleccion"], r["prob"],
-                                              fila.get("devolucion", r.get("devolucion", 0.0)), r["confianza"],
-                                              C.americana_a_decimal(float(r["cuota_winpot"]))))
+                sel = V.Seleccion(p["partido"], r["mercado"], r["seleccion"], r["prob"],
+                                  fila.get("devolucion", r.get("devolucion", 0.0)), r["confianza"],
+                                  C.americana_a_decimal(float(r["cuota_winpot"])))
+                ids[id(sel)] = p
+                candidatas.append(sel)
     bank_hoy = R.bank_actual()
     papel = B.en_prueba_papel(R.ahora().date())
     disponible = max(0.0, B.limite_del_dia(bank_hoy, R.ganancia_cobrada_hoy()) - R.apostado_hoy_pendiente())
     if papel:
-        # los parlays en papel de este día se reemplazan; cuentan las sencillas en papel de hoy
-        disponible = max(0.0, disponible - R.apostado_papel_hoy(con_parlays=False))
+        # todo lo puesto hoy en papel, salvo los parlays pendientes de este día (se reemplazan)
+        disponible = max(0.0, disponible - R.apostado_papel_hoy(reemplazar_parlays_de=dia))
     parlays = V.armar_parlays(candidatas, max_patas=a.max_patas)
     montos = B.ajustar_al_limite([B.monto(bank_hoy, B.porcentaje_parlay(x.confianza)) for x in parlays], disponible)
     out, guardar = [], []
@@ -316,7 +331,7 @@ def cmd_parlays(a) -> None:
             if d["monto_papel"] > 0:
                 patas = []
                 for x in par.patas:
-                    pr = ids[(x.partido, x.mercado, x.seleccion)]
+                    pr = ids[id(x)]
                     patas.append({"pronostico": pr["id"], "partido": x.partido, "liga": pr.get("liga"),
                                   "mercado": x.mercado, "seleccion": x.seleccion, "cuota": x.cuota_ofrecida,
                                   "estado": "pendiente"})

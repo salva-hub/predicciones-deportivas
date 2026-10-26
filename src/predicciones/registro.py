@@ -210,16 +210,22 @@ def apostado_hoy_pendiente() -> float:
     return sum(a["monto"] for a in apuestas() if _fecha_sonora(a["creado"]).date() == hoy)
 
 
-def apostado_papel_hoy(excluir: str | None = None, con_parlays: bool = True) -> float:
-    """Montos en papel de hoy (prueba sin dinero): sencillas, sin las del pronóstico
-    `excluir`, y parlays (salvo con_parlays=False)."""
+def apostado_papel_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -> float:
+    """Montos en papel puestos hoy (prueba sin dinero): sencillas y parlays, sin importar
+    el día del partido. No cuenta las sencillas del pronóstico `excluir` ni los parlays
+    pendientes del día `reemplazar_parlays_de` (se van a reemplazar)."""
     hoy = ahora().date()
     total = sum(
         x.get("monto", 0.0) for p in pronosticos() if p.get("id") != excluir
         for x in p.get("apuestas_papel", []) if _fecha_sonora(x["evaluado"]).date() == hoy
     )
-    if con_parlays:
-        total += sum(x.get("monto", 0.0) for x in parlays_papel() if _fecha_sonora(x["creado"]).date() == hoy)
+    omitir = f"parlays-{reemplazar_parlays_de:%Y%m%d}" if reemplazar_parlays_de else None
+    for doc in archivos_parlays_papel():
+        for x in doc.get("parlays", []):
+            if doc.get("id") == omitir and x.get("estado") == "pendiente":
+                continue
+            if _fecha_sonora(x["creado"]).date() == hoy:
+                total += x.get("monto", 0.0)
     return total
 
 

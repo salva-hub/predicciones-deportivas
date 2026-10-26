@@ -163,6 +163,13 @@ def _mercados_goles(mu_l: float, mu_v: float, rho: float) -> tuple[dict[str, dic
 MERCADOS_DE_TOTAL = {"goles", "ambos_anotan", "goles_equipo", "primer_tiempo", "handicap"}
 
 
+def _handicap_cero(probs: dict[str, dict[str, float]], devoluciones: dict[str, float] | None) -> None:
+    g = probs["ganador"]
+    probs["handicap"]["local_+0"], probs["handicap"]["visitante_+0"] = g["1"], g["2"]
+    if devoluciones is not None:
+        devoluciones["handicap:local_+0"] = devoluciones["handicap:visitante_+0"] = g["X"]
+
+
 def _doble(g: dict[str, float]) -> dict[str, float]:
     return {"1X": g["1"] + g["X"], "12": g["1"] + g["2"], "X2": g["X"] + g["2"]}
 
@@ -274,6 +281,10 @@ def pronosticar(
     if m is None:
         m = matriz_marcadores(mu_l, mu_v, rho)
     finales = {k: dict(x) for k, x in finales.items()}
+    # hándicap 0 (empate no apuesta) coherente con el ganador final: gana = 1 (o 2), devuelve = X
+    for probs, dev in ((finales, devoluciones), (prob_mercado, None)):
+        if probs:
+            _handicap_cero(probs, dev)
 
     if modelos.corners:
         cl, cv = modelos.corners.esperados(l, v, neutral)

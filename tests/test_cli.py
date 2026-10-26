@@ -305,7 +305,7 @@ def test_papel_limite_del_dia_y_bank(papel, capsys):
     assert len(sel) == len(set(sel))
 
 
-def test_papel_reevaluar_no_pisa_calificadas_y_califica_al_momento(papel, capsys):
+def test_papel_reevaluar_no_pisa_calificadas_ni_agrega_tras_resultado(papel, capsys):
     cli, R = papel, papel.R
     p = _pronostico(cli, capsys)
     cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400"])
@@ -319,7 +319,10 @@ def test_papel_reevaluar_no_pisa_calificadas_y_califica_al_momento(papel, capsys
     assert ev["evaluacion"][0]["motivo"] == "ya calificada en papel"
     papel_ = {x["seleccion"]: x for x in R.buscar_pronostico(p["id"])["apuestas_papel"]}
     assert papel_["mas_2.5"]["ganancia"] == 999  # no se pisó
-    assert papel_["no"]["estado"] == "ganada"     # 0-0: calificada al momento
+    # con resultado ya conocido no se agregan apuestas en papel (sería trampa)
+    assert "no" not in papel_
+    assert ev["evaluacion"][1]["apostar_papel"] is False and "ya empezó" in ev["evaluacion"][1]["motivo"]
+    assert "nota" in ev
 
 
 def test_papel_parlays_se_guardan_y_califican(papel, capsys, monkeypatch):
@@ -343,3 +346,54 @@ def test_papel_parlays_se_guardan_y_califican(papel, capsys, monkeypatch):
     cli.main(["exportar", "--salida", str(R.RAIZ / "_site")])
     capsys.readouterr()
     assert json.loads((R.RAIZ / "_site" / "papel.json").read_text())[0]["estado"] == "ganada"
+
+
+def test_papel_no_agrega_si_el_partido_ya_empezo(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pronostico(cli, capsys)
+    q = R.buscar_pronostico(p["id"])
+    q["inicio_utc"] = (datetime.now(timezone.utc) - timedelta(minutes=5)).isoformat()
+    R.actualizar_pronostico(q)
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400"])
+    ev = _salida(capsys)
+    assert ev["evaluacion"][0]["ve"] > 0 and ev["evaluacion"][0]["apostar_papel"] is False
+    assert R.buscar_pronostico(p["id"]).get("apuestas_papel") == []
+
+
+def test_reevaluar_mezcla_por_seleccion(cli, capsys):
+    R = cli.R
+    p = _pronostico(cli, capsys)
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400"])
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "ganador:1=-1000"])
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+300"])
+    capsys.readouterr()
+    q = R.buscar_pronostico(p["id"])
+    assert [(r["mercado"], r["seleccion"]) for r in q["evaluacion"]] == [("ganador", "1"), ("goles", "mas_2.5")]
+    assert q["cuotas_winpot"] == {"goles:mas_2.5": "+300", "ganador:1": "-1000"}
+
+
+def test_papel_parlays_limite_cuenta_todo_lo_de_hoy(papel, capsys):
+    from datetime import date as _d
+    R = papel.R
+    # parlay en papel guardado hoy para otro día de partido: cuenta en el límite de hoy
+    R.guardar_parlays_papel(_d(2030, 1, 1), [{"clave": "x", "tipo": "parlay", "patas": [], "cuota": 3.0,
+                                              "monto": 900, "creado": R.ahora().isoformat(), "estado": "pendiente"}])
+    _evaluado(R, "A vs B", "goles", "mas_2.5", "+100")
+    _evaluado(R, "C vs D", "ganador", "1", "+100")
+    papel.main(["parlays"])
+    out = _salida(capsys)
+    assert out["parlays_papel"][0]["monto_papel"] == 100  # 1000 - 900
+
+
+def test_parlays_varios_pronosticos_del_mismo_partido(papel, capsys):
+    R = papel.R
+    viejo = _evaluado(R, "A vs B", "goles", "mas_2.5", "+100")
+    nuevo = _evaluado(R, "A vs B", "goles", "mas_2.5", "+100")
+    nuevo["creado"] = viejo["creado"] + "z"  # el más reciente
+    R.actualizar_pronostico(nuevo)
+    _evaluado(R, "C vs D", "ganador", "1", "+100")
+    papel.main(["parlays"])
+    capsys.readouterr()
+    (par,) = R.parlays_papel()
+    ids = {x["pronostico"] for x in par["patas"]}
+    assert nuevo["id"] in ids and viejo["id"] not in ids

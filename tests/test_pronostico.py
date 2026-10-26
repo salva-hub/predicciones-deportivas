@@ -200,3 +200,15 @@ def test_cancha_neutral_quita_ventaja_local(liga_sintetica):
     assert neutral.goles_esperados[0] < casa.goles_esperados[0]
     assert neutral.goles_esperados[1] == casa.goles_esperados[1]
     assert any("neutral" in n for n in neutral.notas)
+
+
+def test_handicap_cero_coherente_con_ganador(liga_sintetica):
+    modelos = ajustar_modelos(liga_sintetica)
+    pin = _pin(0.38, 0.29, 0.33)  # solo 1X2: la matriz no cuadra exacto
+    p = pronosticar(modelos, "Equipo 11", "Equipo 0", cuotas_pinnacle=pin, confianza_datos="alta")
+    g, hc = p.probabilidades["ganador"], p.probabilidades["handicap"]
+    assert hc["local_+0"] == pytest.approx(g["1"]) and hc["visitante_+0"] == pytest.approx(g["2"])
+    assert p.devoluciones["handicap:local_+0"] == pytest.approx(g["X"])
+    s = next(x for x in p.selecciones() if x.mercado == "handicap" and x.seleccion == "local_+0")
+    assert s.prob + s.prob_devolucion + s.prob_pierde == pytest.approx(1)
+    assert s.prob_pierde == pytest.approx(g["2"])
