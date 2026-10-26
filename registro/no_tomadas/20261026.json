@@ -104,26 +104,5 @@
     ],
     "cuota_winpot": "+183",
     "motivo": "Prob ~29% (justa +241); mínimo +228"
-  },
-  {
-    "fecha": "2026-10-26",
-    "tipo": "combinada_mismo_partido",
-    "estado_decision": "no_tomada",
-    "pronostico": "P-20261026-5c686d",
-    "partido": "Sevilla vs Osasuna",
-    "patas": [
-      {
-        "mercado": "ganador",
-        "seleccion": "1"
-      },
-      {
-        "mercado": "corners",
-        "seleccion": "menos_9.5"
-      }
-    ],
-    "cuota_winpot": "+166",
-    "motivo": "Prob ~35% (justa +189); mínimo +177",
-    "resultado": null,
-    "nota": "No cuenta en las estadísticas; se califica a mano."
   }
 ]
