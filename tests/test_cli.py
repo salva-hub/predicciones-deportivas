@@ -298,3 +298,59 @@ def test_pinnacle_parcial_cuenta_como_sin_referencia(cli, capsys):
     sin = _pronostico(cli, capsys, "--no-guardar")
     mas = lambda p: next(x["prob"] for x in p["selecciones"] if x["mercado"] == "goles" and x["seleccion"] == "mas_2.5")
     assert mas(parcial) != mas(sin)  # los totales parciales sí se mezclan
+
+
+@pytest.mark.parametrize("texto,ganancia", [
+    ("−110", 90.91),
+    ("-110", 90.91),
+    ("+250", 250.0),
+    ("100", 100.0),
+    ("2.5", 150.0),
+    (" −110 ", 90.91),
+])
+def test_liquidar_cuota_real_formatos(cli, capsys, texto, ganancia):
+    ap = _apuesta_pendiente(cli.R)
+    cli.main(["liquidar", "--id", ap["id"], "--estado", "ganada", "--cuota-real", texto])
+    capsys.readouterr()
+    assert cli.R.buscar_apuesta(ap["id"])["ganancia"] == pytest.approx(ganancia, abs=0.01)
+
+
+@pytest.mark.parametrize("texto", ["abc", "1", "0.5", "-50", "nan", "inf"])
+def test_liquidar_cuota_real_invalida(cli, capsys, texto):
+    ap = _apuesta_pendiente(cli.R)
+    with pytest.raises(SystemExit):
+        cli.main(["liquidar", "--id", ap["id"], "--estado", "ganada", "--cuota-real", texto])
+    assert cli.R.buscar_apuesta(ap["id"])["estado"] == "pendiente"
+
+
+def test_corregir_sin_cuota_real_usa_la_registrada(cli, capsys):
+    ap = _apuesta_pendiente(cli.R)
+    cli.main(["liquidar", "--id", ap["id"], "--estado", "ganada", "--cuota-real", "+250"])
+    cli.main(["liquidar", "--id", ap["id"], "--estado", "ganada"])
+    capsys.readouterr()
+    assert cli.R.buscar_apuesta(ap["id"])["ganancia"] == 250.0
+
+
+def test_corregir_liquidada_conserva_fecha(cli, capsys):
+    R = cli.R
+    liquidada = "2026-09-20T18:00:00-07:00"
+    ap = _apuesta_pendiente(R, creado="2026-09-20T12:00:00-07:00")
+    ap.update(estado="ganada", ganancia=100.0, liquidada=liquidada, cuota=2.0)
+    ap.pop("requiere_revision")
+    R.actualizar_apuesta(ap)
+    hoy_antes, mes_antes, inicio_antes = R.ganancia_cobrada_hoy(), R.resultado_apuestas_mes(), R.bank_inicio_mes()
+    assert inicio_antes == 10100.0
+    cli.main(["liquidar", "--id", ap["id"], "--estado", "ganada"])
+    capsys.readouterr()
+    guardada = R.buscar_apuesta(ap["id"])
+    assert guardada["liquidada"] == liquidada and guardada["corregida"]
+    assert guardada["ganancia"] == 100.0
+    assert R.ganancia_cobrada_hoy() == hoy_antes == 0
+    assert R.resultado_apuestas_mes() == mes_antes == 0
+    assert R.bank_inicio_mes() == inicio_antes
+    # si la corrección cambia la ganancia, el cambio cuenta en septiembre, no hoy
+    cli.main(["liquidar", "--id", ap["id"], "--estado", "ganada", "--cuota-real", "+150"])
+    capsys.readouterr()
+    assert R.buscar_apuesta(ap["id"])["liquidada"] == liquidada
+    assert R.ganancia_cobrada_hoy() == 0 and R.resultado_apuestas_mes() == 0
+    assert R.bank_inicio_mes() == 10150.0

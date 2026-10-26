@@ -383,6 +383,18 @@ def cmd_calificar(a) -> None:
     print(f"Calificados/liquidados: {cambios}")
 
 
+def _cuota_real(texto: str) -> float:
+    """Cuota americana (−110, +250, 100) o decimal (2.5); acepta el signo menos tipográfico."""
+    try:
+        v = float(str(texto).replace("\u2212", "-").strip())
+    except ValueError:
+        sys.exit(f"Cuota real inválida: {texto}")
+    cuota = C.americana_a_decimal(v) if abs(v) >= 100 else v
+    if not cuota > 1 or cuota == float("inf"):
+        sys.exit("La cuota real debe ser mayor que 1.0 (decimal) o americana (−110, +200)")
+    return cuota
+
+
 def cmd_liquidar(a) -> None:
     ap = R.buscar_apuesta(a.id)
     if not ap:
@@ -390,16 +402,18 @@ def cmd_liquidar(a) -> None:
     if ap.get("estado") != "pendiente":
         _aviso(f"la apuesta ya estaba liquidada como {ap.get('estado')}; se corrige")
     if a.cuota_real is not None:
-        v = float(a.cuota_real)
-        cuota = C.americana_a_decimal(v) if abs(v) >= 100 else v
-        if cuota <= 1:
-            sys.exit("La cuota real debe ser mayor que 1.0 (decimal) o americana (−110, +200)")
+        cuota = _cuota_real(a.cuota_real)
         ap["cuota_real"] = round(cuota, 4)
     else:
-        cuota = float(ap["cuota"])
+        # una corrección sin --cuota-real respeta la cuota real ya registrada
+        cuota = float(ap.get("cuota_real") or ap["cuota"])
     ap["estado"] = a.estado
     ap["ganancia"] = ganancia(a.estado, float(ap["monto"]), cuota)
-    ap["liquidada"] = R.ahora().isoformat()
+    # el día de la liquidación decide en qué día y mes cuenta la ganancia: una corrección no lo mueve
+    if ap.get("liquidada"):
+        ap["corregida"] = R.ahora().isoformat()
+    else:
+        ap["liquidada"] = R.ahora().isoformat()
     ap["liquidada_a_mano"] = True
     ap.pop("requiere_revision", None)
     R.actualizar_apuesta(ap)
@@ -478,7 +492,7 @@ def main(argv=None) -> None:
     s = sub.add_parser("liquidar")
     s.add_argument("--id", required=True, help="id de la apuesta (A-...)")
     s.add_argument("--estado", required=True, choices=[GANA, PIERDE, DEVUELVE])
-    s.add_argument("--cuota-real", type=float, help="cuota pagada si difiere (americana o decimal)")
+    s.add_argument("--cuota-real", help="cuota pagada si difiere (americana o decimal)")
     s.set_defaults(f=cmd_liquidar)
 
     s = sub.add_parser("actualizar-datos")
