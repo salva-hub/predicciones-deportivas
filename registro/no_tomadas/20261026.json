@@ -22,8 +22,9 @@
     ],
     "cuota_winpot": "+200",
     "monto_referencia": 300,
-    "resultado": null,
-    "nota": "No cuenta en las estadísticas; se califica a mano para ver si habría ganado."
+    "resultado": "perdida",
+    "nota": "No cuenta en las estadísticas; se califica a mano para ver si habría ganado.",
+    "marcador": "Sevilla 2-0 Osasuna; córners 11; tarjetas 3 (regla Winpot)"
   },
   {
     "fecha": "2026-10-26",
@@ -52,8 +53,9 @@
       }
     ],
     "cuota_winpot": "+333",
-    "resultado": null,
-    "nota": "No cuenta en las estadísticas; se califica a mano."
+    "resultado": "ganada",
+    "nota": "No cuenta en las estadísticas; se califica a mano.",
+    "marcador": "Sevilla 2-0 Osasuna; córners 11; tarjetas 3 (regla Winpot)"
   },
   {
     "fecha": "2026-10-26",
@@ -61,7 +63,7 @@
     "estado_decision": "no_tomada",
     "pronostico": "P-20261026-5c686d",
     "partido": "Sevilla vs Osasuna",
-    "resultado": null,
+    "resultado": "ganada",
     "nota": "No cuenta en las estadísticas; se califica a mano.",
     "patas": [
       {
@@ -78,7 +80,8 @@
       }
     ],
     "cuota_winpot": "+190",
-    "motivo": "Prob ~30% (justa +236); mínimo +222"
+    "motivo": "Prob ~30% (justa +236); mínimo +222",
+    "marcador": "Sevilla 2-0 Osasuna; córners 11; tarjetas 3 (regla Winpot)"
   },
   {
     "fecha": "2026-10-26",
@@ -86,7 +89,7 @@
     "estado_decision": "no_tomada",
     "pronostico": "P-20261026-5c686d",
     "partido": "Sevilla vs Osasuna",
-    "resultado": null,
+    "resultado": "ganada",
     "nota": "No cuenta en las estadísticas; se califica a mano.",
     "patas": [
       {
@@ -103,6 +106,7 @@
       }
     ],
     "cuota_winpot": "+183",
-    "motivo": "Prob ~29% (justa +241); mínimo +228"
+    "motivo": "Prob ~29% (justa +241); mínimo +228",
+    "marcador": "Sevilla 2-0 Osasuna; córners 11; tarjetas 3 (regla Winpot)"
   }
 ]
