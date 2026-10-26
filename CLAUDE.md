@@ -57,8 +57,11 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    - Bajas por lesión o suspensión: sportsgambler.com/injuries/football/ (32 ligas, incluye Liga MX),
      premierinjuries.com (Premier), rotowire.com/soccer/lineups.php, prensa local (Récord, Mediotiempo, Olé, ESPN Deportes).
    - Alineación probable: starting11.com, Rotowire, Sports Mole.
-   - Árbitro designado: prensa de la jornada (Récord y Mediotiempo para Liga MX, premierleague.com, etc.).
-   - Tarjetas por partido del árbitro en esa competición: playerstats.football, valuestats.com.
+   - Árbitro designado: prensa de la jornada (Récord y Mediotiempo para Liga MX, premierleague.com, etc.) o la
+     página del partido en statshub.com (consulta manual, gratis; no automatizar).
+   - Tarjetas por partido del árbitro en esa competición: playerstats.football, valuestats.com, o statshub.com
+     (página del partido → rendimiento del equipo → estadística "árbitro" → filtro "Competiciones": deja solo la del
+     partido). El total que StatsHub muestra junto al nombre del árbitro mezcla todas las competencias: no lo uses.
      Cuéntalas como Winpot (roja = 2): **amarillas por partido + 2 × rojas por partido**. Ese número va en `--arbitro-prom`.
    - Contexto: tabla, eliminatoria (resultado de ida), descanso, viajes, altitud.
    Anota la fuente de cada dato importante.
