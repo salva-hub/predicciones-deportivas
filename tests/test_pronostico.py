@@ -12,9 +12,10 @@ def test_pronostico_completo(liga_sintetica):
     por_clima({"lluvia_mm_h": 8, "viento_kmh": 10, "temperatura_c": 18}, techado=False, aj=aj)
     p = pronosticar(modelos, "Equipo 11", "Equipo 0", aj, factor_arbitro=1.15,
                     cuotas_pinnacle={"1": 1.45, "X": 4.6, "2": 7.5, "mas_2.5": 1.8, "menos_2.5": 2.05})
-    g = p.probabilidades["ganador"]
+    g = p.ganador_sin_pago  # 1X2 real; con pago anticipado "1" y "2" suman de más
     assert sum(g.values()) == pytest.approx(1, abs=1e-6)
     assert g["1"] > 0.5
+    assert p.probabilidades["ganador"]["1"] > g["1"] and p.probabilidades["ganador"]["X"] == g["X"]
     assert "corners" in p.probabilidades and "tarjetas" in p.probabilidades
     assert any("Baja del delantero" in n for n in p.notas)
     tabla = p.tabla()
@@ -50,7 +51,7 @@ def test_anclaje_reproduce_pinnacle_1x2(liga_sintetica):
     pin = _pin(0.38, 0.29, 0.33)
     justo = C.quitar_margen([pin["1"], pin["X"], pin["2"]])
     p = pronosticar(modelos, "Equipo 11", "Equipo 0", cuotas_pinnacle=pin, confianza_datos="alta")
-    g = p.probabilidades["ganador"]
+    g = p.ganador_sin_pago
     for k, q in zip(("1", "X", "2"), justo):
         assert g[k] == pytest.approx(q, abs=0.01)
     assert any("Base: Pinnacle sin margen" in n for n in p.notas)
@@ -71,9 +72,9 @@ def test_anclaje_con_mas_menos_25(liga_sintetica):
     p = pronosticar(modelos, "Equipo 6", "Equipo 5", cuotas_pinnacle=pin, confianza_datos="alta")
     pm = C.quitar_margen([pin["mas_2.5"], pin["menos_2.5"]])[0]
     assert p.probabilidades["goles"]["mas_2.5"] == pytest.approx(pm, abs=0.01)
-    assert p.probabilidades["ganador"]["1"] == pytest.approx(0.45, abs=0.015)
-    # con 1X2 y línea la matriz cuadra: hándicap 0 coincide con el ganador
-    assert p.probabilidades["handicap"]["local_+0"] == pytest.approx(p.probabilidades["ganador"]["1"], abs=0.005)
+    assert p.ganador_sin_pago["1"] == pytest.approx(0.45, abs=0.015)
+    # con 1X2 y línea la matriz cuadra: hándicap 0 coincide con el ganador (sin pago anticipado)
+    assert p.probabilidades["handicap"]["local_+0"] == pytest.approx(p.ganador_sin_pago["1"], abs=0.005)
     assert not any("no cuadra" in n for n in p.notas)
 
 
@@ -97,7 +98,7 @@ def test_favorito_extremo_error_relativo_en_no_favorito(liga_sintetica):
     pin = {"1": 1.05, "X": 17, "2": 41, "mas_2.5": 1.3, "menos_2.5": 3.6}
     justo = C.quitar_margen([1.05, 17, 41])
     p = pronosticar(modelos, "Equipo 11", "Equipo 0", cuotas_pinnacle=pin, confianza_datos="alta")
-    assert p.probabilidades["ganador"]["2"] == pytest.approx(justo[2], rel=0.05)  # ~0.015, no 0.022
+    assert p.ganador_sin_pago["2"] == pytest.approx(justo[2], rel=0.05)  # ~0.015, no 0.022
     assert p.prob_mercado["handicap"]["visitante_+0"] == pytest.approx(justo[2], rel=0.15)
 
 
@@ -207,7 +208,8 @@ def test_handicap_cero_coherente_con_ganador(liga_sintetica):
     modelos = ajustar_modelos(liga_sintetica)
     pin = _pin(0.38, 0.29, 0.33)  # solo 1X2: la matriz no cuadra exacto
     p = pronosticar(modelos, "Equipo 11", "Equipo 0", cuotas_pinnacle=pin, confianza_datos="alta")
-    g, hc = p.probabilidades["ganador"], p.probabilidades["handicap"]
+    # el hándicap 0 (empate no apuesta) no recibe el pago anticipado: va con el 1X2 real
+    g, hc = p.ganador_sin_pago, p.probabilidades["handicap"]
     assert hc["local_+0"] == pytest.approx(g["1"]) and hc["visitante_+0"] == pytest.approx(g["2"])
     assert p.devoluciones["handicap:local_+0"] == pytest.approx(g["X"])
     s = next(x for x in p.selecciones() if x.mercado == "handicap" and x.seleccion == "local_+0")

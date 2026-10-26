@@ -165,7 +165,8 @@ def cmd_pronostico(a) -> None:
     if a.liga in LIGAS_DATOS_LIMITADOS:
         confianza = V.bajar(confianza)
     # sin 1X2 de Pinnacle, pronosticar() baja la confianza un nivel y agrega NOTA_SIN_PINNACLE (una sola vez)
-    p = pronosticar(modelos, a.local, a.visitante, aj, f_arb, pin, confianza, neutral=a.neutral)
+    p = pronosticar(modelos, a.local, a.visitante, aj, f_arb, pin, confianza, neutral=a.neutral,
+                    pago_anticipado=not a.sin_pago_anticipado)
     if nota_clima:
         p.notas.append(nota_clima)
     if not partido:
@@ -183,6 +184,8 @@ def cmd_pronostico(a) -> None:
         "estadio": partido.get("estadio") if partido else None,
         "techado": techado,
         "neutral": a.neutral,
+        # pago anticipado de Winpot (ganador 1/2 se paga si va 2 goles arriba); los viejos sin campo: no
+        "pago_anticipado": not a.sin_pago_anticipado,
         "clima": info_clima,
         "arbitro": a.arbitro, "factor_arbitro": round(f_arb, 3),
         "pinnacle": pin,
@@ -491,12 +494,17 @@ def _horas_desde(inicio_utc: str, ahora: datetime) -> float:
     return (ahora - datetime.fromisoformat(inicio_utc)).total_seconds() / 3600
 
 
+def _pago(p: dict) -> bool:
+    """Pago anticipado del pronóstico. Los guardados antes de esta regla no traen el campo: no."""
+    return bool(p.get("pago_anticipado", False))
+
+
 def _calificar_papel(p: dict) -> None:
     """Califica las apuestas en papel de un pronóstico que ya tiene resultado."""
     for x in p.get("apuestas_papel", []):
         if x.get("estado") not in ("pendiente", SIN_DATOS):
             continue
-        est = calificar(x["mercado"], x["seleccion"], p["resultado"])
+        est = calificar(x["mercado"], x["seleccion"], p["resultado"], _pago(p))
         if est == SIN_DATOS and p.get("estado") != "calificado":
             continue  # se reintenta en la siguiente corrida
         x["estado"] = est
@@ -532,8 +540,10 @@ def cmd_calificar(a) -> None:
                                if r.get(k) is not None})
         if r.get("prorroga"):
             p["resultado"]["prorroga"] = True
+        # mayor ventaja de cada equipo en tiempo reglamentario (pago anticipado)
+        p["resultado"].update({k: r[k] for k in ("ventaja_max_local", "ventaja_max_visitante") if r.get(k) is not None})
         for s in p["selecciones"]:
-            s["estado"] = calificar(s["mercado"], s["seleccion"], r)
+            s["estado"] = calificar(s["mercado"], s["seleccion"], r, _pago(p))
         # si falta algún dato, se reintenta en las siguientes corridas hasta 48 h
         if not any(s["estado"] == SIN_DATOS for s in p["selecciones"]) or horas >= HORAS_ESPERA_DATOS:
             p["estado"] = "calificado"
@@ -574,7 +584,7 @@ def _liquidar(ap: dict, por_id: dict, etiqueta: str = "apuesta") -> str | None:
         p = por_id.get(pata["pronostico"])
         if not p or not p.get("resultado"):
             continue
-        est = calificar(pata["mercado"], pata["seleccion"], p["resultado"])
+        est = calificar(pata["mercado"], pata["seleccion"], p["resultado"], _pago(p))
         # sin datos todavía: queda pendiente para volver a calificarla
         pata["estado"] = "pendiente" if est == SIN_DATOS and p.get("estado") != "calificado" else est
     estados = [x["estado"] for x in ap["patas"]]
@@ -677,6 +687,8 @@ def main(argv=None) -> None:
     s.add_argument("--confianza", required=True, choices=V.ORDEN_CONFIANZA)
     s.add_argument("--techado", action="store_true")
     s.add_argument("--neutral", action="store_true", help="cancha neutral: sin ventaja de local")
+    s.add_argument("--sin-pago-anticipado", action="store_true",
+                   help="Winpot no ofrece pago anticipado en este partido (por defecto sí)")
     s.add_argument("--sin-red", action="store_true")
     s.add_argument("--no-guardar", action="store_true")
     s.set_defaults(f=cmd_pronostico)

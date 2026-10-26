@@ -130,7 +130,8 @@ def correr(hist: pd.DataFrame, desde: str, hasta: str | None = None, min_partido
             hay_ou = all(ou_abre.values())
             ref = {**(pin_abre if hay_1x2 else {}), **(ou_abre if hay_ou else {})}
             p = pronosticar(modelos, f["local"], f["visitante"], cuotas_pinnacle=ref or None,
-                            confianza_datos="alta", peso_modelo=peso_modelo)
+                            confianza_datos="alta", peso_modelo=peso_modelo,
+                            pago_anticipado=False)  # Pinnacle no tiene pago anticipado
             real = "1" if f["goles_local"] > f["goles_visitante"] else "2" if f["goles_visitante"] > f["goles_local"] else "X"
             total = f["goles_local"] + f["goles_visitante"]
             pm = p.probabilidades["ganador"]       # salida final

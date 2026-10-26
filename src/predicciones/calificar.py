@@ -29,15 +29,34 @@ def _tarjetas(r: dict, lado: str) -> float | None:
     return r.get(f"tarjetas_{lado}")
 
 
-def calificar(mercado: str, seleccion: str, r: dict) -> str:
+def _pago_anticipado(seleccion: str, gl: int, gv: int, r: dict) -> str:
+    """Ganador 1/2 que perdería: gana si su equipo fue 2 goles arriba en algún momento
+    (tiempo reglamentario). Sin la secuencia de goles: SIN_DATOS (revisión a mano)."""
+    lado = "local" if seleccion == "1" else "visitante"
+    if (gl if lado == "local" else gv) < 2:
+        return PIERDE  # con menos de 2 goles nunca fue 2 arriba
+    ventaja = r.get(f"ventaja_max_{lado}")
+    if ventaja is None:
+        return SIN_DATOS
+    return GANA if ventaja >= 2 else PIERDE
+
+
+def calificar(mercado: str, seleccion: str, r: dict, pago_anticipado: bool = False) -> str:
     """r: goles_local, goles_visitante, goles_*_pt, corners_*, tarjetas_* (o amarillas_*, rojas_*,
-    segundas_amarillas_*)."""
+    segundas_amarillas_*) y, para el pago anticipado, ventaja_max_local / ventaja_max_visitante.
+
+    pago_anticipado: Winpot paga el ganador "1" o "2" si ese equipo fue 2 goles arriba
+    en algún momento, aunque no gane. No aplica al empate ni a otros mercados."""
     gl, gv = r.get("goles_local"), r.get("goles_visitante")
     if gl is None or gv is None:
         return SIN_DATOS
     if mercado == "ganador":
         real = "1" if gl > gv else "2" if gv > gl else "X"
-        return GANA if seleccion == real else PIERDE
+        if seleccion == real:
+            return GANA
+        if pago_anticipado and seleccion in ("1", "2"):
+            return _pago_anticipado(seleccion, gl, gv, r)
+        return PIERDE
     if mercado == "doble_oportunidad":
         real = "1" if gl > gv else "2" if gv > gl else "X"
         return GANA if real in seleccion else PIERDE

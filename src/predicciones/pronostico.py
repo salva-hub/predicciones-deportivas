@@ -18,6 +18,7 @@ import numpy as np
 import pandas as pd
 
 from . import cuotas as C
+from . import pago_anticipado as PA
 from . import valor as V
 from .ajustes import Ajustes
 from .equipos import resolver
@@ -81,11 +82,15 @@ class Pronostico:
     prob_mercado: dict[str, dict[str, float]] = field(default_factory=dict)
     # mercados con un nivel menos de confianza (p. ej. sin línea de goles de Pinnacle)
     menos_confianza: set[str] = field(default_factory=set)
+    # pago anticipado de Winpot: ganador "1" y "2" incluyen ir 2 goles arriba y no ganar
+    pago_anticipado: bool = False
+    ganador_sin_pago: dict[str, float] = field(default_factory=dict)  # 1X2 real (suma 1)
 
     def selecciones(self, confianza: str | None = None) -> list[V.Seleccion]:
         conf = confianza or self.confianza_base
         out = []
-        p = self.probabilidades["ganador"]
+        # la regla de doble oportunidad mira el resultado real, sin el pago anticipado
+        p = self.ganador_sin_pago or self.probabilidades["ganador"]
         permitir_do = V.doble_oportunidad_permitida(p["1"], p["X"], p["2"])
         for mercado, sel in self.probabilidades.items():
             for nombre, prob in sel.items():
@@ -117,6 +122,8 @@ class Pronostico:
                 "confianza": s.confianza,
                 **({"devolucion": round(s.prob_devolucion, 3)} if s.prob_devolucion else {}),
             })
+            if self.pago_anticipado and s.mercado == "ganador" and s.seleccion in PA.SELECCIONES:
+                filas[-1]["prob_sin_pago_anticipado"] = round(self.ganador_sin_pago[s.seleccion], 3)
         return filas
 
 
@@ -207,10 +214,14 @@ def pronosticar(
     confianza_datos: str = "media",
     neutral: bool = False,
     peso_modelo: float = V.PESO_MODELO,
+    pago_anticipado: bool = True,
 ) -> Pronostico:
     """cuotas_pinnacle: cuotas decimales con claves "1","X","2","mas_2.5","menos_2.5".
 
     neutral=True: cancha neutral, sin ventaja de local.
+    pago_anticipado=True (Winpot, todas las ligas): el ganador "1" y "2" suma la
+    probabilidad de ir 2 goles arriba y no ganar (ver pago_anticipado.py). Solo el
+    ganador: doble oportunidad, hándicap 0 y primer tiempo quedan igual.
     peso_modelo: 0 (regla vigente) = goles anclados solo a Pinnacle; con más de 0
     se mezclan, en escala log, los goles del modelo y los anclados.
     """
@@ -233,7 +244,7 @@ def pronosticar(
     mod_l, mod_v = modelos.goles.esperados(l, v, neutral)
     if neutral:
         notas.append("Cancha neutral: sin ventaja de local")
-    modelo, dev_modelo, _ = _mercados_goles(mod_l * f_l, mod_v * f_v, rho)
+    modelo, dev_modelo, m_modelo = _mercados_goles(mod_l * f_l, mod_v * f_v, rho)
 
     p_1x2, p_mas = _pinnacle_sin_margen(cuotas_pinnacle)
     desacuerdos: set[str] = set()
@@ -246,7 +257,7 @@ def pronosticar(
         confianza_datos = V.bajar(confianza_datos)
     else:
         anc = anclar_a_mercado((mod_l, mod_v), rho, p_1x2, p_mas)
-        prob_mercado, _, _ = _mercados_goles(anc.mu_l * f_l, anc.mu_v * f_v, anc.rho)
+        prob_mercado, _, m_mercado = _mercados_goles(anc.mu_l * f_l, anc.mu_v * f_v, anc.rho)
         if p_1x2:
             # el 1X2 sale directo de Pinnacle; los ajustes lo mueven en la misma proporción que a la matriz
             sin_aj, _, _ = _mercados_goles(anc.mu_l, anc.mu_v, anc.rho)
@@ -290,6 +301,18 @@ def pronosticar(
     for probs, dev in ((finales, devoluciones), (prob_mercado, None)):
         if probs:
             _handicap_cero(probs, dev)
+    # pago anticipado: al final, para que doble oportunidad y hándicap 0 no lo reciban
+    ganador_sin_pago = dict(finales["ganador"])
+    if pago_anticipado:
+        el, ev = PA.extra(m)
+        finales["ganador"] = PA.aplicar(finales["ganador"], m)
+        # modelo y Pinnacle solo (referencias) igual, para compararlos con la misma vara
+        modelo["ganador"] = PA.aplicar(modelo["ganador"], m_modelo)
+        if prob_mercado:
+            prob_mercado["ganador"] = PA.aplicar(prob_mercado["ganador"], m_mercado)
+        notas.append(PA.NOTA.format(l=el, v=ev))
+    else:
+        notas.append(PA.NOTA_SIN)
 
     if modelos.corners:
         cl, cv = modelos.corners.esperados(l, v, neutral)
@@ -313,4 +336,5 @@ def pronosticar(
         probabilidades=finales, prob_modelo=modelo, devoluciones=devoluciones,
         marcadores=marcador_mas_probable(m), notas=notas, confianza_base=confianza_datos,
         desacuerdos=desacuerdos, prob_mercado=prob_mercado, menos_confianza=menos_confianza,
+        pago_anticipado=pago_anticipado, ganador_sin_pago=ganador_sin_pago,
     )
