@@ -770,13 +770,13 @@ def test_exportar_parlays_legibles(papel, capsys, monkeypatch):
     datos = json.loads((R.RAIZ / "_site" / "parlays.json").read_text())
     assert {x["origen"] for x in datos} == {"papel", "real"}
     comb = next(x for x in datos if x["origen"] == "papel")
-    assert comb["categoria"] == "Combinada" and comb["monto"] == 300 and comb["cuota"] == "+213"
+    assert comb["categoria"] == "Combinada corta (+200 a +350)" and comb["monto"] == 300 and comb["cuota"] == "+213"
     assert [q["texto"] for q in comb["patas"]] == ["Sevilla vs Osasuna · Más de 2.5 goles", "Roma vs Lazio · Gana Roma"]
     assert [q["cuota"] for q in comb["patas"]] == ["-130", "-130"]
     assert [q["estado"] for q in comb["patas"]] == ["ganada", "perdida"]
     assert (comb["estado"], comb["ganancia"]) == ("perdida", -300)
     real = next(x for x in datos if x["origen"] == "real")
-    assert real["cuota"] == "+450" and real["categoria"] == "Valor" and real["estado"] == "perdida"
+    assert real["cuota"] == "+450" and real["categoria"] == "Cuota mejor que la justa" and real["estado"] == "perdida"
     assert [q["cuota"] for q in real["patas"]] == ["+120", "+150"]
     # nunca cuotas decimales
     texto = json.dumps(datos)

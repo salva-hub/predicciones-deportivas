@@ -32,6 +32,13 @@
   .filtros { display:flex; flex-wrap:wrap; gap:8px 12px; margin:0 0 6px; }
   .filtros label { display:flex; flex-direction:column; font-size:13px; color:var(--suave); flex:1 1 140px; }
   .filtros select, .filtros input { font:inherit; color:var(--texto); background:var(--card); border:1px solid var(--borde); border-radius:8px; padding:6px 8px; min-width:0; }
+  tr.total td { font-weight:600; border-top:2px solid var(--texto); }
+  td .nota, th .nota { display:block; white-space:normal; color:var(--suave); font-size:12px; font-weight:400; }
+  td .nota { min-width:150px; }
+  th .nota { white-space:nowrap; }
+  th { vertical-align:bottom; }
+  th:first-child, td:first-child { position:sticky; left:0; background:var(--card); }
+  .aviso { background:var(--card); border:1px dashed var(--borde); border-radius:8px; padding:8px 10px; font-size:13px; color:var(--suave); margin:0 0 10px; }
   .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr)); gap:12px; }
 </style>
 </head>
@@ -57,33 +64,41 @@
   <div class="card"><canvas id="grafica" height="110"></canvas><div id="grafica-vacia" class="vacio" hidden>Aún no hay apuestas liquidadas.</div></div>
 
   <div class="grid2">
-    <div><h2>Apuestas reales por tipo</h2><div class="card" id="por-tipo"></div></div>
-    <div><h2>Recomendaciones con valor por mercado</h2><div class="card" id="por-mercado"></div></div>
+    <div><h2>Apuestas reales por tipo</h2><p class="sub">Lo que Salva apostó con dinero real: sencillas y parlays.</p><div class="card" id="por-tipo"></div></div>
+    <div><h2>Recomendaciones por mercado</h2><p class="sub">Lo que el sistema recomendó apostar con dinero real, por tipo de mercado.</p><div class="card" id="por-mercado"></div></div>
   </div>
 
-  <h2>Prueba en papel (hasta 26-nov-2026, sin dinero real)</h2>
+  <h2>Prueba en papel (hasta el 26-nov-2026)</h2>
+  <p class="aviso">Todo lo que dice “papel” es <strong>dinero simulado</strong>: no se apostó dinero real. Sirve para medir las reglas antes de usar dinero.</p>
+  <p class="sub">Resultado de las apuestas simuladas, por tipo de mercado.</p>
   <div class="card" id="papel"></div>
-  <h2>Prueba en papel por categoría (se comparan el 26-nov-2026; según el filtro)</h2>
+  <h2>Prueba en papel por categoría</h2>
+  <p class="sub">Las tres formas de apostar que se comparan el 26-nov-2026 (dinero simulado).</p>
   <div class="card" id="papel-categorias"></div>
 
   <h2>Parlays y combinadas (reales y en papel)</h2>
+  <p class="sub">Cada parlay con sus selecciones, el momio de cada una y cómo terminó.</p>
   <div class="card" id="parlays"></div>
 
   <h2>Recomendaciones por liga</h2>
+  <p class="sub">Lo recomendado con dinero real, por liga.</p>
   <div class="card" id="por-liga"></div>
 
   <h2>Últimas apuestas</h2>
+  <p class="sub">Apuestas con dinero real, la más reciente primero.</p>
   <div class="card" id="apuestas"></div>
 
   <h2>Últimos pronósticos</h2>
+  <p class="sub">Partidos pronosticados y las selecciones que salieron para apostar.</p>
   <div class="card" id="pronosticos"></div>
 </main>
 <script>
 // todo texto que viene del registro se escapa antes de ir a innerHTML
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
-const celda = v => Array.isArray(v) ? (v.map(esc).join("<br>") || "—") : esc(v);
+const celda = v => Array.isArray(v) ? (v.map(esc).join("<br>") || "—")
+  : (v && typeof v === "object") ? esc(v.t) + (v.nota ? `<span class="nota">${esc(v.nota)}</span>` : "") : esc(v);
 const MXN = n => (n < 0 ? "−" : "") + "$" + Math.abs(n).toLocaleString("es-MX", {maximumFractionDigits: 0});
-const PCT = n => (n == null || isNaN(n)) ? "—" : (n * 100).toFixed(1) + "%";
+const PCT = n => (n == null || isNaN(n)) ? "—" : (n < 0 ? "−" : "") + Math.abs(n * 100).toFixed(1) + "%";
 const clase = n => n > 0 ? "pos" : n < 0 ? "neg" : "";
 const americana = d => d >= 2 ? "+" + Math.round((d - 1) * 100) : String(Math.round(-100 / (d - 1)));
 const decimal = a => { a = Number(a); return a > 0 ? 1 + a / 100 : 1 + 100 / Math.abs(a); };
@@ -95,8 +110,8 @@ async function leer(ruta, defecto) {
 
 function tabla(el, columnas, filas) {
   if (!filas.length) { el.innerHTML = '<div class="vacio">Sin datos todavía.</div>'; return; }
-  el.innerHTML = "<table><thead><tr>" + columnas.map(c => `<th>${esc(c[0])}</th>`).join("") + "</tr></thead><tbody>" +
-    filas.map(f => "<tr>" + columnas.map(c => `<td class="${esc(c[2] ? c[2](f) : "")}">${celda(c[1](f))}</td>`).join("") + "</tr>").join("") +
+  el.innerHTML = "<table><thead><tr>" + columnas.map(c => `<th>${celda(c[0])}</th>`).join("") + "</tr></thead><tbody>" +
+    filas.map(f => `<tr class="${f.total ? "total" : ""}">` + columnas.map(c => `<td class="${esc(c[2] ? c[2](f) : "")}">${celda(c[1](f))}</td>`).join("") + "</tr>").join("") +
     "</tbody></table>";
 }
 
@@ -106,13 +121,21 @@ function resumen(grupo) {
   const gan = liq.reduce((s, x) => s + x.ganancia, 0);
   const ganadas = liq.filter(x => x.estado === "ganada").length;
   const decididas = liq.filter(x => x.estado !== "devuelta").length;
-  return {n: grupo.length, liq: liq.length, apostado, gan, roi: apostado ? gan / apostado : null, acierto: decididas ? ganadas / decididas : null};
+  return {n: grupo.length, liq: liq.length, ganadas, perdidas: liq.filter(x => x.estado === "perdida").length,
+          pendientes: grupo.length - liq.length,
+          apostado, gan, roi: apostado ? gan / apostado : null, acierto: decididas ? ganadas / decididas : null};
 }
 
 function agrupar(lista, clave) {
   const m = {};
   for (const x of lista) (m[clave(x)] ||= []).push(x);
   return Object.entries(m).map(([k, v]) => ({k, ...resumen(v)})).sort((a, b) => b.n - a.n);
+}
+
+// grupos y, al final, la fila Total (si hay más de un grupo)
+function conTotal(lista, clave) {
+  const grupos = agrupar(lista, clave);
+  return grupos.length > 1 ? [...grupos, {k: "Total", total: true, ...resumen(lista)}] : grupos;
 }
 
 (async () => {
@@ -194,12 +217,19 @@ function agrupar(lista, clave) {
     return peor;
   }
   const claseEstado = e => e === "ganada" ? "pos" : e === "perdida" ? "neg" : "";
-  const cols = [["Grupo", f => f.k], ["Apuestas", f => f.n], ["Liquidadas", f => f.liq], ["Acierto", f => PCT(f.acierto)],
-                ["Apostado", f => MXN(f.apostado)], ["Ganancia", f => MXN(f.gan), f => clase(f.gan)], ["ROI", f => PCT(f.roi), f => clase(f.roi)]];
+  const signo = n => (n > 0 ? "+" : "") + MXN(n);
+  const colsBase = [["Apuestas", f => f.n], ["Ganadas", f => f.ganadas], ["Perdidas", f => f.perdidas], ["Pendientes", f => f.pendientes],
+                    ["% de acierto", f => PCT(f.acierto)], ["Apostado", f => MXN(f.apostado)],
+                    ["Ganancia o pérdida", f => signo(f.gan), f => clase(f.gan)],
+                    [{t: "Rendimiento", nota: "(ganancia ÷ apostado)"}, f => PCT(f.roi), f => clase(f.roi)]];
+  const cols = [["", f => f.k], ...colsBase];
   const MERCADO = {ganador: "Ganador", doble_oportunidad: "Doble oportunidad", goles: "Total de goles", ambos_anotan: "Ambos anotan",
     goles_equipo: "Goles por equipo", primer_tiempo: "Primer tiempo", handicap: "Hándicap", corners: "Córners", tarjetas: "Tarjetas", parlay: "Parlay"};
   const mercado = m => MERCADO[m] || m;
-  const nombres = {valor: "Valor", sencilla_fuerte: "Sencilla fuerte", combinada: "Combinada"};
+  const nombres = {valor: "Cuota mejor que la justa", sencilla_fuerte: "Sencilla fuerte (momio negativo)", combinada: "Combinada corta (+200 a +350)"};
+  const explica = {valor: "Winpot paga más de lo que vale según Pinnacle",
+                   sencilla_fuerte: "Apuesta derecha muy probable; se apuesta para ganar 5% del bank",
+                   combinada: "2 o 3 selecciones probables que juntas pagan +200 a +350"};
 
   function pintar() {
     const rg = rango();
@@ -221,32 +251,31 @@ function agrupar(lista, clave) {
     const rr = resumen(recomendadas), rp = resumen(papel);
     const kpis = [
       ["Bank actual", MXN(saldo), clase(saldo - bank.bank_inicial)],
-      ["Ganancia neta", MXN(r.gan), clase(r.gan)],
-      ["ROI apuestas reales", PCT(r.roi), clase(r.roi)],
-      ["Acierto apuestas reales", PCT(r.acierto), ""],
-      ["ROI recomendaciones", PCT(rr.roi), clase(rr.roi)],
-      ["ROI en papel", PCT(rp.roi), clase(rp.roi)],
+      ["Ganancia o pérdida real", signo(r.gan), clase(r.gan)],
+      ["Rendimiento apuestas reales", PCT(r.roi), clase(r.roi)],
+      ["% de acierto apuestas reales", PCT(r.acierto), ""],
+      ["Rendimiento recomendaciones", PCT(rr.roi), clase(rr.roi)],
+      ["Rendimiento en papel (simulado)", PCT(rp.roi), clase(rp.roi)],
       ["Pendientes", String(apuestas.filter(a => a.estado === "pendiente").length), ""],
       ["Revisar a mano", String(apuestas.filter(a => a.estado === "pendiente" && a.requiere_revision).length),
        apuestas.some(a => a.estado === "pendiente" && a.requiere_revision) ? "neg" : ""],
     ];
     $("kpis").innerHTML = kpis.map(k => `<div class="kpi"><div class="l">${esc(k[0])}</div><div class="v ${esc(k[2])}">${esc(k[1])}</div></div>`).join("");
 
-    tabla($("por-tipo"), cols, agrupar(apuestas, a => a.tipo));
-    tabla($("por-mercado"), cols, agrupar(recomendadas, x => mercado(x.mercado)));
-    tabla($("por-liga"), cols, agrupar(recomendadas, x => x.liga));
-    tabla($("papel"), cols, papel.length ? [{k: "Total", ...rp}, ...agrupar(papel, x => mercado(x.mercado))] : []);
+    tabla($("por-tipo"), [["Tipo", f => f.k], ...colsBase], conTotal(apuestas, a => a.tipo));
+    tabla($("por-mercado"), [["Mercado", f => f.k], ...colsBase], conTotal(recomendadas, x => mercado(x.mercado)));
+    tabla($("por-liga"), [["Liga", f => f.k], ...colsBase], conTotal(recomendadas, x => x.liga));
+    tabla($("papel"), [["Mercado", f => f.k], ...colsBase], conTotal(papel, x => mercado(x.mercado)));
 
     // por categoría: se recalcula con las filas filtradas
     const porCat = Object.keys(nombres).map(c => {
       const g = papel.filter(x => x.categoria === c);
-      return {k: nombres[c], ...resumen(g), racha: racha(g), recortadas: g.filter(x => x.recortada).length};
+      return {k: {t: nombres[c], nota: explica[c]}, ...resumen(g), racha: racha(g), recortadas: g.filter(x => x.recortada).length};
     }).filter(f => f.n);
-    if (porCat.length > 1) porCat.push({k: "Total", ...rp, racha: racha(papel), recortadas: papel.filter(x => x.recortada).length});
+    if (porCat.length > 1) porCat.push({k: "Total", total: true, ...rp, racha: racha(papel), recortadas: papel.filter(x => x.recortada).length});
     tabla($("papel-categorias"), [
-      ["Categoría", f => f.k], ["Apuestas", f => f.n], ["Liquidadas", f => f.liq], ["Acierto", f => PCT(f.acierto)],
-      ["Ganancia", f => MXN(f.gan), f => clase(f.gan)], ["ROI", f => PCT(f.roi), f => clase(f.roi)],
-      ["Peor racha", f => f.racha + " perdidas"], ["Recortadas", f => f.recortadas],
+      ["Categoría", f => f.k], ...colsBase,
+      [{t: "Peor racha", nota: "(perdidas seguidas)"}, f => f.racha], [{t: "Recortadas", nota: "por el límite del día"}, f => f.recortadas],
     ], porCat);
 
     $("parlays").innerHTML = parlays.length ? parlays.slice(0, 40).map(x => `<div class="parlay">

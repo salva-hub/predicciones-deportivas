@@ -232,7 +232,9 @@ def categorias_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -> di
     return cuenta
 
 
-NOMBRES_CATEGORIA = {"valor": "Valor", "sencilla_fuerte": "Sencilla fuerte", "combinada": "Combinada"}
+# nombres para Salva (las claves internas no cambian)
+NOMBRES_CATEGORIA = {"valor": "Cuota mejor que la justa", "sencilla_fuerte": "Sencilla fuerte (momio negativo)",
+                     "combinada": "Combinada corta (+200 a +350)"}
 
 
 def _equipos(partido: str) -> tuple[str, str]:
@@ -290,7 +292,7 @@ def parlays_para_dashboard() -> list[dict]:
         cat = par.get("categoria")
         out.append({
             "origen": origen,
-            "categoria": NOMBRES_CATEGORIA.get(cat, cat or ("Valor" if origen == "papel" else "Sin categoría")),
+            "categoria": NOMBRES_CATEGORIA.get(cat, cat or (NOMBRES_CATEGORIA["valor"] if origen == "papel" else "Sin categoría")),
             **_campos_filtro(par, por_id),
             "patas": [{"partido": x.get("partido", ""),
                        "texto": f"{x.get('partido', '')} · {texto_seleccion(x.get('partido', ''), x['mercado'], x['seleccion'])}",
