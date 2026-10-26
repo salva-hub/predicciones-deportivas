@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from .datos import tarjetas_winpot
+from .equipos import normalizar
 
 GANA, PIERDE, DEVUELVE, SIN_DATOS = "ganada", "perdida", "devuelta", "sin_datos"
 
@@ -29,9 +30,36 @@ def _tarjetas(r: dict, lado: str) -> float | None:
     return r.get(f"tarjetas_{lado}")
 
 
+def _jugador(r: dict, nombre: str) -> dict | None:
+    jugadores = r.get("tiros_jugadores") or {}
+    if nombre in jugadores:
+        return jugadores[nombre]
+    n = normalizar(nombre)
+    hallados = [v for k, v in jugadores.items() if normalizar(k) == n]
+    return hallados[0] if len(hallados) == 1 else None
+
+
+def tiros_jugador(seleccion: str, r: dict) -> str:
+    """'Nombre Jugador:mas_0.5' con r["tiros_jugadores"] = {nombre: {participo, tiros_puerta}}.
+
+    Reglas de Winpot: jugador que no participa (o que no está en el acta) = devuelta.
+    ESPN da los tiros del partido completo: con prórroga queda sin datos (se liquida a mano).
+    """
+    nombre, linea = seleccion.rsplit(":", 1)
+    jugadores = r.get("tiros_jugadores")
+    if not jugadores or r.get("prorroga"):
+        return SIN_DATOS
+    j = _jugador(r, nombre)
+    if j is None or not j.get("participo"):
+        return DEVUELVE
+    return _comparar_linea(j.get("tiros_puerta"), linea)
+
+
 def calificar(mercado: str, seleccion: str, r: dict) -> str:
     """r: goles_local, goles_visitante, goles_*_pt, corners_*, tarjetas_* (o amarillas_*, rojas_*,
-    segundas_amarillas_*)."""
+    segundas_amarillas_*) y, para tiros de jugador, tiros_jugadores."""
+    if mercado == "tiros_jugador":
+        return tiros_jugador(seleccion, r)
     gl, gv = r.get("goles_local"), r.get("goles_visitante")
     if gl is None or gv is None:
         return SIN_DATOS

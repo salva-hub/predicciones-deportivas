@@ -271,6 +271,9 @@ def texto_seleccion(partido: str, mercado: str, seleccion: str) -> str:
         if mercado == "handicap":
             lado, linea = seleccion.split("_", 1)
             return f"{local if lado == 'local' else visitante} {linea.replace('-', '−')} (hándicap)"
+        if mercado == "tiros_jugador":
+            nombre, linea = seleccion.rsplit(":", 1)
+            return f"{nombre}: {_linea(linea, 'tiros a puerta').lower()}"
         if mercado in ("corners", "tarjetas"):
             return _linea(seleccion, "córners" if mercado == "corners" else "tarjetas")
     except (KeyError, ValueError):

@@ -314,3 +314,32 @@ def pronosticar(
         marcadores=marcador_mas_probable(m), notas=notas, confianza_base=confianza_datos,
         desacuerdos=desacuerdos, prob_mercado=prob_mercado, menos_confianza=menos_confianza,
     )
+
+
+CONFIANZA_TIROS_JUGADOR = "baja"  # siempre (CLAUDE.md, "Tiros al arco de jugador")
+
+
+def filas_tiros_jugador(partido: str, tiros: list[dict]) -> list[dict]:
+    """Filas de la tabla para tiros a puerta de jugador (mercado "tiros_jugador").
+
+    La selección es "Nombre Jugador:mas_0.5"; en evaluar se escribe
+    --winpot "tiros_jugador:Nombre Jugador:mas_0.5=+150".
+    """
+    from .modelos.tiros_jugador import PROB_MIN_LINEA
+
+    filas = []
+    for t in tiros:
+        for linea, prob in t["probabilidades"].items():
+            if not PROB_MIN_LINEA <= prob <= 1 - PROB_MIN_LINEA:
+                continue
+            s = V.Seleccion(partido=partido, mercado="tiros_jugador", seleccion=f"{t['jugador']}:{linea}",
+                            prob=prob, confianza=CONFIANZA_TIROS_JUGADOR)
+            filas.append({
+                "mercado": s.mercado, "seleccion": s.seleccion, "prob": round(prob, 3),
+                "cuota_justa": C.formato_americano(s.cuota_justa()),
+                "cuota_minima": C.formato_americano(s.cuota_minima(), minima=True),
+                "confianza": s.confianza, "jugador": t["jugador"], "jugador_id": t.get("jugador_id"),
+                "equipo": t.get("equipo"), "posicion": t.get("posicion"),
+                "tiros_esperados": t["tiros_esperados"],
+            })
+    return filas

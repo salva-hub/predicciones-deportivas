@@ -267,6 +267,11 @@ def resultado(liga: str, espn_id: str, inicio_utc: str | None = None) -> dict | 
             ev = {"id": espn_id, "date": comp.get("date"), "status": comp.get("status"), "competitions": [comp]}
             p = _partido(ev, liga)
             p.update(_estadisticas(datos) or {})
+            if p.get("terminado"):
+                from .jugadores import tiros_por_jugador  # aquí para no importar en círculo
+                tiros = tiros_por_jugador(datos)
+                if tiros:
+                    p["tiros_jugadores"] = tiros
             return p
     except Exception:  # noqa: BLE001 - se intenta con el calendario
         pass

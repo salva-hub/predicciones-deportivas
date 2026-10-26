@@ -30,10 +30,12 @@ from .ajustes import Ajustes, parsear, por_clima
 from .calificar import DEVUELVE, GANA, PIERDE, SIN_DATOS, calificar, estado_parlay, ganancia
 from .datos import clima as clima_mod
 from .datos import cuotas_api, espn, historiales
+from .datos import jugadores
 from .datos.http import limpiar
 from .equipos import coincide, normalizar
+from .modelos import tiros_jugador as TJ
 from .modelos.conteos import factor_arbitro
-from .pronostico import NOTA_SIN_PINNACLE, _pinnacle_sin_margen, ajustar_modelos, pronosticar  # noqa: F401
+from .pronostico import NOTA_SIN_PINNACLE, _pinnacle_sin_margen, ajustar_modelos, filas_tiros_jugador, pronosticar  # noqa: F401
 
 TECHADOS = {normalizar(x) for x in (
     "Estadio Santiago Bernabéu", "Veltins-Arena", "Merkur Spiel-Arena", "Deutsche Bank Park",
@@ -43,6 +45,9 @@ TECHADOS = {normalizar(x) for x in (
 HORAS_ESPERA_DATOS = 48  # tras el inicio, se sigue buscando lo que falte (córners, tarjetas)
 MENSAJE_PAUSA = "PAUSA: las apuestas de este mes perdieron 50% de la base del mes. No se recomiendan apuestas; hay que revisar el modelo."
 LIGAS_DATOS_LIMITADOS = {"liga_mx", "mls", "brasil", "argentina", "libertadores", "concacaf"}
+NOTA_SIN_ALINEACION = ("Tiros a puerta de jugador: ESPN aún no publica la alineación oficial; no se calculan "
+                       "(se calculan en el pronóstico definitivo, con alineaciones)")
+MIN_PARTIDOS_TIROS = 3  # partidos con estadísticas por jugador que necesita cada equipo
 
 
 def es_techado(estadio: str | None) -> bool:
@@ -120,6 +125,58 @@ def tiene_1x2(pin: dict | None) -> bool:
     return bool(pin) and all(pin.get(k) for k in ("1", "X", "2"))
 
 
+def _tiros_jugador(liga: str, partido: dict, hist: pd.DataFrame, neutral: bool) -> tuple[list[dict], list[str]]:
+    """Tiros a puerta esperados de los titulares (alineación oficial de ESPN). Devuelve (filas, notas)."""
+    try:
+        alin = jugadores.alineacion_partido(liga, partido["espn_id"])
+    except Exception as e:  # noqa: BLE001 - sin red o ESPN cambió: el resto del pronóstico sigue
+        return [], [f"Tiros a puerta de jugador: no se pudo leer la alineación de ESPN ({type(e).__name__})"]
+    if not alin:
+        return [], [NOTA_SIN_ALINEACION]
+    antes = pd.Timestamp(partido["inicio_utc"])
+    antes = antes.tz_convert(None) if antes.tzinfo else antes
+    actos, notas = {}, []
+    for lado, equipo in (("home", partido["local"]), ("away", partido["visitante"])):
+        try:
+            act = jugadores.actuaciones_equipo(liga, hist, equipo, antes)
+        except Exception as e:  # noqa: BLE001
+            _aviso(f"sin estadísticas por jugador de {equipo}", e)
+            act = pd.DataFrame()
+        n = act["espn_id"].nunique() if not act.empty else 0
+        if n < MIN_PARTIDOS_TIROS:
+            notas.append(f"Tiros a puerta de jugador: ESPN no trae estadísticas por jugador de {equipo} "
+                         f"({n} partidos); no se calculan para ese equipo")
+            alin[lado] = []
+        else:
+            notas.append(f"Tiros a puerta de jugador de {equipo}: {n} partidos (temporada actual y anterior)")
+        actos[lado] = act
+    if not alin["home"] and not alin["away"]:
+        return [], notas
+    fac = TJ.factores_liga(hist, antes)
+    tiros = TJ.pronostico_partido(alin, actos["home"], actos["away"], fac, partido["local"], partido["visitante"], neutral)
+    notas.append("Tiros a puerta de jugador: alineación oficial de ESPN; modelo Poisson con tasa por 90, minutos "
+                 "y rival; confianza siempre baja; solo con valor de 10% o más")
+    return tiros, notas
+
+
+def _resolver_jugador(mercado: str, seleccion: str, selecciones: list[dict]) -> str:
+    """Nombre del jugador como lo guarda el pronóstico ('mbappe:mas_0.5' -> 'Kylian Mbappé:mas_0.5').
+
+    Acepta el nombre sin acentos ni mayúsculas, o solo una parte (el apellido) si no se repite.
+    Si no lo encuentra, devuelve la selección tal cual.
+    """
+    if mercado != "tiros_jugador" or ":" not in seleccion:
+        return seleccion
+    nombre, linea = seleccion.rsplit(":", 1)
+    linea = linea.strip()
+    nombres = {s.get("jugador") or s["seleccion"].rsplit(":", 1)[0] for s in selecciones if s["mercado"] == mercado}
+    n = normalizar(nombre)
+    iguales = [x for x in nombres if normalizar(x) == n]
+    if not iguales:
+        iguales = [x for x in nombres if n and all(w in normalizar(x).split() for w in n.split())]
+    return f"{iguales[0]}:{linea}" if len(iguales) == 1 else f"{nombre.strip()}:{linea}"
+
+
 def cmd_partidos(a) -> None:
     dia = _fecha(a.fecha)
     _imprimir([{k: p[k] for k in ("espn_id", "inicio_sonora", "local", "visitante", "estadio", "ciudad")}
@@ -170,6 +227,10 @@ def cmd_pronostico(a) -> None:
         p.notas.append(nota_clima)
     if not partido:
         p.notas.append("AVISO: no se encontró el partido en ESPN; no se podrá calificar automáticamente")
+    tiros: list[dict] = []
+    if partido and not a.sin_red:
+        tiros, notas_tiros = _tiros_jugador(a.liga, partido, hist, a.neutral)
+        p.notas.extend(notas_tiros)
 
     registro = {
         "deporte": "futbol",
@@ -192,9 +253,12 @@ def cmd_pronostico(a) -> None:
         "marcadores_probables": p.marcadores,
         "notas": p.notas,
         "confianza": p.confianza_base,
-        "selecciones": p.tabla(),
+        "selecciones": p.tabla() + filas_tiros_jugador(p.partido, tiros),
         "estado": "pendiente",
     }
+    if tiros:
+        registro["tiros_jugador"] = [{k: t[k] for k in ("jugador", "equipo", "posicion", "tiros_esperados", "tasa90",
+                                                         "minutos_esperados", "minutos_historial")} for t in tiros]
     if not a.no_guardar:
         registro = R.agregar_pronostico(registro)
     _imprimir(registro)
@@ -219,7 +283,7 @@ def cmd_evaluar(a) -> None:
         print(MENSAJE_PAUSA, file=sys.stderr)
     elif papel:
         print(B.MENSAJE_PAPEL, file=sys.stderr)
-    cuotas = [_parsear_cuota(t) for t in a.winpot]
+    cuotas = [(m, _resolver_jugador(m, s_, p["selecciones"]), d) for m, s_, d in (_parsear_cuota(t) for t in a.winpot)]
     # en papel: lo ya calificado no se toca; se reemplazan solo las selecciones que se vuelven a evaluar
     evaluadas = {(m, s_) for m, s_, _ in cuotas}
     previas = p.get("apuestas_papel", [])
@@ -289,7 +353,7 @@ def cmd_evaluar(a) -> None:
             "prob": fila["prob"], "ve": round(ve, 4), "confianza": s.confianza,
             "categoria": cat, "con_valor": V.tiene_valor(s),
             "apostar": cat is not None and monto > 0, "monto_sencilla": monto,
-            "sirve_para_parlay": ve >= V.VE_MIN_PARLAY_PATA,
+            "sirve_para_parlay": ve >= V.ve_min_parlay_pata(mercado),
             "sirve_para_combinada": V.sirve_para_combinada(s),
         }
         if dev:
@@ -437,6 +501,7 @@ def cmd_apostar(a) -> None:
         p = R.buscar_pronostico(pid)
         if not p:
             sys.exit(f"No existe el pronóstico {pid}")
+        seleccion = _resolver_jugador(mercado, seleccion, p.get("selecciones", []))
         patas.append({"pronostico": pid, "partido": p["partido"], "liga": p["liga"],
                       "deporte": p.get("deporte") or R.DEPORTE_DEFECTO, "espn_id": p.get("espn_id"),
                       "mercado": mercado, "seleccion": seleccion, "cuota": dec, "estado": "pendiente"})
@@ -532,6 +597,9 @@ def cmd_calificar(a) -> None:
                                if r.get(k) is not None})
         if r.get("prorroga"):
             p["resultado"]["prorroga"] = True
+        # tiros a puerta por jugador (solo si el pronóstico tiene ese mercado)
+        if r.get("tiros_jugadores") and any(s["mercado"] == "tiros_jugador" for s in p["selecciones"]):
+            p["resultado"]["tiros_jugadores"] = r["tiros_jugadores"]
         for s in p["selecciones"]:
             s["estado"] = calificar(s["mercado"], s["seleccion"], r)
         # si falta algún dato, se reintenta en las siguientes corridas hasta 48 h
@@ -683,7 +751,8 @@ def main(argv=None) -> None:
 
     s = sub.add_parser("evaluar")
     s.add_argument("--id", required=True)
-    s.add_argument("--winpot", action="append", required=True, help="mercado:seleccion=cuota  (ej. goles:mas_2.5=-130)")
+    s.add_argument("--winpot", action="append", required=True, help="mercado:seleccion=cuota  (ej. goles:mas_2.5=-130; "
+                   "tiros de jugador: tiros_jugador:Nombre Jugador:mas_0.5=+150)")
     s.set_defaults(f=cmd_evaluar)
 
     s = sub.add_parser("parlays")

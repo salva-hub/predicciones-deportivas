@@ -7,6 +7,8 @@
 - Sencilla en ganador, doble oportunidad, goles, ambos anotan, hándicap: VE >= 3%.
 - Sencilla en córners o tarjetas: VE >= 5% (no hay Pinnacle: el modelo
   de conteos se encoge hacia 50% porque se confiaba de más).
+- Tiros a puerta de jugador (tiros_jugador): VE >= 10% y confianza siempre baja
+  (también como pata de parlay: cada pata de jugador necesita VE >= 10%).
 - Doble oportunidad: solo si ningún resultado del 1X2 llega a 55%.
 - Parlay: 2 a 4 selecciones de partidos distintos, cada una con VE >= 2% y el
   parlay completo con VE >= 5%. Objetivo: +200 o más con 2 selecciones.
@@ -33,7 +35,8 @@ from dataclasses import dataclass, field, asdict
 
 from . import cuotas as C
 
-VE_MIN = {"goles": 0.03, "conteos": 0.05}
+VE_MIN = {"goles": 0.03, "conteos": 0.05, "jugador": 0.10}
+MERCADOS_JUGADOR = ("tiros_jugador",)
 VE_MIN_PARLAY_PATA = 0.02
 VE_MIN_PARLAY = 0.05
 UMBRAL_DOBLE_OPORTUNIDAD = 0.55
@@ -55,7 +58,14 @@ MAX_POR_DIA = {FUERTE: 1, COMBINADA: 2}  # por día de Sonora (día en que se ev
 
 
 def familia(mercado: str) -> str:
+    if mercado in MERCADOS_JUGADOR:
+        return "jugador"
     return "conteos" if mercado.startswith(("corners", "tarjetas")) else "goles"
+
+
+def ve_min_parlay_pata(mercado: str) -> float:
+    """VE mínimo de una pata de parlay: 2%, salvo mercados de jugador (su mínimo de sencilla, 10%)."""
+    return VE_MIN["jugador"] if familia(mercado) == "jugador" else VE_MIN_PARLAY_PATA
 
 
 def bajar(confianza: str, niveles: int = 1) -> str:
@@ -182,7 +192,8 @@ def armar_parlays(candidatas: list[Seleccion], max_patas: int = 4, top: int = 5)
     Las patas del mismo partido no se combinan (sus resultados están relacionados).
     Ordena primero los de 2 patas con cuota +200 o más, luego por VE.
     """
-    patas = [s for s in candidatas if s.cuota_ofrecida and (s.ve() or 0) >= VE_MIN_PARLAY_PATA and s.prob_devolucion == 0]
+    patas = [s for s in candidatas if s.cuota_ofrecida and (s.ve() or 0) >= ve_min_parlay_pata(s.mercado)
+             and s.prob_devolucion == 0]
     out: list[Parlay] = []
     for n in range(2, max_patas + 1):
         for combo in itertools.combinations(patas, n):

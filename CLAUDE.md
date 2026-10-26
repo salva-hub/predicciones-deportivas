@@ -118,7 +118,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    | Mercado | Probabilidad | Cuota justa | Cuota mínima para apostar |
    | --- | --- | --- | --- |
    (ganador; doble oportunidad solo si ningún resultado llega a 55%; total de goles 2.5 y la línea más cercana al esperado;
-   ambos anotan; hándicap asiático principal; goles por equipo; córners y tarjetas en la línea más común)
+   ambos anotan; hándicap asiático principal; goles por equipo; córners y tarjetas en la línea más común; con alineación
+   oficial, tiros a puerta de los 2 o 3 jugadores con más esperado de cada equipo, confianza baja)
 
    **Justificación:** 3 a 6 viñetas con lo que movió el pronóstico (forma y fuerza, bajas, árbitro, clima, altitud, contexto),
    cada una con su fuente y cuánto ajustó.
@@ -179,9 +180,24 @@ los registros viejos sin ese campo cuentan como fútbol).
 - Doble oportunidad: solo si ningún resultado del 1X2 llega a 55% y tiene valor.
 - Parlay: 2 a 4 selecciones de partidos distintos, cada una con valor ≥ 2% y el parlay completo ≥ 5%.
   Ideal: +200 o más con 2 selecciones de confianza alta. Si una sencilla tiene claramente más valor, recomienda la sencilla.
-- Tiros al arco de jugador: solo se sugieren si la cuota de Winpot es claramente mejor que la justa (valor ≥ 10%),
-  con la alineación oficial confirmada; el sistema todavía no los calcula, así que cualquier estimación se hace a mano
-  con los datos del jugador (promedio de tiros a puerta por 90 min en la temporada) y se dice que es de confianza baja.
+- Tiros al arco de jugador (`tiros_jugador`): solo con valor ≥ 10% (también como pata de parlay), categoría `valor`,
+  confianza **siempre baja** (monto 2%; nunca sencilla fuerte ni combinada). El sistema los calcula solo:
+  - `pronostico` lee la **alineación oficial de ESPN** (`rosters` del resumen del partido, sale ~1 hora antes). Sin
+    alineación no los calcula y lo anota ("ESPN aún no publica la alineación oficial"): rehaz el pronóstico definitivo.
+  - Para cada equipo baja de ESPN (gratis, con caché) sus partidos de la temporada actual y la anterior (hasta 50) y
+    toma los tiros a puerta y minutos de cada jugador. Esperado = tiros a puerta por 90 (encogidos hacia el promedio de
+    su posición en el equipo; con 450 min propios pesa la mitad) × minutos esperados (su promedio como titular, tope 85)
+    × rival (tiros a puerta que concede vs la liga, encogido) × sede. Poisson, encogida 10% hacia la tasa base de la línea.
+  - Muestra hasta 6 titulares de campo por equipo (delanteros y medios primero) con más de 0.5, 1.5 y 2.5
+    (las líneas con menos de 5% no salen). El pronóstico guarda también `tiros_jugador` (esperado, minutos) para la justificación.
+  - Cuota de Winpot en `evaluar`: `--winpot "tiros_jugador:<Nombre Jugador>:mas_0.5=+150"` (el nombre como sale en el
+    pronóstico; acepta sin acentos ni mayúsculas, o solo el apellido si no se repite). En `apostar`:
+    `--pata "<id>:tiros_jugador:<Nombre Jugador>:mas_0.5=+150"`.
+  - Límites: fichajes sin minutos con el equipo usan el promedio de su posición; no hay datos por jugador para
+    selecciones nacionales ni (casi siempre) Concacaf; no sabe de penales asignados ni de cambios de rol.
+  - Prueba histórica (LaLiga y Premier 2025/26, 15,020 titulares de campo, `python -m predicciones.backtest_tiros
+    --liga laliga --liga premier --temporada 2025`): más de 0.5 log-loss 0.511 y Brier 0.168 (0.198 sin modelo);
+    calibrado de 7% a 83%; sin sobredispersión (1.02).
 - **Prueba en papel del 26-oct-2026 al 26-nov-2026:** nada de dinero real; se registran y califican las apuestas
   en papel. Al terminar, revisar sus resultados con Salva antes de apostar dinero.
 
@@ -197,6 +213,9 @@ los registros viejos sin ese campo cuentan como fútbol).
 - **Córners:** solo los que se cobran (concedido y no cobrado no cuenta).
 - **Hándicap asiático y totales de cuarto (±0.25, ±0.75):** media apuesta en cada línea vecina (medio ganado / medio
   perdido). El programa no ofrece esas líneas; si Salva apuesta una, se liquida a mano.
+- **Tiros a puerta de jugador en `calificar`:** se califican solos con `rosters` de ESPN (tiros a puerta del jugador).
+  Jugador que no participó o no está en el acta: devuelta. ESPN cuenta el partido completo: con prórroga quedan sin
+  datos y se liquidan a mano; ESPN no distingue tiros bloqueados sobre la línea ni el mercado "jugador y su sustituto".
 - **Tiros a puerta (equipo y jugador):** cuentan goles y tiros atajados, y los bloqueados por el último defensor
   sobre la línea; un tiro al poste no cuenta, salvo en el mercado "jugador y su sustituto (incl. madera)", que además
   suma al sustituto directo e incluye prórroga. Jugador que no participa: apuesta anulada (devuelta); si el mercado
