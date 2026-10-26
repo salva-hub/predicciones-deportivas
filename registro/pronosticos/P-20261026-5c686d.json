@@ -775,5 +775,6 @@
     "corners:menos_9.5": "-190",
     "tarjetas:mas_3.5": "-334"
   },
-  "apuestas_papel": []
+  "apuestas_papel": [],
+  "pago_anticipado": true
 }
