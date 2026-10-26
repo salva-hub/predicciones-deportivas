@@ -54,5 +54,55 @@
     "cuota_winpot": "+333",
     "resultado": null,
     "nota": "No cuenta en las estadísticas; se califica a mano."
+  },
+  {
+    "fecha": "2026-10-26",
+    "tipo": "combinada_mismo_partido",
+    "estado_decision": "no_tomada",
+    "pronostico": "P-20261026-5c686d",
+    "partido": "Sevilla vs Osasuna",
+    "resultado": null,
+    "nota": "No cuenta en las estadísticas; se califica a mano.",
+    "patas": [
+      {
+        "mercado": "ganador",
+        "seleccion": "1"
+      },
+      {
+        "mercado": "goles",
+        "seleccion": "menos_3.5"
+      },
+      {
+        "mercado": "tarjetas",
+        "seleccion": "menos_7.5"
+      }
+    ],
+    "cuota_winpot": "+190",
+    "motivo": "Prob ~30% (justa +236); mínimo +222"
+  },
+  {
+    "fecha": "2026-10-26",
+    "tipo": "combinada_mismo_partido",
+    "estado_decision": "no_tomada",
+    "pronostico": "P-20261026-5c686d",
+    "partido": "Sevilla vs Osasuna",
+    "resultado": null,
+    "nota": "No cuenta en las estadísticas; se califica a mano.",
+    "patas": [
+      {
+        "mercado": "ganador",
+        "seleccion": "1"
+      },
+      {
+        "mercado": "goles",
+        "seleccion": "mas_1.5"
+      },
+      {
+        "mercado": "tarjetas",
+        "seleccion": "menos_7.5"
+      }
+    ],
+    "cuota_winpot": "+183",
+    "motivo": "Prob ~29% (justa +241); mínimo +228"
   }
 ]
