@@ -731,3 +731,53 @@ def test_real_fuerte_con_valor_cuenta_como_valor(cli, capsys, monkeypatch):
     r1, r2 = _salida(capsys)["evaluacion"]
     assert (r2["categoria"], r2["apostar"], r2["monto_sencilla"]) == ("sencilla_fuerte", True, 600)
     assert r1["categoria"] == "valor" and r1["monto_sencilla"] == 400 and r1["recortada"] is True
+
+
+def test_texto_seleccion(cli):
+    t = cli.R.texto_seleccion
+    p = "Sevilla vs Osasuna"
+    assert t(p, "goles", "mas_2.5") == "Más de 2.5 goles"
+    assert t(p, "ganador", "1") == "Gana Sevilla" and t(p, "ganador", "X") == "Empate"
+    assert t(p, "doble_oportunidad", "X2") == "Osasuna o empate"
+    assert t(p, "ambos_anotan", "si") == "Ambos anotan: sí"
+    assert t(p, "goles_equipo", "visitante_menos_1.5") == "Osasuna: menos de 1.5 goles"
+    assert t(p, "primer_tiempo", "pt_mas_0.5") == "Más de 0.5 goles (1er tiempo)"
+    assert t(p, "handicap", "local_-0.5") == "Sevilla −0.5 (hándicap)"
+    assert t(p, "corners", "mas_9.5") == "Más de 9.5 córners"
+    assert t(p, "tarjetas", "menos_4.5") == "Menos de 4.5 tarjetas"
+    assert t(p, "raro", "x") == "raro x"
+
+
+def test_exportar_parlays_legibles(papel, capsys, monkeypatch):
+    cli, R = papel, papel.R
+    a = _pron_cat(R, "Sevilla vs Osasuna", [("goles", "mas_2.5", 0.56, "alta")])
+    b = _pron_cat(R, "Roma vs Lazio", [("ganador", "1", 0.56, "media")])
+    for p, w in ((a, "goles:mas_2.5=-130"), (b, "ganador:1=-130")):
+        cli.main(["evaluar", "--id", p["id"], "--winpot", w])
+    cli.main(["parlays"])
+    capsys.readouterr()
+    # el parlay de Sevilla gana; Roma pierde
+    for pr, res in ((a, (3, 0)), (b, (0, 1))):
+        pr = R.buscar_pronostico(pr["id"])
+        pr.update(estado="calificado", resultado={"goles_local": res[0], "goles_visitante": res[1]})
+        R.actualizar_pronostico(pr)
+    # un parlay real también aparece
+    cli.main(["apostar", "--forzar", "--categoria", "valor", "--monto", "200",
+              "--pata", f"{a['id']}:goles:mas_2.5=+120", "--pata", f"{b['id']}:ganador:1=+150"])
+    cli.main(["calificar"])
+    cli.main(["exportar", "--salida", str(R.RAIZ / "_site")])
+    capsys.readouterr()
+    datos = json.loads((R.RAIZ / "_site" / "parlays.json").read_text())
+    assert {x["origen"] for x in datos} == {"papel", "real"}
+    comb = next(x for x in datos if x["origen"] == "papel")
+    assert comb["categoria"] == "Combinada" and comb["monto"] == 300 and comb["cuota"] == "+213"
+    assert [q["texto"] for q in comb["patas"]] == ["Sevilla vs Osasuna · Más de 2.5 goles", "Roma vs Lazio · Gana Roma"]
+    assert [q["cuota"] for q in comb["patas"]] == ["-130", "-130"]
+    assert [q["estado"] for q in comb["patas"]] == ["ganada", "perdida"]
+    assert (comb["estado"], comb["ganancia"]) == ("perdida", -300)
+    real = next(x for x in datos if x["origen"] == "real")
+    assert real["cuota"] == "+450" and real["categoria"] == "Valor" and real["estado"] == "perdida"
+    assert [q["cuota"] for q in real["patas"]] == ["+120", "+150"]
+    # nunca cuotas decimales
+    texto = json.dumps(datos)
+    assert '"cuota": 1.' not in texto and '"cuota": 2.' not in texto

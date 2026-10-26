@@ -20,6 +20,7 @@ from datetime import datetime
 from pathlib import Path
 
 from . import bank as B
+from . import cuotas as C
 from .datos.espn import SONORA
 
 RAIZ = Path(os.environ.get("PRED_RAIZ", Path(__file__).resolve().parents[2]))
@@ -229,14 +230,89 @@ def categorias_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -> di
     return cuenta
 
 
+NOMBRES_CATEGORIA = {"valor": "Valor", "sencilla_fuerte": "Sencilla fuerte", "combinada": "Combinada"}
+
+
+def _equipos(partido: str) -> tuple[str, str]:
+    local, _, visitante = (partido or "").partition(" vs ")
+    return local or "Local", visitante or "Visitante"
+
+
+def _linea(texto: str, cosa: str) -> str:
+    """'mas_2.5', 'goles' -> 'Más de 2.5 goles'"""
+    lado, _, n = texto.partition("_")
+    return f"{'Más' if lado == 'mas' else 'Menos'} de {n} {cosa}"
+
+
+def texto_seleccion(partido: str, mercado: str, seleccion: str) -> str:
+    """Selección en español legible: 'Sevilla vs Osasuna' + goles mas_2.5 -> 'Más de 2.5 goles'."""
+    local, visitante = _equipos(partido)
+    resultado = {"1": f"Gana {local}", "X": "Empate", "2": f"Gana {visitante}"}
+    try:
+        if mercado == "ganador":
+            return resultado[seleccion]
+        if mercado == "doble_oportunidad":
+            return {"1X": f"{local} o empate", "X2": f"{visitante} o empate", "12": f"{local} o {visitante}"}[seleccion]
+        if mercado == "goles":
+            return _linea(seleccion, "goles")
+        if mercado == "ambos_anotan":
+            return "Ambos anotan: sí" if seleccion == "si" else "Ambos anotan: no"
+        if mercado == "goles_equipo":
+            lado, resto = seleccion.split("_", 1)
+            return f"{local if lado == 'local' else visitante}: {_linea(resto, 'goles').lower()}"
+        if mercado == "primer_tiempo":
+            sel = seleccion.removeprefix("pt_")
+            base = resultado[sel] if sel in resultado else _linea(sel, "goles")
+            return f"{base} (1er tiempo)"
+        if mercado == "handicap":
+            lado, linea = seleccion.split("_", 1)
+            return f"{local if lado == 'local' else visitante} {linea.replace('-', '−')} (hándicap)"
+        if mercado in ("corners", "tarjetas"):
+            return _linea(seleccion, "córners" if mercado == "corners" else "tarjetas")
+    except (KeyError, ValueError):
+        pass
+    return f"{mercado} {seleccion}"
+
+
+def _estado_legible(estado: str | None) -> str:
+    return {"sin_datos": "sin datos", None: "pendiente"}.get(estado, estado)
+
+
+def parlays_para_dashboard() -> list[dict]:
+    """Todos los parlays (reales y en papel) listos para mostrar: patas en español, cuotas
+    americanas (nunca decimales), monto, estado y ganancia. Más recientes primero."""
+    out = []
+    reales = [(a, "real") for a in apuestas() if len(a.get("patas", [])) > 1]
+    for par, origen in reales + [(x, "papel") for x in parlays_papel()]:
+        cat = par.get("categoria")
+        out.append({
+            "origen": origen,
+            "categoria": NOMBRES_CATEGORIA.get(cat, cat or ("Valor" if origen == "papel" else "Sin categoría")),
+            "fecha": str(par.get("creado", ""))[:10],
+            "patas": [{"partido": x.get("partido", ""),
+                       "texto": f"{x.get('partido', '')} · {texto_seleccion(x.get('partido', ''), x['mercado'], x['seleccion'])}",
+                       "cuota": C.formato_americano(float(x["cuota"])),
+                       "estado": _estado_legible(x.get("estado"))} for x in par.get("patas", [])],
+            "cuota": par.get("cuota_americana") or C.formato_americano(float(par["cuota"])),
+            "monto": par.get("monto", 0),
+            "estado": _estado_legible(par.get("estado")),
+            "ganancia": par.get("ganancia"),
+            "recortada": bool(par.get("recortada")),
+            "_orden": str(par.get("creado", "")),
+        })
+    out.sort(key=lambda x: x.pop("_orden"), reverse=True)
+    return out
+
+
 def exportar(salida: str | Path) -> None:
-    """Junta todo en pronosticos.json, apuestas.json, papel.json, resumen_papel.json
-    y bank.json (para el dashboard)."""
+    """Junta todo en pronosticos.json, apuestas.json, papel.json, resumen_papel.json,
+    parlays.json y bank.json (para el dashboard)."""
     salida = Path(salida)
     _escribir_ruta(salida / "pronosticos.json", pronosticos())
     _escribir_ruta(salida / "apuestas.json", apuestas())
     _escribir_ruta(salida / "papel.json", parlays_papel())
     _escribir_ruta(salida / "resumen_papel.json", resumen_papel())
+    _escribir_ruta(salida / "parlays.json", parlays_para_dashboard())
     _escribir_ruta(salida / "bank.json", bank_config())
 
 

@@ -23,6 +23,12 @@
   th { color:var(--suave); font-weight:500; font-size:13px; }
   .pos { color:var(--verde); } .neg { color:var(--rojo); }
   .vacio { color:var(--suave); padding:12px 0; }
+  .parlay { border-bottom:1px solid var(--borde); padding:10px 0; }
+  .parlay:last-child { border-bottom:0; }
+  .parlay .cab, .parlay .pie { color:var(--suave); font-size:13px; }
+  .parlay .pie { color:var(--texto); font-variant-numeric:tabular-nums; }
+  .pata { display:flex; gap:8px; justify-content:space-between; padding:3px 0; }
+  .pata .t { overflow-wrap:anywhere; } .pata .c { white-space:nowrap; font-variant-numeric:tabular-nums; }
   .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:12px; }
 </style>
 </head>
@@ -45,6 +51,9 @@
   <div class="card" id="papel"></div>
   <h2>Prueba en papel por categoría (se comparan el 26-nov-2026)</h2>
   <div class="card" id="papel-categorias"></div>
+
+  <h2>Parlays y combinadas (reales y en papel)</h2>
+  <div class="card" id="parlays"></div>
 
   <h2>Recomendaciones por liga</h2>
   <div class="card" id="por-liga"></div>
@@ -93,12 +102,13 @@ function agrupar(lista, clave) {
 }
 
 (async () => {
-  const [bank, apuestas, pronos, parlaysPapel, resumenPapel] = await Promise.all([
+  const [bank, apuestas, pronos, parlaysPapel, resumenPapel, parlays] = await Promise.all([
     leer("registro/bank.json", {bank_inicial: 10000, movimientos: []}),
     leer("registro/apuestas.json", []),
     leer("registro/pronosticos.json", []),
     leer("registro/papel.json", []),
     leer("registro/resumen_papel.json", {}),
+    leer("registro/parlays.json", []),
   ]);
   document.getElementById("actualizado").textContent =
     `Bank inicial ${MXN(bank.bank_inicial)} · ${pronos.length} pronósticos · ${apuestas.length} apuestas · actualizado ${new Date().toLocaleString("es-MX", {timeZone: "America/Hermosillo"})} (hora de Sonora)`;
@@ -168,6 +178,14 @@ function agrupar(lista, clave) {
     ["Acierto", f => PCT(f.acierto)], ["Ganancia", f => MXN(f.ganancia), f => clase(f.ganancia)],
     ["ROI", f => PCT(f.roi), f => clase(f.roi)], ["Peor racha", f => f.peor_racha + " perdidas"], ["Recortadas", f => f.recortadas ?? 0],
   ], Object.entries(resumenPapel).filter(([, v]) => v.apuestas).map(([k, v]) => ({k, ...v})));
+
+  const claseEstado = e => e === "ganada" ? "pos" : e === "perdida" ? "neg" : "";
+  const elParlays = document.getElementById("parlays");
+  elParlays.innerHTML = parlays.length ? parlays.slice(0, 40).map(x => `<div class="parlay">
+    <div class="cab">${esc(x.categoria)} · ${x.origen === "papel" ? "en papel" : "real"} · ${esc(x.fecha)}${x.recortada ? " · recortada" : ""}</div>
+    ${x.patas.map(q => `<div class="pata"><span class="t">${esc(q.texto)}</span><span class="c">${esc(q.cuota)} · <span class="${claseEstado(q.estado)}">${esc(q.estado)}</span></span></div>`).join("")}
+    <div class="pie">Cuota ${esc(x.cuota)} · Monto ${MXN(x.monto)} · <span class="${claseEstado(x.estado)}">${esc(x.estado)}</span> · Ganancia ${x.ganancia == null ? "—" : `<span class="${clase(x.ganancia)}">${MXN(x.ganancia)}</span>`}</div>
+  </div>`).join("") : '<div class="vacio">Sin parlays todavía.</div>';
 
   tabla(document.getElementById("apuestas"), [
     ["Fecha", a => String(a.creado || "").slice(0, 10)], ["Tipo", a => a.tipo],
