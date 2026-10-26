@@ -11,6 +11,7 @@ import io
 
 import pandas as pd
 
+from . import columnas_tarjetas
 from .http import obtener
 
 BASE = "https://www.football-data.co.uk"
@@ -66,9 +67,9 @@ def normalizar_principal(df: pd.DataFrame, liga: str, temporada: str) -> pd.Data
     for nuevo, viejo in opcionales.items():
         if viejo in df.columns:
             out[nuevo] = df[viejo]
-    if {"amarillas_local", "rojas_local"} <= set(out.columns):
-        out["tarjetas_local"] = out["amarillas_local"] + out["rojas_local"]
-        out["tarjetas_visitante"] = out["amarillas_visitante"] + out["rojas_visitante"]
+    # tarjetas como Winpot: amarilla 1, roja 2 (HY no trae la primera amarilla de una
+    # doble amarilla, igual que ESPN: esa expulsión cuenta 2 aquí y 3 en Winpot)
+    columnas_tarjetas(out)
     return out.dropna(subset=["fecha", "local", "visitante"])
 
 

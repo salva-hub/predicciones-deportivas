@@ -59,6 +59,7 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    - Alineación probable: starting11.com, Rotowire, Sports Mole.
    - Árbitro designado: prensa de la jornada (Récord y Mediotiempo para Liga MX, premierleague.com, etc.).
    - Tarjetas por partido del árbitro en esa competición: playerstats.football, valuestats.com.
+     Cuéntalas como Winpot (roja = 2): **amarillas por partido + 2 × rojas por partido**. Ese número va en `--arbitro-prom`.
    - Contexto: tabla, eliminatoria (resultado de ida), descanso, viajes, altitud.
    Anota la fuente de cada dato importante.
 
@@ -99,6 +100,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
      --ajuste "goles_visitante:0.93:Baja de su delantero titular (Sportsgambler)" \
      --arbitro "Nombre" --arbitro-prom 5.4 --arbitro-partidos 30 --confianza alta
    ```
+   `--arbitro-prom` = amarillas por partido + 2 × rojas por partido del árbitro (regla de Winpot; el promedio de la
+   liga con que se compara se calcula igual).
    `--confianza` es obligatoria (paso 4). En cancha neutral (Mundial, Copa América, finales en sede neutral)
    agrega `--neutral`: quita la ventaja de local.
    **Pinnacle es la base del pronóstico**: siempre hacen falta sus cuotas. Si no hay clave de The Odds API (o no trae
@@ -176,8 +179,27 @@ los registros viejos sin ese campo cuentan como fútbol).
 - Doble oportunidad: solo si ningún resultado del 1X2 llega a 55% y tiene valor.
 - Parlay: 2 a 4 selecciones de partidos distintos, cada una con valor ≥ 2% y el parlay completo ≥ 5%.
   Ideal: +200 o más con 2 selecciones de confianza alta. Si una sencilla tiene claramente más valor, recomienda la sencilla.
+- Tiros al arco de jugador: solo se sugieren si la cuota de Winpot es claramente mejor que la justa (valor ≥ 10%),
+  con la alineación oficial confirmada; el sistema todavía no los calcula, así que cualquier estimación se hace a mano
+  con los datos del jugador (promedio de tiros a puerta por 90 min en la temporada) y se dice que es de confianza baja.
 - **Prueba en papel del 26-oct-2026 al 26-nov-2026:** nada de dinero real; se registran y califican las apuestas
   en papel. Al terminar, revisar sus resultados con Salva antes de apostar dinero.
+
+### Cómo liquida Winpot (reglas Altenar v1.29, PDF público en winpot-cdn.mx)
+
+- Todo en tiempo reglamentario (90 min + reposición); la prórroga y los penales no cuentan salvo que el mercado lo diga.
+  El programa ya califica con el marcador de 90 min.
+- **Tarjetas:** amarilla = 1, roja directa = 2, doble amarilla = 3 en total (máximo 3 por jugador). No cuentan las
+  mostradas después del silbatazo final ni a suplentes en la banca, sustituidos o cuerpo técnico. El sistema cuenta
+  igual (historial, modelo, árbitro y calificación). ESPN no trae la primera amarilla del expulsado por doble amarilla:
+  el programa la suma leyendo los eventos del partido; en historiales viejos esa expulsión cuenta 2.
+- **Córners:** solo los que se cobran (concedido y no cobrado no cuenta).
+- **Hándicap asiático y totales de cuarto (±0.25, ±0.75):** media apuesta en cada línea vecina (medio ganado / medio
+  perdido). El programa no ofrece esas líneas; si Salva apuesta una, se liquida a mano.
+- **Tiros a puerta (equipo y jugador):** cuentan goles y tiros atajados, y los bloqueados por el último defensor
+  sobre la línea; un tiro al poste no cuenta, salvo en el mercado "jugador y su sustituto (incl. madera)", que además
+  suma al sustituto directo e incluye prórroga. Jugador que no participa: apuesta anulada (devuelta); si el mercado
+  dice "alineación inicial" y no es titular, también se anula. Si entra de cambio, cuenta lo que haga.
 
 ### Tres categorías de apuesta (aprobadas por Salva el 26-oct-2026)
 

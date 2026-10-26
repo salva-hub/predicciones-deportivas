@@ -83,7 +83,11 @@ def ajustar_modelo_conteo(
 
 
 def factor_arbitro(prom_arbitro: float | None, partidos_arbitro: int, prom_competicion: float, encogimiento: int = 10) -> float:
-    """Factor del árbitro encogido hacia 1: con 10 partidos pesa la mitad."""
+    """Factor del árbitro encogido hacia 1: con 10 partidos pesa la mitad.
+
+    Ambos promedios cuentan como Winpot: amarillas + 2 × rojas por partido
+    (el de la competición sale de tarjetas_local/visitante del historial).
+    """
     if not prom_arbitro or prom_competicion <= 0 or partidos_arbitro <= 0:
         return 1.0
     crudo = prom_arbitro / prom_competicion

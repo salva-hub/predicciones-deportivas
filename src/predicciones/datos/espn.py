@@ -17,6 +17,7 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
+from . import tarjetas_winpot
 from .http import obtener
 
 BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
@@ -178,12 +179,46 @@ def _estadisticas(datos: dict) -> dict | None:
         out[f"rojas_{lado}"] = num("redCards")
         out[f"tiros_{lado}"] = num("totalShots")
         out[f"tiros_puerta_{lado}"] = num("shotsOnTarget")
+    segundas = _segundas_amarillas(datos, equipos)
     for lado in ("local", "visitante"):
-        a, r = out.get(f"amarillas_{lado}"), out.get(f"rojas_{lado}")
-        out[f"tarjetas_{lado}"] = None if a is None else a + (r or 0)
+        if segundas is not None:
+            out[f"segundas_amarillas_{lado}"] = segundas[lado]
+        out[f"tarjetas_{lado}"] = tarjetas_winpot(out.get(f"amarillas_{lado}"), out.get(f"rojas_{lado}"),
+                                                  (segundas or {}).get(lado, 0))
     arbitro = _arbitro(datos)
     if arbitro:
         out["arbitro"] = arbitro
+    return out
+
+
+def _segundas_amarillas(datos: dict, equipos: list[dict]) -> dict | None:
+    """Expulsiones por doble amarilla de cada lado, leídas de keyEvents.
+
+    ESPN las marca como "Red Card" con texto "Second yellow card to ...". En el boxscore
+    cuentan como roja y la primera amarilla de ese jugador desaparece de yellowCards,
+    pero Winpot las cuenta como 3 tarjetas (ver datos.tarjetas_winpot).
+    Sin keyEvents devuelve None: se asume que no hubo (la doble amarilla contaría 2).
+    """
+    eventos = datos.get("keyEvents")
+    if not eventos:
+        return None
+    lado_de = {}
+    for t in equipos:
+        lado = "local" if t.get("homeAway") == "home" else "visitante"
+        eq = t.get("team") or {}
+        for clave in (eq.get("id"), eq.get("displayName")):
+            if clave:
+                lado_de[str(clave)] = lado
+    out = {"local": 0, "visitante": 0}
+    for e in eventos:
+        tipo = (e.get("type") or {}).get("type") if isinstance(e.get("type"), dict) else None
+        if tipo != "red-card" or "second yellow" not in (e.get("text") or "").lower():
+            continue
+        eq = e.get("team") or {}
+        lado = lado_de.get(str(eq.get("id"))) or lado_de.get(str(eq.get("displayName")))
+        if lado is None:
+            return None  # no se sabe de qué equipo: mejor no adivinar
+        out[lado] += 1
     return out
 
 

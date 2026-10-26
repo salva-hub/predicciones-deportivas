@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from . import espn
+from . import columnas_tarjetas, espn
 from .http import obtener
 
 import os
@@ -43,7 +43,8 @@ def leer(liga: str) -> pd.DataFrame:
         return pd.DataFrame()
     df = pd.read_csv(r, dtype={"espn_id": str})
     df["fecha"] = pd.to_datetime(df["fecha"])
-    return df
+    # los CSV viejos traen tarjetas = amarillas + rojas: se recalculan con la regla de Winpot
+    return columnas_tarjetas(df)
 
 
 def actualizar(liga: str, hoy: date | None = None) -> pd.DataFrame:

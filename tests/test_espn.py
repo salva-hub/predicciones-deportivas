@@ -50,7 +50,8 @@ def test_resultado_desde_summary(monkeypatch):
     monkeypatch.setattr(espn, "obtener", lambda url, params=None, **k: resumen)
     r = espn.resultado("liga_mx", "123", "2026-10-20T19:00:00+00:00")
     assert r["terminado"] and r["goles_local"] == 3 and r["goles_visitante"] == 0
-    assert r["corners_local"] == 7 and r["tarjetas_visitante"] == 2
+    # Winpot: amarilla 1 + roja 2
+    assert r["corners_local"] == 7 and r["tarjetas_visitante"] == 3 and r["tarjetas_local"] == 2
 
 
 def test_resultado_cae_al_calendario(monkeypatch):
@@ -166,3 +167,38 @@ def test_arbitro_por_order_como_espn_real():
     assert espn._arbitro(datos) == "Central"
     sin_order = {"gameInfo": {"officials": [{"displayName": "X"}, {"displayName": "Y", "order": "3"}]}}
     assert espn._arbitro(sin_order) == "Y"
+
+
+def test_doble_amarilla_cuenta_tres():
+    # ESPN real (Everton-Ipswich, 19-sep-2026): Ipswich yellowCards 1, redCards 1, y en keyEvents
+    # Fatawu ve amarilla (35') y "Second yellow card" (67') + Flemming amarilla (90+2').
+    # Winpot: Flemming 1 + Fatawu 3 = 4.
+    datos = {
+        "boxscore": {"teams": [
+            {"homeAway": "home", "team": {"id": "368", "displayName": "Everton"},
+             "statistics": [{"name": "yellowCards", "displayValue": "2"}, {"name": "redCards", "displayValue": "0"}]},
+            {"homeAway": "away", "team": {"id": "373", "displayName": "Ipswich Town"},
+             "statistics": [{"name": "yellowCards", "displayValue": "1"}, {"name": "redCards", "displayValue": "1"}]},
+        ]},
+        "keyEvents": [
+            {"type": {"type": "yellow-card"}, "text": "Abdul Fatawu (Ipswich Town) is shown the yellow card.",
+             "team": {"id": "373"}},
+            {"type": {"type": "red-card"}, "text": "Second yellow card to Abdul Fatawu (Ipswich Town).",
+             "team": {"id": "373", "displayName": "Ipswich Town"}},
+        ],
+    }
+    r = espn._estadisticas(datos)
+    assert r["segundas_amarillas_visitante"] == 1 and r["segundas_amarillas_local"] == 0
+    assert r["tarjetas_visitante"] == 4 and r["tarjetas_local"] == 2
+
+
+def test_roja_directa_y_sin_eventos():
+    datos = {"boxscore": {"teams": [
+        {"homeAway": "home", "team": {"id": "1"}, "statistics": [{"name": "yellowCards", "displayValue": "1"},
+                                                                 {"name": "redCards", "displayValue": "1"}]},
+        {"homeAway": "away", "team": {"id": "2"}, "statistics": []},
+    ]}}
+    r = espn._estadisticas(datos)
+    assert r["tarjetas_local"] == 3          # roja directa = 2
+    assert r["tarjetas_visitante"] is None   # sin amarillas no hay dato
+    assert "segundas_amarillas_local" not in r
