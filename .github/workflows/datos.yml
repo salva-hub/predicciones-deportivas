@@ -1,0 +1,39 @@
+name: Actualizar historiales
+on:
+  schedule:
+    - cron: "0 11 * * 1"   # lunes 4:00 hora de Sonora
+  workflow_dispatch:
+    inputs:
+      liga:
+        description: "Liga a actualizar (vacío = todas)"
+        required: false
+permissions:
+  contents: write
+concurrency:
+  group: registro
+  cancel-in-progress: false
+jobs:
+  datos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Descargar y guardar liga por liga
+        env:
+          LIGA: ${{ github.event.inputs.liga }}
+          PYTHONPATH: src
+        run: |
+          if [ -n "$LIGA" ]; then
+            ligas="$LIGA"
+          else
+            ligas=$(python -c "from predicciones.datos import espn, historiales; print(' '.join(l for l in espn.LIGAS if l not in historiales.SELECCIONES))")
+          fi
+          for liga in $ligas; do
+            python -m predicciones.cli actualizar-datos --liga "$liga" || echo "$liga: falló, se sigue con la siguiente"
+            .github/scripts/publicar.sh "Actualización de historial: $liga" datos/historial/
+          done

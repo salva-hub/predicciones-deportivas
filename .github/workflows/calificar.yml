@@ -1,0 +1,49 @@
+name: Calificar y publicar dashboard
+on:
+  schedule:
+    - cron: "15 */3 * * *"   # cada 3 horas
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["registro/**", "dashboard/**"]
+permissions:
+  contents: write
+concurrency:
+  group: registro
+  cancel-in-progress: false
+jobs:
+  calificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Calificar pronósticos y apuestas terminados
+        run: PYTHONPATH=src python -m predicciones.cli calificar
+      - name: Guardar cambios en el registro
+        run: .github/scripts/publicar.sh "Calificación automática de resultados" registro/
+      - name: Preparar sitio
+        run: |
+          mkdir -p _site/registro
+          cp dashboard/index.html _site/
+          PYTHONPATH=src python -m predicciones.cli exportar --salida _site/registro
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+  publicar:
+    needs: calificar
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - id: deploy
+        uses: actions/deploy-pages@v4
