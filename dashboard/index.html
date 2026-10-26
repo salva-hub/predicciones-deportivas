@@ -196,6 +196,9 @@ function agrupar(lista, clave) {
   const claseEstado = e => e === "ganada" ? "pos" : e === "perdida" ? "neg" : "";
   const cols = [["Grupo", f => f.k], ["Apuestas", f => f.n], ["Liquidadas", f => f.liq], ["Acierto", f => PCT(f.acierto)],
                 ["Apostado", f => MXN(f.apostado)], ["Ganancia", f => MXN(f.gan), f => clase(f.gan)], ["ROI", f => PCT(f.roi), f => clase(f.roi)]];
+  const MERCADO = {ganador: "Ganador", doble_oportunidad: "Doble oportunidad", goles: "Total de goles", ambos_anotan: "Ambos anotan",
+    goles_equipo: "Goles por equipo", primer_tiempo: "Primer tiempo", handicap: "Hándicap", corners: "Córners", tarjetas: "Tarjetas", parlay: "Parlay"};
+  const mercado = m => MERCADO[m] || m;
   const nombres = {valor: "Valor", sencilla_fuerte: "Sencilla fuerte", combinada: "Combinada"};
 
   function pintar() {
@@ -230,9 +233,9 @@ function agrupar(lista, clave) {
     $("kpis").innerHTML = kpis.map(k => `<div class="kpi"><div class="l">${esc(k[0])}</div><div class="v ${esc(k[2])}">${esc(k[1])}</div></div>`).join("");
 
     tabla($("por-tipo"), cols, agrupar(apuestas, a => a.tipo));
-    tabla($("por-mercado"), cols, agrupar(recomendadas, x => x.mercado));
+    tabla($("por-mercado"), cols, agrupar(recomendadas, x => mercado(x.mercado)));
     tabla($("por-liga"), cols, agrupar(recomendadas, x => x.liga));
-    tabla($("papel"), cols, papel.length ? [{k: "Total", ...rp}, ...agrupar(papel, x => x.mercado)] : []);
+    tabla($("papel"), cols, papel.length ? [{k: "Total", ...rp}, ...agrupar(papel, x => mercado(x.mercado))] : []);
 
     // por categoría: se recalcula con las filas filtradas
     const porCat = Object.keys(nombres).map(c => {
@@ -254,7 +257,7 @@ function agrupar(lista, clave) {
 
     tabla($("apuestas"), [
       ["Fecha", a => a.fecha], ["Tipo", a => a.tipo],
-      ["Selecciones", a => (a.patas || []).map(p => `${p.partido}: ${p.mercado} ${p.seleccion}`)],
+      ["Selecciones", a => (a.patas || []).map(p => p.texto || `${p.partido}: ${p.mercado} ${p.seleccion}`)],
       ["Cuota", a => a.cuota_americana || americana(a.cuota)], ["Monto", a => MXN(a.monto)],
       ["Estado", a => a.estado === "pendiente" && a.requiere_revision ? "revisar a mano" : a.estado], ["Ganancia", a => a.ganancia == null ? "—" : MXN(a.ganancia), a => clase(a.ganancia || 0)],
     ], apuestas.slice().reverse().slice(0, 50));
@@ -263,7 +266,7 @@ function agrupar(lista, clave) {
       ["Partido", p => p.partido], ["Liga", p => p.liga], ["Inicio (Sonora)", p => p.inicio_sonora],
       ["Goles esperados", p => (p.goles_esperados || []).join(" – ")],
       ["Resultado", p => p.resultado ? `${p.resultado.goles_local}–${p.resultado.goles_visitante}` : "pendiente"],
-      ["Con valor", p => (p.evaluacion || []).filter(e => e.apostar).map(e => `${e.mercado} ${e.seleccion} (${e.cuota_winpot})`)],
+      ["Con valor", p => (p.evaluacion || []).filter(e => e.apostar).map(e => `${e.texto || e.mercado + " " + e.seleccion} (${e.cuota_winpot})`)],
     ], pronos.slice().reverse().slice(0, 50));
   }
 

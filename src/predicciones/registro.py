@@ -324,7 +324,9 @@ def _campos_filtro(ap: dict, por_id: dict) -> dict:
 
 
 def _pronostico_exportado(p: dict) -> dict:
-    return {**p, "deporte": p.get("deporte") or DEPORTE_DEFECTO, "liga": p.get("liga", ""),
+    evaluacion = [{**e, "texto": texto_seleccion(p.get("partido", ""), e["mercado"], e["seleccion"])}
+                  for e in p.get("evaluacion", [])]
+    return {**p, "evaluacion": evaluacion, "deporte": p.get("deporte") or DEPORTE_DEFECTO, "liga": p.get("liga", ""),
             "fecha": str(p.get("inicio_sonora", ""))[:10] or _fecha_texto(p.get("creado"))}
 
 
@@ -351,7 +353,10 @@ def papel_para_dashboard() -> list[dict]:
 
 def apuestas_exportadas() -> list[dict]:
     por_id = {p["id"]: p for p in pronosticos()}
-    return [{**a, **_campos_filtro(a, por_id)} for a in apuestas()]
+    return [{**a, **_campos_filtro(a, por_id),
+             "patas": [{**x, "texto": f"{x.get('partido', '')} · "
+                                      f"{texto_seleccion(x.get('partido', ''), x['mercado'], x['seleccion'])}"}
+                       for x in a.get("patas", [])]} for a in apuestas()]
 
 
 def exportar(salida: str | Path) -> None:

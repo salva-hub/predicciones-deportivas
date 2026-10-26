@@ -814,6 +814,9 @@ def test_exportar_campos_de_filtro(papel, capsys):
     assert leer("parlays.json")[0]["ligas"] == ["laliga", "premier"]
     (real,) = leer("apuestas.json")
     assert real["liga"] == "premier" and real["patas"][0]["deporte"] == "futbol"
+    assert real["patas"][0]["texto"] == "Roma vs Lazio · Gana Roma"
+    ev = {e["mercado"]: e["texto"] for e in pr["Sevilla vs Osasuna"]["evaluacion"]}
+    assert ev == {"goles": "Más de 2.5 goles", "ganador": "Gana Sevilla"}
 
 
 def test_pronostico_guarda_deporte(cli, capsys):
