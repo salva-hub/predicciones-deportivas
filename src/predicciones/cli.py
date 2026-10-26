@@ -251,6 +251,9 @@ def cmd_evaluar(a) -> None:
             continue
         s = V.Seleccion(p["partido"], mercado, seleccion, fila["prob"], fila.get("devolucion", 0.0), fila["confianza"], dec)
         filas.append((mercado, seleccion, s, fila, V.categoria_sencilla(s)))
+    # con dinero real y la categoría fuerte sin aprobar, una selección con valor es "valor"
+    if not papel and V.FUERTE not in B.CATEGORIAS_DINERO_REAL:
+        filas = [(*f[:4], V.VALOR) if f[4] == V.FUERTE and V.tiene_valor(f[2]) else f for f in filas]
     # sencilla fuerte: como mucho MAX_POR_DIA al día; si hay varias, la de mayor probabilidad.
     # Sin cupo, si tiene valor pasa a la categoría valor
     fuertes = sorted((i for i, f in enumerate(filas) if f[4] == V.FUERTE), key=lambda i: -filas[i][2].prob)
@@ -290,6 +293,8 @@ def cmd_evaluar(a) -> None:
         }
         if dev:
             fila_res["devolucion"] = dev
+        if 0 < monto < pedido:
+            fila_res["recortada"] = True  # el límite del día no alcanzó para el monto completo
         if motivo:
             fila_res["motivo"] = motivo
         elif cat and monto <= 0:
@@ -310,7 +315,7 @@ def cmd_evaluar(a) -> None:
                 fila_res["motivo"] = "prueba en papel"
                 en_papel.append((i, {
                     "mercado": mercado, "seleccion": seleccion, "categoria": cat,
-                    "con_valor": fila_res["con_valor"], "cuota": round(dec, 4),
+                    "con_valor": fila_res["con_valor"], "recortada": monto < pedido, "cuota": round(dec, 4),
                     "cuota_americana": C.formato_americano(dec), "monto": monto, "ve": round(ve, 4),
                     "prob": fila["prob"], "confianza": s.confianza, "evaluado": R.ahora().isoformat(),
                     "estado": "pendiente",
@@ -389,6 +394,8 @@ def cmd_parlays(a) -> None:
     for (par, cat, pedido), c in zip(lista, cuenta_limite):
         d = {"categoria": cat, **par.resumen()}
         d["monto"] = next(recortados) if c else 0
+        if 0 < d["monto"] < pedido:
+            d["recortada"] = True
         if papel:
             d.update(papel=True, monto_papel=d["monto"], monto=0)
             if d["monto_papel"] > 0:
@@ -401,7 +408,8 @@ def cmd_parlays(a) -> None:
                 guardar.append({"clave": "|".join(sorted(f"{q['pronostico']}:{q['mercado']}:{q['seleccion']}" for q in patas)),
                                 "tipo": "parlay", "categoria": cat, "patas": patas, "cuota": round(par.cuota, 4),
                                 "cuota_americana": C.formato_americano(par.cuota), "prob": round(par.prob, 4),
-                                "monto": d["monto_papel"], "creado": R.ahora().isoformat(), "estado": "pendiente"})
+                                "monto": d["monto_papel"], "recortada": d["monto_papel"] < pedido,
+                                "creado": R.ahora().isoformat(), "estado": "pendiente"})
             else:
                 d["motivo"] = "límite del día alcanzado"
         elif not c:

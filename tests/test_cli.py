@@ -623,7 +623,8 @@ def test_fuerte_gana_sobre_valor_y_sin_cupo_pasa_a_valor(papel, capsys):
     r1, r2 = _salida(capsys)["evaluacion"]
     # la de mayor probabilidad se lleva el cupo de fuerte (para ganar 500); la otra queda como valor
     assert (r2["categoria"], r2["con_valor"], r2["monto_papel"]) == ("sencilla_fuerte", True, 600)
-    assert r1["categoria"] == "valor" and r1["monto_papel"] == 400  # 1,000 − 600: recortada
+    assert r1["categoria"] == "valor" and r1["monto_papel"] == 400 and r1["recortada"] is True  # 1,000 − 600
+    assert "recortada" not in r2
     x = {y["mercado"]: y for y in R.buscar_pronostico(a["id"])["apuestas_papel"]}
     assert x["goles"]["categoria"] == "sencilla_fuerte" and x["goles"]["con_valor"] is True
 
@@ -660,7 +661,10 @@ def test_limite_del_dia_entre_categorias(papel, capsys):
     papel.main(["parlays"])
     out = _salida(capsys)["parlays_papel"]
     assert [x["monto_papel"] for x in out] == [200, 0]  # quedan 200 de 1,000; la segunda no se hace
-    assert len(R.parlays_papel()) == 1
+    assert out[0]["recortada"] is True
+    (par,) = R.parlays_papel()
+    assert par["recortada"] is True
+    assert R.resumen_papel()["combinada"]["recortadas"] == 1
     assert R.apostado_papel_hoy() == 1000
 
 
@@ -712,3 +716,18 @@ def test_pausa_bloquea_categorias(cli, capsys):
     cli.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-160"])
     (r,) = _salida(capsys)["evaluacion"]
     assert r["apostar"] is False and r["sirve_para_combinada"] is False and r["motivo"] == "pausa"
+
+
+def test_real_fuerte_con_valor_cuenta_como_valor(cli, capsys, monkeypatch):
+    R = cli.R
+    a = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta"), ("goles", "mas_2.5", 0.64, "alta")])
+    cli.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-120", "--winpot", "goles:mas_2.5=-120"])
+    r1, r2 = _salida(capsys)["evaluacion"]
+    # fuerte no está aprobada con dinero real: con valor -> valor, y no gasta el cupo de fuerte
+    assert all(r["categoria"] == "valor" and r["apostar"] is True and r["con_valor"] for r in (r1, r2))
+    # si Salva aprueba la categoría, sí se usa (una por día, para ganar 500)
+    monkeypatch.setattr(cli.B, "CATEGORIAS_DINERO_REAL", {"valor", "sencilla_fuerte"})
+    cli.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-120", "--winpot", "goles:mas_2.5=-120"])
+    r1, r2 = _salida(capsys)["evaluacion"]
+    assert (r2["categoria"], r2["apostar"], r2["monto_sencilla"]) == ("sencilla_fuerte", True, 600)
+    assert r1["categoria"] == "valor" and r1["monto_sencilla"] == 400 and r1["recortada"] is True

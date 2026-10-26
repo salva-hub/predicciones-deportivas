@@ -198,6 +198,7 @@ def resumen_papel() -> dict:
             "apostado": round(apostado, 2), "ganancia": round(gan, 2),
             "roi": round(gan / apostado, 4) if apostado else None,
             "peor_racha": _peor_racha([x["estado"] for x in liq]),
+            "recortadas": sum(bool(x.get("recortada")) for x in grupo),  # monto bajado por el límite del día
         }
     return out
 

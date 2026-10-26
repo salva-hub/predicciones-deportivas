@@ -192,6 +192,8 @@ por categoría": apuestas, acierto, ganancia, ROI y peor racha). "Precio justo" 
 Una sencilla que cumple sencilla fuerte cuenta como **sencilla fuerte aunque tenga valor** (se apuesta para ganar el
 objetivo); queda marcada `con_valor: true` para analizarla aparte. Valor cubre el resto (cuotas positivas, probabilidad
 menor a 60%, confianza baja). Si ya se usó la sencilla fuerte del día y la selección tiene valor, pasa a valor.
+Con dinero real, mientras sencilla fuerte no esté en `CATEGORIAS_DINERO_REAL`, una selección con valor cuenta como valor.
+Una apuesta cuyo monto bajó por el límite del día queda marcada `recortada: true` (el resumen cuenta cuántas por categoría).
 Un parlay idéntico a uno de valor no se repite como combinada. Los máximos cuentan por día de Sonora en que se evalúa.
 
 ## Resultados del backtest (26-oct-2026)

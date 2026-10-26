@@ -166,7 +166,7 @@ function agrupar(lista, clave) {
   tabla(document.getElementById("papel-categorias"), [
     ["Categoría", f => nombres[f.k] || f.k], ["Apuestas", f => f.apuestas], ["Liquidadas", f => f.liquidadas],
     ["Acierto", f => PCT(f.acierto)], ["Ganancia", f => MXN(f.ganancia), f => clase(f.ganancia)],
-    ["ROI", f => PCT(f.roi), f => clase(f.roi)], ["Peor racha", f => f.peor_racha + " perdidas"],
+    ["ROI", f => PCT(f.roi), f => clase(f.roi)], ["Peor racha", f => f.peor_racha + " perdidas"], ["Recortadas", f => f.recortadas ?? 0],
   ], Object.entries(resumenPapel).filter(([, v]) => v.apuestas).map(([k, v]) => ({k, ...v})));
 
   tabla(document.getElementById("apuestas"), [
