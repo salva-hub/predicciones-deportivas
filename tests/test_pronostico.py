@@ -54,10 +54,13 @@ def test_anclaje_reproduce_pinnacle_1x2(liga_sintetica):
         assert g[k] == pytest.approx(q, abs=0.01)
     assert any("Base: Pinnacle sin margen" in n for n in p.notas)
     assert p.prob_modelo["ganador"]["1"] > g["1"] + 0.1  # el modelo queda como referencia
-    # mercados coherentes: doble oportunidad y hándicap 0 salen de la misma matriz
     assert p.probabilidades["doble_oportunidad"]["1X"] == pytest.approx(g["1"] + g["X"])
-    hc = p.probabilidades["handicap"]
-    assert hc["local_+0"] == pytest.approx(g["1"])
+    # sin línea de goles: el total queda en el del modelo y bajan los mercados que dependen de él
+    assert any("Sin línea de goles de Pinnacle" in n for n in p.notas)
+    assert sum(p.goles_esperados) == pytest.approx(sum(_mu_modelo(p)), rel=0.08)
+    assert {"goles", "ambos_anotan", "goles_equipo", "primer_tiempo", "handicap"} <= p.menos_confianza
+    assert "ganador" not in p.menos_confianza
+    assert _conf(p, "goles", "mas_2.5") != "alta"
 
 
 def test_anclaje_con_mas_menos_25(liga_sintetica):
@@ -66,8 +69,44 @@ def test_anclaje_con_mas_menos_25(liga_sintetica):
     pin = {**_pin(0.45, 0.27, 0.28), "mas_2.5": 1 / (0.40 * 1.04), "menos_2.5": 1 / (0.60 * 1.04)}
     p = pronosticar(modelos, "Equipo 6", "Equipo 5", cuotas_pinnacle=pin, confianza_datos="alta")
     pm = C.quitar_margen([pin["mas_2.5"], pin["menos_2.5"]])[0]
-    assert p.probabilidades["goles"]["mas_2.5"] == pytest.approx(pm, abs=0.015)
+    assert p.probabilidades["goles"]["mas_2.5"] == pytest.approx(pm, abs=0.01)
     assert p.probabilidades["ganador"]["1"] == pytest.approx(0.45, abs=0.015)
+    # con 1X2 y línea la matriz cuadra: hándicap 0 coincide con el ganador
+    assert p.probabilidades["handicap"]["local_+0"] == pytest.approx(p.probabilidades["ganador"]["1"], abs=0.005)
+    assert not any("no cuadra" in n for n in p.notas)
+
+
+def _mu_modelo(p):
+    nota = next(n for n in p.notas if n.startswith("Goles esperados del modelo solo"))
+    return [float(x) for x in nota.split(": ")[1].split(" – ")]
+
+
+def test_solo_1x2_gran_favorito_no_infla_goles(liga_sintetica):
+    modelos = ajustar_modelos(liga_sintetica)
+    for c in ((1.25, 6.5, 12), (1.10, 11, 26)):
+        pin = dict(zip(("1", "X", "2"), c))
+        p = pronosticar(modelos, "Equipo 11", "Equipo 0", cuotas_pinnacle=pin, confianza_datos="alta")
+        assert sum(p.goles_esperados) == pytest.approx(sum(_mu_modelo(p)), rel=0.12)
+        assert sum(p.goles_esperados) < 4.0
+
+
+def test_favorito_extremo_error_relativo_en_no_favorito(liga_sintetica):
+    from predicciones import cuotas as C
+    modelos = ajustar_modelos(liga_sintetica)
+    pin = {"1": 1.05, "X": 17, "2": 41, "mas_2.5": 1.3, "menos_2.5": 3.6}
+    justo = C.quitar_margen([1.05, 17, 41])
+    p = pronosticar(modelos, "Equipo 11", "Equipo 0", cuotas_pinnacle=pin, confianza_datos="alta")
+    assert p.probabilidades["ganador"]["2"] == pytest.approx(justo[2], rel=0.05)  # ~0.015, no 0.022
+    assert p.prob_mercado["handicap"]["visitante_+0"] == pytest.approx(justo[2], rel=0.15)
+
+
+def test_cuotas_contradictorias_bajan_confianza(liga_sintetica):
+    modelos = ajustar_modelos(liga_sintetica)
+    # empate muy probable con más de 2.5 muy probable: no cuadra en ninguna matriz razonable
+    pin = {"1": 2.1, "X": 2.6, "2": 4.0, "mas_2.5": 1.3, "menos_2.5": 3.6}
+    p = pronosticar(modelos, "Equipo 6", "Equipo 5", cuotas_pinnacle=pin, confianza_datos="alta")
+    assert any("no cuadra" in n for n in p.notas)
+    assert p.confianza_base == "media"
 
 
 def test_ajustes_mueven_el_anclaje(liga_sintetica):
@@ -145,7 +184,7 @@ def test_desacuerdo_con_pinnacle_baja_mercados_relacionados(liga_sintetica):
     assert _conf(p, "handicap", "local_-1.5") == "alta"
     # Pinnacle ve favorito al visitante y pocos goles: discrepan mucho
     contrario = {"1": C.americana_a_decimal(+400), "X": C.americana_a_decimal(+300), "2": C.americana_a_decimal(-150),
-                 "mas_2.5": C.americana_a_decimal(+250), "menos_2.5": C.americana_a_decimal(-320)}
+                 "mas_2.5": C.americana_a_decimal(+150), "menos_2.5": C.americana_a_decimal(-180)}
     p = pronosticar(modelos, "Equipo 11", "Equipo 0", cuotas_pinnacle=contrario, confianza_datos="alta")
     assert p.desacuerdos == {"1x2", "goles_2.5"}
     assert _conf(p, "handicap", "local_-1.5") == "media"

@@ -106,8 +106,26 @@ def ajustar_modelo_goles(
 
 # ---------------------------------------------------------------- anclaje al mercado
 
-TIRON_MODELO = 0.02  # tirón débil (escala log) hacia los goles del modelo
+TIRON_MODELO = 0.02        # tirón débil (escala log) hacia el reparto y la rho del modelo
+TIRON_TOTAL_SIN_LINEA = 3.0  # sin más/menos 2.5 el total casi no se mueve del modelo
 LIMITE_RHO = 0.3
+ERROR_MAXIMO = 0.01        # error de ajuste tolerado en probabilidad
+
+
+@dataclass
+class Anclaje:
+    mu_l: float
+    mu_v: float
+    rho: float
+    error: float = 0.0          # mayor diferencia (en probabilidad) contra Pinnacle
+    rho_en_limite: bool = False  # cuotas contradictorias: rho topó con su límite
+    con_linea: bool = True       # hubo más/menos 2.5 de Pinnacle
+
+    @property
+    def impreciso(self) -> bool:
+        """Sin línea de goles el 1X2 no cuadra exacto a propósito (el total queda
+        cerca del modelo); eso ya baja la confianza por otro lado."""
+        return (self.con_linea and self.error > ERROR_MAXIMO) or self.rho_en_limite
 
 
 def anclar_a_mercado(
@@ -115,37 +133,44 @@ def anclar_a_mercado(
     rho: float,
     p_1x2: tuple[float, float, float] | None = None,
     p_mas_25: float | None = None,
-) -> tuple[float, float, float]:
+) -> Anclaje:
     """Goles esperados (local, visitante) y rho que reproducen las probabilidades de Pinnacle.
 
-    Busca, por mínimos cuadrados sobre las probabilidades, los mu cuya matriz de
-    Dixon-Coles da el 1X2 y el más de 2.5 sin margen de Pinnacle. Con los dos
-    mercados también se ajusta rho (cuánto pesan los marcadores bajos), porque
-    con solo dos mu el empate no siempre cuadra. Un tirón débil hacia el modelo
-    (total, reparto y rho) resuelve lo que el mercado no fija: con solo 1X2 el
-    total sale casi del empate; con solo más/menos 2.5, el reparto es el del modelo.
-    Devuelve (mu_local, mu_visitante, rho).
+    Mínimos cuadrados en escala log (error relativo, para que un 1.5% de un
+    no favorito pese como debe) sobre el 1X2 y el más/menos 2.5 sin margen.
+    Con los dos mercados también se ajusta rho, porque con solo dos mu el empate
+    no siempre cuadra. Sin más/menos 2.5 el total de goles se queda casi en el
+    del modelo (el 1X2 de un gran favorito no dice cuántos goles habrá); sin 1X2,
+    el reparto es el del modelo. Devuelve también el error del ajuste.
     """
     ml, mv = max(mu_modelo[0], 0.05), max(mu_modelo[1], 0.05)
     if p_1x2 is None and p_mas_25 is None:
-        return ml, mv, rho
+        return Anclaje(ml, mv, rho)
     log_tot, log_rep = np.log(ml + mv), np.log(ml / mv)
     libre_rho = p_1x2 is not None and p_mas_25 is not None
+    tiron_total = TIRON_MODELO if p_mas_25 is not None else TIRON_TOTAL_SIN_LINEA
+    objetivo = list(p_1x2 or []) + ([p_mas_25, 1 - p_mas_25] if p_mas_25 is not None else [])
+    log_obj = np.log(np.clip(objetivo, 1e-6, None))
     g = np.arange(MAX_GOLES + 1)
     total = g[:, None] + g[None, :]
 
+    def probs(x):
+        a, b = np.exp(x[:2])
+        m = matriz_marcadores(a, b, x[2] if libre_rho else rho)
+        q = []
+        if p_1x2 is not None:
+            q += [np.tril(m, -1).sum(), np.trace(m), np.triu(m, 1).sum()]
+        if p_mas_25 is not None:
+            mas = m[total > 2.5].sum()
+            q += [mas, 1 - mas]
+        return np.array(q)
+
     def residuos(x):
         a, b = np.exp(x[:2])
-        r_ = x[2] if libre_rho else rho
-        m = matriz_marcadores(a, b, r_)
-        r = []
-        if p_1x2 is not None:
-            r += [np.tril(m, -1).sum() - p_1x2[0], np.trace(m) - p_1x2[1], np.triu(m, 1).sum() - p_1x2[2]]
-        if p_mas_25 is not None:
-            r.append(m[total > 2.5].sum() - p_mas_25)
-        r += [TIRON_MODELO * (np.log(a + b) - log_tot), TIRON_MODELO * (np.log(a / b) - log_rep)]
+        r = list(np.log(np.clip(probs(x), 1e-9, None)) - log_obj)
+        r += [tiron_total * (np.log(a + b) - log_tot), TIRON_MODELO * (np.log(a / b) - log_rep)]
         if libre_rho:
-            r.append(TIRON_MODELO * (r_ - rho))
+            r.append(TIRON_MODELO * (x[2] - rho))
         return np.array(r)
 
     x0 = [np.log(ml), np.log(mv)] + ([float(np.clip(rho, -LIMITE_RHO, LIMITE_RHO))] if libre_rho else [])
@@ -153,7 +178,10 @@ def anclar_a_mercado(
     hi = [np.log(8.0)] * 2 + ([LIMITE_RHO] if libre_rho else [])
     res = least_squares(residuos, x0, bounds=(lo, hi))
     a, b = np.exp(res.x[:2])
-    return float(a), float(b), float(res.x[2]) if libre_rho else rho
+    r_fin = float(res.x[2]) if libre_rho else rho
+    error = float(np.max(np.abs(probs(res.x) - np.array(objetivo))))
+    en_limite = libre_rho and abs(r_fin) > LIMITE_RHO - 1e-3
+    return Anclaje(float(a), float(b), r_fin, error, en_limite, con_linea=p_mas_25 is not None)
 
 
 def mezclar_goles(modelo: tuple[float, float], mercado: tuple[float, float], peso_modelo: float) -> tuple[float, float]:

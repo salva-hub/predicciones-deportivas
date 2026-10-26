@@ -91,10 +91,11 @@ function agrupar(lista, clave) {
 }
 
 (async () => {
-  const [bank, apuestas, pronos] = await Promise.all([
+  const [bank, apuestas, pronos, parlaysPapel] = await Promise.all([
     leer("registro/bank.json", {bank_inicial: 10000, movimientos: []}),
     leer("registro/apuestas.json", []),
     leer("registro/pronosticos.json", []),
+    leer("registro/papel.json", []),
   ]);
   document.getElementById("actualizado").textContent =
     `Bank inicial ${MXN(bank.bank_inicial)} · ${pronos.length} pronósticos · ${apuestas.length} apuestas · actualizado ${new Date().toLocaleString("es-MX", {timeZone: "America/Hermosillo"})} (hora de Sonora)`;
@@ -123,6 +124,8 @@ function agrupar(lista, clave) {
   for (const p of pronos) for (const x of (p.apuestas_papel || []))
     papel.push({partido: p.partido, liga: p.liga, mercado: x.mercado, seleccion: x.seleccion, cuota: x.cuota_americana || americana(x.cuota),
                 monto: x.monto || 0, estado: x.estado || "pendiente", ganancia: x.ganancia || 0});
+  for (const x of parlaysPapel)
+    papel.push({mercado: "parlay", monto: x.monto || 0, estado: x.estado || "pendiente", ganancia: x.ganancia || 0});
   const rp = resumen(papel);
   const kpis = [
     ["Bank actual", MXN(saldo), clase(saldo - bank.bank_inicial)],

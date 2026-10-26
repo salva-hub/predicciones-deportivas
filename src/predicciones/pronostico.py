@@ -79,6 +79,8 @@ class Pronostico:
     desacuerdos: set[str] = field(default_factory=set)
     # probabilidades ancladas solo a Pinnacle (con ajustes), para comparar con el modelo
     prob_mercado: dict[str, dict[str, float]] = field(default_factory=dict)
+    # mercados con un nivel menos de confianza (p. ej. sin línea de goles de Pinnacle)
+    menos_confianza: set[str] = field(default_factory=set)
 
     def selecciones(self, confianza: str | None = None) -> list[V.Seleccion]:
         conf = confianza or self.confianza_base
@@ -91,7 +93,7 @@ class Pronostico:
                     continue
                 if prob <= 0.01 or prob >= 0.99:
                     continue
-                c = conf
+                c = V.bajar(conf) if mercado in self.menos_confianza else conf
                 pm = self.prob_modelo.get(mercado, {}).get(nombre)
                 pa = self.prob_mercado.get(mercado, {}).get(nombre)
                 if pm is not None and pa is not None and abs(pm - pa) > V.DESACUERDO_FUERTE:
@@ -158,6 +160,20 @@ def _mercados_goles(mu_l: float, mu_v: float, rho: float) -> tuple[dict[str, dic
     return out, devoluciones, m
 
 
+MERCADOS_DE_TOTAL = {"goles", "ambos_anotan", "goles_equipo", "primer_tiempo", "handicap"}
+
+
+def _doble(g: dict[str, float]) -> dict[str, float]:
+    return {"1X": g["1"] + g["X"], "12": g["1"] + g["2"], "X2": g["X"] + g["2"]}
+
+
+def _ganador_pinnacle(p_1x2, con_aj: dict[str, float], sin_aj: dict[str, float]) -> dict[str, float]:
+    """1X2 de Pinnacle sin margen, movido por los ajustes en la proporción con_aj / sin_aj."""
+    crudo = {k: p * con_aj[k] / max(sin_aj[k], 1e-12) for k, p in zip(("1", "X", "2"), p_1x2)}
+    total = sum(crudo.values())
+    return {k: x / total for k, x in crudo.items()}
+
+
 def _pinnacle_sin_margen(cuotas_pinnacle: dict[str, float] | None) -> tuple[tuple | None, float | None]:
     if not cuotas_pinnacle:
         return None, None
@@ -211,6 +227,7 @@ def pronosticar(
 
     p_1x2, p_mas = _pinnacle_sin_margen(cuotas_pinnacle)
     desacuerdos: set[str] = set()
+    menos_confianza: set[str] = set()
     prob_mercado: dict[str, dict[str, float]] = {}
     if p_1x2 is None and p_mas is None:
         mu_l, mu_v = mod_l, mod_v
@@ -218,12 +235,28 @@ def pronosticar(
         notas.append("Sin Pinnacle: solo el modelo, menos confianza")
         confianza_datos = V.bajar(confianza_datos)
     else:
-        anc_l, anc_v, rho_anc = anclar_a_mercado((mod_l, mod_v), rho, p_1x2, p_mas)
-        prob_mercado, _, _ = _mercados_goles(anc_l * f_l, anc_v * f_v, rho_anc)
-        mu_l, mu_v = mezclar_goles((mod_l, mod_v), (anc_l, anc_v), peso_modelo) if peso_modelo > 0 else (anc_l, anc_v)
+        anc = anclar_a_mercado((mod_l, mod_v), rho, p_1x2, p_mas)
+        prob_mercado, _, _ = _mercados_goles(anc.mu_l * f_l, anc.mu_v * f_v, anc.rho)
+        if p_1x2:
+            # el 1X2 sale directo de Pinnacle; los ajustes lo mueven en la misma proporción que a la matriz
+            sin_aj, _, _ = _mercados_goles(anc.mu_l, anc.mu_v, anc.rho)
+            prob_mercado["ganador"] = _ganador_pinnacle(p_1x2, prob_mercado["ganador"], sin_aj["ganador"])
+            prob_mercado["doble_oportunidad"] = _doble(prob_mercado["ganador"])
+        mu_l, mu_v = mezclar_goles((mod_l, mod_v), (anc.mu_l, anc.mu_v), peso_modelo) if peso_modelo > 0 else (anc.mu_l, anc.mu_v)
         w = min(max(peso_modelo, 0.0), 1.0)
-        rho = w * rho + (1 - w) * rho_anc
+        rho = w * rho + (1 - w) * anc.rho
         finales, devoluciones, m = _mercados_goles(mu_l * f_l, mu_v * f_v, rho)
+        if p_1x2 and w == 0:
+            finales["ganador"] = dict(prob_mercado["ganador"])
+            finales["doble_oportunidad"] = dict(prob_mercado["doble_oportunidad"])
+        if anc.impreciso:
+            motivo = "rho en su límite, cuotas contradictorias" if anc.rho_en_limite else f"error {anc.error:.3f}"
+            notas.append(f"El ajuste a Pinnacle no cuadra bien ({motivo}): revisa las cuotas; menos confianza")
+            confianza_datos = V.bajar(confianza_datos)
+        if p_1x2 and p_mas is None:
+            notas.append("Sin línea de goles de Pinnacle: el total sale del modelo; menos confianza en goles, "
+                         "ambos anotan, goles por equipo, primer tiempo y hándicap")
+            menos_confianza |= MERCADOS_DE_TOTAL
         if peso_modelo > 0:
             notas.append(f"Base: Pinnacle sin margen, mezclado con el modelo (peso del modelo {round(peso_modelo * 100)}%)")
         else:
@@ -231,10 +264,11 @@ def pronosticar(
         notas.append(f"Goles esperados del modelo solo: {mod_l * f_l:.2f} – {mod_v * f_v:.2f}")
         if not p_1x2:
             notas.append("Pinnacle sin 1X2: el reparto de goles sale del modelo")
-        # desacuerdo: modelo contra Pinnacle sin margen, directamente
-        if p_1x2 and max(abs(modelo["ganador"][k] - p) for k, p in zip(("1", "X", "2"), p_1x2)) > V.DESACUERDO_FUERTE:
+        # desacuerdo: modelo (sin ajustes, igual que Pinnacle) contra Pinnacle sin margen
+        crudo, _, _ = _mercados_goles(mod_l, mod_v, modelos.goles.rho)
+        if p_1x2 and max(abs(crudo["ganador"][k] - p) for k, p in zip(("1", "X", "2"), p_1x2)) > V.DESACUERDO_FUERTE:
             desacuerdos.add("1x2")
-        if p_mas is not None and abs(modelo["goles"]["mas_2.5"] - p_mas) > V.DESACUERDO_FUERTE:
+        if p_mas is not None and abs(crudo["goles"]["mas_2.5"] - p_mas) > V.DESACUERDO_FUERTE:
             desacuerdos.add("goles_2.5")
     mu_l, mu_v = mu_l * f_l, mu_v * f_v
     if m is None:
@@ -262,5 +296,5 @@ def pronosticar(
         goles_esperados=(round(mu_l, 2), round(mu_v, 2)),
         probabilidades=finales, prob_modelo=modelo, devoluciones=devoluciones,
         marcadores=marcador_mas_probable(m), notas=notas, confianza_base=confianza_datos,
-        desacuerdos=desacuerdos, prob_mercado=prob_mercado,
+        desacuerdos=desacuerdos, prob_mercado=prob_mercado, menos_confianza=menos_confianza,
     )

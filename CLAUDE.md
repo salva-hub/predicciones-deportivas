@@ -62,18 +62,22 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    | Baja del portero titular | goles del rival ×1.05 a ×1.08 |
    | Baja de 1 o 2 defensas titulares | goles del rival ×1.03 a ×1.06 |
    | Menos de 3 días de descanso o rotación anunciada | goles del equipo ×0.97 |
-   | Local a 2,000 m o más contra visitante de menos de 1,000 m (Toluca, Pachuca, CDMX, Puebla, La Paz, Quito, Bogotá) | goles_local ×1.05 y goles_visitante ×0.95 |
+   | Local a 2,000 m o más contra visitante de menos de 1,000 m (Toluca, Pachuca, CDMX, Puebla, La Paz, Quito, Bogotá) — **solo sin Pinnacle** | goles_local ×1.05 y goles_visitante ×0.95 |
    | Clásico o rivalidad fuerte | tarjetas ×1.10 |
    | Partido decisivo (final, eliminación, descenso) | tarjetas ×1.05 |
    | Equipo sin nada en juego | goles del equipo ×0.95 |
 
    Objetivos válidos: `goles_local`, `goles_visitante`, `corners`, `tarjetas`.
-   El clima (lluvia fuerte, viento, calor) se ajusta solo; el factor del árbitro se calcula con `--arbitro-prom` y `--arbitro-partidos`.
+   El clima (lluvia fuerte, viento, calor) se ajusta solo **y solo sin Pinnacle** (con Pinnacle ya está en el precio;
+   el programa lo anota). La altitud tampoco se ajusta con Pinnacle. El factor del árbitro se calcula con `--arbitro-prom` y `--arbitro-partidos`.
 
 4. **Elige la confianza de los datos** (`--confianza`): `alta` si la alineación está confirmada o es muy probable y se conoce al árbitro;
    `media` si falta uno de los dos; `baja` si faltan varios datos. El programa baja un nivel más en Liga MX, MLS,
    Brasil, Argentina, Libertadores y Concacaf (menos datos), en equipos sin historial, **sin cuotas de Pinnacle**
-   (solo el modelo) y cuando el modelo y Pinnacle sin margen discrepan mucho (8 puntos o más).
+   (solo el modelo) y cuando el modelo y Pinnacle sin margen discrepan mucho (más de 8 puntos).
+   Con Pinnacle también baja un nivel: sin línea de goles de Pinnacle (solo 1X2), en goles, ambos anotan, goles por
+   equipo, primer tiempo y hándicap ("Sin línea de goles de Pinnacle"); y si las cuotas no cuadran entre sí
+   ("El ajuste a Pinnacle no cuadra bien"): revisa que estén bien copiadas.
 
 5. **Calcula y guarda el pronóstico:**
    ```bash
@@ -108,7 +112,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    `python -m predicciones.cli evaluar --id <id> --winpot "goles:mas_2.5=-130" --winpot "tarjetas:mas_4.5=-133"`
    Recomienda solo lo que salga con `apostar: true`, con el monto calculado. Para la jornada, arma parlays con
    `python -m predicciones.cli parlays --fecha hoy`.
-   Respeta el `disponible_hoy` de `python -m predicciones.cli bank`.
+   Respeta el `disponible_hoy` de `python -m predicciones.cli bank` (en la prueba en papel ya descuenta lo
+   "apostado" en papel hoy; `evaluar` y `parlays` también lo respetan entre varias selecciones).
    **Prueba en papel hasta el 26-nov-2026 (inclusive):** `evaluar` devuelve `apostar: false` siempre y marca con
    `apostar_papel: true` (y `monto_papel`) lo que habría pasado; lo guarda en `apuestas_papel` del pronóstico y
    GitHub Actions lo califica. `parlays` los lista como `parlays_papel`. Dile a Salva: "Prueba en papel hasta
@@ -132,9 +137,10 @@ GitHub Actions califica todo automáticamente cada 3 horas y actualiza el dashbo
 
 ## Reglas de valor (revisadas el 26-oct-2026 tras el backtest)
 
-- **Base: Pinnacle sin margen.** El programa busca los goles esperados que reproducen el 1X2 (y el más/menos 2.5)
-  de Pinnacle y de esa matriz saca todos los mercados de goles (ganador, doble oportunidad, totales, ambos anotan,
-  goles por equipo, hándicap, primer tiempo). Encima van solo los ajustes por noticias que el mercado no ha cobrado.
+- **Base: Pinnacle sin margen.** Ganador y doble oportunidad salen directo del 1X2 de Pinnacle sin margen. Para
+  los demás mercados de goles (totales, ambos anotan, goles por equipo, hándicap, primer tiempo) el programa busca
+  los goles esperados que reproducen ese 1X2 y el más/menos 2.5; sin línea de goles, el total sale del modelo.
+  Encima van solo los ajustes por noticias que el mercado no ha cobrado (también mueven el ganador).
   El modelo propio queda como referencia y para avisar de desacuerdos.
 - Solo se apuesta si Winpot paga más que ese precio justo, con estos mínimos de valor esperado:
 - Sencilla en ganador, doble oportunidad, goles, ambos anotan, hándicap: valor esperado ≥ 3%.
