@@ -27,7 +27,8 @@ from .modelos.goles import (
 
 LINEAS_CORNERS = (7.5, 8.5, 9.5, 10.5, 11.5)
 LINEAS_TARJETAS = (2.5, 3.5, 4.5, 5.5, 6.5)
-LINEAS_HANDICAP = (-1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5)
+# Sin ±0.5: duplican 1 / 1X / X2 / 2 y se saltarían la mezcla y la regla de doble oportunidad.
+LINEAS_HANDICAP = (-1.5, -1.0, 0.0, 1.0, 1.5)
 MIN_PARTIDOS_EQUIPO = 5.0
 
 
@@ -65,6 +66,8 @@ class Pronostico:
     marcadores: list[tuple[str, float]] = field(default_factory=list)
     notas: list[str] = field(default_factory=list)
     confianza_base: str = "media"
+    # mercados de referencia ("1x2", "goles_2.5") en que el modelo y Pinnacle discrepan mucho
+    desacuerdos: set[str] = field(default_factory=set)
 
     def selecciones(self, confianza: str | None = None) -> list[V.Seleccion]:
         conf = confianza or self.confianza_base
@@ -81,6 +84,8 @@ class Pronostico:
                 pm = self.prob_modelo.get(mercado, {}).get(nombre)
                 if pm is not None and abs(pm - prob) > V.DESACUERDO_FUERTE / 2:
                     c = V.bajar(c)  # modelo y mercado discrepan mucho
+                elif referencia_de(mercado, nombre) in self.desacuerdos:
+                    c = V.bajar(c)  # no mezclado, pero su mercado de referencia discrepa
                 out.append(V.Seleccion(
                     partido=self.partido, mercado=mercado, seleccion=nombre, prob=prob,
                     prob_devolucion=self.devoluciones.get(f"{mercado}:{nombre}", 0.0), confianza=c,
@@ -101,6 +106,21 @@ class Pronostico:
         return filas
 
 
+def referencia_de(mercado: str, seleccion: str) -> str | None:
+    """Mercado mezclado con Pinnacle del que depende una selección no mezclada.
+
+    Hándicap, goles por equipo y 1X2 del primer tiempo dependen del 1X2; las demás
+    líneas de goles, ambos anotan y totales del primer tiempo dependen de más/menos 2.5.
+    """
+    if mercado in ("handicap", "goles_equipo"):
+        return "1x2"
+    if mercado == "primer_tiempo":
+        return "1x2" if seleccion in ("pt_1", "pt_X", "pt_2") else "goles_2.5"
+    if mercado == "ambos_anotan" or (mercado == "goles" and seleccion not in ("mas_2.5", "menos_2.5")):
+        return "goles_2.5"
+    return None
+
+
 def _mezclar_mercado(probs: dict[str, float], mercado: dict[str, float] | None) -> dict[str, float]:
     if not mercado:
         return dict(probs)
@@ -115,8 +135,12 @@ def pronosticar(
     factor_arbitro: float = 1.0,
     cuotas_pinnacle: dict[str, float] | None = None,
     confianza_datos: str = "media",
+    neutral: bool = False,
 ) -> Pronostico:
-    """cuotas_pinnacle: cuotas decimales con claves "1","X","2","mas_2.5","menos_2.5"."""
+    """cuotas_pinnacle: cuotas decimales con claves "1","X","2","mas_2.5","menos_2.5".
+
+    neutral=True: cancha neutral, sin ventaja de local.
+    """
     aj = ajustes or Ajustes()
     notas: list[str] = []
     conocidos = modelos.goles.fuerzas.equipos
@@ -131,7 +155,9 @@ def pronosticar(
             notas.append(f"{nombre}: pocos partidos recientes ({n:.1f} ponderados)")
             confianza_datos = V.bajar(confianza_datos)
 
-    mu_l, mu_v = modelos.goles.esperados(l, v)
+    mu_l, mu_v = modelos.goles.esperados(l, v, neutral)
+    if neutral:
+        notas.append("Cancha neutral: sin ventaja de local")
     mu_l *= aj.factor("goles_local")
     mu_v *= aj.factor("goles_visitante")
     m = matriz_marcadores(mu_l, mu_v, modelos.goles.rho)
@@ -157,17 +183,18 @@ def pronosticar(
     modelo["handicap"] = hc
 
     if modelos.corners:
-        cl, cv = modelos.corners.esperados(l, v)
+        cl, cv = modelos.corners.esperados(l, v, neutral)
         tot = (cl + cv) * aj.factor("corners")
         modelo["corners"] = modelos.corners.mercados(tot, LINEAS_CORNERS)
         notas.append(f"Córners esperados: {tot:.1f}")
     if modelos.tarjetas:
-        tl, tv = modelos.tarjetas.esperados(l, v)
+        tl, tv = modelos.tarjetas.esperados(l, v, neutral)
         tot = (tl + tv) * factor_arbitro * aj.factor("tarjetas")
         modelo["tarjetas"] = modelos.tarjetas.mercados(tot, LINEAS_TARJETAS)
         notas.append(f"Tarjetas esperadas: {tot:.1f} (factor árbitro x{factor_arbitro:.2f})")
 
     finales = {k: dict(v_) for k, v_ in modelo.items()}
+    desacuerdos: set[str] = set()
     if cuotas_pinnacle:
         claves_1x2 = [cuotas_pinnacle.get(k) for k in ("1", "X", "2")]
         if all(claves_1x2):
@@ -177,11 +204,18 @@ def pronosticar(
             p1, px, p2 = (finales["ganador"][k] for k in ("1", "X", "2"))
             finales["doble_oportunidad"] = {"1X": p1 + px, "12": p1 + p2, "X2": px + p2}
             notas.append("Ganador mezclado 50/50 con Pinnacle sin margen")
+            if max(abs(modelo["ganador"][k] - finales["ganador"][k]) for k in ("1", "X", "2")) > V.DESACUERDO_FUERTE / 2:
+                desacuerdos.add("1x2")
         mas, menos = cuotas_pinnacle.get("mas_2.5"), cuotas_pinnacle.get("menos_2.5")
         if mas and menos:
             pm, pmn = C.quitar_margen([mas, menos])
             mezcla = V.mezclar(modelo["goles"]["mas_2.5"], pm)
             finales["goles"]["mas_2.5"], finales["goles"]["menos_2.5"] = mezcla, 1 - mezcla
+            if abs(modelo["goles"]["mas_2.5"] - mezcla) > V.DESACUERDO_FUERTE / 2:
+                desacuerdos.add("goles_2.5")
+    if desacuerdos:
+        notas.append("Modelo y Pinnacle discrepan mucho en " + ", ".join(sorted(desacuerdos))
+                     + ": baja la confianza de los mercados relacionados")
 
     notas.extend(aj.explicaciones())
     return Pronostico(
@@ -189,4 +223,5 @@ def pronosticar(
         goles_esperados=(round(mu_l, 2), round(mu_v, 2)),
         probabilidades=finales, prob_modelo=modelo, devoluciones=devoluciones,
         marcadores=marcador_mas_probable(m), notas=notas, confianza_base=confianza_datos,
+        desacuerdos=desacuerdos,
     )

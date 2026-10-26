@@ -27,12 +27,13 @@ class Fuerzas:
     ventaja_local: float
     partidos: dict[str, float] = field(default_factory=dict)
 
-    def esperados(self, local: str, visitante: str) -> tuple[float, float]:
+    def esperados(self, local: str, visitante: str, neutral: bool = False) -> tuple[float, float]:
+        """neutral=True quita la ventaja de local (cancha neutral)."""
         al = self.ataque.get(local, 0.0)
         dl = self.defensa.get(local, 0.0)
         av = self.ataque.get(visitante, 0.0)
         dv = self.defensa.get(visitante, 0.0)
-        mu_l = math.exp(self.constante + self.ventaja_local + al + dv)
+        mu_l = math.exp(self.constante + (0.0 if neutral else self.ventaja_local) + al + dv)
         mu_v = math.exp(self.constante + av + dl)
         return mu_l, mu_v
 

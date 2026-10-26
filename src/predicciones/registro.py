@@ -1,23 +1,29 @@
 """Estado persistente del sistema, guardado en el repositorio (carpeta registro/).
 
 Nada depende del historial de chats: cualquier sesión nueva lee estos archivos.
-- pronosticos.json : cada pronóstico emitido, con sus probabilidades y resultado.
-- apuestas.json    : apuestas reales confirmadas por Salva (monto, cuota, resultado).
-- bank.json        : bank inicial y movimientos (retiros / depósitos).
+- pronosticos/<id>.json : un archivo por pronóstico (probabilidades y resultado).
+- apuestas/<id>.json    : un archivo por apuesta real confirmada por Salva.
+- bank.json             : bank inicial y movimientos (retiros / depósitos).
+
+Un archivo por registro evita conflictos de git cuando el chat y GitHub Actions
+escriben al mismo tiempo.
 """
 from __future__ import annotations
 
 import json
+import os
+import re
 import uuid
 from datetime import datetime
 from pathlib import Path
 
+from . import bank as B
 from .datos.espn import SONORA
-
-import os
 
 RAIZ = Path(os.environ.get("PRED_RAIZ", Path(__file__).resolve().parents[2]))
 CARPETA = RAIZ / "registro"
+LIQUIDADAS = ("ganada", "perdida", "devuelta")
+_ID_VALIDO = re.compile(r"^[A-Za-z0-9_-]+$")
 
 
 def _leer(nombre: str, defecto):
@@ -27,12 +33,29 @@ def _leer(nombre: str, defecto):
     return json.loads(ruta.read_text(encoding="utf-8"))
 
 
-def _escribir(nombre: str, datos) -> None:
-    CARPETA.mkdir(parents=True, exist_ok=True)
-    ruta = CARPETA / nombre
+def _escribir_ruta(ruta: Path, datos) -> None:
+    ruta.parent.mkdir(parents=True, exist_ok=True)
     tmp = ruta.with_suffix(".tmp")
     tmp.write_text(json.dumps(datos, ensure_ascii=False, indent=2, default=str) + "\n", encoding="utf-8")
     tmp.replace(ruta)
+
+
+def _escribir(nombre: str, datos) -> None:
+    _escribir_ruta(CARPETA / nombre, datos)
+
+
+def _ruta_item(carpeta: str, iid: str) -> Path:
+    if not _ID_VALIDO.match(iid or ""):
+        raise ValueError(f"id inválido: {iid!r}")
+    return CARPETA / carpeta / f"{iid}.json"
+
+
+def _listar(carpeta: str) -> list[dict]:
+    d = CARPETA / carpeta
+    if not d.is_dir():
+        return []
+    items = [json.loads(f.read_text(encoding="utf-8")) for f in d.glob("*.json")]
+    return sorted(items, key=lambda x: (str(x.get("creado", "")), x.get("id", "")))
 
 
 def ahora() -> datetime:
@@ -46,49 +69,62 @@ def nuevo_id(prefijo: str) -> str:
 # ---------------------------------------------------------------- pronósticos
 
 def pronosticos() -> list[dict]:
-    return _leer("pronosticos.json", [])
+    return _listar("pronosticos")
+
+
+def actualizar_pronostico(p: dict) -> None:
+    _escribir_ruta(_ruta_item("pronosticos", p["id"]), p)
 
 
 def guardar_pronosticos(lista: list[dict]) -> None:
-    _escribir("pronosticos.json", lista)
+    for p in lista:
+        actualizar_pronostico(p)
 
 
 def agregar_pronostico(p: dict) -> dict:
-    lista = pronosticos()
     p.setdefault("id", nuevo_id("P"))
     p.setdefault("creado", ahora().isoformat())
-    lista.append(p)
-    guardar_pronosticos(lista)
+    actualizar_pronostico(p)
     return p
 
 
 def buscar_pronostico(pid: str) -> dict | None:
-    return next((p for p in pronosticos() if p["id"] == pid), None)
-
-
-def actualizar_pronostico(p: dict) -> None:
-    lista = [x if x["id"] != p["id"] else p for x in pronosticos()]
-    guardar_pronosticos(lista)
+    try:
+        ruta = _ruta_item("pronosticos", pid)
+    except ValueError:
+        return None
+    return json.loads(ruta.read_text(encoding="utf-8")) if ruta.exists() else None
 
 
 # ---------------------------------------------------------------- apuestas
 
 def apuestas() -> list[dict]:
-    return _leer("apuestas.json", [])
+    return _listar("apuestas")
+
+
+def actualizar_apuesta(a: dict) -> None:
+    _escribir_ruta(_ruta_item("apuestas", a["id"]), a)
 
 
 def guardar_apuestas(lista: list[dict]) -> None:
-    _escribir("apuestas.json", lista)
+    for a in lista:
+        actualizar_apuesta(a)
 
 
 def agregar_apuesta(a: dict) -> dict:
-    lista = apuestas()
     a.setdefault("id", nuevo_id("A"))
     a.setdefault("creado", ahora().isoformat())
     a.setdefault("estado", "pendiente")
-    lista.append(a)
-    guardar_apuestas(lista)
+    actualizar_apuesta(a)
     return a
+
+
+def exportar(salida: str | Path) -> None:
+    """Junta todo en pronosticos.json, apuestas.json y bank.json (para el dashboard)."""
+    salida = Path(salida)
+    _escribir_ruta(salida / "pronosticos.json", pronosticos())
+    _escribir_ruta(salida / "apuestas.json", apuestas())
+    _escribir_ruta(salida / "bank.json", bank_config())
 
 
 # ---------------------------------------------------------------- bank
@@ -112,6 +148,10 @@ def _fecha_sonora(iso: str) -> datetime:
     return d.astimezone(SONORA) if d.tzinfo else d.replace(tzinfo=SONORA)
 
 
+def _liquidacion(a: dict) -> datetime:
+    return _fecha_sonora(a.get("liquidada") or a["creado"])
+
+
 def bank_actual(hasta: datetime | None = None) -> float:
     cfg = bank_config()
     total = float(cfg["bank_inicial"])
@@ -120,9 +160,8 @@ def bank_actual(hasta: datetime | None = None) -> float:
             continue
         total += m["monto"] if m["tipo"] == "deposito" else -m["monto"]
     for a in apuestas():
-        if a.get("estado") in ("ganada", "perdida", "devuelta"):
-            liquidada = a.get("liquidada") or a["creado"]
-            if hasta and _fecha_sonora(liquidada) >= hasta:
+        if a.get("estado") in LIQUIDADAS:
+            if hasta and _liquidacion(a) >= hasta:
                 continue
             total += a.get("ganancia", 0.0)
     return round(total, 2)
@@ -132,8 +171,7 @@ def ganancia_cobrada_hoy() -> float:
     hoy = ahora().date()
     return round(sum(
         a.get("ganancia", 0.0) for a in apuestas()
-        if a.get("estado") in ("ganada", "perdida", "devuelta")
-        and _fecha_sonora(a.get("liquidada") or a["creado"]).date() == hoy
+        if a.get("estado") in LIQUIDADAS and _liquidacion(a).date() == hoy
     ), 2)
 
 
@@ -142,7 +180,36 @@ def apostado_hoy_pendiente() -> float:
     return sum(a["monto"] for a in apuestas() if _fecha_sonora(a["creado"]).date() == hoy)
 
 
+def _inicio_mes() -> datetime:
+    return ahora().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+
+
 def bank_inicio_mes() -> float:
-    a = ahora()
-    inicio = a.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-    return bank_actual(hasta=inicio)
+    return bank_actual(hasta=_inicio_mes())
+
+
+def movimientos_mes() -> float:
+    """Depósitos menos retiros de este mes."""
+    inicio = _inicio_mes()
+    return round(sum(
+        (m["monto"] if m["tipo"] == "deposito" else -m["monto"])
+        for m in bank_config()["movimientos"] if _fecha_sonora(m["fecha"]) >= inicio
+    ), 2)
+
+
+def resultado_apuestas_mes() -> float:
+    """Ganancia neta de las apuestas liquidadas este mes (sin retiros ni depósitos)."""
+    inicio = _inicio_mes()
+    return round(sum(
+        a.get("ganancia", 0.0) for a in apuestas()
+        if a.get("estado") in LIQUIDADAS and _liquidacion(a) >= inicio
+    ), 2)
+
+
+def base_mes() -> float:
+    """Dinero puesto en juego este mes: bank al inicio + depósitos − retiros."""
+    return round(bank_inicio_mes() + movimientos_mes(), 2)
+
+
+def en_pausa() -> bool:
+    return B.en_pausa(resultado_apuestas_mes(), base_mes())

@@ -30,3 +30,12 @@ def liga_sintetica():
                 })
                 fecha += pd.Timedelta(hours=20)
     return pd.DataFrame(filas)
+
+
+@pytest.fixture
+def registro_tmp(tmp_path, monkeypatch):
+    """Registro vacío en una carpeta temporal (sin tocar el del repositorio)."""
+    import importlib
+    R = importlib.import_module("predicciones.registro")
+    monkeypatch.setattr(R, "CARPETA", tmp_path / "registro")
+    return R

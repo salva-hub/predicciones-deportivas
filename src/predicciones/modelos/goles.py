@@ -47,8 +47,8 @@ class ModeloGoles:
     fuerzas: Fuerzas
     rho: float
 
-    def esperados(self, local: str, visitante: str) -> tuple[float, float]:
-        return self.fuerzas.esperados(local, visitante)
+    def esperados(self, local: str, visitante: str, neutral: bool = False) -> tuple[float, float]:
+        return self.fuerzas.esperados(local, visitante, neutral)
 
     def matriz(self, local: str, visitante: str, mult_local: float = 1.0, mult_visitante: float = 1.0) -> np.ndarray:
         mu_l, mu_v = self.esperados(local, visitante)

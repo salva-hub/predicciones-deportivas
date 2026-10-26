@@ -25,8 +25,8 @@ class ModeloConteo:
     fuerzas: Fuerzas
     dispersion_k: float  # var = mu + mu^2 / k ; k grande -> Poisson
 
-    def esperados(self, local: str, visitante: str) -> tuple[float, float]:
-        return self.fuerzas.esperados(local, visitante)
+    def esperados(self, local: str, visitante: str, neutral: bool = False) -> tuple[float, float]:
+        return self.fuerzas.esperados(local, visitante, neutral)
 
     def prob_mas(self, mu_total: float, linea: float) -> float:
         """P(total > linea) para línea media (9.5, 4.5...)."""

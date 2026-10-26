@@ -43,3 +43,44 @@ def test_seleccion_handicap_con_devolucion():
     s = V.Seleccion("A vs B", "handicap", "local_-1", prob=0.45, prob_devolucion=0.2, cuota_ofrecida=2.0)
     assert s.ve() == pytest.approx(0.45 * 1 - 0.35)
     assert s.ve(s.cuota_minima()) == pytest.approx(s.ve_minimo)
+
+
+def test_sin_handicap_de_media_linea(liga_sintetica):
+    p = pronosticar(ajustar_modelos(liga_sintetica), "Equipo 11", "Equipo 0", confianza_datos="alta")
+    assert not any(k.endswith(("+0.5", "-0.5")) for k in p.probabilidades["handicap"])
+    assert "local_-1.5" in p.probabilidades["handicap"]
+
+
+def _conf(p, mercado, nombre):
+    return next(s.confianza for s in p.selecciones() if s.mercado == mercado and s.seleccion == nombre)
+
+
+def test_desacuerdo_con_pinnacle_baja_mercados_relacionados(liga_sintetica):
+    from predicciones import cuotas as C
+    modelos = ajustar_modelos(liga_sintetica)
+    base = pronosticar(modelos, "Equipo 11", "Equipo 0", confianza_datos="alta")
+    pm = base.prob_modelo
+    # Pinnacle de acuerdo con el modelo: no se baja nada
+    igual = {k: 1 / pm["ganador"][k] for k in ("1", "X", "2")}
+    igual.update({"mas_2.5": 1 / pm["goles"]["mas_2.5"], "menos_2.5": 1 / pm["goles"]["menos_2.5"]})
+    p = pronosticar(modelos, "Equipo 11", "Equipo 0", cuotas_pinnacle=igual, confianza_datos="alta")
+    assert not p.desacuerdos
+    assert _conf(p, "handicap", "local_-1.5") == "alta"
+    # Pinnacle ve favorito al visitante y pocos goles: discrepan mucho
+    contrario = {"1": C.americana_a_decimal(+400), "X": C.americana_a_decimal(+300), "2": C.americana_a_decimal(-150),
+                 "mas_2.5": C.americana_a_decimal(+250), "menos_2.5": C.americana_a_decimal(-320)}
+    p = pronosticar(modelos, "Equipo 11", "Equipo 0", cuotas_pinnacle=contrario, confianza_datos="alta")
+    assert p.desacuerdos == {"1x2", "goles_2.5"}
+    assert _conf(p, "handicap", "local_-1.5") == "media"
+    assert _conf(p, "goles_equipo", "local_mas_1.5") == "media"
+    assert _conf(p, "goles", "mas_3.5") == "media"
+    assert _conf(p, "ambos_anotan", "si") == "media"
+
+
+def test_cancha_neutral_quita_ventaja_local(liga_sintetica):
+    modelos = ajustar_modelos(liga_sintetica)
+    casa = pronosticar(modelos, "Equipo 5", "Equipo 6", confianza_datos="alta")
+    neutral = pronosticar(modelos, "Equipo 5", "Equipo 6", confianza_datos="alta", neutral=True)
+    assert neutral.goles_esperados[0] < casa.goles_esperados[0]
+    assert neutral.goles_esperados[1] == casa.goles_esperados[1]
+    assert any("neutral" in n for n in neutral.notas)

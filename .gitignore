@@ -26,3 +26,6 @@ cache/
 Thumbs.db
 .idea/
 .vscode/
+
+# Archivos temporales de escritura del registro
+registro/**/*.tmp

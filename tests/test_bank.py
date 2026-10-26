@@ -22,8 +22,11 @@ def test_limite_diario():
 
 
 def test_pausa():
-    assert B.en_pausa(5000, 10_000)
-    assert not B.en_pausa(5100, 10_000)
+    # (resultado de apuestas del mes, base del mes)
+    assert B.en_pausa(-5000, 10_000)
+    assert not B.en_pausa(-4900, 10_000)
+    assert not B.en_pausa(0, 4000)
+    assert not B.en_pausa(-100, 0)
 
 
 def test_ajustar_al_limite():

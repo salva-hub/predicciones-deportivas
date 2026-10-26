@@ -42,13 +42,24 @@ LIGAS = {
 SONORA = timezone(timedelta(hours=-7))  # Sonora no usa horario de verano
 
 
+ESTADOS_PRORROGA = {"STATUS_FINAL_AET", "STATUS_FINAL_PEN"}
+
+
+def _linea(c: dict, i: int) -> int | None:
+    try:
+        x = c["linescores"][i]
+        return int(float(x.get("value", x.get("displayValue"))))
+    except (KeyError, IndexError, TypeError, ValueError, AttributeError):
+        return None
+
+
 def _partido(ev: dict, liga: str) -> dict:
     comp = ev["competitions"][0]
     equipos = {c["homeAway"]: c for c in comp["competitors"]}
     venue = comp.get("venue") or {}
     direccion = venue.get("address") or {}
-    inicio = datetime.fromisoformat(ev["date"].replace("Z", "+00:00"))
-    estado = ev.get("status", {}).get("type", {})
+    inicio = datetime.fromisoformat((ev.get("date") or comp["date"]).replace("Z", "+00:00"))
+    estado = (ev.get("status") or comp.get("status") or {}).get("type", {})
 
     def goles(lado):
         try:
@@ -56,14 +67,22 @@ def _partido(ev: dict, liga: str) -> dict:
         except (TypeError, ValueError):
             return None
 
-    def goles_pt(lado):
-        try:
-            return int(float(equipos[lado]["linescores"][0]["value"]))
-        except (KeyError, IndexError, TypeError, ValueError):
-            return None
+    # el marcador de ESPN incluye la prórroga: para los mercados vale el de 90 minutos
+    prorroga = estado.get("name") in ESTADOS_PRORROGA or any(
+        len(equipos[l].get("linescores") or []) > 2 for l in ("home", "away"))
+    if prorroga:
+        g90 = {}
+        for lado in ("home", "away"):
+            a, b = _linea(equipos[lado], 0), _linea(equipos[lado], 1)
+            g90[lado] = None if a is None or b is None else a + b
+        gl, gv = g90["home"], g90["away"]
+        if gl is None or gv is None:
+            gl = gv = None
+    else:
+        gl, gv = goles("home"), goles("away")
 
-    return {
-        "espn_id": ev["id"],
+    out = {
+        "espn_id": str(ev["id"]),
         "liga": liga,
         "inicio_utc": inicio.isoformat(),
         "inicio_sonora": inicio.astimezone(SONORA).strftime("%Y-%m-%d %H:%M"),
@@ -73,11 +92,14 @@ def _partido(ev: dict, liga: str) -> dict:
         "ciudad": direccion.get("city"),
         "pais": direccion.get("country"),
         "terminado": bool(estado.get("completed")),
-        "goles_local": goles("home"),
-        "goles_visitante": goles("away"),
-        "goles_local_pt": goles_pt("home"),
-        "goles_visitante_pt": goles_pt("away"),
+        "goles_local": gl,
+        "goles_visitante": gv,
+        "goles_local_pt": _linea(equipos["home"], 0),
+        "goles_visitante_pt": _linea(equipos["away"], 0),
     }
+    if prorroga:
+        out["prorroga"] = True
+    return out
 
 
 def calendario(liga: str, dia: date | None = None, hasta: date | None = None) -> list[dict]:
@@ -92,6 +114,10 @@ def estadisticas(liga: str, espn_id: str) -> dict | None:
     """Córners, tarjetas y tiros de un partido terminado."""
     slug = LIGAS[liga]
     datos = obtener(f"{BASE}/{slug}/summary", {"event": espn_id}, horas_cache=2)
+    return _estadisticas(datos)
+
+
+def _estadisticas(datos: dict) -> dict | None:
     equipos = (datos.get("boxscore") or {}).get("teams") or []
     if len(equipos) != 2:
         return None
@@ -117,6 +143,37 @@ def estadisticas(liga: str, espn_id: str) -> dict | None:
     return out
 
 
+def resultado(liga: str, espn_id: str, inicio_utc: str | None = None) -> dict | None:
+    """Estado, marcador y estadísticas de un partido, leídos de summary?event=<id>.
+
+    Si summary no trae el encabezado, busca el partido en el calendario del día
+    anterior al siguiente (ESPN agrupa por fecha UTC).
+    """
+    slug = LIGAS[liga]
+    try:
+        datos = obtener(f"{BASE}/{slug}/summary", {"event": espn_id}, horas_cache=0.25)
+        comp = ((datos.get("header") or {}).get("competitions") or [None])[0]
+        if comp and len(comp.get("competitors") or []) == 2:
+            ev = {"id": espn_id, "date": comp.get("date"), "status": comp.get("status"), "competitions": [comp]}
+            p = _partido(ev, liga)
+            p.update(_estadisticas(datos) or {})
+            return p
+    except Exception:  # noqa: BLE001 - se intenta con el calendario
+        pass
+    if not inicio_utc:
+        return None
+    dia = datetime.fromisoformat(inicio_utc).date()
+    for p in calendario(liga, dia - timedelta(days=1), dia + timedelta(days=1)):
+        if p["espn_id"] == str(espn_id):
+            if p["terminado"]:
+                try:
+                    p.update(estadisticas(liga, espn_id) or {})
+                except Exception:  # noqa: BLE001 - sin córners/tarjetas
+                    pass
+            return p
+    return None
+
+
 def historial(liga: str, desde: date, hasta: date, con_estadisticas: bool = True) -> pd.DataFrame:
     """Historial de partidos terminados (para ligas que football-data no detalla)."""
     filas = []
@@ -127,7 +184,10 @@ def historial(liga: str, desde: date, hasta: date, con_estadisticas: bool = True
             if not p["terminado"]:
                 continue
             if con_estadisticas:
-                p.update(estadisticas(liga, p["espn_id"]) or {})
+                try:
+                    p.update(estadisticas(liga, p["espn_id"]) or {})
+                except Exception:  # noqa: BLE001 - un partido sin estadísticas no tumba la liga
+                    pass
             filas.append(p)
         inicio = fin + timedelta(days=1)
     df = pd.DataFrame(filas)

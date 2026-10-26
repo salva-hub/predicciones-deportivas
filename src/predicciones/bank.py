@@ -1,11 +1,14 @@
 """Reglas de montos aprobadas por Salva (26-oct-2026).
 
 Todos los montos son porcentajes del bank ACTUAL (si el bank sube, suben):
-- Sencilla: hasta 5% (500 MXN con 10,000). Menos si el valor es pequeño.
+- Sencilla: 5% como máximo (500 MXN con 10,000) con confianza alta y valor alto;
+  3% con valor normal; 2% con confianza baja.
 - Parlay: 3% con confianza alta, 2% con confianza media o baja.
 - Límite diario: 10% del bank; con ganancia neta cobrada ese día, 10% + la mitad
   de esa ganancia, hasta 20%.
-- Pausa: si el bank cae 50% respecto al inicio del mes, no se apuesta.
+- Pausa: si las apuestas del mes pierden 50% o más de la base del mes (bank al
+  inicio del mes + depósitos − retiros del mes), no se apuesta. Los retiros y
+  depósitos no activan ni ocultan la pausa.
 """
 from __future__ import annotations
 
@@ -38,10 +41,11 @@ def _redondear(monto: float, paso: int) -> float:
 def porcentaje_sencilla(ve: float, confianza: str, ve_minimo: float, r: ReglasBank = REGLAS) -> float:
     """Porcentaje del bank para una sencilla.
 
-    - 5%: confianza alta y valor de al menos el doble del mínimo (p. ej. 6% si el
-      mínimo es 3%), o cualquier cuota de +200 con confianza alta y valor.
+    - 5% (máximo de cualquier sencilla): confianza alta y valor de al menos el
+      doble del mínimo (p. ej. VE >= 6% si el mínimo es 3%).
     - 3%: confianza alta o media con valor suficiente.
-    - 2%: confianza baja.
+    - 2%: confianza baja con valor suficiente.
+    - 0%: sin valor suficiente.
     """
     if confianza not in CONFIANZAS:
         raise ValueError(confianza)
@@ -69,8 +73,9 @@ def limite_del_dia(bank: float, ganancia_neta_cobrada_hoy: float, r: ReglasBank 
     return min(bank * r.limite_diario + extra, bank * r.limite_diario_max)
 
 
-def en_pausa(bank_actual: float, bank_inicio_mes: float, r: ReglasBank = REGLAS) -> bool:
-    return bank_actual <= bank_inicio_mes * (1 - r.pausa_caida_mensual)
+def en_pausa(resultado_apuestas_mes: float, base_mes: float, r: ReglasBank = REGLAS) -> bool:
+    """Pausa si lo perdido en apuestas este mes llega al 50% de la base del mes."""
+    return base_mes > 0 and resultado_apuestas_mes <= -base_mes * r.pausa_caida_mensual
 
 
 def ajustar_al_limite(montos: list[float], disponible: float, r: ReglasBank = REGLAS) -> list[float]:

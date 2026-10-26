@@ -53,7 +53,7 @@ def _calibracion(probs: list[float], aciertos: list[int], cubetas=10) -> list[di
 
 
 def correr(hist: pd.DataFrame, desde: str, hasta: str | None = None, min_partidos_previos: int = 300) -> Resultado:
-    hist = hist.sort_values("fecha").reset_index(drop=True)
+    hist = hist.dropna(subset=["goles_local", "goles_visitante"]).sort_values("fecha").reset_index(drop=True)
     hist["semana"] = hist["fecha"].dt.to_period("W")
     prueba = hist[(hist["fecha"] >= pd.Timestamp(desde)) & ((hist["fecha"] < pd.Timestamp(hasta)) if hasta else True)]
     ll_m, ll_p, br_m, br_p = [], [], [], []
@@ -69,8 +69,9 @@ def correr(hist: pd.DataFrame, desde: str, hasta: str | None = None, min_partido
             continue
         modelos = ajustar_modelos(previos)
         for _, f in grupo.iterrows():
-            pin_abre = {k: f.get(f"pin_{k}") for k in ("1", "X", "2")}
-            pin_cierre = [f.get(f"pin_c_{k}") for k in ("1", "X", "2")]
+            # football_data escribe las columnas en minúsculas (pin_x, pin_c_x)
+            pin_abre = {k: f.get(f"pin_{k.lower()}") for k in ("1", "X", "2")}
+            pin_cierre = [f.get(f"pin_c_{k.lower()}") for k in ("1", "X", "2")]
             p = pronosticar(modelos, f["local"], f["visitante"],
                             cuotas_pinnacle={**pin_abre, "mas_2.5": f.get("pin_mas_2.5"), "menos_2.5": f.get("pin_menos_2.5")}
                             if all(pd.notna(v) for v in pin_abre.values()) else None,
