@@ -68,10 +68,11 @@ def ganancia(estado: str, monto: float, cuota_decimal: float) -> float:
 
 
 def estado_parlay(estados: list[str]) -> str:
-    if SIN_DATOS in estados:
-        return SIN_DATOS
+    """Una pata perdida pierde el parlay aunque las demás estén pendientes o sin datos."""
     if PIERDE in estados:
         return PIERDE
+    if SIN_DATOS in estados or "pendiente" in estados:
+        return SIN_DATOS
     if all(e == DEVUELVE for e in estados):
         return DEVUELVE
     return GANA  # las patas devueltas cuentan como cuota 1.0

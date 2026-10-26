@@ -21,3 +21,11 @@ def test_mercados():
 def test_parlay():
     assert estado_parlay(["ganada", "devuelta"]) == "ganada"
     assert estado_parlay(["ganada", "perdida"]) == "perdida"
+
+
+def test_parlay_perdido_aunque_falten_patas():
+    assert estado_parlay(["perdida", "sin_datos"]) == "perdida"
+    assert estado_parlay(["pendiente", "perdida"]) == "perdida"
+    assert estado_parlay(["ganada", "sin_datos"]) == "sin_datos"
+    assert estado_parlay(["ganada", "pendiente"]) == "sin_datos"
+    assert estado_parlay(["devuelta", "devuelta"]) == "devuelta"
