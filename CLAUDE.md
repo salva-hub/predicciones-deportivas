@@ -17,6 +17,10 @@ Una sesión nueva no necesita el historial del chat: lee estos archivos.
 - No inventes datos. Si una fuente falla, dilo en la justificación y baja la confianza.
 - Solo se recomienda apostar cuando hay valor (reglas abajo). "No apostar" es una respuesta válida y frecuente.
 - Costo cero: no uses ni propongas servicios de pago.
+- Antes de cualquier cambio al repositorio (código, CLAUDE.md, configuración), da a Salva un resumen general en lenguaje simple de lo que contiene.
+  No aplica a los guardados de rutina de `registro/` del paso 8.
+- Si Claude elige partidos, pregunta antes a Salva si está de acuerdo.
+- Los partidos que Salva pida por su cuenta en la prueba en papel también se registran y suman a las estadísticas.
 
 ## Preparación de cada sesión
 
@@ -31,6 +35,16 @@ Las claves (`THE_ODDS_API_KEY`, etc.) vienen de las variables del entorno; nunca
 ## Flujo cuando Salva pide un pronóstico
 
 Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "pronósticos de la jornada de Liga MX de hoy".
+
+**Cuándo pronosticar:** las alineaciones oficiales salen ~1 hora antes del partido.
+- Si Salva pide antes, da un **pre-pronóstico** (informativo) con `--no-guardar` (no se registra) y dile que se rehace
+  cuando salgan las alineaciones oficiales.
+- El **pronóstico definitivo** se hace 45 a 60 min antes del inicio, con alineaciones oficiales (cuentas oficiales de los
+  clubes en X/Twitter, ESPN, Flashscore, Sofascore, Rotowire) y cuotas de Pinnacle actualizadas. Ese es el que se guarda
+  en `registro/` y cuenta en las estadísticas. Con alineación oficial y árbitro conocido: `--confianza alta`.
+- El código no permite reemplazar un pronóstico. Si ya había uno guardado del mismo partido, borra antes
+  `registro/pronosticos/<id>.json` (si no tiene `apuestas_papel` ni aparece en apuestas o parlays en papel;
+  revisa con `grep -rl <id> registro/ --exclude-dir=pronosticos`) para no contarlo dos veces. Si tiene apuestas, deja el viejo y no guardes otro.
 
 1. **Identifica la liga y el partido.**
    `python -m predicciones.cli partidos --liga <liga> --fecha hoy`
