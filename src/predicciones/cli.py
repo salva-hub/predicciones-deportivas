@@ -9,6 +9,7 @@ Comandos principales (ver CLAUDE.md para el flujo completo):
   movimiento        Registra un retiro o depósito
   bank              Estado del bank y límite del día
   calificar         Califica pronósticos y apuestas de partidos terminados
+  liquidar          Liquida a mano una apuesta (ganada, perdida o devuelta)
   actualizar-datos  Actualiza los historiales guardados en datos/historial
   exportar          Junta el registro en pronosticos.json y apuestas.json (dashboard)
 """
@@ -26,13 +27,13 @@ from . import cuotas as C
 from . import registro as R
 from . import valor as V
 from .ajustes import Ajustes, parsear, por_clima
-from .calificar import calificar, estado_parlay, ganancia, SIN_DATOS
+from .calificar import DEVUELVE, GANA, PIERDE, SIN_DATOS, calificar, estado_parlay, ganancia
 from .datos import clima as clima_mod
 from .datos import cuotas_api, espn, historiales
 from .datos.http import limpiar
 from .equipos import coincide, normalizar
 from .modelos.conteos import factor_arbitro
-from .pronostico import _pinnacle_sin_margen, ajustar_modelos, pronosticar
+from .pronostico import NOTA_SIN_PINNACLE, _pinnacle_sin_margen, ajustar_modelos, pronosticar  # noqa: F401
 
 TECHADOS = {normalizar(x) for x in (
     "Estadio Santiago Bernabéu", "Veltins-Arena", "Merkur Spiel-Arena", "Deutsche Bank Park",
@@ -115,6 +116,10 @@ def partidos_del_dia(liga: str, dia: date) -> list[dict]:
             if p["inicio_sonora"].startswith(str(dia))]
 
 
+def tiene_1x2(pin: dict | None) -> bool:
+    return bool(pin) and all(pin.get(k) for k in ("1", "X", "2"))
+
+
 def cmd_partidos(a) -> None:
     dia = _fecha(a.fecha)
     _imprimir([{k: p[k] for k in ("espn_id", "inicio_sonora", "local", "visitante", "estadio", "ciudad")}
@@ -159,6 +164,7 @@ def cmd_pronostico(a) -> None:
     confianza = a.confianza
     if a.liga in LIGAS_DATOS_LIMITADOS:
         confianza = V.bajar(confianza)
+    # sin 1X2 de Pinnacle, pronosticar() baja la confianza un nivel y agrega NOTA_SIN_PINNACLE (una sola vez)
     p = pronosticar(modelos, a.local, a.visitante, aj, f_arb, pin, confianza, neutral=a.neutral)
     if nota_clima:
         p.notas.append(nota_clima)
@@ -461,7 +467,7 @@ def cmd_calificar(a) -> None:
         cambio_doc = False
         for par in doc.get("parlays", []):
             if par.get("estado") == "pendiente":
-                cambio = _liquidar(par, por_id)
+                cambio = _liquidar(par, por_id, "parlay en papel")
                 cambio_doc |= bool(cambio)
                 cambios += cambio == "liquidada"
         if cambio_doc:
@@ -469,7 +475,7 @@ def cmd_calificar(a) -> None:
     print(f"Calificados/liquidados: {cambios}")
 
 
-def _liquidar(ap: dict, por_id: dict) -> str | None:
+def _liquidar(ap: dict, por_id: dict, etiqueta: str = "apuesta") -> str | None:
     """Califica las patas de una apuesta (real o en papel) y la liquida si ya se puede.
 
     Devuelve "liquidada", "patas" (cambió alguna pata) o None.
@@ -485,8 +491,18 @@ def _liquidar(ap: dict, por_id: dict) -> str | None:
         # sin datos todavía: queda pendiente para volver a calificarla
         pata["estado"] = "pendiente" if est == SIN_DATOS and p.get("estado") != "calificado" else est
     estados = [x["estado"] for x in ap["patas"]]
-    if "pendiente" in estados or estado_parlay(estados) == SIN_DATOS:
-        return "patas" if estados != antes else None
+    # una pata perdida liquida el parlay sin esperar a las demás
+    if estado_parlay(estados) == SIN_DATOS:
+        # pasada la ventana de 48 h, una pata sin datos ya no se va a calificar sola: revisión a mano
+        sin_datos = [x for x in ap["patas"] if x["estado"] == SIN_DATOS]
+        marcar = bool(sin_datos) and not ap.get("requiere_revision")
+        if marcar:
+            ap["requiere_revision"] = True
+            for x in sin_datos:
+                partido = (por_id.get(x["pronostico"]) or {}).get("partido", "?")
+                print(f"Revisar a mano: {etiqueta} {ap.get('id', ap.get('clave', '?'))} ({partido}, {x['mercado']})",
+                      file=sys.stderr)
+        return "patas" if estados != antes or marcar else None
     est = estado_parlay(estados)
     cuota_real = 1.0
     for x in ap["patas"]:
@@ -495,7 +511,45 @@ def _liquidar(ap: dict, por_id: dict) -> str | None:
     ap["estado"] = est
     ap["ganancia"] = ganancia(est, ap["monto"], cuota_real)
     ap["liquidada"] = R.ahora().isoformat()
+    ap.pop("requiere_revision", None)
     return "liquidada"
+
+
+def _cuota_real(texto: str) -> float:
+    """Cuota americana (−110, +250, 100) o decimal (2.5); acepta el signo menos tipográfico."""
+    try:
+        v = float(str(texto).replace("\u2212", "-").strip())
+    except ValueError:
+        sys.exit(f"Cuota real inválida: {texto}")
+    cuota = C.americana_a_decimal(v) if abs(v) >= 100 else v
+    if not cuota > 1 or cuota == float("inf"):
+        sys.exit("La cuota real debe ser mayor que 1.0 (decimal) o americana (−110, +200)")
+    return cuota
+
+
+def cmd_liquidar(a) -> None:
+    ap = R.buscar_apuesta(a.id)
+    if not ap:
+        sys.exit(f"No existe la apuesta {a.id}")
+    if ap.get("estado") != "pendiente":
+        _aviso(f"la apuesta ya estaba liquidada como {ap.get('estado')}; se corrige")
+    if a.cuota_real is not None:
+        cuota = _cuota_real(a.cuota_real)
+        ap["cuota_real"] = round(cuota, 4)
+    else:
+        # una corrección sin --cuota-real respeta la cuota real ya registrada
+        cuota = float(ap.get("cuota_real") or ap["cuota"])
+    ap["estado"] = a.estado
+    ap["ganancia"] = ganancia(a.estado, float(ap["monto"]), cuota)
+    # el día de la liquidación decide en qué día y mes cuenta la ganancia: una corrección no lo mueve
+    if ap.get("liquidada"):
+        ap["corregida"] = R.ahora().isoformat()
+    else:
+        ap["liquidada"] = R.ahora().isoformat()
+    ap["liquidada_a_mano"] = True
+    ap.pop("requiere_revision", None)
+    R.actualizar_apuesta(ap)
+    _imprimir(ap)
 
 
 def cmd_actualizar_datos(a) -> None:
@@ -567,6 +621,12 @@ def main(argv=None) -> None:
 
     s = sub.add_parser("calificar")
     s.set_defaults(f=cmd_calificar)
+
+    s = sub.add_parser("liquidar")
+    s.add_argument("--id", required=True, help="id de la apuesta (A-...)")
+    s.add_argument("--estado", required=True, choices=[GANA, PIERDE, DEVUELVE])
+    s.add_argument("--cuota-real", help="cuota pagada si difiere (americana o decimal)")
+    s.set_defaults(f=cmd_liquidar)
 
     s = sub.add_parser("actualizar-datos")
     s.add_argument("--liga", action="append")

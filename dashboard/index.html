@@ -135,6 +135,8 @@ function agrupar(lista, clave) {
     ["ROI recomendaciones", PCT(rr.roi), clase(rr.roi)],
     ["ROI en papel", PCT(rp.roi), clase(rp.roi)],
     ["Pendientes", String(apuestas.filter(a => a.estado === "pendiente").length), ""],
+    ["Revisar a mano", String(apuestas.filter(a => a.estado === "pendiente" && a.requiere_revision).length),
+     apuestas.some(a => a.estado === "pendiente" && a.requiere_revision) ? "neg" : ""],
   ];
   document.getElementById("kpis").innerHTML = kpis.map(k => `<div class="kpi"><div class="l">${esc(k[0])}</div><div class="v ${esc(k[2])}">${esc(k[1])}</div></div>`).join("");
 
@@ -161,7 +163,7 @@ function agrupar(lista, clave) {
     ["Fecha", a => String(a.creado || "").slice(0, 10)], ["Tipo", a => a.tipo],
     ["Selecciones", a => (a.patas || []).map(p => `${p.partido}: ${p.mercado} ${p.seleccion}`)],
     ["Cuota", a => a.cuota_americana || americana(a.cuota)], ["Monto", a => MXN(a.monto)],
-    ["Estado", a => a.estado], ["Ganancia", a => a.ganancia == null ? "—" : MXN(a.ganancia), a => clase(a.ganancia || 0)],
+    ["Estado", a => a.estado === "pendiente" && a.requiere_revision ? "revisar a mano" : a.estado], ["Ganancia", a => a.ganancia == null ? "—" : MXN(a.ganancia), a => clase(a.ganancia || 0)],
   ], apuestas.slice().reverse().slice(0, 50));
 
   tabla(document.getElementById("pronosticos"), [

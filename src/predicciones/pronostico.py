@@ -160,6 +160,9 @@ def _mercados_goles(mu_l: float, mu_v: float, rho: float) -> tuple[dict[str, dic
     return out, devoluciones, m
 
 
+# única nota (y única baja de confianza) cuando falta el 1X2 de Pinnacle
+NOTA_SIN_PINNACLE = "Sin cuotas de referencia de Pinnacle: probabilidades solo del modelo"
+
 MERCADOS_DE_TOTAL = {"goles", "ambos_anotan", "goles_equipo", "primer_tiempo", "handicap"}
 
 
@@ -239,7 +242,7 @@ def pronosticar(
     if p_1x2 is None and p_mas is None:
         mu_l, mu_v = mod_l, mod_v
         finales, devoluciones, m = modelo, dev_modelo, None
-        notas.append("Sin Pinnacle: solo el modelo, menos confianza")
+        notas.append(NOTA_SIN_PINNACLE)
         confianza_datos = V.bajar(confianza_datos)
     else:
         anc = anclar_a_mercado((mod_l, mod_v), rho, p_1x2, p_mas)
@@ -270,7 +273,9 @@ def pronosticar(
             notas.append("Base: Pinnacle sin margen (modelo solo como referencia)")
         notas.append(f"Goles esperados del modelo solo: {mod_l * f_l:.2f} – {mod_v * f_v:.2f}")
         if not p_1x2:
-            notas.append("Pinnacle sin 1X2: el reparto de goles sale del modelo")
+            # sin 1X2 no hay referencia para el ganador: misma nota y misma baja que sin Pinnacle
+            notas.append(NOTA_SIN_PINNACLE)
+            confianza_datos = V.bajar(confianza_datos)
         # desacuerdo: modelo (sin ajustes, igual que Pinnacle) contra Pinnacle sin margen
         crudo, _, _ = _mercados_goles(mod_l, mod_v, modelos.goles.rho)
         if p_1x2 and max(abs(crudo["ganador"][k] - p) for k, p in zip(("1", "X", "2"), p_1x2)) > V.DESACUERDO_FUERTE:

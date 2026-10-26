@@ -90,7 +90,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    **Pinnacle es la base del pronóstico**: siempre hacen falta sus cuotas. Si no hay clave de The Odds API (o no trae
    el partido), léelas en la web (1X2 y, si se puede, más/menos 2.5) y pásalas con
    `--pinnacle "1=-150,X=+280,2=+400,mas_2.5=-110,menos_2.5=-110"`. Sin ellas el programa usa solo el modelo,
-   baja la confianza y lo anota ("Sin Pinnacle"); dilo en la justificación.
+   baja la confianza un nivel y lo anota ("Sin cuotas de referencia de Pinnacle"); dilo en la justificación.
+   Lo mismo si solo hay más/menos 2.5 sin 1X2.
    El comando guarda el pronóstico en `registro/pronosticos/<id>.json` y devuelve su `id`.
 
 6. **Responde a Salva** con este formato:
@@ -130,6 +131,9 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
 - Sencilla: `python -m predicciones.cli apostar --pata "<id>:goles:mas_2.5=-130" --monto 500`
 - Parlay: una `--pata` por selección, con su cuota de Winpot.
 - Retiro o depósito: `python -m predicciones.cli movimiento --tipo retiro --monto 2000`
+- Liquidar a mano (apuesta marcada "Revisar a mano", o si Winpot pagó distinto):
+  `python -m predicciones.cli liquidar --id <id_apuesta> --estado ganada|perdida|devuelta [--cuota-real +250]`.
+  El estado aplica a la apuesta completa (en un parlay, al parlay entero); `--cuota-real` es la cuota total que pagó Winpot.
 - Luego guarda el registro como en el paso 8.
 
 GitHub Actions califica todo automáticamente cada 3 horas y actualiza el dashboard. Si faltan datos de un partido

@@ -34,7 +34,8 @@ def test_sin_pinnacle_solo_modelo_baja_confianza(liga_sintetica):
     modelos = ajustar_modelos(liga_sintetica)
     p = pronosticar(modelos, "Equipo 11", "Equipo 0", confianza_datos="alta")
     assert p.confianza_base == "media"
-    assert any("Sin Pinnacle" in n for n in p.notas)
+    from predicciones.pronostico import NOTA_SIN_PINNACLE
+    assert p.notas.count(NOTA_SIN_PINNACLE) == 1
     assert p.probabilidades["ganador"] == p.prob_modelo["ganador"]
 
 
