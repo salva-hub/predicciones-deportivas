@@ -188,7 +188,8 @@ los registros viejos sin ese campo cuentan como fútbol).
 ### Cómo liquida Winpot (reglas Altenar v1.29, PDF público en winpot-cdn.mx)
 
 - Todo en tiempo reglamentario (90 min + reposición); la prórroga y los penales no cuentan salvo que el mercado lo diga.
-  El programa ya califica con el marcador de 90 min.
+  El programa ya califica los goles con el marcador de 90 min. Pero en un partido con prórroga, ESPN incluye en
+  tarjetas y córners los de la prórroga y `calificar` no puede separarlos: esas patas se liquidan a mano con `liquidar`.
 - **Tarjetas:** amarilla = 1, roja directa = 2, doble amarilla = 3 en total (máximo 3 por jugador). No cuentan las
   mostradas después del silbatazo final ni a suplentes en la banca, sustituidos o cuerpo técnico. El sistema cuenta
   igual (historial, modelo, árbitro y calificación). ESPN no trae la primera amarilla del expulsado por doble amarilla:
