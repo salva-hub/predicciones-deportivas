@@ -1,0 +1,158 @@
+"""Reglas de valor aprobadas (26-oct-2026).
+
+- Sencilla en ganador, doble oportunidad, goles, ambos anotan, hándicap: VE >= 3%.
+- Sencilla en córners o tarjetas: VE >= 5%.
+- Doble oportunidad: solo si ningún resultado del 1X2 llega a 55%.
+- Parlay: 2 a 4 selecciones de partidos distintos, cada una con VE >= 2% y el
+  parlay completo con VE >= 5%. Objetivo: +200 o más con 2 selecciones.
+- La probabilidad final mezcla modelo y Pinnacle sin margen (50/50 al inicio).
+"""
+from __future__ import annotations
+
+import itertools
+from dataclasses import dataclass, field, asdict
+
+from . import cuotas as C
+
+VE_MIN = {"goles": 0.03, "conteos": 0.05}
+VE_MIN_PARLAY_PATA = 0.02
+VE_MIN_PARLAY = 0.05
+UMBRAL_DOBLE_OPORTUNIDAD = 0.55
+PESO_MODELO = 0.5
+DESACUERDO_FUERTE = 0.08
+ORDEN_CONFIANZA = ["baja", "media", "alta"]
+
+
+def familia(mercado: str) -> str:
+    return "conteos" if mercado.startswith(("corners", "tarjetas")) else "goles"
+
+
+def mezclar(p_modelo: float, p_mercado: float | None, peso_modelo: float = PESO_MODELO) -> float:
+    if p_mercado is None:
+        return p_modelo
+    return peso_modelo * p_modelo + (1 - peso_modelo) * p_mercado
+
+
+def bajar(confianza: str, niveles: int = 1) -> str:
+    i = max(0, ORDEN_CONFIANZA.index(confianza) - niveles)
+    return ORDEN_CONFIANZA[i]
+
+
+@dataclass
+class Seleccion:
+    partido: str
+    mercado: str          # p. ej. "goles", "corners", "tarjetas", "hándicap"
+    seleccion: str        # p. ej. "1", "mas_2.5", "local_-0.5"
+    prob: float           # probabilidad final de ganar
+    prob_devolucion: float = 0.0  # hándicap de línea entera
+    confianza: str = "media"
+    cuota_ofrecida: float | None = None  # decimal, la de Winpot
+    notas: list[str] = field(default_factory=list)
+
+    @property
+    def ve_minimo(self) -> float:
+        return VE_MIN[familia(self.mercado)]
+
+    @property
+    def prob_pierde(self) -> float:
+        return 1 - self.prob - self.prob_devolucion
+
+    def ve(self, decimal: float | None = None) -> float | None:
+        d = decimal or self.cuota_ofrecida
+        if d is None:
+            return None
+        return self.prob * (d - 1) - self.prob_pierde
+
+    def cuota_justa(self) -> float:
+        # cuota con VE = 0 considerando devoluciones
+        return 1 + self.prob_pierde / self.prob
+
+    def cuota_minima(self, ve_minimo: float | None = None) -> float:
+        v = self.ve_minimo if ve_minimo is None else ve_minimo
+        return 1 + (v + self.prob_pierde) / self.prob
+
+    def resumen(self) -> dict:
+        d = asdict(self)
+        d.update(
+            cuota_justa=C.formato_americano(self.cuota_justa()),
+            cuota_minima=C.formato_americano(self.cuota_minima(), minima=True),
+            ve=None if self.cuota_ofrecida is None else round(self.ve(), 4),
+            cuota_ofrecida_americana=None if self.cuota_ofrecida is None else C.formato_americano(self.cuota_ofrecida),
+        )
+        return d
+
+
+def doble_oportunidad_permitida(p1: float, px: float, p2: float) -> bool:
+    return max(p1, px, p2) < UMBRAL_DOBLE_OPORTUNIDAD
+
+
+def tiene_valor(s: Seleccion) -> bool:
+    v = s.ve()
+    return v is not None and v >= s.ve_minimo
+
+
+@dataclass
+class Parlay:
+    patas: list[Seleccion]
+
+    @property
+    def cuota(self) -> float:
+        return C.cuota_parlay(p.cuota_ofrecida for p in self.patas)
+
+    @property
+    def prob(self) -> float:
+        out = 1.0
+        for p in self.patas:
+            out *= p.prob
+        return out
+
+    @property
+    def ve(self) -> float:
+        return self.prob * self.cuota - 1
+
+    @property
+    def confianza(self) -> str:
+        return min((p.confianza for p in self.patas), key=ORDEN_CONFIANZA.index)
+
+    def resumen(self) -> dict:
+        return {
+            "patas": [f"{p.partido}: {p.mercado} {p.seleccion} ({C.formato_americano(p.cuota_ofrecida)})" for p in self.patas],
+            "cuota": C.formato_americano(self.cuota),
+            "prob": round(self.prob, 4),
+            "ve": round(self.ve, 4),
+            "confianza": self.confianza,
+        }
+
+
+def armar_parlays(candidatas: list[Seleccion], max_patas: int = 4, top: int = 5) -> list[Parlay]:
+    """Parlays de partidos distintos; cada pata con VE >= 2% y el total con VE >= 5%.
+
+    Las patas del mismo partido no se combinan (sus resultados están relacionados).
+    Ordena primero los de 2 patas con cuota +200 o más, luego por VE.
+    """
+    patas = [s for s in candidatas if s.cuota_ofrecida and (s.ve() or 0) >= VE_MIN_PARLAY_PATA and s.prob_devolucion == 0]
+    out: list[Parlay] = []
+    for n in range(2, max_patas + 1):
+        for combo in itertools.combinations(patas, n):
+            if len({c.partido for c in combo}) < n:
+                continue
+            p = Parlay(list(combo))
+            if p.ve >= VE_MIN_PARLAY:
+                out.append(p)
+
+    def clave(p: Parlay):
+        objetivo = len(p.patas) == 2 and p.cuota >= 3.0 and p.confianza == "alta"
+        return (not objetivo, -p.ve)
+
+    out.sort(key=clave)
+    # sin repetir la misma pata en varios parlays recomendados
+    elegidos, usadas = [], set()
+    for p in out:
+        ids = {(x.partido, x.mercado, x.seleccion) for x in p.patas}
+        if ids & usadas:
+            continue
+        elegidos.append(p)
+        usadas |= ids
+        if len(elegidos) >= top:
+            break
+    return elegidos

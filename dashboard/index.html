@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Predicciones Deportivas</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root { --bg:#f7f7f5; --card:#ffffff; --texto:#1d1d1b; --suave:#6b6b66; --borde:#e3e2dd; --verde:#1f8a4c; --rojo:#c0392b; --azul:#2f6fdf; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#141413; --card:#1f1f1d; --texto:#ecebe6; --suave:#a3a29b; --borde:#33322f; --verde:#4cc27f; --rojo:#ef6b5b; --azul:#6f9ef0; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--texto); font:15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width:1100px; margin:0 auto; padding:24px 16px 48px; }
+  h1 { font-size:22px; margin:0 0 4px; } h2 { font-size:16px; margin:28px 0 10px; }
+  .sub { color:var(--suave); margin:0 0 20px; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; }
+  .kpi { background:var(--card); border:1px solid var(--borde); border-radius:10px; padding:14px; }
+  .kpi .v { font-size:24px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .kpi .l { color:var(--suave); font-size:13px; }
+  .card { background:var(--card); border:1px solid var(--borde); border-radius:10px; padding:14px; overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; }
+  th, td { text-align:left; padding:7px 8px; border-bottom:1px solid var(--borde); white-space:nowrap; }
+  th { color:var(--suave); font-weight:500; font-size:13px; }
+  .pos { color:var(--verde); } .neg { color:var(--rojo); }
+  .vacio { color:var(--suave); padding:12px 0; }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:12px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Predicciones Deportivas</h1>
+  <p class="sub" id="actualizado">Cargando…</p>
+
+  <div class="kpis" id="kpis"></div>
+
+  <h2>Evolución del bank (MXN)</h2>
+  <div class="card"><canvas id="grafica" height="110"></canvas><div id="grafica-vacia" class="vacio" hidden>Aún no hay apuestas liquidadas.</div></div>
+
+  <div class="grid2">
+    <div><h2>Apuestas reales por tipo</h2><div class="card" id="por-tipo"></div></div>
+    <div><h2>Recomendaciones con valor por mercado</h2><div class="card" id="por-mercado"></div></div>
+  </div>
+
+  <h2>Recomendaciones por liga</h2>
+  <div class="card" id="por-liga"></div>
+
+  <h2>Últimas apuestas</h2>
+  <div class="card" id="apuestas"></div>
+
+  <h2>Últimos pronósticos</h2>
+  <div class="card" id="pronosticos"></div>
+</main>
+<script>
+const MXN = n => (n < 0 ? "−" : "") + "$" + Math.abs(n).toLocaleString("es-MX", {maximumFractionDigits: 0});
+const PCT = n => (n == null || isNaN(n)) ? "—" : (n * 100).toFixed(1) + "%";
+const clase = n => n > 0 ? "pos" : n < 0 ? "neg" : "";
+const americana = d => d >= 2 ? "+" + Math.round((d - 1) * 100) : String(Math.round(-100 / (d - 1)));
+const decimal = a => { a = Number(a); return a > 0 ? 1 + a / 100 : 1 + 100 / Math.abs(a); };
+
+async function leer(ruta, defecto) {
+  try { const r = await fetch(ruta, {cache: "no-store"}); return r.ok ? await r.json() : defecto; }
+  catch (e) { return defecto; }
+}
+
+function tabla(el, columnas, filas) {
+  if (!filas.length) { el.innerHTML = '<div class="vacio">Sin datos todavía.</div>'; return; }
+  el.innerHTML = "<table><thead><tr>" + columnas.map(c => `<th>${c[0]}</th>`).join("") + "</tr></thead><tbody>" +
+    filas.map(f => "<tr>" + columnas.map(c => `<td class="${c[2] ? c[2](f) : ""}">${c[1](f)}</td>`).join("") + "</tr>").join("") +
+    "</tbody></table>";
+}
+
+function resumen(grupo) {
+  const liq = grupo.filter(x => ["ganada", "perdida", "devuelta"].includes(x.estado));
+  const apostado = liq.reduce((s, x) => s + x.monto, 0);
+  const gan = liq.reduce((s, x) => s + x.ganancia, 0);
+  const ganadas = liq.filter(x => x.estado === "ganada").length;
+  const decididas = liq.filter(x => x.estado !== "devuelta").length;
+  return {n: grupo.length, liq: liq.length, apostado, gan, roi: apostado ? gan / apostado : null, acierto: decididas ? ganadas / decididas : null};
+}
+
+function agrupar(lista, clave) {
+  const m = {};
+  for (const x of lista) (m[clave(x)] ||= []).push(x);
+  return Object.entries(m).map(([k, v]) => ({k, ...resumen(v)})).sort((a, b) => b.n - a.n);
+}
+
+(async () => {
+  const [bank, apuestas, pronos] = await Promise.all([
+    leer("registro/bank.json", {bank_inicial: 10000, movimientos: []}),
+    leer("registro/apuestas.json", []),
+    leer("registro/pronosticos.json", []),
+  ]);
+  document.getElementById("actualizado").textContent =
+    `Bank inicial ${MXN(bank.bank_inicial)} · ${pronos.length} pronósticos · ${apuestas.length} apuestas · actualizado ${new Date().toLocaleString("es-MX", {timeZone: "America/Hermosillo"})} (hora de Sonora)`;
+
+  // bank en el tiempo
+  const eventos = [];
+  for (const m of bank.movimientos || []) eventos.push({t: m.fecha, d: m.tipo === "deposito" ? m.monto : -m.monto});
+  for (const a of apuestas) if (a.liquidada) eventos.push({t: a.liquidada, d: a.ganancia});
+  eventos.sort((a, b) => a.t.localeCompare(b.t));
+  let saldo = bank.bank_inicial; const puntos = [{x: (bank.inicio || "") , y: saldo}];
+  for (const e of eventos) { saldo += e.d; puntos.push({x: e.t.slice(0, 10), y: Math.round(saldo)}); }
+
+  const r = resumen(apuestas);
+  const recomendadas = [];
+  for (const p of pronos) for (const e of (p.evaluacion || [])) if (e.apostar) {
+    const s = (p.selecciones || []).find(x => x.mercado === e.mercado && x.seleccion === e.seleccion) || {};
+    const estado = s.estado || "pendiente";
+    const d = decimal(e.cuota_winpot);
+    const monto = e.monto_sencilla || 0;
+    recomendadas.push({liga: p.liga, mercado: e.mercado, estado, monto,
+      ganancia: estado === "ganada" ? monto * (d - 1) : estado === "perdida" ? -monto : 0});
+  }
+  const rr = resumen(recomendadas);
+  const kpis = [
+    ["Bank actual", MXN(saldo), clase(saldo - bank.bank_inicial)],
+    ["Ganancia neta", MXN(r.gan), clase(r.gan)],
+    ["ROI apuestas reales", PCT(r.roi), clase(r.roi)],
+    ["Acierto apuestas reales", PCT(r.acierto), ""],
+    ["ROI recomendaciones", PCT(rr.roi), clase(rr.roi)],
+    ["Pendientes", String(apuestas.filter(a => a.estado === "pendiente").length), ""],
+  ];
+  document.getElementById("kpis").innerHTML = kpis.map(k => `<div class="kpi"><div class="l">${k[0]}</div><div class="v ${k[2]}">${k[1]}</div></div>`).join("");
+
+  if (puntos.length > 1 && window.Chart) {
+    const css = getComputedStyle(document.documentElement);
+    new Chart(document.getElementById("grafica"), {
+      type: "line",
+      data: {labels: puntos.map(p => p.x), datasets: [{data: puntos.map(p => p.y), borderColor: css.getPropertyValue("--azul"), pointRadius: 2, tension: 0.2}]},
+      options: {plugins: {legend: {display: false}}, scales: {x: {ticks: {color: css.getPropertyValue("--suave")}}, y: {ticks: {color: css.getPropertyValue("--suave")}}}},
+    });
+  } else {
+    document.getElementById("grafica").hidden = true;
+    document.getElementById("grafica-vacia").hidden = false;
+  }
+
+  const cols = [["Grupo", f => f.k], ["Apuestas", f => f.n], ["Liquidadas", f => f.liq], ["Acierto", f => PCT(f.acierto)],
+                ["Apostado", f => MXN(f.apostado)], ["Ganancia", f => MXN(f.gan), f => clase(f.gan)], ["ROI", f => PCT(f.roi), f => clase(f.roi)]];
+  tabla(document.getElementById("por-tipo"), cols, agrupar(apuestas, a => a.tipo));
+  tabla(document.getElementById("por-mercado"), cols, agrupar(recomendadas, x => x.mercado));
+  tabla(document.getElementById("por-liga"), cols, agrupar(recomendadas, x => x.liga));
+
+  tabla(document.getElementById("apuestas"), [
+    ["Fecha", a => a.creado.slice(0, 10)], ["Tipo", a => a.tipo],
+    ["Selecciones", a => a.patas.map(p => `${p.partido}: ${p.mercado} ${p.seleccion}`).join("<br>")],
+    ["Cuota", a => a.cuota_americana || americana(a.cuota)], ["Monto", a => MXN(a.monto)],
+    ["Estado", a => a.estado], ["Ganancia", a => a.ganancia == null ? "—" : MXN(a.ganancia), a => clase(a.ganancia || 0)],
+  ], apuestas.slice().reverse().slice(0, 50));
+
+  tabla(document.getElementById("pronosticos"), [
+    ["Partido", p => p.partido], ["Liga", p => p.liga], ["Inicio (Sonora)", p => p.inicio_sonora],
+    ["Goles esperados", p => (p.goles_esperados || []).join(" – ")],
+    ["Resultado", p => p.resultado ? `${p.resultado.goles_local}–${p.resultado.goles_visitante}` : "pendiente"],
+    ["Con valor", p => (p.evaluacion || []).filter(e => e.apostar).map(e => `${e.mercado} ${e.seleccion} (${e.cuota_winpot})`).join("<br>") || "—"],
+  ], pronos.slice().reverse().slice(0, 50));
+})();
+</script>
+</body>
+</html>
