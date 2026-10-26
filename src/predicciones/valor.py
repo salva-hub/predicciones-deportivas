@@ -22,7 +22,9 @@ separado en la prueba en papel y se comparan el 26-nov-2026):
 - "combinada": 2 o 3 patas de partidos distintos, cada una con probabilidad
   >= 55%, confianza alta o media y dentro de la tolerancia (o con valor); la
   cuota total de Winpot entre +200 y +350.
-Si una selección cumple "valor" y otra categoría, cuenta como "valor".
+Una sencilla que cumple "sencilla_fuerte" cuenta como fuerte aunque tenga valor
+(se marca con_valor); "valor" cubre el resto. Un parlay que cumple las reglas de
+valor cuenta como parlay de valor, no como combinada.
 """
 from __future__ import annotations
 
@@ -126,11 +128,12 @@ def es_sencilla_fuerte(s: Seleccion) -> bool:
 
 
 def categoria_sencilla(s: Seleccion) -> str | None:
-    """'valor', 'sencilla_fuerte' o None. Valor gana si cumple las dos."""
-    if tiene_valor(s):
-        return VALOR
+    """'sencilla_fuerte', 'valor' o None. Fuerte gana si cumple las dos
+    (se apuesta para ganar un monto fijo); valor cubre el resto."""
     if es_sencilla_fuerte(s):
         return FUERTE
+    if tiene_valor(s):
+        return VALOR
     return None
 
 

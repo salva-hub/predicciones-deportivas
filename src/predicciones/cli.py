@@ -251,12 +251,15 @@ def cmd_evaluar(a) -> None:
             continue
         s = V.Seleccion(p["partido"], mercado, seleccion, fila["prob"], fila.get("devolucion", 0.0), fila["confianza"], dec)
         filas.append((mercado, seleccion, s, fila, V.categoria_sencilla(s)))
-    # sencilla fuerte: como mucho MAX_POR_DIA al día; si hay varias, la de mayor probabilidad
+    # sencilla fuerte: como mucho MAX_POR_DIA al día; si hay varias, la de mayor probabilidad.
+    # Sin cupo, si tiene valor pasa a la categoría valor
     fuertes = sorted((i for i, f in enumerate(filas) if f[4] == V.FUERTE), key=lambda i: -filas[i][2].prob)
     libres = max(0, V.MAX_POR_DIA[V.FUERTE] - cuenta.get(V.FUERTE, 0))
     sin_cupo = set(fuertes[libres:])
-    # prioridad para el límite del día: primero valor, luego sencilla fuerte
-    orden = sorted(range(len(filas)), key=lambda i: filas[i][4] != V.VALOR)
+    for i in sin_cupo:
+        filas[i] = (*filas[i][:4], V.VALOR if V.tiene_valor(filas[i][2]) else None)
+    # prioridad para el límite del día: fuerte y valor juntas, primero la de mayor valor esperado
+    orden = sorted(range(len(filas)), key=lambda i: (filas[i][4] is None, -(filas[i][2].ve() if filas[i][2] else 0)))
     resultado: list[dict | None] = [None] * len(filas)
     en_papel = []
     for i in orden:
@@ -266,8 +269,8 @@ def cmd_evaluar(a) -> None:
             continue
         dec, ve, dev = s.cuota_ofrecida, s.ve(), s.prob_devolucion
         motivo = None
-        if i in sin_cupo:
-            cat, motivo = None, "ya hay una sencilla fuerte hoy (máximo 1 por día)"
+        if i in sin_cupo and cat is None:
+            motivo = "ya hay una sencilla fuerte hoy (máximo 1 por día)"
         if cat == V.VALOR:
             pedido = B.monto(bank_hoy, B.porcentaje_sencilla(ve, s.confianza, s.ve_minimo))
         elif cat == V.FUERTE:
@@ -280,7 +283,8 @@ def cmd_evaluar(a) -> None:
             "mercado": mercado, "seleccion": seleccion,
             "cuota_winpot": C.formato_americano(dec), "cuota_minima": fila["cuota_minima"],
             "prob": fila["prob"], "ve": round(ve, 4), "confianza": s.confianza,
-            "categoria": cat, "apostar": cat is not None and monto > 0, "monto_sencilla": monto,
+            "categoria": cat, "con_valor": V.tiene_valor(s),
+            "apostar": cat is not None and monto > 0, "monto_sencilla": monto,
             "sirve_para_parlay": ve >= V.VE_MIN_PARLAY_PATA,
             "sirve_para_combinada": V.sirve_para_combinada(s),
         }
@@ -305,7 +309,8 @@ def cmd_evaluar(a) -> None:
             if pasa:
                 fila_res["motivo"] = "prueba en papel"
                 en_papel.append((i, {
-                    "mercado": mercado, "seleccion": seleccion, "categoria": cat, "cuota": round(dec, 4),
+                    "mercado": mercado, "seleccion": seleccion, "categoria": cat,
+                    "con_valor": fila_res["con_valor"], "cuota": round(dec, 4),
                     "cuota_americana": C.formato_americano(dec), "monto": monto, "ve": round(ve, 4),
                     "prob": fila["prob"], "confianza": s.confianza, "evaluado": R.ahora().isoformat(),
                     "estado": "pendiente",

@@ -15,7 +15,8 @@ Todos los montos son porcentajes del bank ACTUAL (si el bank sube, suben):
 - Combinada (2 o 3 patas, +200 a +350): 5% del bank si todas las patas son de
   confianza alta, 3% si alguna es media. Máximo 2 por día.
 - El límite diario y la pausa cubren las tres categorías juntas. Si los montos
-  pasan del disponible, se recortan en orden de prioridad (cada uno toma lo que
+  pasan del disponible, se recortan en orden de prioridad (sencillas: mayor
+  valor esperado primero; parlays: los de valor antes que las combinadas) (cada uno toma lo que
   queda; cuando no queda nada, esa apuesta no se hace).
 - Prueba en papel: hasta el 26-nov-2026 (fecha de Sonora, inclusive) no se
   apuesta dinero real; las selecciones con valor se guardan como apuestas en

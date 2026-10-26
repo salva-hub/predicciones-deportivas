@@ -616,12 +616,16 @@ def test_papel_sencilla_fuerte_monto_y_maximo_por_dia(papel, capsys):
     assert b_["usadas_hoy"]["sencilla_fuerte"] == 1 and b_["disponible_hoy"] == 200
 
 
-def test_valor_gana_sobre_fuerte(papel, capsys):
+def test_fuerte_gana_sobre_valor_y_sin_cupo_pasa_a_valor(papel, capsys):
     R = papel.R
-    a = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta")])
-    papel.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-120"])
-    (r,) = _salida(capsys)["evaluacion"]
-    assert r["categoria"] == "valor" and r["monto_papel"] == 500
+    a = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta"), ("goles", "mas_2.5", 0.64, "alta")])
+    papel.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-120", "--winpot", "goles:mas_2.5=-120"])
+    r1, r2 = _salida(capsys)["evaluacion"]
+    # la de mayor probabilidad se lleva el cupo de fuerte (para ganar 500); la otra queda como valor
+    assert (r2["categoria"], r2["con_valor"], r2["monto_papel"]) == ("sencilla_fuerte", True, 600)
+    assert r1["categoria"] == "valor" and r1["monto_papel"] == 400  # 1,000 − 600: recortada
+    x = {y["mercado"]: y for y in R.buscar_pronostico(a["id"])["apuestas_papel"]}
+    assert x["goles"]["categoria"] == "sencilla_fuerte" and x["goles"]["con_valor"] is True
 
 
 def test_papel_combinadas_maximo_y_limite_entre_categorias(papel, capsys):
@@ -688,14 +692,14 @@ def test_peor_racha(cli):
 
 def test_real_solo_valor_se_recomienda(cli, capsys):
     R = cli.R
-    a = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta"), ("goles", "mas_2.5", 0.62, "alta")])
-    cli.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-160", "--winpot", "goles:mas_2.5=-120"])
+    a = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta"), ("goles", "mas_2.5", 0.55, "alta")])
+    cli.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-160", "--winpot", "goles:mas_2.5=+110"])
     fuerte, valor = _salida(capsys)["evaluacion"]
     assert fuerte["categoria"] == "sencilla_fuerte" and fuerte["apostar"] is False
     assert fuerte["motivo"] == "categoría pendiente de aprobación tras la prueba en papel"
     assert fuerte["monto_si_se_aprueba"] > 0
     assert valor["categoria"] == "valor" and valor["apostar"] is True and valor["monto_sencilla"] == 500
-    cli.main(["apostar", "--pata", f"{a['id']}:goles:mas_2.5=-120", "--monto", "500", "--categoria", "valor"])
+    cli.main(["apostar", "--pata", f"{a['id']}:goles:mas_2.5=+110", "--monto", "500", "--categoria", "valor"])
     assert _salida(capsys)["categoria"] == "valor"
 
 

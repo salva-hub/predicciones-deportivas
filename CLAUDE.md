@@ -189,8 +189,10 @@ por categoría": apuestas, acierto, ganancia, ROI y peor racha). "Precio justo" 
    media y dentro de tolerancia (o con valor); cuota total de Winpot entre +200 y +350. Se prefieren las de 2 patas y
    luego la de mayor probabilidad; ninguna pata se repite entre las combinadas del día. Máximo 2 por día.
 
-Si algo cumple valor y otra categoría, cuenta como valor (no se cuenta dos veces). Un parlay idéntico a uno de valor
-no se repite como combinada. Los máximos cuentan por día de Sonora en que se evalúa.
+Una sencilla que cumple sencilla fuerte cuenta como **sencilla fuerte aunque tenga valor** (se apuesta para ganar el
+objetivo); queda marcada `con_valor: true` para analizarla aparte. Valor cubre el resto (cuotas positivas, probabilidad
+menor a 60%, confianza baja). Si ya se usó la sencilla fuerte del día y la selección tiene valor, pasa a valor.
+Un parlay idéntico a uno de valor no se repite como combinada. Los máximos cuentan por día de Sonora en que se evalúa.
 
 ## Resultados del backtest (26-oct-2026)
 
@@ -223,7 +225,7 @@ Temporadas 2022/23 a 2025/26, apostando contra la cuota de apertura de Pinnacle 
 - Combinada: 5% del bank si todas las patas son de confianza alta; 3% si alguna es media.
 - Límite del día: 10% del bank; si ese día ya hay ganancia cobrada, 10% más la mitad de esa ganancia, hasta 20%.
   Cubre las tres categorías juntas (reales o en papel). Si los montos pasan del disponible, se **recortan en orden**:
-  en `evaluar` primero valor y luego sencilla fuerte; en `parlays` primero los de valor y luego las combinadas. Cada uno
+  en `evaluar` sencillas fuertes y de valor juntas, primero la de mayor valor esperado; en `parlays` primero los de valor y luego las combinadas. Cada uno
   toma lo que queda; cuando ya no queda nada, esa apuesta no se hace.
 - Pausa: si las apuestas del mes pierden 50% de la base del mes (bank al inicio del mes + depósitos − retiros del mes),
   no se recomiendan apuestas y se revisa el modelo. Los retiros y depósitos no cuentan como pérdida ni ganancia.

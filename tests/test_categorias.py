@@ -9,17 +9,20 @@ def _s(prob, americana, confianza="alta", partido="A vs B", mercado="ganador", s
 
 
 def test_clasificacion_sencillas():
-    # -120 con 62%: VE +13.7% -> cuenta como valor (valor gana sobre fuerte)
-    assert V.categoria_sencilla(_s(0.62, -120)) == V.VALOR
-    assert V.es_sencilla_fuerte(_s(0.62, -120))
+    # -120 con 62%: VE +13.7%, pero cumple fuerte -> fuerte (fuerte gana sobre valor)
+    assert V.categoria_sencilla(_s(0.62, -120)) == V.FUERTE
+    assert V.tiene_valor(_s(0.62, -120))
     # -160 con 62%: sin valor (VE +0.75%) pero dentro de la tolerancia -> fuerte
     assert V.categoria_sencilla(_s(0.62, -160)) == V.FUERTE
     # -170 con 62%: VE -1.5%, aún dentro del 4% -> fuerte
     assert V.categoria_sencilla(_s(0.62, -170)) == V.FUERTE
     # -200 con 62%: paga 7% menos que la justa -> nada
     assert V.categoria_sencilla(_s(0.62, -200)) is None
-    # 58%: no llega a 60% -> nada (sin valor a -160)
+    # 58%: no llega a 60% -> nada (sin valor a -160); con valor a -120 -> valor
     assert V.categoria_sencilla(_s(0.58, -160)) is None
+    assert V.categoria_sencilla(_s(0.58, -120)) == V.VALOR
+    # confianza baja con valor -> valor
+    assert V.categoria_sencilla(_s(0.62, -120, "baja")) == V.VALOR
     # confianza baja nunca es fuerte
     assert V.categoria_sencilla(_s(0.62, -160, "baja")) is None
     assert V.categoria_sencilla(_s(0.62, -160, "media")) == V.FUERTE
