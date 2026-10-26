@@ -775,21 +775,5 @@
     "corners:menos_9.5": "-190",
     "tarjetas:mas_3.5": "-334"
   },
-  "apuestas_papel": [
-    {
-      "mercado": "goles",
-      "seleccion": "menos_3.5",
-      "categoria": "sencilla_fuerte",
-      "con_valor": false,
-      "recortada": true,
-      "cuota": 1.2304,
-      "cuota_americana": "-434",
-      "monto": 1000.0,
-      "ve": -0.0292,
-      "prob": 0.789,
-      "confianza": "media",
-      "evaluado": "2026-10-26T12:11:18.704691-07:00",
-      "estado": "pendiente"
-    }
-  ]
+  "apuestas_papel": []
 }
