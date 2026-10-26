@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import difflib
 import json
+from functools import lru_cache
 import unicodedata
 from pathlib import Path
 
@@ -19,15 +20,32 @@ def normalizar(nombre: str) -> str:
     return " ".join(palabras) or s.strip()
 
 
-def _alias() -> dict[str, str]:
-    if ALIAS.exists():
-        return {normalizar(k): normalizar(v) for k, v in json.loads(ALIAS.read_text(encoding="utf-8")).items()}
-    return {}
+Alias = dict[str, frozenset[int]]
 
 
-def _puntaje(n: str, c: str, alias: dict[str, str]) -> float:
+@lru_cache(maxsize=1)
+def _alias() -> Alias:
+    """Nombre normalizado -> grupos a los que pertenece.
+
+    El archivo es una lista de grupos de nombres equivalentes: dos nombres del mismo grupo
+    son el mismo equipo. Un nombre puede estar en varios grupos.
+    """
+    if not ALIAS.exists():
+        return {}
+    grupos: dict[str, set[int]] = {}
+    for i, grupo in enumerate(json.loads(ALIAS.read_text(encoding="utf-8"))):
+        for nombre in grupo:
+            grupos.setdefault(normalizar(nombre), set()).add(i)
+    return {k: frozenset(v) for k, v in grupos.items()}
+
+
+def _mismo_grupo(n: str, c: str, alias: Alias) -> bool:
+    return bool(alias.get(n, frozenset()) & alias.get(c, frozenset()))
+
+
+def _puntaje(n: str, c: str, alias: Alias) -> float:
     """1.0 igual o alias; 0.9 palabras contenidas; si no, parecido de difflib (< 0.9)."""
-    if n == c or alias.get(n, n) == alias.get(c, c):
+    if n == c or _mismo_grupo(n, c, alias):
         return 1.0
     a, b = set(n.split()), set(c.split())
     chico = a if len(a) <= len(b) else b
