@@ -11,7 +11,7 @@ from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
-from scipy.optimize import minimize_scalar
+from scipy.optimize import least_squares, minimize_scalar
 from scipy.stats import poisson
 
 from .fuerzas import Fuerzas, ajustar_fuerzas, pesos_por_fecha
@@ -102,6 +102,92 @@ def ajustar_modelo_goles(
     fuerzas = ajustar_fuerzas(datos, "obj_l", "obj_v", referencia, vida_media_dias, ridge)
     rho = ajustar_rho(datos, fuerzas, referencia, vida_media_dias)
     return ModeloGoles(fuerzas=fuerzas, rho=rho)
+
+
+# ---------------------------------------------------------------- anclaje al mercado
+
+TIRON_MODELO = 0.02        # tirón débil (escala log) hacia el reparto y la rho del modelo
+TIRON_TOTAL_SIN_LINEA = 3.0  # sin más/menos 2.5 el total casi no se mueve del modelo
+LIMITE_RHO = 0.3
+ERROR_MAXIMO = 0.01        # error de ajuste tolerado en probabilidad
+
+
+@dataclass
+class Anclaje:
+    mu_l: float
+    mu_v: float
+    rho: float
+    error: float = 0.0          # mayor diferencia (en probabilidad) contra Pinnacle
+    rho_en_limite: bool = False  # cuotas contradictorias: rho topó con su límite
+    con_linea: bool = True       # hubo más/menos 2.5 de Pinnacle
+
+    @property
+    def impreciso(self) -> bool:
+        """Sin línea de goles el 1X2 no cuadra exacto a propósito (el total queda
+        cerca del modelo); eso ya baja la confianza por otro lado."""
+        return (self.con_linea and self.error > ERROR_MAXIMO) or self.rho_en_limite
+
+
+def anclar_a_mercado(
+    mu_modelo: tuple[float, float],
+    rho: float,
+    p_1x2: tuple[float, float, float] | None = None,
+    p_mas_25: float | None = None,
+) -> Anclaje:
+    """Goles esperados (local, visitante) y rho que reproducen las probabilidades de Pinnacle.
+
+    Mínimos cuadrados en escala log (error relativo, para que un 1.5% de un
+    no favorito pese como debe) sobre el 1X2 y el más/menos 2.5 sin margen.
+    Con los dos mercados también se ajusta rho, porque con solo dos mu el empate
+    no siempre cuadra. Sin más/menos 2.5 el total de goles se queda casi en el
+    del modelo (el 1X2 de un gran favorito no dice cuántos goles habrá); sin 1X2,
+    el reparto es el del modelo. Devuelve también el error del ajuste.
+    """
+    ml, mv = max(mu_modelo[0], 0.05), max(mu_modelo[1], 0.05)
+    if p_1x2 is None and p_mas_25 is None:
+        return Anclaje(ml, mv, rho)
+    log_tot, log_rep = np.log(ml + mv), np.log(ml / mv)
+    libre_rho = p_1x2 is not None and p_mas_25 is not None
+    tiron_total = TIRON_MODELO if p_mas_25 is not None else TIRON_TOTAL_SIN_LINEA
+    objetivo = list(p_1x2 or []) + ([p_mas_25, 1 - p_mas_25] if p_mas_25 is not None else [])
+    log_obj = np.log(np.clip(objetivo, 1e-6, None))
+    g = np.arange(MAX_GOLES + 1)
+    total = g[:, None] + g[None, :]
+
+    def probs(x):
+        a, b = np.exp(x[:2])
+        m = matriz_marcadores(a, b, x[2] if libre_rho else rho)
+        q = []
+        if p_1x2 is not None:
+            q += [np.tril(m, -1).sum(), np.trace(m), np.triu(m, 1).sum()]
+        if p_mas_25 is not None:
+            mas = m[total > 2.5].sum()
+            q += [mas, 1 - mas]
+        return np.array(q)
+
+    def residuos(x):
+        a, b = np.exp(x[:2])
+        r = list(np.log(np.clip(probs(x), 1e-9, None)) - log_obj)
+        r += [tiron_total * (np.log(a + b) - log_tot), TIRON_MODELO * (np.log(a / b) - log_rep)]
+        if libre_rho:
+            r.append(TIRON_MODELO * (x[2] - rho))
+        return np.array(r)
+
+    x0 = [np.log(ml), np.log(mv)] + ([float(np.clip(rho, -LIMITE_RHO, LIMITE_RHO))] if libre_rho else [])
+    lo = [np.log(0.05)] * 2 + ([-LIMITE_RHO] if libre_rho else [])
+    hi = [np.log(8.0)] * 2 + ([LIMITE_RHO] if libre_rho else [])
+    res = least_squares(residuos, x0, bounds=(lo, hi))
+    a, b = np.exp(res.x[:2])
+    r_fin = float(res.x[2]) if libre_rho else rho
+    error = float(np.max(np.abs(probs(res.x) - np.array(objetivo))))
+    en_limite = libre_rho and abs(r_fin) > LIMITE_RHO - 1e-3
+    return Anclaje(float(a), float(b), r_fin, error, en_limite, con_linea=p_mas_25 is not None)
+
+
+def mezclar_goles(modelo: tuple[float, float], mercado: tuple[float, float], peso_modelo: float) -> tuple[float, float]:
+    """Mezcla en escala log: mu = exp(w·log(modelo) + (1 − w)·log(mercado))."""
+    w = min(max(peso_modelo, 0.0), 1.0)
+    return tuple(float(np.exp(w * np.log(x) + (1 - w) * np.log(y))) for x, y in zip(modelo, mercado))
 
 
 # ---------------------------------------------------------------- mercados

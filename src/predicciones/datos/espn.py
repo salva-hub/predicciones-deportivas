@@ -1,14 +1,19 @@
 """API pública (no oficial) de ESPN: calendario, estadio, resultados y estadísticas.
 
 No necesita clave. Formato de URL:
-https://site.api.espn.com/apis/site/v2/sports/soccer/<liga>/scoreboard?dates=AAAAMMDD
+https://site.api.espn.com/apis/site/v2/sports/soccer/<liga>/scoreboard?dates=AAAAMMDD  (un día)
+https://site.api.espn.com/apis/site/v2/sports/soccer/<liga>/scoreboard?dates=AAAAMM&limit=500  (un mes)
 https://site.api.espn.com/apis/site/v2/sports/soccer/<liga>/summary?event=<id>
+Los rangos AAAAMMDD-AAAAMMDD ya no funcionan (HTTP 400). ESPN agrupa por fecha
+de la hora del Este de EE. UU., no por fecha UTC.
 Nota: los nombres de campos se validan al conectar la red; si ESPN cambia algo,
 estas funciones devuelven None en lugar de romper.
 """
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 
@@ -40,6 +45,8 @@ LIGAS = {
 }
 
 SONORA = timezone(timedelta(hours=-7))  # Sonora no usa horario de verano
+ESTE = ZoneInfo("America/New_York")  # ESPN agrupa los partidos por esta fecha
+TOPE = 500  # máximo de eventos por consulta
 
 
 ESTADOS_PRORROGA = {"STATUS_FINAL_AET", "STATUS_FINAL_PEN"}
@@ -102,12 +109,46 @@ def _partido(ev: dict, liga: str) -> dict:
     return out
 
 
+def _meses(a: date, b: date) -> list[tuple[int, int]]:
+    out, y, m = [], a.year, a.month
+    while (y, m) <= (b.year, b.month):
+        out.append((y, m))
+        y, m = (y + 1, 1) if m == 12 else (y, m + 1)
+    return out
+
+
+def _scoreboard(slug: str, fechas: str) -> list[dict]:
+    datos = obtener(f"{BASE}/{slug}/scoreboard", {"dates": fechas, "limit": TOPE}, horas_cache=1)
+    return datos.get("events", [])
+
+
+def _fecha_este(p: dict) -> date:
+    return datetime.fromisoformat(p["inicio_utc"]).astimezone(ESTE).date()
+
+
 def calendario(liga: str, dia: date | None = None, hasta: date | None = None) -> list[dict]:
+    """Partidos de un día o, con `hasta`, de un rango (por fecha del Este de EE. UU.)."""
     slug = LIGAS[liga]
     dia = dia or datetime.now(SONORA).date()
-    fechas = dia.strftime("%Y%m%d") + (f"-{hasta.strftime('%Y%m%d')}" if hasta else "")
-    datos = obtener(f"{BASE}/{slug}/scoreboard", {"dates": fechas, "limit": 500}, horas_cache=1)
-    return [_partido(ev, liga) for ev in datos.get("events", [])]
+    if not hasta:
+        return [_partido(ev, liga) for ev in _scoreboard(slug, dia.strftime("%Y%m%d"))]
+    # se pide cada mes completo (con un día de margen) y se filtra por fecha del Este
+    a, b = dia - timedelta(days=1), hasta + timedelta(days=1)
+    vistos: dict[str, dict] = {}
+    for y, m in _meses(a, b):
+        eventos = _scoreboard(slug, f"{y}{m:02d}")
+        if len(eventos) >= TOPE:
+            # mes lleno: puede faltar algo, se pide día por día
+            eventos = []
+            d = max(a, date(y, m, 1))
+            while d <= b and d.month == m:
+                eventos += _scoreboard(slug, d.strftime("%Y%m%d"))
+                d += timedelta(days=1)
+        for ev in eventos:
+            p = _partido(ev, liga)
+            if dia <= _fecha_este(p) <= hasta:
+                vistos[p["espn_id"]] = p
+    return sorted(vistos.values(), key=lambda p: p["inicio_utc"])
 
 
 def estadisticas(liga: str, espn_id: str) -> dict | None:
@@ -140,14 +181,48 @@ def _estadisticas(datos: dict) -> dict | None:
     for lado in ("local", "visitante"):
         a, r = out.get(f"amarillas_{lado}"), out.get(f"rojas_{lado}")
         out[f"tarjetas_{lado}"] = None if a is None else a + (r or 0)
+    arbitro = _arbitro(datos)
+    if arbitro:
+        out["arbitro"] = arbitro
     return out
+
+
+def _arbitro(datos: dict) -> str | None:
+    """Nombre del árbitro central, si ESPN lo trae.
+
+    En ESPN real los oficiales no traen `position`, solo `order` (1 = central):
+    se usa el puesto si viene y, si no, el de menor `order` (o el primero).
+    """
+    oficiales = [o for o in ((datos.get("gameInfo") or {}).get("officials") or [])
+                 if isinstance(o, dict) and o.get("displayName")]
+    if not oficiales:
+        return None
+
+    def puesto(o):
+        x = o.get("position")
+        if isinstance(x, dict):
+            x = x.get("name") or x.get("displayName")
+        return str(x or "").lower()
+
+    for o in oficiales:
+        if "referee" in puesto(o) and "assistant" not in puesto(o) and "video" not in puesto(o):
+            return o["displayName"]
+
+    def orden(par):
+        i, o = par
+        try:
+            return (0, float(o.get("order")), i)
+        except (TypeError, ValueError):
+            return (1, 0.0, i)  # sin order: después, en su posición original
+
+    return min(enumerate(oficiales), key=orden)[1]["displayName"]
 
 
 def resultado(liga: str, espn_id: str, inicio_utc: str | None = None) -> dict | None:
     """Estado, marcador y estadísticas de un partido, leídos de summary?event=<id>.
 
     Si summary no trae el encabezado, busca el partido en el calendario del día
-    anterior al siguiente (ESPN agrupa por fecha UTC).
+    anterior al siguiente (ESPN agrupa por fecha del Este de EE. UU.).
     """
     slug = LIGAS[liga]
     try:
@@ -179,18 +254,23 @@ def historial(liga: str, desde: date, hasta: date, con_estadisticas: bool = True
     filas = []
     inicio = desde
     while inicio <= hasta:
-        fin = min(inicio + timedelta(days=30), hasta)
-        for p in calendario(liga, inicio, fin):
-            if not p["terminado"]:
-                continue
-            if con_estadisticas:
-                try:
-                    p.update(estadisticas(liga, p["espn_id"]) or {})
-                except Exception:  # noqa: BLE001 - un partido sin estadísticas no tumba la liga
-                    pass
-            filas.append(p)
+        # mes calendario por mes calendario
+        fin_mes = (date(inicio.year + inicio.month // 12, inicio.month % 12 + 1, 1) - timedelta(days=1))
+        fin = min(fin_mes, hasta)
+        filas += [p for p in calendario(liga, inicio, fin) if p["terminado"]]
         inicio = fin + timedelta(days=1)
+    if con_estadisticas and filas:
+        def una(p):
+            try:
+                return estadisticas(liga, p["espn_id"]) or {}
+            except Exception:  # noqa: BLE001 - un partido sin estadísticas no tumba la liga
+                return {}
+
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            for p, extra in zip(filas, pool.map(una, filas)):
+                p.update(extra)
     df = pd.DataFrame(filas)
     if not df.empty:
+        df = df.drop_duplicates(subset=["espn_id"], keep="last")
         df["fecha"] = pd.to_datetime(df["inicio_utc"]).dt.tz_localize(None)
     return df

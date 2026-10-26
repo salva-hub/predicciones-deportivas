@@ -1,12 +1,12 @@
 from predicciones.datos import espn
 
 
-def _ev(nombre_estado, local, visitante, ls_local, ls_visit):
+def _ev(nombre_estado, local, visitante, ls_local, ls_visit, id_="123", fecha="2026-10-20T19:00Z"):
     def comp(lado, nombre, score, ls):
         return {"homeAway": lado, "score": str(score), "team": {"displayName": nombre},
                 "linescores": [{"value": v} for v in ls]}
     return {
-        "id": "123", "date": "2026-10-20T19:00Z",
+        "id": id_, "date": fecha,
         "status": {"type": {"name": nombre_estado, "completed": True}},
         "competitions": [{"competitors": [comp("home", "Toluca", local, ls_local),
                                           comp("away", "America", visitante, ls_visit)]}],
@@ -68,7 +68,7 @@ def test_resultado_cae_al_calendario(monkeypatch):
     r = espn.resultado("liga_mx", "123", "2026-10-20T19:00:00+00:00")
     assert r["goles_visitante"] == 2
     cal = next(p for u, p in llamadas if u.endswith("/scoreboard"))
-    assert cal["dates"] == "20261019-20261021"
+    assert cal["dates"] == "202610"
 
 
 def test_historial_sigue_si_falla_una_estadistica(monkeypatch):
@@ -81,3 +81,88 @@ def test_historial_sigue_si_falla_una_estadistica(monkeypatch):
     from datetime import date
     df = espn.historial("liga_mx", date(2026, 10, 1), date(2026, 10, 20))
     assert len(df) == 1
+
+
+def _falso_scoreboard(eventos_por_fecha, llamadas):
+    def falso(url, params=None, **k):
+        llamadas.append(params["dates"])
+        return {"events": eventos_por_fecha.get(params["dates"], [])}
+    return falso
+
+
+def test_calendario_por_meses_filtra_hora_del_este(monkeypatch):
+    from datetime import date
+    ev = lambda i, f: _ev("STATUS_FULL_TIME", 1, 0, [1, 0], [0, 0], id_=i, fecha=f)
+    eventos = {
+        # 2025-01-11 01:00Z es 2025-01-10 en el Este: entra
+        "202501": [ev("a", "2025-01-11T01:00Z"), ev("b", "2025-01-12T20:00Z"), ev("c", "2025-01-31T20:00Z")],
+        # 2025-02-01 03:00Z es 2025-01-31 en el Este: entra; se repite "c" (sin duplicar)
+        "202502": [ev("c", "2025-01-31T20:00Z"), ev("d", "2025-02-01T03:00Z"), ev("e", "2025-02-01T20:00Z")],
+        "202412": [ev("f", "2024-12-31T20:00Z")],
+    }
+    llamadas = []
+    monkeypatch.setattr(espn, "obtener", _falso_scoreboard(eventos, llamadas))
+    ps = espn.calendario("liga_mx", date(2025, 1, 1), date(2025, 1, 31))
+    assert [p["espn_id"] for p in ps] == ["a", "b", "c", "d"]
+    assert llamadas == ["202412", "202501", "202502"]
+    # el día del Este manda: el 10 de enero incluye el partido de las 01:00Z del 11
+    assert [p["espn_id"] for p in espn.calendario("liga_mx", date(2025, 1, 10), date(2025, 1, 10))] == ["a"]
+
+
+def test_calendario_un_dia_sin_cambios(monkeypatch):
+    from datetime import date
+    llamadas = []
+    monkeypatch.setattr(espn, "obtener", _falso_scoreboard({"20250110": [_ev("STATUS_FULL_TIME", 1, 0, [1, 0], [0, 0])]}, llamadas))
+    assert len(espn.calendario("liga_mx", date(2025, 1, 10))) == 1
+    assert llamadas == ["20250110"]
+
+
+def test_calendario_mes_lleno_pide_dia_por_dia(monkeypatch):
+    from datetime import date
+    lleno = [_ev("STATUS_FULL_TIME", 1, 0, [1, 0], [0, 0], id_=f"x{i}", fecha="2025-03-15T18:00Z") for i in range(espn.TOPE)]
+    eventos = {"202503": lleno, "20250315": [_ev("STATUS_FULL_TIME", 1, 0, [1, 0], [0, 0], id_="z", fecha="2025-03-15T18:00Z")]}
+    llamadas = []
+    monkeypatch.setattr(espn, "obtener", _falso_scoreboard(eventos, llamadas))
+    ps = espn.calendario("liga_mx", date(2025, 3, 10), date(2025, 3, 20))
+    assert [p["espn_id"] for p in ps] == ["z"]
+    assert "20250309" in llamadas and "20250321" in llamadas and "20250308" not in llamadas
+
+
+def test_historial_por_mes_y_arbitro(monkeypatch):
+    from datetime import date
+    ev = lambda i, f: _ev("STATUS_FULL_TIME", 1, 0, [1, 0], [0, 0], id_=i, fecha=f)
+    eventos = {"202501": [ev("a", "2025-01-15T20:00Z")], "202502": [ev("b", "2025-02-15T20:00Z")]}
+    resumen = {
+        "boxscore": {"teams": [
+            {"homeAway": "home", "statistics": [{"name": "wonCorners", "displayValue": "5"}]},
+            {"homeAway": "away", "statistics": [{"name": "wonCorners", "displayValue": "4"}]}]},
+        "gameInfo": {"officials": [{"displayName": "Juez Línea", "position": {"name": "Assistant Referee"}},
+                                   {"displayName": "César Ramos", "position": {"name": "Referee"}}]},
+    }
+
+    def falso(url, params=None, **k):
+        if url.endswith("/summary"):
+            return resumen
+        return {"events": eventos.get(params["dates"], [])}
+
+    monkeypatch.setattr(espn, "obtener", falso)
+    df = espn.historial("liga_mx", date(2025, 1, 1), date(2025, 2, 28))
+    assert list(df["espn_id"]) == ["a", "b"]
+    assert (df["arbitro"] == "César Ramos").all() and (df["corners_local"] == 5).all()
+
+
+def test_arbitro_sin_puesto_toma_el_primero():
+    assert espn._arbitro({"gameInfo": {"officials": [{"displayName": "Uno", "position": None},
+                                                     {"displayName": "Dos"}]}}) == "Uno"
+    assert espn._arbitro({}) is None
+
+
+def test_arbitro_por_order_como_espn_real():
+    datos = {"gameInfo": {"officials": [
+        {"displayName": "Asistente Uno", "order": 2},
+        {"displayName": "Central", "order": 1},
+        {"displayName": "Cuarto", "order": 4},
+    ]}}
+    assert espn._arbitro(datos) == "Central"
+    sin_order = {"gameInfo": {"officials": [{"displayName": "X"}, {"displayName": "Y", "order": "3"}]}}
+    assert espn._arbitro(sin_order) == "Y"

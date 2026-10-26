@@ -1,7 +1,7 @@
 """Flujo completo sin red: pronóstico -> evaluar con cuotas de Winpot -> apostar -> bank."""
 import importlib
 import json
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 import pytest
 
@@ -15,6 +15,8 @@ def cli(tmp_path, monkeypatch, liga_sintetica):
     importlib.reload(historiales)
     from predicciones import cli
     importlib.reload(cli)
+    # por defecto, fuera de la prueba en papel (dinero real); las pruebas del papel la activan
+    monkeypatch.setattr(cli.B, "PRUEBA_PAPEL_HASTA", date(2000, 1, 1))
     (tmp_path / "datos" / "historial").mkdir(parents=True)
     liga_sintetica.assign(espn_id=range(len(liga_sintetica))).to_csv(tmp_path / "datos" / "historial" / "premier.csv", index=False)
     return cli
@@ -189,6 +191,214 @@ def test_exportar(cli, capsys, tmp_path):
     assert (tmp_path / "_site" / "registro" / "bank.json").exists()
 
 
+# ---------------------------------------------------------------- prueba en papel
+
+@pytest.fixture
+def papel(cli, monkeypatch):
+    monkeypatch.setattr(cli.B, "PRUEBA_PAPEL_HASTA", date(2999, 12, 31))
+    return cli
+
+
+def test_papel_no_recomienda_dinero_y_guarda(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pronostico(cli, capsys)
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400", "--winpot", "ganador:1=-1000"])
+    out = capsys.readouterr()
+    ev = json.loads(out.out)
+    assert "Prueba en papel hasta 26-nov-2026" in out.err and ev["prueba_papel"] is True
+    bueno, malo = ev["evaluacion"]
+    assert bueno["apostar"] is False and bueno["monto_sencilla"] == 0
+    assert bueno["apostar_papel"] is True and bueno["monto_papel"] in (200, 300, 500)
+    assert malo["apostar_papel"] is False
+    guardado = R.buscar_pronostico(p["id"])
+    assert [(x["mercado"], x["seleccion"]) for x in guardado["apuestas_papel"]] == [("goles", "mas_2.5")]
+    assert guardado["apuestas_papel"][0]["cuota_americana"] == "+400"
+
+
+def test_papel_apostar_pide_forzar(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pronostico(cli, capsys)
+    with pytest.raises(SystemExit) as e:
+        cli.main(["apostar", "--pata", f"{p['id']}:goles:mas_2.5=+400", "--monto", "300"])
+    assert "papel" in str(e.value)
+    assert R.apuestas() == []
+    cli.main(["apostar", "--pata", f"{p['id']}:goles:mas_2.5=+400", "--monto", "300", "--forzar"])
+    out = capsys.readouterr()
+    assert "--forzar" in out.err and len(R.apuestas()) == 1
+
+
+def test_papel_parlays_marcados(papel, capsys):
+    R = papel.R
+    _evaluado(R, "A vs B", "goles", "mas_2.5", "+100")
+    _evaluado(R, "C vs D", "ganador", "1", "+100")
+    papel.main(["parlays"])
+    out = _salida(capsys)
+    assert "papel" in out["aviso"]
+    par = out["parlays_papel"][0]
+    assert par["papel"] is True and par["monto"] == 0 and par["monto_papel"] == 300
+
+
+def test_papel_se_califica(papel, capsys, monkeypatch):
+    cli, R = papel, papel.R
+    p = _pronostico_espn(R, 3, [("goles", "mas_2.5"), ("corners", "mas_9.5")])
+    p["apuestas_papel"] = [
+        {"mercado": "goles", "seleccion": "mas_2.5", "cuota": 2.5, "monto": 200, "evaluado": R.ahora().isoformat(), "estado": "pendiente"},
+        {"mercado": "ganador", "seleccion": "2", "cuota": 3.0, "monto": 100, "evaluado": R.ahora().isoformat(), "estado": "pendiente"},
+        {"mercado": "corners", "seleccion": "mas_9.5", "cuota": 1.9, "monto": 100, "evaluado": R.ahora().isoformat(), "estado": "pendiente"},
+    ]
+    R.actualizar_pronostico(p)
+    monkeypatch.setattr(cli.espn, "resultado", lambda *a: {"terminado": True, "goles_local": 2, "goles_visitante": 1})
+    cli.main(["calificar"])
+    capsys.readouterr()
+    gan, perd, sin = R.buscar_pronostico(p["id"])["apuestas_papel"]
+    assert (gan["estado"], gan["ganancia"]) == ("ganada", 300)
+    assert (perd["estado"], perd["ganancia"]) == ("perdida", -100)
+    assert sin["estado"] == "pendiente"  # faltan córners: se reintenta
+    # las apuestas en papel no tocan el bank real
+    assert R.bank_actual() == 10000
+
+
+def test_partidos_incluye_noche_de_sonora(cli, capsys, monkeypatch):
+    pedidos = []
+
+    def calendario(liga, dia, hasta=None):
+        pedidos.append((dia, hasta))
+        base = {"espn_id": "", "local": "A", "visitante": "B", "estadio": None, "ciudad": None}
+        return [dict(base, espn_id="tarde", inicio_sonora="2026-10-26 13:00"),
+                # 22:30 de Sonora = día siguiente en el Este: ESPN lo lista el 27
+                dict(base, espn_id="noche", inicio_sonora="2026-10-26 22:30"),
+                dict(base, espn_id="otro_dia", inicio_sonora="2026-10-27 12:00")]
+
+    monkeypatch.setattr(cli.espn, "calendario", calendario)
+    cli.main(["partidos", "--liga", "liga_mx", "--fecha", "2026-10-26"])
+    ids = [p["espn_id"] for p in _salida(capsys)]
+    assert pedidos == [(date(2026, 10, 26), date(2026, 10, 27))]
+    assert ids == ["tarde", "noche"]
+
+
+def test_limite_del_dia_cubre_varias_selecciones(cli, capsys):
+    p = _pronostico(cli, capsys)
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400", "--winpot", "goles:mas_1.5=+400",
+              "--winpot", "goles:mas_3.5=+900", "--winpot", "ambos_anotan:si=+400"])
+    ev = _salida(capsys)
+    aprobadas = [r["monto_sencilla"] for r in ev["evaluacion"] if r.get("apostar")]
+    assert len(aprobadas) >= 3
+    assert sum(aprobadas) <= 1000  # 10% de 10,000
+
+
+def test_papel_limite_del_dia_y_bank(papel, capsys):
+    cli = papel
+    p = _pronostico(cli, capsys)
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400", "--winpot", "goles:mas_1.5=+400",
+              "--winpot", "goles:mas_3.5=+900", "--winpot", "ambos_anotan:si=+400"])
+    ev = _salida(capsys)
+    total = sum(r["monto_papel"] for r in ev["evaluacion"])
+    assert 0 < total <= 1000
+    cli.main(["bank"])
+    b = _salida(capsys)
+    assert b["prueba_papel"] is True and b["apostado_papel_hoy"] == total
+    assert b["disponible_hoy"] == 1000 - total
+    # volver a evaluar no duplica: reemplaza las pendientes
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400"])
+    capsys.readouterr()
+    sel = [(x["mercado"], x["seleccion"]) for x in cli.R.buscar_pronostico(p["id"])["apuestas_papel"]]
+    assert len(sel) == len(set(sel))
+
+
+def test_papel_reevaluar_no_pisa_calificadas_ni_agrega_tras_resultado(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pronostico(cli, capsys)
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400"])
+    capsys.readouterr()
+    q = R.buscar_pronostico(p["id"])
+    q["apuestas_papel"][0].update(estado="ganada", ganancia=999)
+    q.update(estado="calificado", resultado={"goles_local": 0, "goles_visitante": 0})
+    R.actualizar_pronostico(q)
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400", "--winpot", "ambos_anotan:no=+400"])
+    ev = _salida(capsys)
+    assert ev["evaluacion"][0]["motivo"] == "ya calificada en papel"
+    papel_ = {x["seleccion"]: x for x in R.buscar_pronostico(p["id"])["apuestas_papel"]}
+    assert papel_["mas_2.5"]["ganancia"] == 999  # no se pisó
+    # con resultado ya conocido no se agregan apuestas en papel (sería trampa)
+    assert "no" not in papel_
+    assert ev["evaluacion"][1]["apostar_papel"] is False and "ya empezó" in ev["evaluacion"][1]["motivo"]
+    assert "nota" in ev
+
+
+def test_papel_parlays_se_guardan_y_califican(papel, capsys, monkeypatch):
+    cli, R = papel, papel.R
+    a = _evaluado(R, "A vs B", "goles", "mas_2.5", "+100")
+    b = _evaluado(R, "C vs D", "ganador", "1", "+100")
+    cli.main(["parlays"])
+    capsys.readouterr()
+    cli.main(["parlays"])  # correrlo dos veces no duplica
+    capsys.readouterr()
+    guardados = R.parlays_papel()
+    assert len(guardados) == 1 and guardados[0]["monto"] == 300
+    for pr, gl in ((a, 3), (b, 2)):
+        pr.update(estado="calificado", resultado={"goles_local": gl, "goles_visitante": 0})
+        R.actualizar_pronostico(pr)
+    cli.main(["calificar"])
+    capsys.readouterr()
+    par = R.parlays_papel()[0]
+    assert par["estado"] == "ganada" and par["ganancia"] == 900
+    assert R.bank_actual() == 10000  # el papel no toca el bank
+    cli.main(["exportar", "--salida", str(R.RAIZ / "_site")])
+    capsys.readouterr()
+    assert json.loads((R.RAIZ / "_site" / "papel.json").read_text())[0]["estado"] == "ganada"
+
+
+def test_papel_no_agrega_si_el_partido_ya_empezo(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pronostico(cli, capsys)
+    q = R.buscar_pronostico(p["id"])
+    q["inicio_utc"] = (datetime.now(timezone.utc) - timedelta(minutes=5)).isoformat()
+    R.actualizar_pronostico(q)
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400"])
+    ev = _salida(capsys)
+    assert ev["evaluacion"][0]["ve"] > 0 and ev["evaluacion"][0]["apostar_papel"] is False
+    assert R.buscar_pronostico(p["id"]).get("apuestas_papel") == []
+
+
+def test_reevaluar_mezcla_por_seleccion(cli, capsys):
+    R = cli.R
+    p = _pronostico(cli, capsys)
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400"])
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "ganador:1=-1000"])
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+300"])
+    capsys.readouterr()
+    q = R.buscar_pronostico(p["id"])
+    assert [(r["mercado"], r["seleccion"]) for r in q["evaluacion"]] == [("ganador", "1"), ("goles", "mas_2.5")]
+    assert q["cuotas_winpot"] == {"goles:mas_2.5": "+300", "ganador:1": "-1000"}
+
+
+def test_papel_parlays_limite_cuenta_todo_lo_de_hoy(papel, capsys):
+    from datetime import date as _d
+    R = papel.R
+    # parlay en papel guardado hoy para otro día de partido: cuenta en el límite de hoy
+    R.guardar_parlays_papel(_d(2030, 1, 1), [{"clave": "x", "tipo": "parlay", "patas": [], "cuota": 3.0,
+                                              "monto": 900, "creado": R.ahora().isoformat(), "estado": "pendiente"}])
+    _evaluado(R, "A vs B", "goles", "mas_2.5", "+100")
+    _evaluado(R, "C vs D", "ganador", "1", "+100")
+    papel.main(["parlays"])
+    out = _salida(capsys)
+    assert out["parlays_papel"][0]["monto_papel"] == 100  # 1000 - 900
+
+
+def test_parlays_varios_pronosticos_del_mismo_partido(papel, capsys):
+    R = papel.R
+    viejo = _evaluado(R, "A vs B", "goles", "mas_2.5", "+100")
+    nuevo = _evaluado(R, "A vs B", "goles", "mas_2.5", "+100")
+    nuevo["creado"] = viejo["creado"] + "z"  # el más reciente
+    R.actualizar_pronostico(nuevo)
+    _evaluado(R, "C vs D", "ganador", "1", "+100")
+    papel.main(["parlays"])
+    capsys.readouterr()
+    (par,) = R.parlays_papel()
+    ids = {x["pronostico"] for x in par["patas"]}
+    assert nuevo["id"] in ids and viejo["id"] not in ids
+
+
 def test_sin_pinnacle_baja_confianza_y_avisa(cli, capsys):
     sin = _pronostico(cli, capsys, "--no-guardar")
     assert cli.NOTA_SIN_PINNACLE in sin["notas"]
@@ -354,3 +564,18 @@ def test_corregir_liquidada_conserva_fecha(cli, capsys):
     assert R.buscar_apuesta(ap["id"])["liquidada"] == liquidada
     assert R.ganancia_cobrada_hoy() == 0 and R.resultado_apuestas_mes() == 0
     assert R.bank_inicio_mes() == 10150.0
+
+
+def test_papel_parlay_perdido_al_instante(papel, capsys):
+    cli, R = papel, papel.R
+    a = _evaluado(R, "A vs B", "goles", "mas_2.5", "+100")
+    _evaluado(R, "C vs D", "ganador", "1", "+100")
+    cli.main(["parlays"])
+    capsys.readouterr()
+    a.update(estado="calificado", resultado={"goles_local": 0, "goles_visitante": 0})
+    R.actualizar_pronostico(a)
+    cli.main(["calificar"])  # C vs D sigue pendiente, pero una pata perdida ya pierde el parlay
+    capsys.readouterr()
+    par = R.parlays_papel()[0]
+    assert par["estado"] == "perdida" and par["ganancia"] == -300
+    assert R.bank_actual() == 10000

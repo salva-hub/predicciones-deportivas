@@ -4,6 +4,8 @@ Nada depende del historial de chats: cualquier sesión nueva lee estos archivos.
 - pronosticos/<id>.json : un archivo por pronóstico (probabilidades y resultado).
 - apuestas/<id>.json    : un archivo por apuesta real confirmada por Salva.
 - bank.json             : bank inicial y movimientos (retiros / depósitos).
+- papel/parlays-<AAAAMMDD>.json : parlays de la prueba en papel de ese día.
+  (las sencillas en papel van dentro de su pronóstico, en apuestas_papel)
 
 Un archivo por registro evita conflictos de git cuando el chat y GitHub Actions
 escriben al mismo tiempo.
@@ -127,11 +129,39 @@ def agregar_apuesta(a: dict) -> dict:
     return a
 
 
+# ---------------------------------------------------------------- parlays en papel
+
+def archivos_parlays_papel() -> list[dict]:
+    return _listar("papel")
+
+
+def parlays_papel() -> list[dict]:
+    return [x for doc in archivos_parlays_papel() for x in doc.get("parlays", [])]
+
+
+def actualizar_parlays_papel(doc: dict) -> None:
+    _escribir_ruta(_ruta_item("papel", doc["id"]), doc)
+
+
+def guardar_parlays_papel(dia, nuevos: list[dict]) -> list[dict]:
+    """Guarda los parlays en papel de un día. Los ya calificados se conservan; los
+    pendientes se reemplazan por los nuevos (volver a correr parlays no duplica)."""
+    did = f"parlays-{dia:%Y%m%d}"
+    ruta = _ruta_item("papel", did)
+    doc = json.loads(ruta.read_text(encoding="utf-8")) if ruta.exists() else {"id": did, "fecha": str(dia), "creado": ahora().isoformat()}
+    calificados = [x for x in doc.get("parlays", []) if x.get("estado") != "pendiente"]
+    claves = {x["clave"] for x in calificados}
+    doc["parlays"] = calificados + [x for x in nuevos if x["clave"] not in claves]
+    actualizar_parlays_papel(doc)
+    return doc["parlays"]
+
+
 def exportar(salida: str | Path) -> None:
-    """Junta todo en pronosticos.json, apuestas.json y bank.json (para el dashboard)."""
+    """Junta todo en pronosticos.json, apuestas.json, papel.json y bank.json (para el dashboard)."""
     salida = Path(salida)
     _escribir_ruta(salida / "pronosticos.json", pronosticos())
     _escribir_ruta(salida / "apuestas.json", apuestas())
+    _escribir_ruta(salida / "papel.json", parlays_papel())
     _escribir_ruta(salida / "bank.json", bank_config())
 
 
@@ -186,6 +216,25 @@ def ganancia_cobrada_hoy() -> float:
 def apostado_hoy_pendiente() -> float:
     hoy = ahora().date()
     return sum(a["monto"] for a in apuestas() if _fecha_sonora(a["creado"]).date() == hoy)
+
+
+def apostado_papel_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -> float:
+    """Montos en papel puestos hoy (prueba sin dinero): sencillas y parlays, sin importar
+    el día del partido. No cuenta las sencillas del pronóstico `excluir` ni los parlays
+    pendientes del día `reemplazar_parlays_de` (se van a reemplazar)."""
+    hoy = ahora().date()
+    total = sum(
+        x.get("monto", 0.0) for p in pronosticos() if p.get("id") != excluir
+        for x in p.get("apuestas_papel", []) if _fecha_sonora(x["evaluado"]).date() == hoy
+    )
+    omitir = f"parlays-{reemplazar_parlays_de:%Y%m%d}" if reemplazar_parlays_de else None
+    for doc in archivos_parlays_papel():
+        for x in doc.get("parlays", []):
+            if doc.get("id") == omitir and x.get("estado") == "pendiente":
+                continue
+            if _fecha_sonora(x["creado"]).date() == hoy:
+                total += x.get("monto", 0.0)
+    return total
 
 
 def _inicio_mes() -> datetime:

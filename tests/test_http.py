@@ -35,3 +35,26 @@ def test_error_de_conexion_no_muestra_la_clave(monkeypatch, tmp_path):
 
 def test_limpiar():
     assert "SECRETO" not in http.limpiar("fallo en https://h/x?apiKey=SECRETO&regions=eu")
+
+
+class _Ok:
+    status_code = 200
+    text = '{"a": 1}'
+
+
+def test_cache_atomica(monkeypatch, tmp_path):
+    monkeypatch.setattr(http, "CACHE", tmp_path / "cache")
+    monkeypatch.setattr(http.requests, "get", lambda *a, **k: _Ok())
+    reemplazos = []
+    real = http.os.replace
+    monkeypatch.setattr(http.os, "replace", lambda a, b: reemplazos.append((a, b)) or real(a, b))
+    assert http.obtener("https://x/y", horas_cache=1) == {"a": 1}
+    archivos = list((tmp_path / "cache").iterdir())
+    assert len(archivos) == 1 and not archivos[0].name.endswith(".tmp")
+    assert len(reemplazos) == 1 and str(reemplazos[0][1]) == str(archivos[0])
+    assert str(reemplazos[0][0]).startswith(str(tmp_path / "cache"))  # temporal en la misma carpeta
+    # si falla la escritura no queda basura
+    monkeypatch.setattr(http.os, "replace", lambda a, b: (_ for _ in ()).throw(OSError("disco")))
+    with pytest.raises(OSError):
+        http.obtener("https://x/z", horas_cache=0)
+    assert len(list((tmp_path / "cache").iterdir())) == 1
