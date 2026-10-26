@@ -209,8 +209,11 @@ por categoría": apuestas, acierto, ganancia, ROI y peor racha). "Precio justo" 
 "Dentro de tolerancia" = Winpot paga la cuota justa o hasta 4% menos (en decimal: Winpot ≥ justa × 0.96).
 
 1. **Valor** (`valor`): las reglas de arriba (sencillas y parlays con valor).
-2. **Sencilla fuerte** (`sencilla_fuerte`): cuota negativa en Winpot, probabilidad ≥ 60%, confianza alta o media
-   (nunca baja) y dentro de tolerancia. Se apuesta para **ganar** un objetivo (ver Montos). Máximo 1 por día.
+2. **Sencilla fuerte** (`sencilla_fuerte`): cuota negativa en Winpot de **−200 o mejor** (−150 sí, −250 no;
+   `CUOTA_MIN_FUERTE` en `valor.py`), probabilidad ≥ 60%, confianza alta o media (nunca baja) y dentro de tolerancia.
+   Se apuesta para **ganar** un objetivo (ver Montos). Máximo 1 por día. Con momio peor que −200 no va como
+   sencilla fuerte (`motivo`: "momio peor que −200…"), pero puede ir como valor si cumple sus reglas o como pata
+   de combinada (`sirve_para_combinada`).
 3. **Combinada** (`combinada`): 2 o 3 patas de partidos distintos, cada una con probabilidad ≥ 55%, confianza alta o
    media y dentro de tolerancia (o con valor); cuota total de Winpot entre +200 y +350. Se prefieren las de 2 patas y
    luego la de mayor probabilidad; ninguna pata se repite entre las combinadas del día. Máximo 2 por día.
@@ -249,7 +252,8 @@ Temporadas 2022/23 a 2025/26, apostando contra la cuota de apertura de Pinnacle 
 - Ningún monto recomendado pasa de lo que queda del límite del día (`disponible_hoy`).
 - Parlay de valor: 3% con confianza alta; 2% con confianza media o baja.
 - Sencilla fuerte: lo necesario para **ganar** 5% del bank con confianza alta (con 10,000: ganar 500; a −120 se ponen 600)
-  o 2.5% con confianza media (ganar 250). Se redondea hacia arriba a 10 MXN.
+  o 2.5% con confianza media (ganar 250). Se redondea hacia arriba a 10 MXN. Como el momio mínimo es −200, el riesgo
+  máximo es el doble del objetivo (con 10,000 y confianza alta: 1,000 a −200).
 - Combinada: 5% del bank si todas las patas son de confianza alta; 3% si alguna es media.
 - Límite del día: 10% del bank; si ese día ya hay ganancia cobrada, 10% más la mitad de esa ganancia, hasta 20%.
   Cubre las tres categorías juntas (reales o en papel). Si los montos pasan del disponible, se **recortan en orden**:

@@ -616,6 +616,21 @@ def test_papel_sencilla_fuerte_monto_y_maximo_por_dia(papel, capsys):
     assert b_["usadas_hoy"]["sencilla_fuerte"] == 1 and b_["disponible_hoy"] == 200
 
 
+def test_papel_momio_peor_que_menos_200_no_es_fuerte(papel, capsys):
+    R = papel.R
+    a = _pron_cat(R, "A vs B", [("goles", "menos_3.5", 0.789, "media")])
+    papel.main(["evaluar", "--id", a["id"], "--winpot", "goles:menos_3.5=-434"])
+    (r,) = _salida(capsys)["evaluacion"]
+    assert r["categoria"] is None and r["apostar_papel"] is False
+    assert r["sirve_para_combinada"] is True and "peor que −200" in r["motivo"]
+    assert not R.buscar_pronostico(a["id"]).get("apuestas_papel")
+    # no gasta el cupo del día: una fuerte a -150 sí entra
+    b = _pron_cat(R, "C vs D", [("ganador", "1", 0.62, "alta")])
+    papel.main(["evaluar", "--id", b["id"], "--winpot", "ganador:1=-150"])
+    (r,) = _salida(capsys)["evaluacion"]
+    assert r["categoria"] == "sencilla_fuerte" and r["monto_papel"] == 750  # para ganar 500 a -150
+
+
 def test_fuerte_gana_sobre_valor_y_sin_cupo_pasa_a_valor(papel, capsys):
     R = papel.R
     a = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta"), ("goles", "mas_2.5", 0.64, "alta")])
