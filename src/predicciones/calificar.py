@@ -1,6 +1,8 @@
 """Califica selecciones con el resultado final del partido."""
 from __future__ import annotations
 
+from .datos import tarjetas_winpot
+
 GANA, PIERDE, DEVUELVE, SIN_DATOS = "ganada", "perdida", "devuelta", "sin_datos"
 
 
@@ -16,8 +18,20 @@ def _comparar_linea(valor: float | None, seleccion: str) -> str:
     return GANA if gana else PIERDE
 
 
+def _tarjetas(r: dict, lado: str) -> float | None:
+    """Tarjetas de un lado como Winpot (amarilla 1, roja 2, doble amarilla 3).
+
+    Con amarillas y rojas se recalcula; si solo viene tarjetas_<lado> se usa tal cual.
+    """
+    if r.get(f"amarillas_{lado}") is not None:
+        return tarjetas_winpot(r[f"amarillas_{lado}"], r.get(f"rojas_{lado}"),
+                               r.get(f"segundas_amarillas_{lado}"))
+    return r.get(f"tarjetas_{lado}")
+
+
 def calificar(mercado: str, seleccion: str, r: dict) -> str:
-    """r: goles_local, goles_visitante, goles_*_pt, corners_*, tarjetas_*."""
+    """r: goles_local, goles_visitante, goles_*_pt, corners_*, tarjetas_* (o amarillas_*, rojas_*,
+    segundas_amarillas_*)."""
     gl, gv = r.get("goles_local"), r.get("goles_visitante")
     if gl is None or gv is None:
         return SIN_DATOS
@@ -52,7 +66,8 @@ def calificar(mercado: str, seleccion: str, r: dict) -> str:
             return DEVUELVE
         return GANA if ajustado > 0 else PIERDE
     if mercado in ("corners", "tarjetas"):
-        a, b = r.get(f"{mercado}_local"), r.get(f"{mercado}_visitante")
+        a, b = (_tarjetas(r, l) for l in ("local", "visitante")) if mercado == "tarjetas" else (
+            r.get("corners_local"), r.get("corners_visitante"))
         if a is None or b is None:
             return SIN_DATOS
         return _comparar_linea(a + b, seleccion)

@@ -526,6 +526,10 @@ def cmd_calificar(a) -> None:
             continue
         p["resultado"] = {k: r.get(k) for k in ("goles_local", "goles_visitante", "goles_local_pt", "goles_visitante_pt",
                                                  "corners_local", "corners_visitante", "tarjetas_local", "tarjetas_visitante")}
+        # detalle de tarjetas (Winpot: amarilla 1, roja 2, doble amarilla 3)
+        p["resultado"].update({k: r[k] for k in ("amarillas_local", "amarillas_visitante", "rojas_local", "rojas_visitante",
+                                                 "segundas_amarillas_local", "segundas_amarillas_visitante")
+                               if r.get(k) is not None})
         if r.get("prorroga"):
             p["resultado"]["prorroga"] = True
         for s in p["selecciones"]:
@@ -666,7 +670,8 @@ def main(argv=None) -> None:
     s.add_argument("--fecha")
     s.add_argument("--ajuste", action="append", help="objetivo:factor:motivo (objetivo: goles_local, goles_visitante, corners, tarjetas)")
     s.add_argument("--arbitro")
-    s.add_argument("--arbitro-prom", type=float, help="tarjetas por partido del árbitro en la competición")
+    s.add_argument("--arbitro-prom", type=float, help="tarjetas por partido del árbitro en la competición contando roja = 2 "
+                   "(amarillas por partido + 2 × rojas por partido)")
     s.add_argument("--arbitro-partidos", type=int)
     s.add_argument("--pinnacle", help="cuotas manuales: 1=-150,X=+280,2=+400,mas_2.5=-110,menos_2.5=-110")
     s.add_argument("--confianza", required=True, choices=V.ORDEN_CONFIANZA)
