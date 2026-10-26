@@ -18,9 +18,10 @@
 Tres categorías de apuesta (aprobadas por Salva el 26-oct-2026; se miden por
 separado en la prueba en papel y se comparan el 26-nov-2026):
 - "valor": las reglas de arriba (sencillas y parlays con valor).
-- "sencilla_fuerte": sencilla con cuota negativa en Winpot, probabilidad >= 60%,
-  confianza alta o media y cuota de Winpot dentro de la tolerancia (como mucho
-  4% por debajo de la cuota justa). Se apuesta para GANAR un objetivo fijo.
+- "sencilla_fuerte": sencilla con cuota negativa en Winpot de −200 o mejor
+  (−150 sí, −250 no), probabilidad >= 60%, confianza alta o media y cuota de
+  Winpot dentro de la tolerancia (como mucho 4% por debajo de la cuota justa).
+  Se apuesta para GANAR un objetivo fijo (riesgo máximo: el doble del objetivo).
 - "combinada": 2 o 3 patas de partidos distintos, cada una con probabilidad
   >= 55%, confianza alta o media y dentro de la tolerancia (o con valor); la
   cuota total de Winpot entre +200 y +350.
@@ -49,6 +50,8 @@ VALOR, FUERTE, COMBINADA = "valor", "sencilla_fuerte", "combinada"
 CATEGORIAS = (VALOR, FUERTE, COMBINADA)
 TOLERANCIA_ATRACTIVA = 0.04       # Winpot puede pagar hasta 4% menos que la cuota justa (decimal)
 PROB_MIN_FUERTE = 0.60
+CUOTA_MIN_FUERTE = 1.5             # −200: con momio peor no va como sencilla fuerte (aprobado por Salva)
+MOTIVO_MOMIO_FUERTE = "momio peor que −200: no va como sencilla fuerte (sí puede ir en combinada)"
 PROB_MIN_PATA_COMBINADA = 0.55
 CONFIANZAS_CATEGORIA = ("alta", "media")  # sencilla fuerte y combinada: nunca con confianza baja
 COMBINADA_CUOTA_MIN = 3.0          # +200
@@ -131,10 +134,19 @@ def dentro_de_tolerancia(s: Seleccion) -> bool:
     return s.cuota_ofrecida is not None and s.cuota_ofrecida >= s.cuota_justa() * (1 - TOLERANCIA_ATRACTIVA)
 
 
-def es_sencilla_fuerte(s: Seleccion) -> bool:
+def _fuerte_sin_momio_minimo(s: Seleccion) -> bool:
     return (s.cuota_ofrecida is not None and s.cuota_ofrecida < 2.0  # cuota negativa
             and s.prob >= PROB_MIN_FUERTE and s.confianza in CONFIANZAS_CATEGORIA
             and dentro_de_tolerancia(s))
+
+
+def es_sencilla_fuerte(s: Seleccion) -> bool:
+    return _fuerte_sin_momio_minimo(s) and s.cuota_ofrecida >= CUOTA_MIN_FUERTE - 1e-9
+
+
+def fuerte_salvo_momio(s: Seleccion) -> bool:
+    """Cumpliría sencilla fuerte, pero el momio de Winpot es peor que −200."""
+    return _fuerte_sin_momio_minimo(s) and not es_sencilla_fuerte(s)
 
 
 def categoria_sencilla(s: Seleccion) -> str | None:

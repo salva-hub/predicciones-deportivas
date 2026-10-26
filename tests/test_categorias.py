@@ -32,6 +32,22 @@ def test_clasificacion_sencillas():
     assert V.categoria_sencilla(_s(0.47, +105)) is None
 
 
+def test_fuerte_solo_con_momio_de_menos_200_o_mejor():
+    # 72%: justa -257; -150, -200 y -250 están dentro de la tolerancia
+    assert V.categoria_sencilla(_s(0.72, -150)) == V.FUERTE
+    assert V.es_sencilla_fuerte(_s(0.72, -200))
+    s = _s(0.72, -250)
+    assert V.dentro_de_tolerancia(s) and not V.es_sencilla_fuerte(s)
+    assert V.fuerte_salvo_momio(s) and V.sirve_para_combinada(s)
+    assert V.categoria_sencilla(s) is None
+    # con valor y momio peor que -200 -> valor
+    assert V.categoria_sencilla(_s(0.80, -250)) == V.VALOR
+    # caso real 26-oct-2026: menos 3.5 goles a -434, 78.9%, confianza media -> no es fuerte
+    r = _s(0.789, -434, "media", mercado="goles", seleccion="menos_3.5")
+    assert not V.es_sencilla_fuerte(r) and V.fuerte_salvo_momio(r)
+    assert V.categoria_sencilla(r) is None and V.sirve_para_combinada(r)
+
+
 def test_tolerancia_exacta():
     s = _s(0.625, -100)  # justa 1.60
     s.cuota_ofrecida = 1.60 * 0.96

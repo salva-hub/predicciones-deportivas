@@ -342,6 +342,8 @@ def cmd_evaluar(a) -> None:
         motivo = None
         if i in sin_cupo and cat is None:
             motivo = "ya hay una sencilla fuerte hoy (máximo 1 por día)"
+        elif cat is None and V.fuerte_salvo_momio(s):
+            motivo = V.MOTIVO_MOMIO_FUERTE
         if cat == V.VALOR:
             pedido = B.monto(bank_hoy, B.porcentaje_sencilla(ve, s.confianza, s.ve_minimo))
         elif cat == V.FUERTE:
