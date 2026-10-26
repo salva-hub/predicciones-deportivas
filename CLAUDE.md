@@ -18,6 +18,7 @@ Una sesión nueva no necesita el historial del chat: lee estos archivos.
 - Solo se recomienda apostar cuando hay valor (reglas abajo). "No apostar" es una respuesta válida y frecuente.
 - Costo cero: no uses ni propongas servicios de pago.
 - Antes de cualquier cambio al repositorio (código, CLAUDE.md, configuración), da a Salva un resumen general en lenguaje simple de lo que contiene.
+  No aplica a los guardados de rutina de `registro/` del paso 8.
 - Si Claude elige partidos, pregunta antes a Salva si está de acuerdo.
 - Los partidos que Salva pida por su cuenta en la prueba en papel también se registran y suman a las estadísticas.
 
@@ -42,8 +43,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
   clubes en X/Twitter, ESPN, Flashscore, Sofascore, Rotowire) y cuotas de Pinnacle actualizadas. Ese es el que se guarda
   en `registro/` y cuenta en las estadísticas. Con alineación oficial y árbitro conocido: `--confianza alta`.
 - El código no permite reemplazar un pronóstico. Si ya había uno guardado del mismo partido, borra antes
-  `registro/pronosticos/<id>.json` (si no tiene `apuestas_papel` ni aparece en `registro/apuestas/`;
-  revisa con `grep -r <id> registro/apuestas/`) para no contarlo dos veces. Si tiene apuestas, deja el viejo y no guardes otro.
+  `registro/pronosticos/<id>.json` (si no tiene `apuestas_papel` ni aparece en apuestas o parlays en papel;
+  revisa con `grep -rl <id> registro/ --exclude-dir=pronosticos`) para no contarlo dos veces. Si tiene apuestas, deja el viejo y no guardes otro.
 
 1. **Identifica la liga y el partido.**
    `python -m predicciones.cli partidos --liga <liga> --fecha hoy`
