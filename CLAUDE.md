@@ -104,6 +104,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    liga con que se compara se calcula igual).
    `--confianza` es obligatoria (paso 4). En cancha neutral (Mundial, Copa América, finales en sede neutral)
    agrega `--neutral`: quita la ventaja de local.
+   **Pago anticipado** (ver "Cómo liquida Winpot") va activado por defecto en todas las ligas. Si Salva avisa que
+   Winpot no lo ofrece en ese partido, agrega `--sin-pago-anticipado` (se guarda `pago_anticipado: false`).
    **Pinnacle es la base del pronóstico**: siempre hacen falta sus cuotas. Si no hay clave de The Odds API (o no trae
    el partido), léelas en la web (1X2 y, si se puede, más/menos 2.5) y pásalas con
    `--pinnacle "1=-150,X=+280,2=+400,mas_2.5=-110,menos_2.5=-110"`. Sin ellas el programa usa solo el modelo,
@@ -118,7 +120,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    | Mercado | Probabilidad | Cuota justa | Cuota mínima para apostar |
    | --- | --- | --- | --- |
    (ganador; doble oportunidad solo si ningún resultado llega a 55%; total de goles 2.5 y la línea más cercana al esperado;
-   ambos anotan; hándicap asiático principal; goles por equipo; córners y tarjetas en la línea más común)
+   ambos anotan; hándicap asiático principal; goles por equipo; córners y tarjetas en la línea más común; con alineación
+   oficial, tiros a puerta de los 2 o 3 jugadores con más esperado de cada equipo, confianza baja)
 
    **Justificación:** 3 a 6 viñetas con lo que movió el pronóstico (forma y fuerza, bajas, árbitro, clima, altitud, contexto),
    cada una con su fuente y cuánto ajustó.
@@ -179,9 +182,24 @@ los registros viejos sin ese campo cuentan como fútbol).
 - Doble oportunidad: solo si ningún resultado del 1X2 llega a 55% y tiene valor.
 - Parlay: 2 a 4 selecciones de partidos distintos, cada una con valor ≥ 2% y el parlay completo ≥ 5%.
   Ideal: +200 o más con 2 selecciones de confianza alta. Si una sencilla tiene claramente más valor, recomienda la sencilla.
-- Tiros al arco de jugador: solo se sugieren si la cuota de Winpot es claramente mejor que la justa (valor ≥ 10%),
-  con la alineación oficial confirmada; el sistema todavía no los calcula, así que cualquier estimación se hace a mano
-  con los datos del jugador (promedio de tiros a puerta por 90 min en la temporada) y se dice que es de confianza baja.
+- Tiros al arco de jugador (`tiros_jugador`): solo con valor ≥ 10% (también como pata de parlay), categoría `valor`,
+  confianza **siempre baja** (monto 2%; nunca sencilla fuerte ni combinada). El sistema los calcula solo:
+  - `pronostico` lee la **alineación oficial de ESPN** (`rosters` del resumen del partido, sale ~1 hora antes). Sin
+    alineación no los calcula y lo anota ("ESPN aún no publica la alineación oficial"): rehaz el pronóstico definitivo.
+  - Para cada equipo baja de ESPN (gratis, con caché) sus partidos de la temporada actual y la anterior (hasta 50) y
+    toma los tiros a puerta y minutos de cada jugador. Esperado = tiros a puerta por 90 (encogidos hacia el promedio de
+    su posición en el equipo; con 450 min propios pesa la mitad) × minutos esperados (su promedio como titular, tope 85)
+    × rival (tiros a puerta que concede vs la liga, encogido) × sede. Poisson, encogida 10% hacia la tasa base de la línea.
+  - Muestra hasta 6 titulares de campo por equipo (delanteros y medios primero) con más de 0.5, 1.5 y 2.5
+    (las líneas con menos de 5% no salen). El pronóstico guarda también `tiros_jugador` (esperado, minutos) para la justificación.
+  - Cuota de Winpot en `evaluar`: `--winpot "tiros_jugador:<Nombre Jugador>:mas_0.5=+150"` (el nombre como sale en el
+    pronóstico; acepta sin acentos ni mayúsculas, o solo el apellido si no se repite). En `apostar`:
+    `--pata "<id>:tiros_jugador:<Nombre Jugador>:mas_0.5=+150"`.
+  - Límites: fichajes sin minutos con el equipo usan el promedio de su posición; no hay datos por jugador para
+    selecciones nacionales ni (casi siempre) Concacaf; no sabe de penales asignados ni de cambios de rol.
+  - Prueba histórica (LaLiga y Premier 2025/26, 15,020 titulares de campo, `python -m predicciones.backtest_tiros
+    --liga laliga --liga premier --temporada 2025`): más de 0.5 log-loss 0.511 y Brier 0.168 (0.198 sin modelo);
+    calibrado de 7% a 83%; sin sobredispersión (1.02).
 - **Prueba en papel del 26-oct-2026 al 26-nov-2026:** nada de dinero real; se registran y califican las apuestas
   en papel. Al terminar, revisar sus resultados con Salva antes de apostar dinero.
 
@@ -195,8 +213,35 @@ los registros viejos sin ese campo cuentan como fútbol).
   igual (historial, modelo, árbitro y calificación). ESPN no trae la primera amarilla del expulsado por doble amarilla:
   el programa la suma leyendo los eventos del partido; en historiales viejos esa expulsión cuenta 2.
 - **Córners:** solo los que se cobran (concedido y no cobrado no cuenta).
+- **Pago anticipado de fútbol:** una apuesta prepartido al ganador (1X2) **local o visitante** se paga completa como
+  ganada si ese equipo va **2 goles arriba en cualquier momento**, aunque al final empate o pierda. Aplica a
+  sencillas, parlays (múltiples), apuestas de sistema y bet builder. **No** aplica al empate, a apuestas en vivo ni
+  con Cash Out. Salva confirmó (26-oct-2026) que está en prácticamente todas las ligas: **activado por defecto**;
+  si en un partido no está, él avisa y se usa `--sin-pago-anticipado`.
+  - Probabilidad: ganador "1" (o "2") = P(gana) del 1X2 de Pinnacle sin margen (con ajustes) + P(va 2 arriba y no
+    gana). El extra sale de la matriz de goles esperados: dado el marcador final, el orden de los goles es al azar
+    (cálculo exacto, sin simulación; `pago_anticipado.py`). Por eso "1", "X" y "2" ya no suman 100%. Cada selección
+    guarda también `prob_sin_pago_anticipado` y las notas dicen cuánto sumó. **Solo** el ganador 1 y 2: el empate,
+    la doble oportunidad, el hándicap 0 (empate no apuesta) y el primer tiempo no cambian; la regla de doble
+    oportunidad (55%) mira el 1X2 real. `evaluar` y `parlays` usan la probabilidad nueva sin hacer nada más.
+  - Validación (26-oct-2026, ESPN + Pinnacle de cierre, 5 ligas grandes, 2023/24 y 2024/25, 3,295 partidos): un
+    equipo fue 2 arriba y no ganó en 138 casos (4.2% de los partidos); el modelo daba 101 ± 10 (por liga de 1.07 a
+    1.66 veces). El orden al azar sí cuadra (147 contra 132 dado el marcador final); lo que falta es que Poisson da
+    pocos marcadores altos parejos. Se multiplica el extra por **1.35** (`CALIBRACION`). Ejemplo: goles esperados
+    1.52 – 0.83, local 52.5% → 53.8% (cuota justa −111 → −117); visitante 19.7% → 21.2%.
+  - Calificación: `calificar` lee de ESPN la secuencia de goles del tiempo reglamentario (keyEvents; autogoles al
+    equipo beneficiado; prórroga y penales no cuentan) y guarda `ventaja_max_local` / `ventaja_max_visitante` en el
+    resultado. Una pata de ganador 1/2 que perdería se marca ganada si su equipo llegó a +2. Si la secuencia no se
+    puede leer (o no cuadra con el marcador de 90 min) queda sin datos, se reintenta 48 h y luego "Revisar a mano"
+    (`liquidar`). Vale igual para sencillas y parlays en papel y apuestas reales. Los pronósticos guardados antes
+    de esta regla (sin el campo `pago_anticipado`) se califican **sin** pago anticipado. El backtest no lo usa
+    (Pinnacle no lo tiene).
 - **Hándicap asiático y totales de cuarto (±0.25, ±0.75):** media apuesta en cada línea vecina (medio ganado / medio
   perdido). El programa no ofrece esas líneas; si Salva apuesta una, se liquida a mano.
+- **Tiros a puerta de jugador en `calificar`:** se califican solos con `rosters` de ESPN (tiros a puerta del jugador),
+  buscando al jugador por su id de ESPN (guardado en el pronóstico) y, si no, por nombre.
+  Jugador que no participó o no está en el acta: devuelta. ESPN cuenta el partido completo: con prórroga quedan sin
+  datos y se liquidan a mano; ESPN no distingue tiros bloqueados sobre la línea ni el mercado "jugador y su sustituto".
 - **Tiros a puerta (equipo y jugador):** cuentan goles y tiros atajados, y los bloqueados por el último defensor
   sobre la línea; un tiro al poste no cuenta, salvo en el mercado "jugador y su sustituto (incl. madera)", que además
   suma al sustituto directo e incluye prórroga. Jugador que no participa: apuesta anulada (devuelta); si el mercado
@@ -209,8 +254,11 @@ por categoría": apuestas, acierto, ganancia, ROI y peor racha). "Precio justo" 
 "Dentro de tolerancia" = Winpot paga la cuota justa o hasta 4% menos (en decimal: Winpot ≥ justa × 0.96).
 
 1. **Valor** (`valor`): las reglas de arriba (sencillas y parlays con valor).
-2. **Sencilla fuerte** (`sencilla_fuerte`): cuota negativa en Winpot, probabilidad ≥ 60%, confianza alta o media
-   (nunca baja) y dentro de tolerancia. Se apuesta para **ganar** un objetivo (ver Montos). Máximo 1 por día.
+2. **Sencilla fuerte** (`sencilla_fuerte`): cuota negativa en Winpot de **−200 o mejor** (−150 sí, −250 no;
+   `CUOTA_MIN_FUERTE` en `valor.py`), probabilidad ≥ 60%, confianza alta o media (nunca baja) y dentro de tolerancia.
+   Se apuesta para **ganar** un objetivo (ver Montos). Máximo 1 por día. Con momio peor que −200 no va como
+   sencilla fuerte (`motivo`: "momio peor que −200…"), pero puede ir como valor si cumple sus reglas o como pata
+   de combinada (`sirve_para_combinada`).
 3. **Combinada** (`combinada`): 2 o 3 patas de partidos distintos, cada una con probabilidad ≥ 55%, confianza alta o
    media y dentro de tolerancia (o con valor); cuota total de Winpot entre +200 y +350. Se prefieren las de 2 patas y
    luego la de mayor probabilidad; ninguna pata se repite entre las combinadas del día. Máximo 2 por día.
@@ -249,7 +297,8 @@ Temporadas 2022/23 a 2025/26, apostando contra la cuota de apertura de Pinnacle 
 - Ningún monto recomendado pasa de lo que queda del límite del día (`disponible_hoy`).
 - Parlay de valor: 3% con confianza alta; 2% con confianza media o baja.
 - Sencilla fuerte: lo necesario para **ganar** 5% del bank con confianza alta (con 10,000: ganar 500; a −120 se ponen 600)
-  o 2.5% con confianza media (ganar 250). Se redondea hacia arriba a 10 MXN.
+  o 2.5% con confianza media (ganar 250). Se redondea hacia arriba a 10 MXN. Como el momio mínimo es −200, el riesgo
+  máximo es el doble del objetivo (con 10,000 y confianza alta: 1,000 a −200).
 - Combinada: 5% del bank si todas las patas son de confianza alta; 3% si alguna es media.
 - Límite del día: 10% del bank; si ese día ya hay ganancia cobrada, 10% más la mitad de esa ganancia, hasta 20%.
   Cubre las tres categorías juntas (reales o en papel). Si los montos pasan del disponible, se **recortan en orden**:

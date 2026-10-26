@@ -7,6 +7,8 @@
 - Sencilla en ganador, doble oportunidad, goles, ambos anotan, hándicap: VE >= 3%.
 - Sencilla en córners o tarjetas: VE >= 5% (no hay Pinnacle: el modelo
   de conteos se encoge hacia 50% porque se confiaba de más).
+- Tiros a puerta de jugador (tiros_jugador): VE >= 10% y confianza siempre baja
+  (también como pata de parlay: cada pata de jugador necesita VE >= 10%).
 - Doble oportunidad: solo si ningún resultado del 1X2 llega a 55%.
 - Parlay: 2 a 4 selecciones de partidos distintos, cada una con VE >= 2% y el
   parlay completo con VE >= 5%. Objetivo: +200 o más con 2 selecciones.
@@ -16,9 +18,10 @@
 Tres categorías de apuesta (aprobadas por Salva el 26-oct-2026; se miden por
 separado en la prueba en papel y se comparan el 26-nov-2026):
 - "valor": las reglas de arriba (sencillas y parlays con valor).
-- "sencilla_fuerte": sencilla con cuota negativa en Winpot, probabilidad >= 60%,
-  confianza alta o media y cuota de Winpot dentro de la tolerancia (como mucho
-  4% por debajo de la cuota justa). Se apuesta para GANAR un objetivo fijo.
+- "sencilla_fuerte": sencilla con cuota negativa en Winpot de −200 o mejor
+  (−150 sí, −250 no), probabilidad >= 60%, confianza alta o media y cuota de
+  Winpot dentro de la tolerancia (como mucho 4% por debajo de la cuota justa).
+  Se apuesta para GANAR un objetivo fijo (riesgo máximo: el doble del objetivo).
 - "combinada": 2 o 3 patas de partidos distintos, cada una con probabilidad
   >= 55%, confianza alta o media y dentro de la tolerancia (o con valor); la
   cuota total de Winpot entre +200 y +350.
@@ -33,7 +36,8 @@ from dataclasses import dataclass, field, asdict
 
 from . import cuotas as C
 
-VE_MIN = {"goles": 0.03, "conteos": 0.05}
+VE_MIN = {"goles": 0.03, "conteos": 0.05, "jugador": 0.10}
+MERCADOS_JUGADOR = ("tiros_jugador",)
 VE_MIN_PARLAY_PATA = 0.02
 VE_MIN_PARLAY = 0.05
 UMBRAL_DOBLE_OPORTUNIDAD = 0.55
@@ -46,6 +50,8 @@ VALOR, FUERTE, COMBINADA = "valor", "sencilla_fuerte", "combinada"
 CATEGORIAS = (VALOR, FUERTE, COMBINADA)
 TOLERANCIA_ATRACTIVA = 0.04       # Winpot puede pagar hasta 4% menos que la cuota justa (decimal)
 PROB_MIN_FUERTE = 0.60
+CUOTA_MIN_FUERTE = 1.5             # −200: con momio peor no va como sencilla fuerte (aprobado por Salva)
+MOTIVO_MOMIO_FUERTE = "momio peor que −200: no va como sencilla fuerte (sí puede ir en combinada)"
 PROB_MIN_PATA_COMBINADA = 0.55
 CONFIANZAS_CATEGORIA = ("alta", "media")  # sencilla fuerte y combinada: nunca con confianza baja
 COMBINADA_CUOTA_MIN = 3.0          # +200
@@ -55,7 +61,14 @@ MAX_POR_DIA = {FUERTE: 1, COMBINADA: 2}  # por día de Sonora (día en que se ev
 
 
 def familia(mercado: str) -> str:
+    if mercado in MERCADOS_JUGADOR:
+        return "jugador"
     return "conteos" if mercado.startswith(("corners", "tarjetas")) else "goles"
+
+
+def ve_min_parlay_pata(mercado: str) -> float:
+    """VE mínimo de una pata de parlay: 2%, salvo mercados de jugador (su mínimo de sencilla, 10%)."""
+    return VE_MIN["jugador"] if familia(mercado) == "jugador" else VE_MIN_PARLAY_PATA
 
 
 def bajar(confianza: str, niveles: int = 1) -> str:
@@ -121,10 +134,19 @@ def dentro_de_tolerancia(s: Seleccion) -> bool:
     return s.cuota_ofrecida is not None and s.cuota_ofrecida >= s.cuota_justa() * (1 - TOLERANCIA_ATRACTIVA)
 
 
-def es_sencilla_fuerte(s: Seleccion) -> bool:
+def _fuerte_sin_momio_minimo(s: Seleccion) -> bool:
     return (s.cuota_ofrecida is not None and s.cuota_ofrecida < 2.0  # cuota negativa
             and s.prob >= PROB_MIN_FUERTE and s.confianza in CONFIANZAS_CATEGORIA
             and dentro_de_tolerancia(s))
+
+
+def es_sencilla_fuerte(s: Seleccion) -> bool:
+    return _fuerte_sin_momio_minimo(s) and s.cuota_ofrecida >= CUOTA_MIN_FUERTE - 1e-9
+
+
+def fuerte_salvo_momio(s: Seleccion) -> bool:
+    """Cumpliría sencilla fuerte, pero el momio de Winpot es peor que −200."""
+    return _fuerte_sin_momio_minimo(s) and not es_sencilla_fuerte(s)
 
 
 def categoria_sencilla(s: Seleccion) -> str | None:
@@ -182,7 +204,8 @@ def armar_parlays(candidatas: list[Seleccion], max_patas: int = 4, top: int = 5)
     Las patas del mismo partido no se combinan (sus resultados están relacionados).
     Ordena primero los de 2 patas con cuota +200 o más, luego por VE.
     """
-    patas = [s for s in candidatas if s.cuota_ofrecida and (s.ve() or 0) >= VE_MIN_PARLAY_PATA and s.prob_devolucion == 0]
+    patas = [s for s in candidatas if s.cuota_ofrecida and (s.ve() or 0) >= ve_min_parlay_pata(s.mercado)
+             and s.prob_devolucion == 0]
     out: list[Parlay] = []
     for n in range(2, max_patas + 1):
         for combo in itertools.combinations(patas, n):

@@ -30,10 +30,12 @@ from .ajustes import Ajustes, parsear, por_clima
 from .calificar import DEVUELVE, GANA, PIERDE, SIN_DATOS, calificar, estado_parlay, ganancia
 from .datos import clima as clima_mod
 from .datos import cuotas_api, espn, historiales
+from .datos import jugadores
 from .datos.http import limpiar
 from .equipos import coincide, normalizar
+from .modelos import tiros_jugador as TJ
 from .modelos.conteos import factor_arbitro
-from .pronostico import NOTA_SIN_PINNACLE, _pinnacle_sin_margen, ajustar_modelos, pronosticar  # noqa: F401
+from .pronostico import NOTA_SIN_PINNACLE, _pinnacle_sin_margen, ajustar_modelos, filas_tiros_jugador, pronosticar  # noqa: F401
 
 TECHADOS = {normalizar(x) for x in (
     "Estadio Santiago Bernabéu", "Veltins-Arena", "Merkur Spiel-Arena", "Deutsche Bank Park",
@@ -43,6 +45,9 @@ TECHADOS = {normalizar(x) for x in (
 HORAS_ESPERA_DATOS = 48  # tras el inicio, se sigue buscando lo que falte (córners, tarjetas)
 MENSAJE_PAUSA = "PAUSA: las apuestas de este mes perdieron 50% de la base del mes. No se recomiendan apuestas; hay que revisar el modelo."
 LIGAS_DATOS_LIMITADOS = {"liga_mx", "mls", "brasil", "argentina", "libertadores", "concacaf"}
+NOTA_SIN_ALINEACION = ("Tiros a puerta de jugador: ESPN aún no publica la alineación oficial; no se calculan "
+                       "(se calculan en el pronóstico definitivo, con alineaciones)")
+MIN_PARTIDOS_TIROS = 3  # partidos con estadísticas por jugador que necesita cada equipo
 
 
 def es_techado(estadio: str | None) -> bool:
@@ -120,6 +125,58 @@ def tiene_1x2(pin: dict | None) -> bool:
     return bool(pin) and all(pin.get(k) for k in ("1", "X", "2"))
 
 
+def _tiros_jugador(liga: str, partido: dict, hist: pd.DataFrame, neutral: bool) -> tuple[list[dict], list[str]]:
+    """Tiros a puerta esperados de los titulares (alineación oficial de ESPN). Devuelve (filas, notas)."""
+    try:
+        alin = jugadores.alineacion_partido(liga, partido["espn_id"])
+    except Exception as e:  # noqa: BLE001 - sin red o ESPN cambió: el resto del pronóstico sigue
+        return [], [f"Tiros a puerta de jugador: no se pudo leer la alineación de ESPN ({type(e).__name__})"]
+    if not alin:
+        return [], [NOTA_SIN_ALINEACION]
+    antes = pd.Timestamp(partido["inicio_utc"])
+    antes = antes.tz_convert(None) if antes.tzinfo else antes
+    actos, notas = {}, []
+    for lado, equipo in (("home", partido["local"]), ("away", partido["visitante"])):
+        try:
+            act = jugadores.actuaciones_equipo(liga, hist, equipo, antes)
+        except Exception as e:  # noqa: BLE001
+            _aviso(f"sin estadísticas por jugador de {equipo}", e)
+            act = pd.DataFrame()
+        n = act["espn_id"].nunique() if not act.empty else 0
+        if n < MIN_PARTIDOS_TIROS:
+            notas.append(f"Tiros a puerta de jugador: ESPN no trae estadísticas por jugador de {equipo} "
+                         f"({n} partidos); no se calculan para ese equipo")
+            alin[lado] = []
+        else:
+            notas.append(f"Tiros a puerta de jugador de {equipo}: {n} partidos (temporada actual y anterior)")
+        actos[lado] = act
+    if not alin["home"] and not alin["away"]:
+        return [], notas
+    fac = TJ.factores_liga(hist, antes)
+    tiros = TJ.pronostico_partido(alin, actos["home"], actos["away"], fac, partido["local"], partido["visitante"], neutral)
+    notas.append("Tiros a puerta de jugador: alineación oficial de ESPN; modelo Poisson con tasa por 90, minutos "
+                 "y rival; confianza siempre baja; solo con valor de 10% o más")
+    return tiros, notas
+
+
+def _resolver_jugador(mercado: str, seleccion: str, selecciones: list[dict]) -> str:
+    """Nombre del jugador como lo guarda el pronóstico ('mbappe:mas_0.5' -> 'Kylian Mbappé:mas_0.5').
+
+    Acepta el nombre sin acentos ni mayúsculas, o solo una parte (el apellido) si no se repite.
+    Si no lo encuentra, devuelve la selección tal cual.
+    """
+    if mercado != "tiros_jugador" or ":" not in seleccion:
+        return seleccion
+    nombre, linea = seleccion.rsplit(":", 1)
+    linea = linea.strip()
+    nombres = {s.get("jugador") or s["seleccion"].rsplit(":", 1)[0] for s in selecciones if s["mercado"] == mercado}
+    n = normalizar(nombre)
+    iguales = [x for x in nombres if normalizar(x) == n]
+    if not iguales:
+        iguales = [x for x in nombres if n and all(w in normalizar(x).split() for w in n.split())]
+    return f"{iguales[0]}:{linea}" if len(iguales) == 1 else f"{nombre.strip()}:{linea}"
+
+
 def cmd_partidos(a) -> None:
     dia = _fecha(a.fecha)
     _imprimir([{k: p[k] for k in ("espn_id", "inicio_sonora", "local", "visitante", "estadio", "ciudad")}
@@ -165,11 +222,16 @@ def cmd_pronostico(a) -> None:
     if a.liga in LIGAS_DATOS_LIMITADOS:
         confianza = V.bajar(confianza)
     # sin 1X2 de Pinnacle, pronosticar() baja la confianza un nivel y agrega NOTA_SIN_PINNACLE (una sola vez)
-    p = pronosticar(modelos, a.local, a.visitante, aj, f_arb, pin, confianza, neutral=a.neutral)
+    p = pronosticar(modelos, a.local, a.visitante, aj, f_arb, pin, confianza, neutral=a.neutral,
+                    pago_anticipado=not a.sin_pago_anticipado)
     if nota_clima:
         p.notas.append(nota_clima)
     if not partido:
         p.notas.append("AVISO: no se encontró el partido en ESPN; no se podrá calificar automáticamente")
+    tiros: list[dict] = []
+    if partido and not a.sin_red:
+        tiros, notas_tiros = _tiros_jugador(a.liga, partido, hist, a.neutral)
+        p.notas.extend(notas_tiros)
 
     registro = {
         "deporte": "futbol",
@@ -183,6 +245,8 @@ def cmd_pronostico(a) -> None:
         "estadio": partido.get("estadio") if partido else None,
         "techado": techado,
         "neutral": a.neutral,
+        # pago anticipado de Winpot (ganador 1/2 se paga si va 2 goles arriba); los viejos sin campo: no
+        "pago_anticipado": not a.sin_pago_anticipado,
         "clima": info_clima,
         "arbitro": a.arbitro, "factor_arbitro": round(f_arb, 3),
         "pinnacle": pin,
@@ -192,9 +256,12 @@ def cmd_pronostico(a) -> None:
         "marcadores_probables": p.marcadores,
         "notas": p.notas,
         "confianza": p.confianza_base,
-        "selecciones": p.tabla(),
+        "selecciones": p.tabla() + filas_tiros_jugador(p.partido, tiros),
         "estado": "pendiente",
     }
+    if tiros:
+        registro["tiros_jugador"] = [{k: t[k] for k in ("jugador", "equipo", "posicion", "tiros_esperados", "tasa90",
+                                                         "minutos_esperados", "minutos_historial")} for t in tiros]
     if not a.no_guardar:
         registro = R.agregar_pronostico(registro)
     _imprimir(registro)
@@ -219,7 +286,7 @@ def cmd_evaluar(a) -> None:
         print(MENSAJE_PAUSA, file=sys.stderr)
     elif papel:
         print(B.MENSAJE_PAPEL, file=sys.stderr)
-    cuotas = [_parsear_cuota(t) for t in a.winpot]
+    cuotas = [(m, _resolver_jugador(m, s_, p["selecciones"]), d) for m, s_, d in (_parsear_cuota(t) for t in a.winpot)]
     # en papel: lo ya calificado no se toca; se reemplazan solo las selecciones que se vuelven a evaluar
     evaluadas = {(m, s_) for m, s_, _ in cuotas}
     previas = p.get("apuestas_papel", [])
@@ -275,6 +342,8 @@ def cmd_evaluar(a) -> None:
         motivo = None
         if i in sin_cupo and cat is None:
             motivo = "ya hay una sencilla fuerte hoy (máximo 1 por día)"
+        elif cat is None and V.fuerte_salvo_momio(s):
+            motivo = V.MOTIVO_MOMIO_FUERTE
         if cat == V.VALOR:
             pedido = B.monto(bank_hoy, B.porcentaje_sencilla(ve, s.confianza, s.ve_minimo))
         elif cat == V.FUERTE:
@@ -289,7 +358,7 @@ def cmd_evaluar(a) -> None:
             "prob": fila["prob"], "ve": round(ve, 4), "confianza": s.confianza,
             "categoria": cat, "con_valor": V.tiene_valor(s),
             "apostar": cat is not None and monto > 0, "monto_sencilla": monto,
-            "sirve_para_parlay": ve >= V.VE_MIN_PARLAY_PATA,
+            "sirve_para_parlay": ve >= V.ve_min_parlay_pata(mercado),
             "sirve_para_combinada": V.sirve_para_combinada(s),
         }
         if dev:
@@ -437,6 +506,7 @@ def cmd_apostar(a) -> None:
         p = R.buscar_pronostico(pid)
         if not p:
             sys.exit(f"No existe el pronóstico {pid}")
+        seleccion = _resolver_jugador(mercado, seleccion, p.get("selecciones", []))
         patas.append({"pronostico": pid, "partido": p["partido"], "liga": p["liga"],
                       "deporte": p.get("deporte") or R.DEPORTE_DEFECTO, "espn_id": p.get("espn_id"),
                       "mercado": mercado, "seleccion": seleccion, "cuota": dec, "estado": "pendiente"})
@@ -491,12 +561,26 @@ def _horas_desde(inicio_utc: str, ahora: datetime) -> float:
     return (ahora - datetime.fromisoformat(inicio_utc)).total_seconds() / 3600
 
 
+def _id_jugador(p: dict, mercado: str, seleccion: str) -> str | None:
+    """Id de ESPN del jugador de una selección de tiros_jugador (lo guarda la fila del pronóstico)."""
+    if mercado != "tiros_jugador":
+        return None
+    fila = next((s for s in p.get("selecciones", []) if s["mercado"] == mercado and s["seleccion"] == seleccion), {})
+    return fila.get("jugador_id")
+
+
+def _pago(p: dict) -> bool:
+    """Pago anticipado del pronóstico. Los guardados antes de esta regla no traen el campo: no."""
+    return bool(p.get("pago_anticipado", False))
+
+
 def _calificar_papel(p: dict) -> None:
     """Califica las apuestas en papel de un pronóstico que ya tiene resultado."""
     for x in p.get("apuestas_papel", []):
         if x.get("estado") not in ("pendiente", SIN_DATOS):
             continue
-        est = calificar(x["mercado"], x["seleccion"], p["resultado"])
+        est = calificar(x["mercado"], x["seleccion"], p["resultado"], _pago(p),
+                        jugador_id=_id_jugador(p, x["mercado"], x["seleccion"]))
         if est == SIN_DATOS and p.get("estado") != "calificado":
             continue  # se reintenta en la siguiente corrida
         x["estado"] = est
@@ -532,8 +616,13 @@ def cmd_calificar(a) -> None:
                                if r.get(k) is not None})
         if r.get("prorroga"):
             p["resultado"]["prorroga"] = True
+        # mayor ventaja de cada equipo en tiempo reglamentario (pago anticipado)
+        p["resultado"].update({k: r[k] for k in ("ventaja_max_local", "ventaja_max_visitante") if r.get(k) is not None})
+        # tiros a puerta por jugador (solo si el pronóstico tiene ese mercado)
+        if r.get("tiros_jugadores") and any(s["mercado"] == "tiros_jugador" for s in p["selecciones"]):
+            p["resultado"]["tiros_jugadores"] = r["tiros_jugadores"]
         for s in p["selecciones"]:
-            s["estado"] = calificar(s["mercado"], s["seleccion"], r)
+            s["estado"] = calificar(s["mercado"], s["seleccion"], r, _pago(p), jugador_id=s.get("jugador_id"))
         # si falta algún dato, se reintenta en las siguientes corridas hasta 48 h
         if not any(s["estado"] == SIN_DATOS for s in p["selecciones"]) or horas >= HORAS_ESPERA_DATOS:
             p["estado"] = "calificado"
@@ -574,7 +663,8 @@ def _liquidar(ap: dict, por_id: dict, etiqueta: str = "apuesta") -> str | None:
         p = por_id.get(pata["pronostico"])
         if not p or not p.get("resultado"):
             continue
-        est = calificar(pata["mercado"], pata["seleccion"], p["resultado"])
+        est = calificar(pata["mercado"], pata["seleccion"], p["resultado"], _pago(p),
+                        jugador_id=_id_jugador(p, pata["mercado"], pata["seleccion"]))
         # sin datos todavía: queda pendiente para volver a calificarla
         pata["estado"] = "pendiente" if est == SIN_DATOS and p.get("estado") != "calificado" else est
     estados = [x["estado"] for x in ap["patas"]]
@@ -677,13 +767,16 @@ def main(argv=None) -> None:
     s.add_argument("--confianza", required=True, choices=V.ORDEN_CONFIANZA)
     s.add_argument("--techado", action="store_true")
     s.add_argument("--neutral", action="store_true", help="cancha neutral: sin ventaja de local")
+    s.add_argument("--sin-pago-anticipado", action="store_true",
+                   help="Winpot no ofrece pago anticipado en este partido (por defecto sí)")
     s.add_argument("--sin-red", action="store_true")
     s.add_argument("--no-guardar", action="store_true")
     s.set_defaults(f=cmd_pronostico)
 
     s = sub.add_parser("evaluar")
     s.add_argument("--id", required=True)
-    s.add_argument("--winpot", action="append", required=True, help="mercado:seleccion=cuota  (ej. goles:mas_2.5=-130)")
+    s.add_argument("--winpot", action="append", required=True, help="mercado:seleccion=cuota  (ej. goles:mas_2.5=-130; "
+                   "tiros de jugador: tiros_jugador:Nombre Jugador:mas_0.5=+150)")
     s.set_defaults(f=cmd_evaluar)
 
     s = sub.add_parser("parlays")
