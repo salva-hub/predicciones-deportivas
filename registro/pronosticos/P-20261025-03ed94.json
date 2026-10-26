@@ -1,0 +1,606 @@
+{
+  "liga": "laliga",
+  "partido": "Sevilla vs Osasuna",
+  "local": "Sevilla",
+  "visitante": "Osasuna",
+  "espn_id": "401882828",
+  "inicio_utc": "2026-10-26T20:00:00+00:00",
+  "inicio_sonora": "2026-10-26 13:00",
+  "estadio": "Ramón Sánchez Pizjuán Stadium",
+  "techado": false,
+  "neutral": false,
+  "clima": {
+    "temperatura_c": 19.25,
+    "lluvia_mm_h": 0.0,
+    "viento_kmh": 3.6500000000000004,
+    "altitud_m": 15.0
+  },
+  "arbitro": "Miguel Ángel Ortiz Arias",
+  "factor_arbitro": 0.929,
+  "pinnacle": {
+    "1": 1.925925925925926,
+    "X": 3.45,
+    "2": 4.390000000000001,
+    "mas_2.5": 2.25,
+    "menos_2.5": 1.6993006993006992
+  },
+  "goles_esperados": [
+    1.5,
+    0.89
+  ],
+  "modelo_1x2": {
+    "1": 0.508,
+    "X": 0.253,
+    "2": 0.239
+  },
+  "marcadores_probables": [
+    [
+      "1-1",
+      0.1301447563458874
+    ],
+    [
+      "1-0",
+      0.129923605500532
+    ],
+    [
+      "2-0",
+      0.10310045790994997
+    ]
+  ],
+  "notas": [
+    "Base: Pinnacle sin margen (modelo solo como referencia)",
+    "Goles esperados del modelo solo: 1.72 – 1.12",
+    "Córners esperados: 8.0",
+    "Tarjetas esperadas: 4.9 (factor árbitro x0.93)",
+    "Modelo y Pinnacle discrepan mucho en goles_2.5: baja la confianza de los mercados relacionados",
+    "Clima ya incluido en el precio de Pinnacle: no se ajusta"
+  ],
+  "confianza": "media",
+  "selecciones": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "prob": 0.507,
+      "cuota_justa": "-103",
+      "cuota_minima": "+104",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "X",
+      "prob": 0.277,
+      "cuota_justa": "+261",
+      "cuota_minima": "+272",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
+      "prob": 0.216,
+      "cuota_justa": "+363",
+      "cuota_minima": "+378",
+      "confianza": "media"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "1X",
+      "prob": 0.784,
+      "cuota_justa": "-363",
+      "cuota_minima": "-318",
+      "confianza": "media"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "12",
+      "prob": 0.723,
+      "cuota_justa": "-261",
+      "cuota_minima": "-235",
+      "confianza": "media"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "X2",
+      "prob": 0.493,
+      "cuota_justa": "+103",
+      "cuota_minima": "+109",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_0.5",
+      "prob": 0.9,
+      "cuota_justa": "-903",
+      "cuota_minima": "-694",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_0.5",
+      "prob": 0.1,
+      "cuota_justa": "+903",
+      "cuota_minima": "+934",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_1.5",
+      "prob": 0.696,
+      "cuota_justa": "-229",
+      "cuota_minima": "-208",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_1.5",
+      "prob": 0.304,
+      "cuota_justa": "+229",
+      "cuota_minima": "+240",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "prob": 0.427,
+      "cuota_justa": "+134",
+      "cuota_minima": "+142",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_2.5",
+      "prob": 0.573,
+      "cuota_justa": "-134",
+      "cuota_minima": "-125",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_3.5",
+      "prob": 0.219,
+      "cuota_justa": "+358",
+      "cuota_minima": "+372",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "prob": 0.781,
+      "cuota_justa": "-358",
+      "cuota_minima": "-314",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_4.5",
+      "prob": 0.094,
+      "cuota_justa": "+961",
+      "cuota_minima": "+994",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_4.5",
+      "prob": 0.906,
+      "cuota_justa": "-961",
+      "cuota_minima": "-729",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "prob": 0.465,
+      "cuota_justa": "+115",
+      "cuota_minima": "+122",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "no",
+      "prob": 0.535,
+      "cuota_justa": "-115",
+      "cuota_minima": "-108",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_0.5",
+      "prob": 0.776,
+      "cuota_justa": "-347",
+      "cuota_minima": "-306",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_0.5",
+      "prob": 0.224,
+      "cuota_justa": "+347",
+      "cuota_minima": "+361",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_0.5",
+      "prob": 0.589,
+      "cuota_justa": "-143",
+      "cuota_minima": "-133",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_0.5",
+      "prob": 0.411,
+      "cuota_justa": "+143",
+      "cuota_minima": "+151",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_1.5",
+      "prob": 0.441,
+      "cuota_justa": "+127",
+      "cuota_minima": "+134",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_1.5",
+      "prob": 0.559,
+      "cuota_justa": "-127",
+      "cuota_minima": "-118",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_1.5",
+      "prob": 0.224,
+      "cuota_justa": "+347",
+      "cuota_minima": "+361",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_1.5",
+      "prob": 0.776,
+      "cuota_justa": "-347",
+      "cuota_minima": "-306",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_2.5",
+      "prob": 0.191,
+      "cuota_justa": "+425",
+      "cuota_minima": "+441",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_2.5",
+      "prob": 0.809,
+      "cuota_justa": "-425",
+      "cuota_minima": "-366",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_2.5",
+      "prob": 0.061,
+      "cuota_justa": "+1537",
+      "cuota_minima": "+1587",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_2.5",
+      "prob": 0.939,
+      "cuota_justa": "-1537",
+      "cuota_minima": "-1030",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_1",
+      "prob": 0.37,
+      "cuota_justa": "+170",
+      "cuota_minima": "+179",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_X",
+      "prob": 0.44,
+      "cuota_justa": "+127",
+      "cuota_minima": "+135",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_2",
+      "prob": 0.19,
+      "cuota_justa": "+426",
+      "cuota_minima": "+442",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_0.5",
+      "prob": 0.658,
+      "cuota_justa": "-193",
+      "cuota_minima": "-177",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_0.5",
+      "prob": 0.342,
+      "cuota_justa": "+193",
+      "cuota_minima": "+202",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_1.5",
+      "prob": 0.291,
+      "cuota_justa": "+243",
+      "cuota_minima": "+254",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_1.5",
+      "prob": 0.709,
+      "cuota_justa": "-243",
+      "cuota_minima": "-220",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "prob": 0.263,
+      "cuota_justa": "+281",
+      "cuota_minima": "+293",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1.5",
+      "prob": 0.074,
+      "cuota_justa": "+1252",
+      "cuota_minima": "+1293",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1",
+      "prob": 0.263,
+      "cuota_justa": "+188",
+      "cuota_minima": "+200",
+      "confianza": "media",
+      "devolucion": 0.244
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1",
+      "prob": 0.074,
+      "cuota_justa": "+1060",
+      "cuota_minima": "+1101",
+      "confianza": "media",
+      "devolucion": 0.142
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+0",
+      "prob": 0.507,
+      "cuota_justa": "-235",
+      "cuota_minima": "-206",
+      "confianza": "media",
+      "devolucion": 0.277
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+0",
+      "prob": 0.216,
+      "cuota_justa": "+235",
+      "cuota_minima": "+249",
+      "confianza": "media",
+      "devolucion": 0.277
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1",
+      "prob": 0.784,
+      "cuota_justa": "-1060",
+      "cuota_minima": "-754",
+      "confianza": "media",
+      "devolucion": 0.142
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1",
+      "prob": 0.493,
+      "cuota_justa": "-188",
+      "cuota_minima": "-168",
+      "confianza": "media",
+      "devolucion": 0.244
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1.5",
+      "prob": 0.926,
+      "cuota_justa": "-1252",
+      "cuota_minima": "-890",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1.5",
+      "prob": 0.737,
+      "cuota_justa": "-281",
+      "cuota_minima": "-251",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "prob": 0.527,
+      "cuota_justa": "-111",
+      "cuota_minima": "-100",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_7.5",
+      "prob": 0.473,
+      "cuota_justa": "+111",
+      "cuota_minima": "+122",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "prob": 0.436,
+      "cuota_justa": "+130",
+      "cuota_minima": "+142",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_8.5",
+      "prob": 0.564,
+      "cuota_justa": "-130",
+      "cuota_minima": "-116",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_9.5",
+      "prob": 0.354,
+      "cuota_justa": "+182",
+      "cuota_minima": "+197",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_9.5",
+      "prob": 0.646,
+      "cuota_justa": "-182",
+      "cuota_minima": "-159",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_10.5",
+      "prob": 0.288,
+      "cuota_justa": "+247",
+      "cuota_minima": "+265",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_10.5",
+      "prob": 0.712,
+      "cuota_justa": "-247",
+      "cuota_minima": "-210",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_11.5",
+      "prob": 0.239,
+      "cuota_justa": "+319",
+      "cuota_minima": "+341",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_11.5",
+      "prob": 0.761,
+      "cuota_justa": "-319",
+      "cuota_minima": "-263",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_2.5",
+      "prob": 0.752,
+      "cuota_justa": "-303",
+      "cuota_minima": "-252",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_2.5",
+      "prob": 0.248,
+      "cuota_justa": "+303",
+      "cuota_minima": "+324",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "prob": 0.65,
+      "cuota_justa": "-185",
+      "cuota_minima": "-162",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_3.5",
+      "prob": 0.35,
+      "cuota_justa": "+185",
+      "cuota_minima": "+200",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_4.5",
+      "prob": 0.526,
+      "cuota_justa": "-111",
+      "cuota_minima": "-100",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_4.5",
+      "prob": 0.474,
+      "cuota_justa": "+111",
+      "cuota_minima": "+122",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_5.5",
+      "prob": 0.407,
+      "cuota_justa": "+146",
+      "cuota_minima": "+159",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_5.5",
+      "prob": 0.593,
+      "cuota_justa": "-146",
+      "cuota_minima": "-129",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_6.5",
+      "prob": 0.309,
+      "cuota_justa": "+224",
+      "cuota_minima": "+240",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_6.5",
+      "prob": 0.691,
+      "cuota_justa": "-224",
+      "cuota_minima": "-192",
+      "confianza": "media"
+    }
+  ],
+  "estado": "pendiente",
+  "id": "P-20261025-03ed94",
+  "creado": "2026-10-25T21:23:42.508646-07:00"
+}
