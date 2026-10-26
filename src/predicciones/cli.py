@@ -4,7 +4,7 @@ Comandos principales (ver CLAUDE.md para el flujo completo):
   partidos          Lista los partidos de una liga en una fecha (hora de Sonora)
   pronostico        Calcula y guarda el pronóstico de un partido
   evaluar           Con las cuotas de Winpot, decide qué apostar y cuánto
-  parlays           Arma parlays con las selecciones con valor del día
+  parlays           Arma parlays de valor y combinadas cortas (+200 a +350) del día
   apostar           Registra una apuesta real que Salva confirmó
   movimiento        Registra un retiro o depósito
   bank              Estado del bank y límite del día
@@ -172,6 +172,7 @@ def cmd_pronostico(a) -> None:
         p.notas.append("AVISO: no se encontró el partido en ESPN; no se podrá calificar automáticamente")
 
     registro = {
+        "deporte": "futbol",
         "liga": a.liga,
         "partido": p.partido,
         "local": partido["local"] if partido else a.local,
@@ -235,51 +236,98 @@ def cmd_evaluar(a) -> None:
     # sin trampa: una vez empezado el partido no se agregan apuestas en papel
     iniciado = bool(p.get("resultado")) or bool(
         p.get("inicio_utc") and datetime.fromisoformat(p["inicio_utc"]) <= R.ahora())
-    resultado = []
-    en_papel = []
+    # máximo por día de cada categoría: se cuenta lo ya puesto hoy (en papel o real)
+    cuenta = R.categorias_hoy(excluir=p["id"] if papel else None)
+    if papel:
+        hoy = R.ahora().date()
+        for x in conservar:
+            if R._fecha_sonora(x["evaluado"]).date() == hoy:
+                c = x.get("categoria") or V.VALOR
+                cuenta[c] = cuenta.get(c, 0) + 1
+    filas = []  # (mercado, seleccion, Seleccion | None, categoria)
     for mercado, seleccion, dec in cuotas:
         fila = next((s for s in p["selecciones"] if s["mercado"] == mercado and s["seleccion"] == seleccion), None)
         if not fila:
-            resultado.append({"mercado": mercado, "seleccion": seleccion, "error": "no está en el pronóstico (o no se ofrece por reglas)"})
+            filas.append((mercado, seleccion, None, None, None))
             continue
-        dev = fila.get("devolucion", 0.0)
-        s = V.Seleccion(p["partido"], mercado, seleccion, fila["prob"], dev, fila["confianza"], dec)
-        ve = s.ve()
-        pct = B.porcentaje_sencilla(ve, s.confianza, s.ve_minimo)
+        s = V.Seleccion(p["partido"], mercado, seleccion, fila["prob"], fila.get("devolucion", 0.0), fila["confianza"], dec)
+        filas.append((mercado, seleccion, s, fila, V.categoria_sencilla(s)))
+    # con dinero real y la categoría fuerte sin aprobar, una selección con valor es "valor"
+    if not papel and V.FUERTE not in B.CATEGORIAS_DINERO_REAL:
+        filas = [(*f[:4], V.VALOR) if f[4] == V.FUERTE and V.tiene_valor(f[2]) else f for f in filas]
+    # sencilla fuerte: como mucho MAX_POR_DIA al día; si hay varias, la de mayor probabilidad.
+    # Sin cupo, si tiene valor pasa a la categoría valor
+    fuertes = sorted((i for i, f in enumerate(filas) if f[4] == V.FUERTE), key=lambda i: -filas[i][2].prob)
+    libres = max(0, V.MAX_POR_DIA[V.FUERTE] - cuenta.get(V.FUERTE, 0))
+    sin_cupo = set(fuertes[libres:])
+    for i in sin_cupo:
+        filas[i] = (*filas[i][:4], V.VALOR if V.tiene_valor(filas[i][2]) else None)
+    # prioridad para el límite del día: fuerte y valor juntas, primero la de mayor valor esperado
+    orden = sorted(range(len(filas)), key=lambda i: (filas[i][4] is None, -(filas[i][2].ve() if filas[i][2] else 0)))
+    resultado: list[dict | None] = [None] * len(filas)
+    en_papel = []
+    for i in orden:
+        mercado, seleccion, s, fila, cat = filas[i]
+        if s is None:
+            resultado[i] = {"mercado": mercado, "seleccion": seleccion, "error": "no está en el pronóstico (o no se ofrece por reglas)"}
+            continue
+        dec, ve, dev = s.cuota_ofrecida, s.ve(), s.prob_devolucion
+        motivo = None
+        if i in sin_cupo and cat is None:
+            motivo = "ya hay una sencilla fuerte hoy (máximo 1 por día)"
+        if cat == V.VALOR:
+            pedido = B.monto(bank_hoy, B.porcentaje_sencilla(ve, s.confianza, s.ve_minimo))
+        elif cat == V.FUERTE:
+            pedido = B.monto_sencilla_fuerte(bank_hoy, s.confianza, dec)
+        else:
+            pedido = 0.0
         # cada sencilla, como mucho lo que queda del límite del día
-        monto = min(B.monto(bank_hoy, pct), B.monto(disponible, 1.0))
+        monto = min(pedido, B.monto(disponible, 1.0))
         fila_res = {
             "mercado": mercado, "seleccion": seleccion,
             "cuota_winpot": C.formato_americano(dec), "cuota_minima": fila["cuota_minima"],
             "prob": fila["prob"], "ve": round(ve, 4), "confianza": s.confianza,
-            "apostar": pct > 0 and monto > 0, "monto_sencilla": monto,
+            "categoria": cat, "con_valor": V.tiene_valor(s),
+            "apostar": cat is not None and monto > 0, "monto_sencilla": monto,
             "sirve_para_parlay": ve >= V.VE_MIN_PARLAY_PATA,
+            "sirve_para_combinada": V.sirve_para_combinada(s),
         }
         if dev:
             fila_res["devolucion"] = dev
-        if pct > 0 and monto <= 0:
+        if 0 < monto < pedido:
+            fila_res["recortada"] = True  # el límite del día no alcanzó para el monto completo
+        if motivo:
+            fila_res["motivo"] = motivo
+        elif cat and monto <= 0:
             fila_res["motivo"] = "límite del día alcanzado"
         if pausa:
-            fila_res.update(apostar=False, monto_sencilla=0, sirve_para_parlay=False, motivo="pausa")
+            fila_res.update(apostar=False, monto_sencilla=0, sirve_para_parlay=False, sirve_para_combinada=False, motivo="pausa")
         elif papel and (mercado, seleccion) in calificadas:
             fila_res.update(apostar=False, monto_sencilla=0, apostar_papel=False, monto_papel=0,
                             motivo="ya calificada en papel")
         elif papel and iniciado:
             fila_res.update(apostar=False, monto_sencilla=0, apostar_papel=False, monto_papel=0,
-                            sirve_para_parlay=False, motivo="el partido ya empezó: no cuenta en papel")
+                            sirve_para_parlay=False, sirve_para_combinada=False,
+                            motivo="el partido ya empezó: no cuenta en papel")
         elif papel:
             pasa = fila_res["apostar"]
             fila_res.update(apostar=False, monto_sencilla=0, apostar_papel=pasa, monto_papel=monto if pasa else 0)
             if pasa:
                 fila_res["motivo"] = "prueba en papel"
-                en_papel.append({
-                    "mercado": mercado, "seleccion": seleccion, "cuota": round(dec, 4),
+                en_papel.append((i, {
+                    "mercado": mercado, "seleccion": seleccion, "categoria": cat,
+                    "con_valor": fila_res["con_valor"], "recortada": monto < pedido, "cuota": round(dec, 4),
                     "cuota_americana": C.formato_americano(dec), "monto": monto, "ve": round(ve, 4),
-                    "confianza": s.confianza, "evaluado": R.ahora().isoformat(), "estado": "pendiente",
-                })
+                    "prob": fila["prob"], "confianza": s.confianza, "evaluado": R.ahora().isoformat(),
+                    "estado": "pendiente",
+                }))
+        elif fila_res["apostar"] and cat not in B.CATEGORIAS_DINERO_REAL:
+            fila_res.update(apostar=False, monto_sencilla=0, monto_si_se_aprueba=monto,
+                            motivo=B.MENSAJE_CATEGORIA_PENDIENTE)
         if fila_res.get("apostar") or fila_res.get("apostar_papel"):
             disponible = max(0.0, disponible - monto)  # el límite del día cubre todas las selecciones
-        resultado.append(fila_res)
+        resultado[i] = fila_res
+    en_papel = [x for _, x in sorted(en_papel, key=lambda t: t[0])]
     # se mezcla por selección: lo evaluado antes y no repetido ahora se conserva
     nuevas = {(r["mercado"], r["seleccion"]) for r in resultado}
     p["evaluacion"] = [r for r in p.get("evaluacion", []) if (r["mercado"], r["seleccion"]) not in nuevas] + resultado
@@ -298,21 +346,17 @@ def cmd_evaluar(a) -> None:
     _imprimir({**salida, "evaluacion": resultado})
 
 
-def cmd_parlays(a) -> None:
-    if R.en_pausa():
-        _imprimir(MENSAJE_PAUSA)
-        return
-    dia = _fecha(a.fecha)
-    candidatas = []
-    ids: dict[int, dict] = {}  # id(selección) -> su pronóstico
-    # si un partido tiene varios pronósticos, vale el más reciente
+def _candidatas_del_dia(dia: date, campo: str) -> tuple[list, dict]:
+    """Selecciones evaluadas del día marcadas con `campo` (sirve_para_parlay o
+    sirve_para_combinada). Si un partido tiene varios pronósticos, vale el más reciente."""
+    candidatas, ids = [], {}  # id(selección) -> su pronóstico
     ultimos: dict[str, dict] = {}
     for p in R.pronosticos():  # ordenados por fecha de creación
         if str(p.get("inicio_sonora", "")).startswith(str(dia)):
             ultimos[p.get("espn_id") or p["partido"]] = p
     for p in ultimos.values():
         for r in p.get("evaluacion", []):
-            if r.get("sirve_para_parlay"):
+            if r.get(campo):
                 fila = next((s for s in p.get("selecciones", [])
                              if s["mercado"] == r["mercado"] and s["seleccion"] == r["seleccion"]), {})
                 sel = V.Seleccion(p["partido"], r["mercado"], r["seleccion"], r["prob"],
@@ -320,18 +364,39 @@ def cmd_parlays(a) -> None:
                                   C.americana_a_decimal(float(r["cuota_winpot"])))
                 ids[id(sel)] = p
                 candidatas.append(sel)
+    return candidatas, ids
+
+
+def cmd_parlays(a) -> None:
+    if R.en_pausa():
+        _imprimir(MENSAJE_PAUSA)
+        return
+    dia = _fecha(a.fecha)
+    cand_valor, ids = _candidatas_del_dia(dia, "sirve_para_parlay")
+    cand_comb, ids_comb = _candidatas_del_dia(dia, "sirve_para_combinada")
+    ids.update(ids_comb)
     bank_hoy = R.bank_actual()
     papel = B.en_prueba_papel(R.ahora().date())
     disponible = max(0.0, B.limite_del_dia(bank_hoy, R.ganancia_cobrada_hoy()) - R.apostado_hoy_pendiente())
     if papel:
         # todo lo puesto hoy en papel, salvo los parlays pendientes de este día (se reemplazan)
         disponible = max(0.0, disponible - R.apostado_papel_hoy(reemplazar_parlays_de=dia))
-    parlays = V.armar_parlays(candidatas, max_patas=a.max_patas)
-    montos = B.ajustar_al_limite([B.monto(bank_hoy, B.porcentaje_parlay(x.confianza)) for x in parlays], disponible)
+    # 1) parlays de valor; 2) combinadas cortas (sin repetir un parlay de valor idéntico)
+    valor = V.armar_parlays(cand_valor, max_patas=a.max_patas)
+    cuenta = R.categorias_hoy(reemplazar_parlays_de=dia if papel else None)
+    cupo = max(0, V.MAX_POR_DIA[V.COMBINADA] - cuenta.get(V.COMBINADA, 0))
+    combinadas = V.armar_combinadas(cand_comb, top=cupo, excluir={V.clave_patas(x) for x in valor}) if cupo else []
+    lista = [(x, V.VALOR, B.monto(bank_hoy, B.porcentaje_parlay(x.confianza))) for x in valor]
+    lista += [(x, V.COMBINADA, B.monto(bank_hoy, B.porcentaje_combinada(x.confianza))) for x in combinadas]
+    # dinero real: las categorías aún no aprobadas se muestran pero no usan el límite
+    cuenta_limite = [papel or cat in B.CATEGORIAS_DINERO_REAL for _, cat, _ in lista]
+    recortados = iter(B.ajustar_al_limite([m for (_, _, m), c in zip(lista, cuenta_limite) if c], disponible))
     out, guardar = [], []
-    for par, monto in zip(parlays, montos):
-        d = par.resumen()
-        d["monto"] = min(monto, B.monto(disponible, 1.0))
+    for (par, cat, pedido), c in zip(lista, cuenta_limite):
+        d = {"categoria": cat, **par.resumen()}
+        d["monto"] = next(recortados) if c else 0
+        if 0 < d["monto"] < pedido:
+            d["recortada"] = True
         if papel:
             d.update(papel=True, monto_papel=d["monto"], monto=0)
             if d["monto_papel"] > 0:
@@ -340,17 +405,24 @@ def cmd_parlays(a) -> None:
                     pr = ids[id(x)]
                     patas.append({"pronostico": pr["id"], "partido": x.partido, "liga": pr.get("liga"),
                                   "mercado": x.mercado, "seleccion": x.seleccion, "cuota": x.cuota_ofrecida,
-                                  "estado": "pendiente"})
+                                  "prob": x.prob, "confianza": x.confianza, "estado": "pendiente"})
                 guardar.append({"clave": "|".join(sorted(f"{q['pronostico']}:{q['mercado']}:{q['seleccion']}" for q in patas)),
-                                "tipo": "parlay", "patas": patas, "cuota": round(par.cuota, 4),
-                                "cuota_americana": C.formato_americano(par.cuota), "monto": d["monto_papel"],
+                                "tipo": "parlay", "categoria": cat, "patas": patas, "cuota": round(par.cuota, 4),
+                                "cuota_americana": C.formato_americano(par.cuota), "prob": round(par.prob, 4),
+                                "monto": d["monto_papel"], "recortada": d["monto_papel"] < pedido,
                                 "creado": R.ahora().isoformat(), "estado": "pendiente"})
+            else:
+                d["motivo"] = "límite del día alcanzado"
+        elif not c:
+            d.update(monto_si_se_aprueba=pedido, motivo=B.MENSAJE_CATEGORIA_PENDIENTE)
+        elif d["monto"] <= 0:
+            d["motivo"] = "límite del día alcanzado"
         out.append(d)
     if papel:
         R.guardar_parlays_papel(dia, guardar)
-        _imprimir({"aviso": B.MENSAJE_PAPEL, "parlays_papel": out or "Sin parlays con valor para ese día"})
+        _imprimir({"aviso": B.MENSAJE_PAPEL, "parlays_papel": out or "Sin parlays ni combinadas para ese día"})
         return
-    _imprimir(out or "Sin parlays con valor para ese día")
+    _imprimir(out or "Sin parlays ni combinadas para ese día")
 
 
 def cmd_apostar(a) -> None:
@@ -365,13 +437,15 @@ def cmd_apostar(a) -> None:
         p = R.buscar_pronostico(pid)
         if not p:
             sys.exit(f"No existe el pronóstico {pid}")
-        patas.append({"pronostico": pid, "partido": p["partido"], "liga": p["liga"], "espn_id": p.get("espn_id"),
+        patas.append({"pronostico": pid, "partido": p["partido"], "liga": p["liga"],
+                      "deporte": p.get("deporte") or R.DEPORTE_DEFECTO, "espn_id": p.get("espn_id"),
                       "mercado": mercado, "seleccion": seleccion, "cuota": dec, "estado": "pendiente"})
     cuota = C.cuota_parlay(x["cuota"] for x in patas)
     ap = R.agregar_apuesta({
         "tipo": "sencilla" if len(patas) == 1 else "parlay",
         "patas": patas, "cuota": round(cuota, 4), "cuota_americana": C.formato_americano(cuota),
         "monto": float(a.monto), "casa": a.casa,
+        **({"categoria": a.categoria} if a.categoria else {}),
     })
     _imprimir(ap)
 
@@ -389,6 +463,7 @@ def cmd_bank(a) -> None:
     papel = B.en_prueba_papel(R.ahora().date())
     # en la prueba en papel, el disponible descuenta también lo "apostado" en papel hoy
     en_papel = R.apostado_papel_hoy() if papel else 0.0
+    hoy = R.categorias_hoy()
     _imprimir({
         "bank_actual": actual, "bank_inicio_mes": inicio_mes,
         "ganancia_cobrada_hoy": gan, "limite_del_dia": limite,
@@ -401,6 +476,14 @@ def cmd_bank(a) -> None:
         "monto_sencilla_max": B.monto(actual, B.REGLAS.sencilla_max),
         "monto_parlay_alta": B.monto(actual, B.REGLAS.parlay_alta),
         "monto_parlay_media_baja": B.monto(actual, B.REGLAS.parlay_media_baja),
+        # categorías nuevas (en papel hasta el 26-nov-2026)
+        "categorias_dinero_real": sorted(B.CATEGORIAS_DINERO_REAL),
+        "usadas_hoy": {c: hoy.get(c, 0) for c in V.CATEGORIAS},
+        "max_por_dia": V.MAX_POR_DIA,
+        "sencilla_fuerte_ganar": {"alta": B.monto(actual, B.REGLAS.fuerte_ganar_alta),
+                                  "media": B.monto(actual, B.REGLAS.fuerte_ganar_media)},
+        "monto_combinada": {"alta": B.monto(actual, B.REGLAS.combinada_alta),
+                            "media": B.monto(actual, B.REGLAS.combinada_media)},
     })
 
 
@@ -608,6 +691,7 @@ def main(argv=None) -> None:
     s.add_argument("--monto", type=float, required=True)
     s.add_argument("--casa", default="Winpot")
     s.add_argument("--forzar", action="store_true", help="registrar aunque estemos en la prueba en papel")
+    s.add_argument("--categoria", choices=V.CATEGORIAS, help="categoría de la apuesta (valor, sencilla_fuerte, combinada)")
     s.set_defaults(f=cmd_apostar)
 
     s = sub.add_parser("movimiento")
