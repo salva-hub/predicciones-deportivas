@@ -556,12 +556,20 @@ def _horas_desde(inicio_utc: str, ahora: datetime) -> float:
     return (ahora - datetime.fromisoformat(inicio_utc)).total_seconds() / 3600
 
 
+def _id_jugador(p: dict, mercado: str, seleccion: str) -> str | None:
+    """Id de ESPN del jugador de una selección de tiros_jugador (lo guarda la fila del pronóstico)."""
+    if mercado != "tiros_jugador":
+        return None
+    fila = next((s for s in p.get("selecciones", []) if s["mercado"] == mercado and s["seleccion"] == seleccion), {})
+    return fila.get("jugador_id")
+
+
 def _calificar_papel(p: dict) -> None:
     """Califica las apuestas en papel de un pronóstico que ya tiene resultado."""
     for x in p.get("apuestas_papel", []):
         if x.get("estado") not in ("pendiente", SIN_DATOS):
             continue
-        est = calificar(x["mercado"], x["seleccion"], p["resultado"])
+        est = calificar(x["mercado"], x["seleccion"], p["resultado"], _id_jugador(p, x["mercado"], x["seleccion"]))
         if est == SIN_DATOS and p.get("estado") != "calificado":
             continue  # se reintenta en la siguiente corrida
         x["estado"] = est
@@ -601,7 +609,7 @@ def cmd_calificar(a) -> None:
         if r.get("tiros_jugadores") and any(s["mercado"] == "tiros_jugador" for s in p["selecciones"]):
             p["resultado"]["tiros_jugadores"] = r["tiros_jugadores"]
         for s in p["selecciones"]:
-            s["estado"] = calificar(s["mercado"], s["seleccion"], r)
+            s["estado"] = calificar(s["mercado"], s["seleccion"], r, s.get("jugador_id"))
         # si falta algún dato, se reintenta en las siguientes corridas hasta 48 h
         if not any(s["estado"] == SIN_DATOS for s in p["selecciones"]) or horas >= HORAS_ESPERA_DATOS:
             p["estado"] = "calificado"
@@ -642,7 +650,7 @@ def _liquidar(ap: dict, por_id: dict, etiqueta: str = "apuesta") -> str | None:
         p = por_id.get(pata["pronostico"])
         if not p or not p.get("resultado"):
             continue
-        est = calificar(pata["mercado"], pata["seleccion"], p["resultado"])
+        est = calificar(pata["mercado"], pata["seleccion"], p["resultado"], _id_jugador(p, pata["mercado"], pata["seleccion"]))
         # sin datos todavía: queda pendiente para volver a calificarla
         pata["estado"] = "pendiente" if est == SIN_DATOS and p.get("estado") != "calificado" else est
     estados = [x["estado"] for x in ap["patas"]]

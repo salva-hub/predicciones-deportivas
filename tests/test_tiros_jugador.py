@@ -81,9 +81,30 @@ def test_actuaciones_y_alineacion():
 
 def test_tiros_por_jugador_para_calificar():
     t = J.tiros_por_jugador(_resumen())
-    assert t["Local 2"] == {"id": "2", "equipo": "Local FC", "participo": True, "tiros_puerta": 2}
-    assert t["Banca"]["participo"] is False
+    assert t["2"] == {"nombre": "Local 2", "equipo": "Local FC", "participo": True, "tiros_puerta": 2}
+    assert t["98"]["participo"] is False
     assert J.tiros_por_jugador(_resumen(titulares_con_stats=False)) is None
+
+
+def test_resumen_cache_larga_solo_si_terminado(tmp_path, monkeypatch):
+    from predicciones.datos import http
+    monkeypatch.setattr(http, "CACHE", tmp_path)
+    vivo = {"header": {"competitions": [{"status": {"type": {"completed": False}}}]}, "rosters": []}
+    final = {"header": {"competitions": [{"status": {"type": {"completed": True}}}]}, "rosters": [{"x": 1}]}
+    descargas = []
+    respuestas = iter([vivo, final])
+
+    def bajar(url, params, timeout):
+        descargas.append(url)
+        return json.dumps(next(respuestas))
+
+    monkeypatch.setattr(http, "_descargar", bajar)
+    # antes del partido (caché corta) se guarda la versión sin terminar en la misma URL
+    assert not J.terminado(J.resumen("laliga", "1", horas_cache=0.1))
+    # luego, con caché larga: lo guardado no está terminado -> se baja otra vez
+    assert J.terminado(J.resumen("laliga", "1")) and len(descargas) == 2
+    # ya terminado en caché: no se descarga más
+    assert J.resumen("laliga", "1") == final and len(descargas) == 2
 
 
 def test_inicio_temporada_anterior():
@@ -177,8 +198,8 @@ def test_valor_minimo_10_por_ciento_y_confianza_baja():
 
 def test_calificar_tiros_jugador():
     r = {"goles_local": 1, "goles_visitante": 0, "tiros_jugadores": {
-        "Kylian Mbappé": {"participo": True, "tiros_puerta": 2},
-        "Banca": {"participo": False, "tiros_puerta": 0}}}
+        "10": {"nombre": "Kylian Mbappé", "participo": True, "tiros_puerta": 2},
+        "11": {"nombre": "Banca", "participo": False, "tiros_puerta": 0}}}
     assert calificar("tiros_jugador", "Kylian Mbappé:mas_1.5", r) == GANA
     assert calificar("tiros_jugador", "kylian mbappe:mas_2.5", r) == PIERDE
     # no participó o no está en el acta: devuelta
@@ -187,6 +208,22 @@ def test_calificar_tiros_jugador():
     # sin datos por jugador, o con prórroga (ESPN la incluye): se liquida a mano
     assert calificar("tiros_jugador", "Kylian Mbappé:mas_0.5", {"goles_local": 1, "goles_visitante": 0}) == SIN_DATOS
     assert calificar("tiros_jugador", "Kylian Mbappé:mas_0.5", {**r, "prorroga": True}) == SIN_DATOS
+
+
+def test_calificar_tiros_jugador_por_id_con_nombres_repetidos():
+    r = {"tiros_jugadores": {
+        "1": {"nombre": "Rodri", "participo": True, "tiros_puerta": 2},
+        "2": {"nombre": "Rodri", "participo": True, "tiros_puerta": 0},
+        "3": {"nombre": "J. Pérez", "participo": True, "tiros_puerta": 1}}}
+    # el id manda: cada Rodri se califica con sus propios tiros
+    assert calificar("tiros_jugador", "Rodri:mas_0.5", r, "1") == GANA
+    assert calificar("tiros_jugador", "Rodri:mas_0.5", r, "2") == PIERDE
+    # aunque ESPN escriba distinto el nombre
+    assert calificar("tiros_jugador", "Juan Pérez:mas_0.5", r, "3") == GANA
+    # sin id y con nombre repetido: no se adivina (a mano)
+    assert calificar("tiros_jugador", "Rodri:mas_0.5", r) == SIN_DATOS
+    # sin id, nombre único: por nombre
+    assert calificar("tiros_jugador", "j perez:mas_0.5", r) == GANA
 
 
 def test_texto_seleccion(registro_tmp):
@@ -285,13 +322,15 @@ def test_papel_tiros_jugador_se_califica_y_anula(con_alineacion, capsys, monkeyp
     R.actualizar_pronostico(guardado)
     monkeypatch.setattr(cli.espn, "resultado", lambda *a: {
         "terminado": True, "goles_local": 1, "goles_visitante": 0,
-        "tiros_jugadores": {"Ángel Pérez": {"participo": True, "tiros_puerta": 1},
-                            "Medio Uno": {"participo": False, "tiros_puerta": 0}}})
+        # por id: ESPN puede escribir el nombre distinto que en la alineación
+        "tiros_jugadores": {"L2": {"nombre": "A. Pérez", "participo": True, "tiros_puerta": 1},
+                            "L4": {"nombre": "Medio Uno", "participo": False, "tiros_puerta": 0},
+                            "X9": {"nombre": "Medio Uno", "participo": True, "tiros_puerta": 3}}})
     cli.main(["calificar"])
     capsys.readouterr()
     g = R.buscar_pronostico(p["id"])
     estados = {x["seleccion"]: (x["estado"], x["ganancia"]) for x in g["apuestas_papel"]}
     assert estados["Ángel Pérez:mas_0.5"][0] == "ganada" and estados["Ángel Pérez:mas_0.5"][1] > 0
     assert estados["Medio Uno:mas_0.5"] == ("devuelta", 0.0)
-    assert g["resultado"]["tiros_jugadores"]["Ángel Pérez"]["tiros_puerta"] == 1
+    assert g["resultado"]["tiros_jugadores"]["L2"]["tiros_puerta"] == 1
     assert json.dumps(g, ensure_ascii=False)  # serializable

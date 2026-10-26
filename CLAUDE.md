@@ -213,7 +213,8 @@ los registros viejos sin ese campo cuentan como fútbol).
 - **Córners:** solo los que se cobran (concedido y no cobrado no cuenta).
 - **Hándicap asiático y totales de cuarto (±0.25, ±0.75):** media apuesta en cada línea vecina (medio ganado / medio
   perdido). El programa no ofrece esas líneas; si Salva apuesta una, se liquida a mano.
-- **Tiros a puerta de jugador en `calificar`:** se califican solos con `rosters` de ESPN (tiros a puerta del jugador).
+- **Tiros a puerta de jugador en `calificar`:** se califican solos con `rosters` de ESPN (tiros a puerta del jugador),
+  buscando al jugador por su id de ESPN (guardado en el pronóstico) y, si no, por nombre.
   Jugador que no participó o no está en el acta: devuelta. ESPN cuenta el partido completo: con prórroga quedan sin
   datos y se liquidan a mano; ESPN no distingue tiros bloqueados sobre la línea ni el mercado "jugador y su sustituto".
 - **Tiros a puerta (equipo y jugador):** cuentan goles y tiros atajados, y los bloqueados por el último defensor

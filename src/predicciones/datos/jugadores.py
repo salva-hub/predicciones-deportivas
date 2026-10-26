@@ -29,14 +29,30 @@ from .espn import BASE, LIGAS
 from .http import obtener
 
 HORAS_CACHE_TERMINADO = 24 * 365  # un partido terminado ya no cambia
+HORAS_CACHE_SIN_TERMINAR = 1  # con caché más larga, se exige que lo guardado esté terminado
 MINUTOS_PARTIDO = 90
 MINUTOS_SIN_RELOJ = {"sale": 70, "entra": 20}
 MAX_PARTIDOS_EQUIPO = 50
 HILOS = 6
 
 
+def terminado(datos: dict) -> bool:
+    """True si el resumen muestra el partido terminado (header.competitions[0].status.type.completed)."""
+    try:
+        return bool(datos["header"]["competitions"][0]["status"]["type"]["completed"])
+    except (KeyError, IndexError, TypeError):
+        return False
+
+
 def resumen(liga: str, espn_id: str, horas_cache: float = HORAS_CACHE_TERMINADO) -> dict:
-    return obtener(f"{BASE}/{LIGAS[liga]}/summary", {"event": str(espn_id)}, horas_cache=horas_cache)
+    """Resumen del partido. La misma URL se guarda en caché antes del partido o a medio partido
+    (alineación, resultado): la caché larga solo vale si lo guardado ya muestra el partido terminado;
+    si no, se descarga otra vez."""
+    url, params = f"{BASE}/{LIGAS[liga]}/summary", {"event": str(espn_id)}
+    datos = obtener(url, params, horas_cache=horas_cache)
+    if horas_cache > HORAS_CACHE_SIN_TERMINAR and not terminado(datos):
+        datos = obtener(url, params, horas_cache=0)
+    return datos
 
 
 def posicion(p: dict) -> str | None:
@@ -126,12 +142,14 @@ def actuaciones(datos: dict) -> list[dict]:
 
 
 def tiros_por_jugador(datos: dict) -> dict[str, dict] | None:
-    """Para calificar: {nombre: {id, equipo, participo, tiros_puerta}} (None sin rosters con estadísticas)."""
+    """Para calificar: {id de ESPN: {nombre, equipo, participo, tiros_puerta}} (None sin rosters con
+    estadísticas). Por id, para que dos jugadores con el mismo nombre no choquen."""
     filas = actuaciones(datos)
     if not filas or all(x["tiros_puerta"] is None for x in filas):
         return None
-    return {x["nombre"]: {"id": x["jugador_id"], "equipo": x["equipo"], "participo": x["participo"],
-                          "tiros_puerta": x["tiros_puerta"]} for x in filas if x["nombre"]}
+    return {x["jugador_id"] or f"sin_id:{x['nombre']}": {
+        "nombre": x["nombre"], "equipo": x["equipo"], "participo": x["participo"],
+        "tiros_puerta": x["tiros_puerta"]} for x in filas if x["jugador_id"] or x["nombre"]}
 
 
 def alineacion(datos: dict) -> dict[str, list[dict]] | None:

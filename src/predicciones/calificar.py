@@ -30,36 +30,44 @@ def _tarjetas(r: dict, lado: str) -> float | None:
     return r.get(f"tarjetas_{lado}")
 
 
-def _jugador(r: dict, nombre: str) -> dict | None:
-    jugadores = r.get("tiros_jugadores") or {}
-    if nombre in jugadores:
-        return jugadores[nombre]
+AMBIGUO = object()
+
+
+def _jugador(jugadores: dict, nombre: str, jugador_id: str | None):
+    """Primero por id de ESPN; si no hay id (o no está), por nombre. Dos con el mismo nombre: AMBIGUO."""
+    if jugador_id and str(jugador_id) in jugadores:
+        return jugadores[str(jugador_id)]
     n = normalizar(nombre)
-    hallados = [v for k, v in jugadores.items() if normalizar(k) == n]
-    return hallados[0] if len(hallados) == 1 else None
+    hallados = [v for v in jugadores.values() if normalizar(v.get("nombre") or "") == n]
+    if len(hallados) > 1:
+        return AMBIGUO
+    return hallados[0] if hallados else None
 
 
-def tiros_jugador(seleccion: str, r: dict) -> str:
-    """'Nombre Jugador:mas_0.5' con r["tiros_jugadores"] = {nombre: {participo, tiros_puerta}}.
+def tiros_jugador(seleccion: str, r: dict, jugador_id: str | None = None) -> str:
+    """'Nombre Jugador:mas_0.5' con r["tiros_jugadores"] = {id: {nombre, participo, tiros_puerta}}.
 
     Reglas de Winpot: jugador que no participa (o que no está en el acta) = devuelta.
     ESPN da los tiros del partido completo: con prórroga queda sin datos (se liquida a mano).
+    Nombre repetido sin id que lo distinga: sin datos (a mano).
     """
     nombre, linea = seleccion.rsplit(":", 1)
     jugadores = r.get("tiros_jugadores")
     if not jugadores or r.get("prorroga"):
         return SIN_DATOS
-    j = _jugador(r, nombre)
+    j = _jugador(jugadores, nombre, jugador_id)
+    if j is AMBIGUO:
+        return SIN_DATOS
     if j is None or not j.get("participo"):
         return DEVUELVE
     return _comparar_linea(j.get("tiros_puerta"), linea)
 
 
-def calificar(mercado: str, seleccion: str, r: dict) -> str:
+def calificar(mercado: str, seleccion: str, r: dict, jugador_id: str | None = None) -> str:
     """r: goles_local, goles_visitante, goles_*_pt, corners_*, tarjetas_* (o amarillas_*, rojas_*,
-    segundas_amarillas_*) y, para tiros de jugador, tiros_jugadores."""
+    segundas_amarillas_*) y, para tiros de jugador, tiros_jugadores (jugador_id: id de ESPN del jugador)."""
     if mercado == "tiros_jugador":
-        return tiros_jugador(seleccion, r)
+        return tiros_jugador(seleccion, r, jugador_id)
     gl, gv = r.get("goles_local"), r.get("goles_visitante")
     if gl is None or gv is None:
         return SIN_DATOS
