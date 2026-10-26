@@ -187,3 +187,37 @@ def test_exportar(cli, capsys, tmp_path):
     datos = json.loads((tmp_path / "_site" / "registro" / "pronosticos.json").read_text())
     assert len(datos) == 1
     assert (tmp_path / "_site" / "registro" / "bank.json").exists()
+
+
+def test_sin_pinnacle_baja_confianza_y_avisa(cli, capsys):
+    sin = _pronostico(cli, capsys, "--no-guardar")
+    assert cli.NOTA_SIN_PINNACLE in sin["notas"]
+    assert sin["confianza"] == "media"  # alta -> media por no tener referencia
+    con = _pronostico(cli, capsys, "--no-guardar", "--pinnacle", "1=-150,X=+280,2=+400")
+    assert cli.NOTA_SIN_PINNACLE not in con["notas"]
+    assert con["pinnacle"]
+
+
+def test_calificar_marca_revision_tras_48h(cli, capsys, monkeypatch):
+    R = cli.R
+    p = _pronostico_espn(R, 50, [("goles", "mas_2.5"), ("corners", "mas_9.5")])
+    ap = R.agregar_apuesta({"tipo": "parlay", "monto": 100, "cuota": 4.0, "patas": [
+        {"pronostico": p["id"], "mercado": "goles", "seleccion": "mas_2.5", "cuota": 2.0, "estado": "pendiente"},
+        {"pronostico": p["id"], "mercado": "corners", "seleccion": "mas_9.5", "cuota": 2.0, "estado": "pendiente"}]})
+    monkeypatch.setattr(cli.espn, "resultado", lambda *a: {"terminado": True, "goles_local": 2, "goles_visitante": 1})
+    cli.main(["calificar"])
+    err = capsys.readouterr().err
+    assert f"Revisar a mano: apuesta {ap['id']} (A vs B, corners)" in err
+    guardada = R.apuestas()[0]
+    assert guardada["estado"] == "pendiente" and guardada["requiere_revision"] is True
+
+
+def test_calificar_no_marca_revision_antes_de_48h(cli, capsys, monkeypatch):
+    R = cli.R
+    p = _pronostico_espn(R, 3, [("corners", "mas_9.5")])
+    R.agregar_apuesta({"tipo": "sencilla", "monto": 100, "cuota": 2.0, "patas": [
+        {"pronostico": p["id"], "mercado": "corners", "seleccion": "mas_9.5", "cuota": 2.0, "estado": "pendiente"}]})
+    monkeypatch.setattr(cli.espn, "resultado", lambda *a: {"terminado": True, "goles_local": 2, "goles_visitante": 1})
+    cli.main(["calificar"])
+    assert "Revisar a mano" not in capsys.readouterr().err
+    assert "requiere_revision" not in R.apuestas()[0]

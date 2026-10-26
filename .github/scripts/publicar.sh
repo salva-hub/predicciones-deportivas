@@ -16,6 +16,7 @@ for intento in 1 2 3; do
     exit 0
   fi
   echo "Push rechazado (intento $intento); reintentando..." >&2
+  git rebase --abort 2>/dev/null || true  # si el rebase quedó a medias, volver al commit local
   sleep $((intento * 10))
 done
 echo "No se pudo subir a main después de 3 intentos" >&2

@@ -41,6 +41,7 @@ TECHADOS = {normalizar(x) for x in (
 )}
 HORAS_ESPERA_DATOS = 48  # tras el inicio, se sigue buscando lo que falte (córners, tarjetas)
 MENSAJE_PAUSA = "PAUSA: las apuestas de este mes perdieron 50% de la base del mes. No se recomiendan apuestas; hay que revisar el modelo."
+NOTA_SIN_PINNACLE = "Sin cuotas de referencia de Pinnacle: probabilidades solo del modelo"
 LIGAS_DATOS_LIMITADOS = {"liga_mx", "mls", "brasil", "argentina", "libertadores", "concacaf"}
 
 
@@ -141,7 +142,11 @@ def cmd_pronostico(a) -> None:
     confianza = a.confianza
     if a.liga in LIGAS_DATOS_LIMITADOS:
         confianza = V.bajar(confianza)
+    if not pin:
+        confianza = V.bajar(confianza)
     p = pronosticar(modelos, a.local, a.visitante, aj, f_arb, pin, confianza, neutral=a.neutral)
+    if not pin:
+        p.notas.append(NOTA_SIN_PINNACLE)
     if not partido:
         p.notas.append("AVISO: no se encontró el partido en ESPN; no se podrá calificar automáticamente")
 
@@ -345,7 +350,15 @@ def cmd_calificar(a) -> None:
             pata["estado"] = "pendiente" if est == SIN_DATOS and p.get("estado") != "calificado" else est
         estados = [x["estado"] for x in ap["patas"]]
         if "pendiente" in estados or estado_parlay(estados) == SIN_DATOS:
-            if estados != antes:
+            # pasada la ventana de 48 h, una pata sin datos ya no se va a calificar sola
+            sin_datos = [x for x in ap["patas"] if x["estado"] == SIN_DATOS]
+            for x in sin_datos:
+                partido = (por_id.get(x["pronostico"]) or {}).get("partido", "?")
+                print(f"Revisar a mano: apuesta {ap['id']} ({partido}, {x['mercado']})", file=sys.stderr)
+            marcar = bool(sin_datos) and not ap.get("requiere_revision")
+            if marcar:
+                ap["requiere_revision"] = True
+            if estados != antes or marcar:
                 R.actualizar_apuesta(ap)
             continue
         est = estado_parlay(estados)
