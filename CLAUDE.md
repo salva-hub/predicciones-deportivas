@@ -104,6 +104,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    liga con que se compara se calcula igual).
    `--confianza` es obligatoria (paso 4). En cancha neutral (Mundial, Copa América, finales en sede neutral)
    agrega `--neutral`: quita la ventaja de local.
+   **Pago anticipado** (ver "Cómo liquida Winpot") va activado por defecto en todas las ligas. Si Salva avisa que
+   Winpot no lo ofrece en ese partido, agrega `--sin-pago-anticipado` (se guarda `pago_anticipado: false`).
    **Pinnacle es la base del pronóstico**: siempre hacen falta sus cuotas. Si no hay clave de The Odds API (o no trae
    el partido), léelas en la web (1X2 y, si se puede, más/menos 2.5) y pásalas con
    `--pinnacle "1=-150,X=+280,2=+400,mas_2.5=-110,menos_2.5=-110"`. Sin ellas el programa usa solo el modelo,
@@ -211,6 +213,29 @@ los registros viejos sin ese campo cuentan como fútbol).
   igual (historial, modelo, árbitro y calificación). ESPN no trae la primera amarilla del expulsado por doble amarilla:
   el programa la suma leyendo los eventos del partido; en historiales viejos esa expulsión cuenta 2.
 - **Córners:** solo los que se cobran (concedido y no cobrado no cuenta).
+- **Pago anticipado de fútbol:** una apuesta prepartido al ganador (1X2) **local o visitante** se paga completa como
+  ganada si ese equipo va **2 goles arriba en cualquier momento**, aunque al final empate o pierda. Aplica a
+  sencillas, parlays (múltiples), apuestas de sistema y bet builder. **No** aplica al empate, a apuestas en vivo ni
+  con Cash Out. Salva confirmó (26-oct-2026) que está en prácticamente todas las ligas: **activado por defecto**;
+  si en un partido no está, él avisa y se usa `--sin-pago-anticipado`.
+  - Probabilidad: ganador "1" (o "2") = P(gana) del 1X2 de Pinnacle sin margen (con ajustes) + P(va 2 arriba y no
+    gana). El extra sale de la matriz de goles esperados: dado el marcador final, el orden de los goles es al azar
+    (cálculo exacto, sin simulación; `pago_anticipado.py`). Por eso "1", "X" y "2" ya no suman 100%. Cada selección
+    guarda también `prob_sin_pago_anticipado` y las notas dicen cuánto sumó. **Solo** el ganador 1 y 2: el empate,
+    la doble oportunidad, el hándicap 0 (empate no apuesta) y el primer tiempo no cambian; la regla de doble
+    oportunidad (55%) mira el 1X2 real. `evaluar` y `parlays` usan la probabilidad nueva sin hacer nada más.
+  - Validación (26-oct-2026, ESPN + Pinnacle de cierre, 5 ligas grandes, 2023/24 y 2024/25, 3,295 partidos): un
+    equipo fue 2 arriba y no ganó en 138 casos (4.2% de los partidos); el modelo daba 101 ± 10 (por liga de 1.07 a
+    1.66 veces). El orden al azar sí cuadra (147 contra 132 dado el marcador final); lo que falta es que Poisson da
+    pocos marcadores altos parejos. Se multiplica el extra por **1.35** (`CALIBRACION`). Ejemplo: goles esperados
+    1.52 – 0.83, local 52.5% → 53.8% (cuota justa −111 → −117); visitante 19.7% → 21.2%.
+  - Calificación: `calificar` lee de ESPN la secuencia de goles del tiempo reglamentario (keyEvents; autogoles al
+    equipo beneficiado; prórroga y penales no cuentan) y guarda `ventaja_max_local` / `ventaja_max_visitante` en el
+    resultado. Una pata de ganador 1/2 que perdería se marca ganada si su equipo llegó a +2. Si la secuencia no se
+    puede leer (o no cuadra con el marcador de 90 min) queda sin datos, se reintenta 48 h y luego "Revisar a mano"
+    (`liquidar`). Vale igual para sencillas y parlays en papel y apuestas reales. Los pronósticos guardados antes
+    de esta regla (sin el campo `pago_anticipado`) se califican **sin** pago anticipado. El backtest no lo usa
+    (Pinnacle no lo tiene).
 - **Hándicap asiático y totales de cuarto (±0.25, ±0.75):** media apuesta en cada línea vecina (medio ganado / medio
   perdido). El programa no ofrece esas líneas; si Salva apuesta una, se liquida a mano.
 - **Tiros a puerta de jugador en `calificar`:** se califican solos con `rosters` de ESPN (tiros a puerta del jugador),

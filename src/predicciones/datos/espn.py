@@ -17,6 +17,7 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
+from ..pago_anticipado import ventajas_maximas
 from . import tarjetas_winpot
 from .http import obtener
 
@@ -253,6 +254,73 @@ def _arbitro(datos: dict) -> str | None:
     return min(enumerate(oficiales), key=orden)[1]["displayName"]
 
 
+def _minuto(e: dict) -> float:
+    """Segundos de juego de un evento; el añadido ("90'+4'") desempata, porque ESPN
+    deja clock.value fijo en 2700 o 5400 durante la reposición."""
+    reloj = e.get("clock") or {}
+    try:
+        base = float(reloj.get("value"))
+    except (TypeError, ValueError):
+        base = 0.0
+    texto = str(reloj.get("displayValue") or "")
+    extra = 0.0
+    if "+" in texto:
+        try:
+            extra = float(texto.split("+", 1)[1].strip("' ")) * 60
+        except ValueError:
+            pass
+    return base + extra
+
+
+def secuencia_goles(datos: dict, goles_local: int | None, goles_visitante: int | None) -> list[str] | None:
+    """Goles del tiempo reglamentario en orden: "L" (local) o "V" (visitante).
+
+    Lee los scoringPlay de keyEvents (periodos 1 y 2: sin prórroga ni penales). En un
+    autogol ESPN pone el equipo que se beneficia. Si algo no cuadra (sin eventos, equipo
+    desconocido o los goles no suman el marcador de 90 min) devuelve None: no se adivina.
+    """
+    if goles_local is None or goles_visitante is None:
+        return None
+    if goles_local == 0 and goles_visitante == 0:
+        return []
+    comp = ((datos.get("header") or {}).get("competitions") or [{}])[0]
+    lado_de = {}
+    # equipos del encabezado y, si no viene, del boxscore (los dos traen homeAway)
+    for c in (comp.get("competitors") or []) + ((datos.get("boxscore") or {}).get("teams") or []):
+        eq = c.get("team") or {}
+        lado = "L" if c.get("homeAway") == "home" else "V"
+        for clave in (eq.get("id"), eq.get("displayName")):
+            if clave:
+                lado_de[str(clave)] = lado
+    eventos = [e for e in (datos.get("keyEvents") or []) if e.get("scoringPlay")]
+    goles = []
+    for i, e in enumerate(eventos):
+        periodo = (e.get("period") or {}).get("number")
+        if periodo not in (1, 2):
+            continue
+        eq = e.get("team") or {}
+        lado = lado_de.get(str(eq.get("id"))) or lado_de.get(str(eq.get("displayName")))
+        if lado is None:
+            return None
+        goles.append((periodo, _minuto(e), i, lado))
+    goles.sort()
+    out = [g[3] for g in goles]
+    if out.count("L") != goles_local or out.count("V") != goles_visitante:
+        return None
+    return out
+
+
+def _ventajas(datos: dict, p: dict) -> dict:
+    """ventaja_max_local / ventaja_max_visitante (para el pago anticipado), si se pueden leer."""
+    if not p.get("terminado"):
+        return {}
+    sec = secuencia_goles(datos, p.get("goles_local"), p.get("goles_visitante"))
+    if sec is None:
+        return {}
+    ml, mv = ventajas_maximas(sec)
+    return {"ventaja_max_local": ml, "ventaja_max_visitante": mv}
+
+
 def resultado(liga: str, espn_id: str, inicio_utc: str | None = None) -> dict | None:
     """Estado, marcador y estadísticas de un partido, leídos de summary?event=<id>.
 
@@ -267,6 +335,7 @@ def resultado(liga: str, espn_id: str, inicio_utc: str | None = None) -> dict | 
             ev = {"id": espn_id, "date": comp.get("date"), "status": comp.get("status"), "competitions": [comp]}
             p = _partido(ev, liga)
             p.update(_estadisticas(datos) or {})
+            p.update(_ventajas(datos, p))
             if p.get("terminado"):
                 from .jugadores import tiros_por_jugador  # aquí para no importar en círculo
                 tiros = tiros_por_jugador(datos)
@@ -282,7 +351,9 @@ def resultado(liga: str, espn_id: str, inicio_utc: str | None = None) -> dict | 
         if p["espn_id"] == str(espn_id):
             if p["terminado"]:
                 try:
-                    p.update(estadisticas(liga, espn_id) or {})
+                    datos = obtener(f"{BASE}/{slug}/summary", {"event": espn_id}, horas_cache=2)
+                    p.update(_estadisticas(datos) or {})
+                    p.update(_ventajas(datos, p))
                 except Exception:  # noqa: BLE001 - sin córners/tarjetas
                     pass
             return p

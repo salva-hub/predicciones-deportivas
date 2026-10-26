@@ -216,10 +216,10 @@ def test_calificar_tiros_jugador_por_id_con_nombres_repetidos():
         "2": {"nombre": "Rodri", "participo": True, "tiros_puerta": 0},
         "3": {"nombre": "J. Pérez", "participo": True, "tiros_puerta": 1}}}
     # el id manda: cada Rodri se califica con sus propios tiros
-    assert calificar("tiros_jugador", "Rodri:mas_0.5", r, "1") == GANA
-    assert calificar("tiros_jugador", "Rodri:mas_0.5", r, "2") == PIERDE
+    assert calificar("tiros_jugador", "Rodri:mas_0.5", r, jugador_id="1") == GANA
+    assert calificar("tiros_jugador", "Rodri:mas_0.5", r, jugador_id="2") == PIERDE
     # aunque ESPN escriba distinto el nombre
-    assert calificar("tiros_jugador", "Juan Pérez:mas_0.5", r, "3") == GANA
+    assert calificar("tiros_jugador", "Juan Pérez:mas_0.5", r, jugador_id="3") == GANA
     # sin id y con nombre repetido: no se adivina (a mano)
     assert calificar("tiros_jugador", "Rodri:mas_0.5", r) == SIN_DATOS
     # sin id, nombre único: por nombre
