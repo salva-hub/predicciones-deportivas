@@ -59,7 +59,25 @@ GRUPOS = [
     ["Tijuana", "Xolos"],
     ["Juárez", "FC Juárez"],
     ["Mazatlán", "Mazatlan FC"],
-    ["San Luis", "Atlético de San Luis"],
+    ["San Luis", "Atlético de San Luis", "Atl. San Luis", "Atlético San Luis"],
+    ["Sheffield Utd", "Sheffield United"],
+    ["FC Koln", "1. FC Köln", "FC Cologne", "Köln", "Cologne"],
+    ["Mainz", "Mainz 05", "1. FSV Mainz 05"],
+    ["Lazio", "SS Lazio"],
+    ["Lille", "Lille OSC", "LOSC"],
+    ["Saint-Etienne", "St Etienne", "AS Saint-Étienne"],
+    ["LA Galaxy", "Los Angeles Galaxy"],
+    ["LAFC", "Los Angeles FC"],
+    ["Atletico Mineiro", "Atlético-MG", "Atletico MG"],
+    ["Athletico Paranaense", "Athletico-PR", "Athletico PR"],
+    ["Vasco", "Vasco da Gama"],
+    ["Wolves", "Wolverhampton", "Wolverhampton Wanderers"],
+    ["Nottingham Forest", "Nott'm Forest", "Forest"],
+    ["Brighton", "Brighton and Hove Albion", "Brighton & Hove Albion"],
+    ["Hellas Verona", "Verona"],
+    ["Union Berlin", "1. FC Union Berlin"],
+    ["Heidenheim", "1. FC Heidenheim"],
+    ["St. Pauli", "FC St. Pauli"],
 ]
 PARES = [(a, b) for g in GRUPOS for a in g for b in g if a != b]
 
@@ -106,7 +124,26 @@ def test_alias_otras_ligas(nombre, esperado, lista):
     ("Internazionale", "Inter Miami CF"),
     ("Man City", "Man United"),
     ("Celta Vigo", "Celtic"),
+    ("Los Angeles FC", "Los Angeles Galaxy"),
+    ("LAFC", "LA Galaxy"),
+    ("Atletico MG", "Athletico PR"),
+    ("Atletico Mineiro", "Atletico Madrid"),
+    ("Union Berlin", "1. FC Heidenheim"),
+    ("Sheffield United", "Manchester United"),
 ])
 def test_alias_no_mezcla_equipos(nombre, candidato):
     assert not coincide(nombre, candidato)
     assert resolver(nombre, [candidato]) is None
+
+
+@pytest.mark.parametrize("nombre,esperado,lista", [
+    ("LAFC", "Los Angeles FC", ["LA Galaxy", "Los Angeles FC", "Inter Miami CF"]),
+    ("Los Angeles Galaxy", "LA Galaxy", ["LA Galaxy", "Los Angeles FC", "Inter Miami CF"]),
+    ("Atlético-MG", "Atletico Mineiro", ["Atletico Mineiro", "Athletico Paranaense", "Vasco da Gama"]),
+    ("Athletico-PR", "Athletico Paranaense", ["Atletico Mineiro", "Athletico Paranaense", "Vasco da Gama"]),
+    ("FC Cologne", "1. FC Köln", ["1. FC Köln", "1. FC Union Berlin", "1. FC Heidenheim", "Mainz 05"]),
+    ("Union Berlin", "1. FC Union Berlin", ["1. FC Köln", "1. FC Union Berlin", "1. FC Heidenheim", "Mainz 05"]),
+    ("Atl. San Luis", "Atlético de San Luis", LIGA_MX),
+])
+def test_alias_nuevos_varios_candidatos(nombre, esperado, lista):
+    assert resolver(nombre, lista) == esperado

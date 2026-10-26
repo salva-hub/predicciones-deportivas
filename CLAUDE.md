@@ -111,6 +111,9 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
 - Sencilla: `python -m predicciones.cli apostar --pata "<id>:goles:mas_2.5=-130" --monto 500`
 - Parlay: una `--pata` por selección, con su cuota de Winpot.
 - Retiro o depósito: `python -m predicciones.cli movimiento --tipo retiro --monto 2000`
+- Liquidar a mano (apuesta marcada "Revisar a mano", o si Winpot pagó distinto):
+  `python -m predicciones.cli liquidar --id <id_apuesta> --estado ganada|perdida|devuelta [--cuota-real +250]`.
+  El estado aplica a la apuesta completa (en un parlay, al parlay entero); `--cuota-real` es la cuota total que pagó Winpot.
 - Luego guarda el registro como en el paso 8.
 
 GitHub Actions califica todo automáticamente cada 3 horas y actualiza el dashboard. Si faltan datos de un partido

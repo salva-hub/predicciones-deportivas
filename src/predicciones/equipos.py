@@ -44,9 +44,12 @@ def _mismo_grupo(n: str, c: str, alias: Alias) -> bool:
 
 
 def _puntaje(n: str, c: str, alias: Alias) -> float:
-    """1.0 igual o alias; 0.9 palabras contenidas; si no, parecido de difflib (< 0.9)."""
+    """1.0 igual o alias; 0.0 si los dos están en grupos distintos ("Los Angeles FC" no es
+    "Los Angeles Galaxy"); 0.9 palabras contenidas; si no, parecido de difflib (< 0.9)."""
     if n == c or _mismo_grupo(n, c, alias):
         return 1.0
+    if n in alias and c in alias:
+        return 0.0  # ambos conocidos y en grupos distintos: son equipos diferentes
     a, b = set(n.split()), set(c.split())
     chico = a if len(a) <= len(b) else b
     if (a <= b or b <= a) and (len(chico) >= 2 or len(next(iter(chico))) >= MIN_LETRAS_PALABRA_SOLA):

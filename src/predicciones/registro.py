@@ -111,6 +111,14 @@ def guardar_apuestas(lista: list[dict]) -> None:
         actualizar_apuesta(a)
 
 
+def buscar_apuesta(aid: str) -> dict | None:
+    try:
+        ruta = _ruta_item("apuestas", aid)
+    except ValueError:
+        return None
+    return json.loads(ruta.read_text(encoding="utf-8")) if ruta.exists() else None
+
+
 def agregar_apuesta(a: dict) -> dict:
     a.setdefault("id", nuevo_id("A"))
     a.setdefault("creado", ahora().isoformat())
