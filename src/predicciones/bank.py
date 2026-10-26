@@ -9,12 +9,23 @@ Todos los montos son porcentajes del bank ACTUAL (si el bank sube, suben):
 - Pausa: si las apuestas del mes pierden 50% o más de la base del mes (bank al
   inicio del mes + depósitos − retiros del mes), no se apuesta. Los retiros y
   depósitos no activan ni ocultan la pausa.
+- Prueba en papel: hasta el 26-nov-2026 (fecha de Sonora, inclusive) no se
+  apuesta dinero real; las selecciones con valor se guardan como apuestas en
+  papel y se califican igual, para medir la regla nueva.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import date
 
 CONFIANZAS = ("alta", "media", "baja")
+PRUEBA_PAPEL_HASTA = date(2026, 11, 26)  # inclusive, fecha de Sonora
+MENSAJE_PAPEL = "Prueba en papel hasta 26-nov-2026: no apostar dinero"
+
+
+def en_prueba_papel(hoy: date) -> bool:
+    """True mientras dure el mes de prueba sin dinero real."""
+    return hoy <= PRUEBA_PAPEL_HASTA
 
 
 @dataclass(frozen=True)

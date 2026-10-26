@@ -11,7 +11,7 @@ from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
-from scipy.optimize import minimize_scalar
+from scipy.optimize import least_squares, minimize_scalar
 from scipy.stats import poisson
 
 from .fuerzas import Fuerzas, ajustar_fuerzas, pesos_por_fecha
@@ -102,6 +102,64 @@ def ajustar_modelo_goles(
     fuerzas = ajustar_fuerzas(datos, "obj_l", "obj_v", referencia, vida_media_dias, ridge)
     rho = ajustar_rho(datos, fuerzas, referencia, vida_media_dias)
     return ModeloGoles(fuerzas=fuerzas, rho=rho)
+
+
+# ---------------------------------------------------------------- anclaje al mercado
+
+TIRON_MODELO = 0.02  # tirón débil (escala log) hacia los goles del modelo
+LIMITE_RHO = 0.3
+
+
+def anclar_a_mercado(
+    mu_modelo: tuple[float, float],
+    rho: float,
+    p_1x2: tuple[float, float, float] | None = None,
+    p_mas_25: float | None = None,
+) -> tuple[float, float, float]:
+    """Goles esperados (local, visitante) y rho que reproducen las probabilidades de Pinnacle.
+
+    Busca, por mínimos cuadrados sobre las probabilidades, los mu cuya matriz de
+    Dixon-Coles da el 1X2 y el más de 2.5 sin margen de Pinnacle. Con los dos
+    mercados también se ajusta rho (cuánto pesan los marcadores bajos), porque
+    con solo dos mu el empate no siempre cuadra. Un tirón débil hacia el modelo
+    (total, reparto y rho) resuelve lo que el mercado no fija: con solo 1X2 el
+    total sale casi del empate; con solo más/menos 2.5, el reparto es el del modelo.
+    Devuelve (mu_local, mu_visitante, rho).
+    """
+    ml, mv = max(mu_modelo[0], 0.05), max(mu_modelo[1], 0.05)
+    if p_1x2 is None and p_mas_25 is None:
+        return ml, mv, rho
+    log_tot, log_rep = np.log(ml + mv), np.log(ml / mv)
+    libre_rho = p_1x2 is not None and p_mas_25 is not None
+    g = np.arange(MAX_GOLES + 1)
+    total = g[:, None] + g[None, :]
+
+    def residuos(x):
+        a, b = np.exp(x[:2])
+        r_ = x[2] if libre_rho else rho
+        m = matriz_marcadores(a, b, r_)
+        r = []
+        if p_1x2 is not None:
+            r += [np.tril(m, -1).sum() - p_1x2[0], np.trace(m) - p_1x2[1], np.triu(m, 1).sum() - p_1x2[2]]
+        if p_mas_25 is not None:
+            r.append(m[total > 2.5].sum() - p_mas_25)
+        r += [TIRON_MODELO * (np.log(a + b) - log_tot), TIRON_MODELO * (np.log(a / b) - log_rep)]
+        if libre_rho:
+            r.append(TIRON_MODELO * (r_ - rho))
+        return np.array(r)
+
+    x0 = [np.log(ml), np.log(mv)] + ([float(np.clip(rho, -LIMITE_RHO, LIMITE_RHO))] if libre_rho else [])
+    lo = [np.log(0.05)] * 2 + ([-LIMITE_RHO] if libre_rho else [])
+    hi = [np.log(8.0)] * 2 + ([LIMITE_RHO] if libre_rho else [])
+    res = least_squares(residuos, x0, bounds=(lo, hi))
+    a, b = np.exp(res.x[:2])
+    return float(a), float(b), float(res.x[2]) if libre_rho else rho
+
+
+def mezclar_goles(modelo: tuple[float, float], mercado: tuple[float, float], peso_modelo: float) -> tuple[float, float]:
+    """Mezcla en escala log: mu = exp(w·log(modelo) + (1 − w)·log(mercado))."""
+    w = min(max(peso_modelo, 0.0), 1.0)
+    return tuple(float(np.exp(w * np.log(x) + (1 - w) * np.log(y))) for x, y in zip(modelo, mercado))
 
 
 # ---------------------------------------------------------------- mercados

@@ -66,7 +66,7 @@ def _fecha(texto: str | None) -> date:
 
 
 def _buscar_partido(liga: str, local: str, visitante: str, dia: date) -> dict | None:
-    # ESPN agrupa por fecha UTC; buscamos del día anterior al siguiente
+    # ESPN agrupa por fecha del Este de EE. UU.; buscamos del día anterior al siguiente
     try:
         candidatos = espn.calendario(liga, dia - timedelta(days=1), dia + timedelta(days=1))
     except Exception as e:  # pragma: no cover - red
@@ -104,10 +104,21 @@ def _pinnacle_api(liga: str, local: str, visitante: str) -> dict | None:
     return None
 
 
+def partidos_del_dia(liga: str, dia: date) -> list[dict]:
+    """Partidos cuya fecha en Sonora es `dia`.
+
+    ESPN agrupa por fecha del Este de EE. UU., que va 2 o 3 horas adelante: un
+    partido de las 21:00 a 23:59 de Sonora aparece en el día siguiente de ESPN.
+    Por eso se piden dia y dia+1 y se filtra por la fecha de Sonora.
+    """
+    return [p for p in espn.calendario(liga, dia, dia + timedelta(days=1))
+            if p["inicio_sonora"].startswith(str(dia))]
+
+
 def cmd_partidos(a) -> None:
     dia = _fecha(a.fecha)
     _imprimir([{k: p[k] for k in ("espn_id", "inicio_sonora", "local", "visitante", "estadio", "ciudad")}
-               for p in espn.calendario(a.liga, dia)])
+               for p in partidos_del_dia(a.liga, dia)])
 
 
 def cmd_pronostico(a) -> None:
@@ -160,6 +171,8 @@ def cmd_pronostico(a) -> None:
         "arbitro": a.arbitro, "factor_arbitro": round(f_arb, 3),
         "pinnacle": pin,
         "goles_esperados": p.goles_esperados,
+        # solo como referencia: la base es Pinnacle sin margen
+        "modelo_1x2": {k: round(x, 3) for k, x in p.prob_modelo["ganador"].items()},
         "marcadores_probables": p.marcadores,
         "notas": p.notas,
         "confianza": p.confianza_base,
@@ -185,10 +198,17 @@ def cmd_evaluar(a) -> None:
         sys.exit(f"No existe el pronóstico {a.id}")
     bank_hoy = R.bank_actual()
     pausa = R.en_pausa()
+    papel = B.en_prueba_papel(R.ahora().date())
     if pausa:
         print(MENSAJE_PAUSA, file=sys.stderr)
+    elif papel:
+        print(B.MENSAJE_PAPEL, file=sys.stderr)
     disponible = max(0.0, B.limite_del_dia(bank_hoy, R.ganancia_cobrada_hoy()) - R.apostado_hoy_pendiente())
+    if papel:
+        # en papel, el límite del día también descuenta lo "apostado" en papel hoy
+        disponible = max(0.0, disponible - R.apostado_papel_hoy(excluir=p["id"]))
     resultado = []
+    en_papel = []
     for texto in a.winpot:
         mercado, seleccion, dec = _parsear_cuota(texto)
         fila = next((s for s in p["selecciones"] if s["mercado"] == mercado and s["seleccion"] == seleccion), None)
@@ -214,11 +234,26 @@ def cmd_evaluar(a) -> None:
             fila_res["motivo"] = "límite del día alcanzado"
         if pausa:
             fila_res.update(apostar=False, monto_sencilla=0, sirve_para_parlay=False, motivo="pausa")
+        elif papel:
+            pasa = fila_res["apostar"]
+            fila_res.update(apostar=False, monto_sencilla=0, apostar_papel=pasa, monto_papel=monto if pasa else 0)
+            if pasa:
+                fila_res["motivo"] = "prueba en papel"
+                en_papel.append({
+                    "mercado": mercado, "seleccion": seleccion, "cuota": round(dec, 4),
+                    "cuota_americana": C.formato_americano(dec), "monto": monto, "ve": round(ve, 4),
+                    "confianza": s.confianza, "evaluado": R.ahora().isoformat(), "estado": "pendiente",
+                })
         resultado.append(fila_res)
     p["cuotas_winpot"] = {f"{r['mercado']}:{r['seleccion']}": r.get("cuota_winpot") for r in resultado if "error" not in r}
     p["evaluacion"] = resultado
+    if papel and not pausa:
+        p["apuestas_papel"] = en_papel
     R.actualizar_pronostico(p)
-    _imprimir({"bank_actual": bank_hoy, "disponible_hoy": disponible, "en_pausa": pausa, "evaluacion": resultado})
+    salida = {"bank_actual": bank_hoy, "disponible_hoy": disponible, "en_pausa": pausa, "prueba_papel": papel}
+    if papel and not pausa:
+        salida["aviso"] = B.MENSAJE_PAPEL
+    _imprimir({**salida, "evaluacion": resultado})
 
 
 def cmd_parlays(a) -> None:
@@ -238,6 +273,7 @@ def cmd_parlays(a) -> None:
                                               fila.get("devolucion", r.get("devolucion", 0.0)), r["confianza"],
                                               C.americana_a_decimal(float(r["cuota_winpot"]))))
     bank_hoy = R.bank_actual()
+    papel = B.en_prueba_papel(R.ahora().date())
     disponible = max(0.0, B.limite_del_dia(bank_hoy, R.ganancia_cobrada_hoy()) - R.apostado_hoy_pendiente())
     parlays = V.armar_parlays(candidatas, max_patas=a.max_patas)
     montos = B.ajustar_al_limite([B.monto(bank_hoy, B.porcentaje_parlay(x.confianza)) for x in parlays], disponible)
@@ -245,11 +281,20 @@ def cmd_parlays(a) -> None:
     for par, monto in zip(parlays, montos):
         d = par.resumen()
         d["monto"] = min(monto, B.monto(disponible, 1.0))
+        if papel:
+            d.update(papel=True, monto_papel=d["monto"], monto=0)
         out.append(d)
+    if papel:
+        _imprimir({"aviso": B.MENSAJE_PAPEL, "parlays_papel": out or "Sin parlays con valor para ese día"})
+        return
     _imprimir(out or "Sin parlays con valor para ese día")
 
 
 def cmd_apostar(a) -> None:
+    if B.en_prueba_papel(R.ahora().date()):
+        if not a.forzar:
+            sys.exit(B.MENSAJE_PAPEL + ". No se registra la apuesta (usa --forzar solo si Salva de verdad apostó).")
+        print(f"Aviso: {B.MENSAJE_PAPEL}. Se registra igual porque se usó --forzar.", file=sys.stderr)
     patas = []
     for texto in a.pata:
         pid, resto = texto.split(":", 1)
@@ -296,6 +341,18 @@ def _horas_desde(inicio_utc: str, ahora: datetime) -> float:
     return (ahora - datetime.fromisoformat(inicio_utc)).total_seconds() / 3600
 
 
+def _calificar_papel(p: dict) -> None:
+    """Califica las apuestas en papel de un pronóstico que ya tiene resultado."""
+    for x in p.get("apuestas_papel", []):
+        if x.get("estado") not in ("pendiente", SIN_DATOS):
+            continue
+        est = calificar(x["mercado"], x["seleccion"], p["resultado"])
+        if est == SIN_DATOS and p.get("estado") != "calificado":
+            continue  # se reintenta en la siguiente corrida
+        x["estado"] = est
+        x["ganancia"] = ganancia(est, x["monto"], x["cuota"])
+
+
 def cmd_calificar(a) -> None:
     ahora = datetime.now().astimezone()
     cache: dict[str, dict | None] = {}
@@ -326,6 +383,7 @@ def cmd_calificar(a) -> None:
         # si falta algún dato, se reintenta en las siguientes corridas hasta 48 h
         if not any(s["estado"] == SIN_DATOS for s in p["selecciones"]) or horas >= HORAS_ESPERA_DATOS:
             p["estado"] = "calificado"
+        _calificar_papel(p)
         R.actualizar_pronostico(p)
         cambios += 1
 
@@ -416,6 +474,7 @@ def main(argv=None) -> None:
     s.add_argument("--pata", action="append", required=True, help="ID_PRONOSTICO:mercado:seleccion=cuota")
     s.add_argument("--monto", type=float, required=True)
     s.add_argument("--casa", default="Winpot")
+    s.add_argument("--forzar", action="store_true", help="registrar aunque estemos en la prueba en papel")
     s.set_defaults(f=cmd_apostar)
 
     s = sub.add_parser("movimiento")

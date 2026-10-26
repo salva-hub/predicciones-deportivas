@@ -1,11 +1,17 @@
-"""Reglas de valor aprobadas (26-oct-2026).
+"""Reglas de valor aprobadas (26-oct-2026, revisadas tras el backtest).
 
+- Base: Pinnacle sin margen. En los mercados de goles la probabilidad sale de la
+  matriz anclada al 1X2 y al más/menos 2.5 de Pinnacle; el modelo propio solo se
+  usa como referencia (el backtest mostró que la mezcla 50/50 perdía dinero).
+  Se apuesta solo si Winpot paga más que ese precio justo y además:
 - Sencilla en ganador, doble oportunidad, goles, ambos anotan, hándicap: VE >= 3%.
-- Sencilla en córners o tarjetas: VE >= 5%.
+- Sencilla en córners o tarjetas: VE >= 5% (no hay Pinnacle: el modelo
+  de conteos se encoge hacia 50% porque se confiaba de más).
 - Doble oportunidad: solo si ningún resultado del 1X2 llega a 55%.
 - Parlay: 2 a 4 selecciones de partidos distintos, cada una con VE >= 2% y el
   parlay completo con VE >= 5%. Objetivo: +200 o más con 2 selecciones.
-- La probabilidad final mezcla modelo y Pinnacle sin margen (50/50 al inicio).
+- Sin cuotas de Pinnacle: solo el modelo, con un nivel menos de confianza.
+- Prueba en papel hasta el 26-nov-2026 (ver bank.PRUEBA_PAPEL_HASTA).
 """
 from __future__ import annotations
 
@@ -18,19 +24,13 @@ VE_MIN = {"goles": 0.03, "conteos": 0.05}
 VE_MIN_PARLAY_PATA = 0.02
 VE_MIN_PARLAY = 0.05
 UMBRAL_DOBLE_OPORTUNIDAD = 0.55
-PESO_MODELO = 0.5
+PESO_MODELO = 0.0  # 0 = solo Pinnacle; la mezcla vieja 50/50 era 0.5
 DESACUERDO_FUERTE = 0.08
 ORDEN_CONFIANZA = ["baja", "media", "alta"]
 
 
 def familia(mercado: str) -> str:
     return "conteos" if mercado.startswith(("corners", "tarjetas")) else "goles"
-
-
-def mezclar(p_modelo: float, p_mercado: float | None, peso_modelo: float = PESO_MODELO) -> float:
-    if p_mercado is None:
-        return p_modelo
-    return peso_modelo * p_modelo + (1 - peso_modelo) * p_mercado
 
 
 def bajar(confianza: str, niveles: int = 1) -> str:

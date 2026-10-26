@@ -22,10 +22,11 @@ def test_backtest_sintetico(liga_sintetica):
     df.loc[df.index[250:255], "pin_1"] = 0
     df.loc[df.index[256:260], "pin_c_x"] = 0
     df.loc[df.index[261:265], "pin_mas_2.5"] = 1.0
-    res = correr(df, desde=str(df["fecha"].iloc[200].date()), min_partidos_previos=150)
+    res = correr(df, desde=str(df["fecha"].iloc[200].date()), min_partidos_previos=150, peso_modelo=0.5)
     assert res.n_partidos > 150
     assert res.logloss_modelo < 1.2
     assert res.logloss_pinnacle is not None  # sí lee las cuotas de Pinnacle
+    assert res.logloss_final is not None and res.calibracion_final
     assert res.apuestas > 0
     assert res.calibracion and res.calibracion_corners
     m = res.mercados
@@ -41,11 +42,27 @@ def test_backtest_sintetico(liga_sintetica):
 def test_peso_modelo_cambia_las_apuestas(liga_sintetica):
     df = _con_cuotas(liga_sintetica.copy())
     desde = str(df["fecha"].iloc[200].date())
-    solo_pinnacle = correr(df, desde=desde, min_partidos_previos=150, peso_modelo=0.0)
+    solo_pinnacle = correr(df, desde=desde, min_partidos_previos=150)  # regla vigente: peso 0
     # con peso 0 la probabilidad es la de Pinnacle sin margen: casi nunca hay valor
-    normal = correr(df, desde=desde, min_partidos_previos=150)
+    mezcla = correr(df, desde=desde, min_partidos_previos=150, peso_modelo=0.5)
     assert solo_pinnacle.peso_modelo == 0.0
-    assert solo_pinnacle.apuestas < normal.apuestas
+    assert solo_pinnacle.apuestas < mezcla.apuestas
+    # el modelo solo se mide igual con cualquier peso
+    assert solo_pinnacle.logloss_modelo == mezcla.logloss_modelo
+
+
+def test_montos_de_la_semana_salen_del_bank_inicial(monkeypatch, liga_sintetica):
+    """Todas las apuestas de una semana se dimensionan con el bank al inicio de esa semana."""
+    from predicciones import backtest as BT
+    df = _con_cuotas(liga_sintetica.copy())
+    vistos = []
+    real = BT.B.monto
+    monkeypatch.setattr(BT.B, "monto", lambda bank, pct, *a: vistos.append(bank) or real(bank, pct, *a))
+    desde = str(df["fecha"].iloc[200].date())
+    res = BT.correr(df, desde=desde, min_partidos_previos=150, peso_modelo=0.5)
+    assert res.apuestas == len(vistos) > 0
+    # el bank usado cambia como mucho una vez por semana: muchas apuestas comparten el mismo
+    assert len(set(vistos)) < len(vistos) / 3
 
 
 def test_cuota_invalida():

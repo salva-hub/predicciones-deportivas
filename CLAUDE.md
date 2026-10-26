@@ -48,7 +48,12 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    - Contexto: tabla, eliminatoria (resultado de ida), descanso, viajes, altitud.
    Anota la fuente de cada dato importante.
 
-3. **Convierte lo investigado en ajustes** (`--ajuste objetivo:factor:motivo`). Valores de partida:
+3. **Convierte lo investigado en ajustes** (`--ajuste objetivo:factor:motivo`).
+   Con cuotas de Pinnacle, los goles parten de su precio, que ya incluye las bajas conocidas.
+   Aplica ajustes de goles **solo por noticias que el mercado quizá no ha cobrado**: alineación confirmada
+   en la última hora, lesión de último momento, rotación anunciada tarde. Una baja conocida desde hace días
+   ya está en el precio: no la ajustes otra vez (menciónala en la justificación). Sin Pinnacle, usa la tabla completa.
+   Córners y tarjetas no tienen Pinnacle: ahí sí aplica la tabla siempre. Valores de partida:
 
    | Situación | Ajuste |
    | --- | --- |
@@ -67,7 +72,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
 
 4. **Elige la confianza de los datos** (`--confianza`): `alta` si la alineación está confirmada o es muy probable y se conoce al árbitro;
    `media` si falta uno de los dos; `baja` si faltan varios datos. El programa baja un nivel más en Liga MX, MLS,
-   Brasil, Argentina, Libertadores y Concacaf (menos datos), en equipos sin historial y cuando el modelo y Pinnacle discrepan mucho.
+   Brasil, Argentina, Libertadores y Concacaf (menos datos), en equipos sin historial, **sin cuotas de Pinnacle**
+   (solo el modelo) y cuando el modelo y Pinnacle sin margen discrepan mucho (8 puntos o más).
 
 5. **Calcula y guarda el pronóstico:**
    ```bash
@@ -77,7 +83,10 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    ```
    `--confianza` es obligatoria (paso 4). En cancha neutral (Mundial, Copa América, finales en sede neutral)
    agrega `--neutral`: quita la ventaja de local.
-   Si no hay clave de The Odds API, puedes pasar cuotas de referencia leídas en la web con `--pinnacle "1=-150,X=+280,2=+400"`.
+   **Pinnacle es la base del pronóstico**: siempre hacen falta sus cuotas. Si no hay clave de The Odds API (o no trae
+   el partido), léelas en la web (1X2 y, si se puede, más/menos 2.5) y pásalas con
+   `--pinnacle "1=-150,X=+280,2=+400,mas_2.5=-110,menos_2.5=-110"`. Sin ellas el programa usa solo el modelo,
+   baja la confianza y lo anota ("Sin Pinnacle"); dilo en la justificación.
    El comando guarda el pronóstico en `registro/pronosticos/<id>.json` y devuelve su `id`.
 
 6. **Responde a Salva** con este formato:
@@ -100,6 +109,11 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    Recomienda solo lo que salga con `apostar: true`, con el monto calculado. Para la jornada, arma parlays con
    `python -m predicciones.cli parlays --fecha hoy`.
    Respeta el `disponible_hoy` de `python -m predicciones.cli bank`.
+   **Prueba en papel hasta el 26-nov-2026 (inclusive):** `evaluar` devuelve `apostar: false` siempre y marca con
+   `apostar_papel: true` (y `monto_papel`) lo que habría pasado; lo guarda en `apuestas_papel` del pronóstico y
+   GitHub Actions lo califica. `parlays` los lista como `parlays_papel`. Dile a Salva: "Prueba en papel hasta
+   26-nov-2026: no apostar dinero", y muéstrale la selección y el monto que se habría apostado.
+   `apostar` se niega en ese periodo; usa `--forzar` solo si Salva dice que ya apostó dinero real.
 
 8. **Guarda el registro en GitHub** (Salva lo autorizó):
    `git add registro/ && git commit -m "Pronóstico: <partido>" && git pull --rebase origin main && git push origin HEAD:main`.
@@ -116,14 +130,41 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
 GitHub Actions califica todo automáticamente cada 3 horas y actualiza el dashboard. Si faltan datos de un partido
 (córners, tarjetas), lo vuelve a intentar en cada corrida durante 48 h; las patas sin datos quedan pendientes.
 
-## Reglas de valor (aprobadas el 26-oct-2026)
+## Reglas de valor (revisadas el 26-oct-2026 tras el backtest)
 
+- **Base: Pinnacle sin margen.** El programa busca los goles esperados que reproducen el 1X2 (y el más/menos 2.5)
+  de Pinnacle y de esa matriz saca todos los mercados de goles (ganador, doble oportunidad, totales, ambos anotan,
+  goles por equipo, hándicap, primer tiempo). Encima van solo los ajustes por noticias que el mercado no ha cobrado.
+  El modelo propio queda como referencia y para avisar de desacuerdos.
+- Solo se apuesta si Winpot paga más que ese precio justo, con estos mínimos de valor esperado:
 - Sencilla en ganador, doble oportunidad, goles, ambos anotan, hándicap: valor esperado ≥ 3%.
-- Sencilla en córners o tarjetas: valor esperado ≥ 5%.
+- Sencilla en córners o tarjetas: valor esperado ≥ 5%. (Sin Pinnacle para estos mercados; el modelo se encoge
+  hacia 50% porque el backtest mostró que se confiaba de más en los extremos.)
 - Doble oportunidad: solo si ningún resultado del 1X2 llega a 55% y tiene valor.
 - Parlay: 2 a 4 selecciones de partidos distintos, cada una con valor ≥ 2% y el parlay completo ≥ 5%.
   Ideal: +200 o más con 2 selecciones de confianza alta. Si una sencilla tiene claramente más valor, recomienda la sencilla.
-- La probabilidad final mezcla el modelo con Pinnacle sin margen (50/50).
+- **Prueba en papel del 26-oct-2026 al 26-nov-2026:** nada de dinero real; se registran y califican las apuestas
+  en papel. Al terminar, revisar sus resultados con Salva antes de apostar dinero.
+
+## Resultados del backtest (26-oct-2026)
+
+Temporadas 2022/23 a 2025/26, apostando contra la cuota de apertura de Pinnacle con la regla vieja
+(50% modelo + 50% Pinnacle, valor ≥ 3%):
+
+| Liga | ROI 1X2 |
+| --- | --- |
+| Premier | −15.7% (928 apuestas, acierto 24%) |
+| LaLiga | −26.8% |
+| Serie A | −21.2% |
+| Bundesliga | −9.4% |
+| Ligue 1 | −21.5% |
+
+- Más/menos 2.5: entre −2% y −10%.
+- Log-loss del 1X2 (menor es mejor), Premier: mezcla 50/50 0.972, modelo solo 0.984, Pinnacle de cierre 0.949.
+  Cuando el modelo y Pinnacle discrepan, casi siempre acierta Pinnacle. Por eso la base ahora es Pinnacle.
+- Con la regla nueva (base Pinnacle, sin ajustes) el backtest no encuentra apuestas contra la apertura de Pinnacle:
+  es lo esperado. El valor tiene que venir de que Winpot pague más que Pinnacle o de noticias de último momento.
+- Córners y tarjetas: el modelo se confiaba de más (predecía 0.83 y pasaba 0.61); ahora se encoge hacia 50%.
 
 ## Montos (porcentaje del bank actual)
 

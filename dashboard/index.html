@@ -41,6 +41,9 @@
     <div><h2>Recomendaciones con valor por mercado</h2><div class="card" id="por-mercado"></div></div>
   </div>
 
+  <h2>Prueba en papel (hasta 26-nov-2026, sin dinero real)</h2>
+  <div class="card" id="papel"></div>
+
   <h2>Recomendaciones por liga</h2>
   <div class="card" id="por-liga"></div>
 
@@ -115,12 +118,19 @@ function agrupar(lista, clave) {
       ganancia: estado === "ganada" ? monto * (d - 1) : estado === "perdida" ? -monto : 0});
   }
   const rr = resumen(recomendadas);
+  // prueba en papel: selecciones con valor que no se apostaron con dinero
+  const papel = [];
+  for (const p of pronos) for (const x of (p.apuestas_papel || []))
+    papel.push({partido: p.partido, liga: p.liga, mercado: x.mercado, seleccion: x.seleccion, cuota: x.cuota_americana || americana(x.cuota),
+                monto: x.monto || 0, estado: x.estado || "pendiente", ganancia: x.ganancia || 0});
+  const rp = resumen(papel);
   const kpis = [
     ["Bank actual", MXN(saldo), clase(saldo - bank.bank_inicial)],
     ["Ganancia neta", MXN(r.gan), clase(r.gan)],
     ["ROI apuestas reales", PCT(r.roi), clase(r.roi)],
     ["Acierto apuestas reales", PCT(r.acierto), ""],
     ["ROI recomendaciones", PCT(rr.roi), clase(rr.roi)],
+    ["ROI en papel", PCT(rp.roi), clase(rp.roi)],
     ["Pendientes", String(apuestas.filter(a => a.estado === "pendiente").length), ""],
   ];
   document.getElementById("kpis").innerHTML = kpis.map(k => `<div class="kpi"><div class="l">${esc(k[0])}</div><div class="v ${esc(k[2])}">${esc(k[1])}</div></div>`).join("");
@@ -142,6 +152,7 @@ function agrupar(lista, clave) {
   tabla(document.getElementById("por-tipo"), cols, agrupar(apuestas, a => a.tipo));
   tabla(document.getElementById("por-mercado"), cols, agrupar(recomendadas, x => x.mercado));
   tabla(document.getElementById("por-liga"), cols, agrupar(recomendadas, x => x.liga));
+  tabla(document.getElementById("papel"), cols, papel.length ? [{k: "Total", ...rp}, ...agrupar(papel, x => x.mercado)] : []);
 
   tabla(document.getElementById("apuestas"), [
     ["Fecha", a => String(a.creado || "").slice(0, 10)], ["Tipo", a => a.tipo],

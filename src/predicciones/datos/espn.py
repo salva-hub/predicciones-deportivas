@@ -188,7 +188,11 @@ def _estadisticas(datos: dict) -> dict | None:
 
 
 def _arbitro(datos: dict) -> str | None:
-    """Nombre del árbitro central, si ESPN lo trae."""
+    """Nombre del árbitro central, si ESPN lo trae.
+
+    En ESPN real los oficiales no traen `position`, solo `order` (1 = central):
+    se usa el puesto si viene y, si no, el de menor `order` (o el primero).
+    """
     oficiales = [o for o in ((datos.get("gameInfo") or {}).get("officials") or [])
                  if isinstance(o, dict) and o.get("displayName")]
     if not oficiales:
@@ -203,7 +207,15 @@ def _arbitro(datos: dict) -> str | None:
     for o in oficiales:
         if "referee" in puesto(o) and "assistant" not in puesto(o) and "video" not in puesto(o):
             return o["displayName"]
-    return oficiales[0]["displayName"]
+
+    def orden(par):
+        i, o = par
+        try:
+            return (0, float(o.get("order")), i)
+        except (TypeError, ValueError):
+            return (1, 0.0, i)  # sin order: después, en su posición original
+
+    return min(enumerate(oficiales), key=orden)[1]["displayName"]
 
 
 def resultado(liga: str, espn_id: str, inicio_utc: str | None = None) -> dict | None:

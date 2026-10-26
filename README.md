@@ -1,8 +1,10 @@
 # predicciones-deportivas
 
-Sistema de pronósticos deportivos de Salva. Calcula la probabilidad de cada mercado con un modelo estadístico,
-la ajusta por bajas, árbitro, clima y altitud, y solo recomienda apostar cuando la cuota de Winpot tiene valor.
-Todo con fuentes gratuitas.
+Sistema de pronósticos deportivos de Salva. Parte del precio de Pinnacle sin margen (el modelo estadístico
+propio queda como referencia), lo ajusta por noticias de último momento, árbitro, clima y altitud, y solo
+recomienda apostar cuando la cuota de Winpot paga más que ese precio justo. Todo con fuentes gratuitas.
+
+**Prueba en papel hasta el 26-nov-2026:** las selecciones con valor se registran y califican sin dinero real.
 
 **Etapa actual:** fútbol (ligas top de Europa y América, torneos de clubes y selecciones).
 Siguientes: NBA, NFL, MLB y béisbol mexicano.

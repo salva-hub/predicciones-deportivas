@@ -155,3 +155,14 @@ def test_arbitro_sin_puesto_toma_el_primero():
     assert espn._arbitro({"gameInfo": {"officials": [{"displayName": "Uno", "position": None},
                                                      {"displayName": "Dos"}]}}) == "Uno"
     assert espn._arbitro({}) is None
+
+
+def test_arbitro_por_order_como_espn_real():
+    datos = {"gameInfo": {"officials": [
+        {"displayName": "Asistente Uno", "order": 2},
+        {"displayName": "Central", "order": 1},
+        {"displayName": "Cuarto", "order": 4},
+    ]}}
+    assert espn._arbitro(datos) == "Central"
+    sin_order = {"gameInfo": {"officials": [{"displayName": "X"}, {"displayName": "Y", "order": "3"}]}}
+    assert espn._arbitro(sin_order) == "Y"

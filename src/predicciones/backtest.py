@@ -4,13 +4,19 @@ Para cada semana se ajusta el modelo solo con partidos anteriores y se predicen
 los de esa semana, como si fuera en vivo. Se mide:
 - calibración y precisión (log-loss, Brier) del 1X2 y de más/menos 2.5,
   comparadas contra Pinnacle de cierre sin margen;
+- lo mismo para la salida final (anclada a Pinnacle de apertura, o mezclada con
+  el modelo si --peso-modelo > 0);
 - rentabilidad simulada (1X2 y más/menos 2.5, un solo bank de 10,000) con las
   reglas de valor y montos, apostando contra la cuota de Pinnacle de apertura
-  (aprox.) y comparando contra la de cierre;
+  (aprox.) y comparando contra la de cierre. Los montos de una semana salen del
+  bank al inicio de esa semana (sin mirar resultados de la misma semana).
+  Con la regla vigente (--peso-modelo 0) la probabilidad es la de Pinnacle de
+  apertura, así que casi no debe haber apuestas: es lo esperado.
 - acierto del resultado más probable del modelo vs el favorito de Pinnacle;
 - calibración de córners y tarjetas (no hay cuotas históricas gratis).
 
 Uso: python -m predicciones.backtest --liga laliga --desde 2022 --hasta 2025 [--peso-modelo 0.5]
+(--peso-modelo 0.5 aproxima la regla vieja 50/50).
 Cuotas vacías, NaN o <= 1 (football-data a veces trae 0) cuentan como faltantes.
 """
 from __future__ import annotations
@@ -41,6 +47,9 @@ class Resultado:
     calibracion: list[dict]
     calibracion_corners: list[dict]
     calibracion_tarjetas: list[dict]
+    logloss_final: float | None = None   # salida anclada (+ mezcla si peso > 0)
+    brier_final: float | None = None
+    calibracion_final: list[dict] = field(default_factory=list)
     bank_final: float = 10_000.0
     mercados: dict = field(default_factory=dict)        # ganador, goles y total
     acierto_favorito: dict = field(default_factory=dict)  # modelo vs Pinnacle de cierre
@@ -97,8 +106,8 @@ def correr(hist: pd.DataFrame, desde: str, hasta: str | None = None, min_partido
     hist = hist.dropna(subset=["goles_local", "goles_visitante"]).sort_values("fecha").reset_index(drop=True)
     hist["semana"] = hist["fecha"].dt.to_period("W")
     prueba = hist[(hist["fecha"] >= pd.Timestamp(desde)) & ((hist["fecha"] < pd.Timestamp(hasta)) if hasta else True)]
-    ll_m, ll_p, br_m, br_p = [], [], [], []
-    cal_p, cal_y = [], []
+    ll_m, ll_p, br_m, br_p, ll_f, br_f = [], [], [], [], [], []
+    cal_p, cal_y, calf_p = [], [], []
     cor_p, cor_y, tar_p, tar_y = [], [], [], []
     bank_sim = 10_000.0
     cuentas = {"ganador": _Cuenta(), "goles": _Cuenta(), "total": _Cuenta()}
@@ -109,6 +118,8 @@ def correr(hist: pd.DataFrame, desde: str, hasta: str | None = None, min_partido
         if len(previos) < min_partidos_previos:
             continue
         modelos = ajustar_modelos(previos)
+        bank_semana = bank_sim  # los montos de la semana salen de aquí
+        semana_apuestas = []
         for _, f in grupo.iterrows():
             # football_data escribe las columnas en minúsculas (pin_x, pin_c_x)
             pin_abre = {k: _cuota(f.get(f"pin_{k.lower()}")) for k in ("1", "X", "2")}
@@ -122,20 +133,22 @@ def correr(hist: pd.DataFrame, desde: str, hasta: str | None = None, min_partido
                             confianza_datos="alta", peso_modelo=peso_modelo)
             real = "1" if f["goles_local"] > f["goles_visitante"] else "2" if f["goles_visitante"] > f["goles_local"] else "X"
             total = f["goles_local"] + f["goles_visitante"]
-            pm = p.probabilidades["ganador"]
-            vec = np.array([pm["1"], pm["X"], pm["2"]])
+            pm = p.probabilidades["ganador"]       # salida final
+            solo = p.prob_modelo["ganador"]        # modelo solo
             y = np.array([real == k for k in ("1", "X", "2")], dtype=float)
-            ll_m.append(-np.log(max(vec[y == 1][0], 1e-9)))
-            br_m.append(float(np.sum((vec - y) ** 2)))
-            for k, prob in pm.items():
-                cal_p.append(prob)
+            for probs, ll, br in ((solo, ll_m, br_m), (pm, ll_f, br_f)):
+                vec = np.array([probs["1"], probs["X"], probs["2"]])
+                ll.append(-np.log(max(vec[y == 1][0], 1e-9)))
+                br.append(float(np.sum((vec - y) ** 2)))
+            for k in ("1", "X", "2"):
+                cal_p.append(solo[k])
+                calf_p.append(pm[k])
                 cal_y.append(int(real == k))
             if all(pin_cierre):
                 pj = np.array(C.quitar_margen(pin_cierre))
                 ll_p.append(-np.log(max(pj[y == 1][0], 1e-9)))
                 br_p.append(float(np.sum((pj - y) ** 2)))
                 # acierto del favorito: el más probable del modelo vs el de Pinnacle
-                solo = p.prob_modelo["ganador"]
                 n_fav += 1
                 fav_m += int(max(solo, key=solo.get) == real)
                 fav_p += int(("1", "X", "2")[int(np.argmin(pin_cierre))] == real)
@@ -147,7 +160,8 @@ def correr(hist: pd.DataFrame, desde: str, hasta: str | None = None, min_partido
                 if mercado in p.probabilidades and pd.notna(f.get(col_l)):
                     acc_p.append(p.probabilidades[mercado][f"mas_{linea}"])
                     acc_y.append(int(f[col_l] + f[col_v] > linea))
-            # apuestas simuladas con la cuota de apertura de Pinnacle (un solo bank)
+            # apuestas simuladas con la cuota de apertura de Pinnacle (un solo bank):
+            # se deciden ahora y se liquidan al cerrar la semana
             candidatas = []
             if hay_1x2:
                 candidatas += [("ganador", k, pm[k], pin_abre[k], pin_cierre[i], real == k)
@@ -159,15 +173,16 @@ def correr(hist: pd.DataFrame, desde: str, hasta: str | None = None, min_partido
             for mercado, k, prob, cuota, cierre, gano in candidatas:
                 s = V.Seleccion(p.partido, mercado, k, prob, confianza=p.confianza_base, cuota_ofrecida=cuota)
                 pct = B.porcentaje_sencilla(s.ve(), s.confianza, s.ve_minimo)
-                if pct <= 0:
-                    continue
-                monto = B.monto(bank_sim, pct)
-                g = monto * (cuota - 1) if gano else -monto
-                bank_sim += g
-                for c in (cuentas[mercado], cuentas["total"]):
-                    c.sumar(monto, cuota, gano, g)
-                if cierre:
-                    clv.append(cuota / cierre - 1)
+                if pct > 0:
+                    semana_apuestas.append((mercado, pct, cuota, cierre, gano))
+        for mercado, pct, cuota, cierre, gano in semana_apuestas:
+            monto = B.monto(bank_semana, pct)
+            g = monto * (cuota - 1) if gano else -monto
+            bank_sim += g
+            for c in (cuentas[mercado], cuentas["total"]):
+                c.sumar(monto, cuota, gano, g)
+            if cierre:
+                clv.append(cuota / cierre - 1)
     tot = cuentas["total"]
     return Resultado(
         n_partidos=len(ll_m),
@@ -181,6 +196,9 @@ def correr(hist: pd.DataFrame, desde: str, hasta: str | None = None, min_partido
         calibracion=_calibracion(cal_p, cal_y),
         calibracion_corners=_calibracion(cor_p, cor_y, 5),
         calibracion_tarjetas=_calibracion(tar_p, tar_y, 5),
+        logloss_final=round(float(np.mean(ll_f)), 4) if ll_f else None,
+        brier_final=round(float(np.mean(br_f)), 4) if br_f else None,
+        calibracion_final=_calibracion(calf_p, cal_y),
         bank_final=round(bank_sim, 2),
         mercados={k: c.a_dict() for k, c in cuentas.items()},
         acierto_favorito={
@@ -200,7 +218,7 @@ def main(argv=None):
     ap.add_argument("--hasta", type=int, default=2025, help="última temporada de prueba (año de inicio)")
     ap.add_argument("--previas", type=int, default=3, help="temporadas previas para entrenar")
     ap.add_argument("--peso-modelo", type=float, default=V.PESO_MODELO,
-                    help="peso del modelo al mezclar con Pinnacle (0 a 1)")
+                    help="peso del modelo frente a Pinnacle (0 = regla vigente; 0.5 ≈ regla vieja)")
     ap.add_argument("--salida")
     a = ap.parse_args(argv)
     temporadas = list(range(a.desde - a.previas, a.hasta + 1))

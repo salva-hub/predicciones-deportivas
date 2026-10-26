@@ -180,6 +180,15 @@ def apostado_hoy_pendiente() -> float:
     return sum(a["monto"] for a in apuestas() if _fecha_sonora(a["creado"]).date() == hoy)
 
 
+def apostado_papel_hoy(excluir: str | None = None) -> float:
+    """Montos en papel de hoy (prueba sin dinero), sin contar el pronóstico `excluir`."""
+    hoy = ahora().date()
+    return sum(
+        x.get("monto", 0.0) for p in pronosticos() if p.get("id") != excluir
+        for x in p.get("apuestas_papel", []) if _fecha_sonora(x["evaluado"]).date() == hoy
+    )
+
+
 def _inicio_mes() -> datetime:
     return ahora().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 

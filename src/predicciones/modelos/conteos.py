@@ -18,6 +18,15 @@ from scipy.stats import nbinom
 
 from .fuerzas import Fuerzas, ajustar_fuerzas, pesos_por_fecha
 
+# El backtest (26-oct-2026, 5 ligas) mostró que los conteos se confían de más en
+# los extremos: pred. 0.67 -> real 0.62; 0.35 -> 0.41; 0.83 -> 0.61. Se encoge
+# cada probabilidad de más/menos hacia 50%: p' = 0.5 + 0.7 · (p − 0.5).
+ENCOGER_CONTEOS = 0.7
+
+
+def encoger(p: float, factor: float = ENCOGER_CONTEOS) -> float:
+    return 0.5 + factor * (p - 0.5)
+
 
 @dataclass
 class ModeloConteo:
@@ -37,7 +46,7 @@ class ModeloConteo:
     def mercados(self, mu_total: float, lineas) -> dict[str, float]:
         out = {}
         for l in lineas:
-            mas = self.prob_mas(mu_total, l)
+            mas = encoger(self.prob_mas(mu_total, l))
             out[f"mas_{l}"] = mas
             out[f"menos_{l}"] = 1 - mas
         return out

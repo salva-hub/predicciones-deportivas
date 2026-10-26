@@ -5,6 +5,7 @@ import hashlib
 import json
 import os
 import re
+import tempfile
 import time
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -34,9 +35,27 @@ def obtener(url: str, params: dict | None = None, horas_cache: float = 6, como_j
         texto = ruta.read_text(encoding="utf-8")
     else:
         texto = _descargar(url, params, timeout)
-        CACHE.mkdir(parents=True, exist_ok=True)
-        ruta.write_text(texto, encoding="utf-8")
+        _guardar(ruta, texto)
     return json.loads(texto) if como_json else texto
+
+
+def _guardar(ruta: Path, texto: str) -> None:
+    """Escritura atómica: archivo temporal en la misma carpeta y luego os.replace.
+
+    Así otro proceso nunca lee un archivo de caché a medio escribir.
+    """
+    ruta.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(dir=ruta.parent, prefix=f".{ruta.name}.", suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(texto)
+        os.replace(tmp, ruta)
+    except BaseException:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
 
 
 def _descargar(url: str, params: dict | None, timeout: int) -> str:
