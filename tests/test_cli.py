@@ -781,3 +781,40 @@ def test_exportar_parlays_legibles(papel, capsys, monkeypatch):
     # nunca cuotas decimales
     texto = json.dumps(datos)
     assert '"cuota": 1.' not in texto and '"cuota": 2.' not in texto
+
+
+def test_exportar_campos_de_filtro(papel, capsys):
+    cli, R = papel, papel.R
+    a = _pron_cat(R, "Sevilla vs Osasuna", [("goles", "mas_2.5", 0.56, "alta"), ("ganador", "1", 0.62, "alta")])
+    viejo = R.buscar_pronostico(a["id"])
+    viejo["liga"] = "laliga"  # registro viejo, sin deporte
+    R.actualizar_pronostico(viejo)
+    b = _pron_cat(R, "Roma vs Lazio", [("ganador", "1", 0.56, "media")])
+    cli.main(["evaluar", "--id", a["id"], "--winpot", "goles:mas_2.5=-130", "--winpot", "ganador:1=-160"])
+    cli.main(["evaluar", "--id", b["id"], "--winpot", "ganador:1=-130"])
+    cli.main(["parlays"])
+    cli.main(["apostar", "--forzar", "--monto", "100", "--pata", f"{b['id']}:ganador:1=-130"])
+    cli.main(["exportar", "--salida", str(R.RAIZ / "_site")])
+    capsys.readouterr()
+    leer = lambda n: json.loads((R.RAIZ / "_site" / n).read_text())  # noqa: E731
+    hoy = str(R.ahora().date())
+    for nombre in ("pronosticos.json", "apuestas.json", "apuestas_papel.json", "parlays.json"):
+        filas = leer(nombre)
+        assert filas, nombre
+        for x in filas:
+            assert x["deporte"] == "futbol" and x["fecha"] == hoy and "liga" in x, (nombre, x)
+    pr = {x["partido"]: x for x in leer("pronosticos.json")}
+    assert pr["Sevilla vs Osasuna"]["liga"] == "laliga" and pr["Roma vs Lazio"]["liga"] == "premier"
+    papel_ = leer("apuestas_papel.json")
+    fuerte = next(x for x in papel_ if x["categoria"] == "sencilla_fuerte")
+    assert (fuerte["liga"], fuerte["ligas"], fuerte["cuota"], fuerte["texto"]) == \
+        ("laliga", ["laliga"], "-160", "Sevilla vs Osasuna · Gana Sevilla")
+    comb = next(x for x in papel_ if x["categoria"] == "combinada")
+    assert comb["liga"] == "varias" and comb["ligas"] == ["laliga", "premier"] and comb["recortada"] is True
+    assert leer("parlays.json")[0]["ligas"] == ["laliga", "premier"]
+    (real,) = leer("apuestas.json")
+    assert real["liga"] == "premier" and real["patas"][0]["deporte"] == "futbol"
+
+
+def test_pronostico_guarda_deporte(cli, capsys):
+    assert _pronostico(cli, capsys)["deporte"] == "futbol"

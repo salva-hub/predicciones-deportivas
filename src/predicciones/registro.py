@@ -26,6 +26,7 @@ from .datos.espn import SONORA
 RAIZ = Path(os.environ.get("PRED_RAIZ", Path(__file__).resolve().parents[2]))
 CARPETA = RAIZ / "registro"
 LIQUIDADAS = ("ganada", "perdida", "devuelta")
+DEPORTE_DEFECTO = "futbol"  # los registros sin deporte son de fútbol (NBA, NFL, etc. vendrán después)
 _ID_VALIDO = re.compile(r"^[A-Za-z0-9_-]+$")
 
 
@@ -163,7 +164,8 @@ def apuestas_papel_todas() -> list[dict]:
     out = []
     for p in pronosticos():
         for x in p.get("apuestas_papel", []):
-            out.append({**x, "tipo": "sencilla", "partido": p.get("partido"),
+            out.append({**x, "tipo": "sencilla", "partido": p.get("partido"), "pronostico": p.get("id"),
+                        "liga": p.get("liga", ""), "deporte": p.get("deporte") or DEPORTE_DEFECTO,
                         "categoria": x.get("categoria") or "valor", "fecha": x.get("evaluado", "")})
     for x in parlays_papel():
         out.append({**x, "categoria": x.get("categoria") or "valor", "fecha": x.get("creado", "")})
@@ -282,13 +284,14 @@ def parlays_para_dashboard() -> list[dict]:
     """Todos los parlays (reales y en papel) listos para mostrar: patas en español, cuotas
     americanas (nunca decimales), monto, estado y ganancia. Más recientes primero."""
     out = []
+    por_id = {p["id"]: p for p in pronosticos()}
     reales = [(a, "real") for a in apuestas() if len(a.get("patas", [])) > 1]
     for par, origen in reales + [(x, "papel") for x in parlays_papel()]:
         cat = par.get("categoria")
         out.append({
             "origen": origen,
             "categoria": NOMBRES_CATEGORIA.get(cat, cat or ("Valor" if origen == "papel" else "Sin categoría")),
-            "fecha": str(par.get("creado", ""))[:10],
+            **_campos_filtro(par, por_id),
             "patas": [{"partido": x.get("partido", ""),
                        "texto": f"{x.get('partido', '')} · {texto_seleccion(x.get('partido', ''), x['mercado'], x['seleccion'])}",
                        "cuota": C.formato_americano(float(x["cuota"])),
@@ -304,12 +307,61 @@ def parlays_para_dashboard() -> list[dict]:
     return out
 
 
+def _fecha_texto(iso: str | None) -> str:
+    """Fecha de Sonora AAAA-MM-DD de un isoformat ('' si no hay)."""
+    return str(_fecha_sonora(iso).date()) if iso else ""
+
+
+def _campos_filtro(ap: dict, por_id: dict) -> dict:
+    """deporte, liga, ligas y fecha (Sonora, día en que se apostó) de una apuesta o parlay."""
+    patas = ap.get("patas", [])
+    pros = [por_id.get(x.get("pronostico"), {}) for x in patas]
+    ligas = sorted({x.get("liga") or pr.get("liga") or "" for x, pr in zip(patas, pros)} - {""})
+    deportes = sorted({x.get("deporte") or pr.get("deporte") or DEPORTE_DEFECTO for x, pr in zip(patas, pros)})
+    return {"deporte": ap.get("deporte") or (deportes[0] if deportes else DEPORTE_DEFECTO),
+            "liga": ligas[0] if len(ligas) == 1 else ("varias" if ligas else ""),
+            "ligas": ligas, "fecha": _fecha_texto(ap.get("creado") or ap.get("evaluado"))}
+
+
+def _pronostico_exportado(p: dict) -> dict:
+    return {**p, "deporte": p.get("deporte") or DEPORTE_DEFECTO, "liga": p.get("liga", ""),
+            "fecha": str(p.get("inicio_sonora", ""))[:10] or _fecha_texto(p.get("creado"))}
+
+
+def papel_para_dashboard() -> list[dict]:
+    """Cada apuesta en papel (sencilla o parlay) con deporte, liga, fecha y categoría,
+    para que el dashboard calcule las estadísticas según el filtro."""
+    por_id = {p["id"]: p for p in pronosticos()}
+    out = []
+    for x in apuestas_papel_todas():
+        if x["tipo"] == "sencilla":
+            campos = {"deporte": x["deporte"], "liga": x["liga"], "ligas": [x["liga"]] if x["liga"] else [],
+                      "fecha": _fecha_texto(x.get("evaluado"))}
+            texto = f"{x.get('partido', '')} · {texto_seleccion(x.get('partido', ''), x['mercado'], x['seleccion'])}"
+        else:
+            campos = _campos_filtro(x, por_id)
+            texto = f"Parlay de {len(x.get('patas', []))} patas"
+        out.append({"tipo": x["tipo"], "categoria": x["categoria"], **campos, "texto": texto,
+                     "mercado": x.get("mercado", "parlay"), "cuota": C.formato_americano(float(x["cuota"])),
+                     "monto": x.get("monto", 0), "estado": x.get("estado", "pendiente"),
+                     "ganancia": x.get("ganancia", 0) or 0, "recortada": bool(x.get("recortada")),
+                     "orden": str(x.get("fecha", ""))})
+    return out
+
+
+def apuestas_exportadas() -> list[dict]:
+    por_id = {p["id"]: p for p in pronosticos()}
+    return [{**a, **_campos_filtro(a, por_id)} for a in apuestas()]
+
+
 def exportar(salida: str | Path) -> None:
-    """Junta todo en pronosticos.json, apuestas.json, papel.json, resumen_papel.json,
-    parlays.json y bank.json (para el dashboard)."""
+    """Junta todo para el dashboard: pronosticos.json, apuestas.json, apuestas_papel.json,
+    papel.json, resumen_papel.json, parlays.json y bank.json. Cada fila de pronóstico,
+    apuesta y parlay lleva deporte, liga y fecha (Sonora) para los filtros."""
     salida = Path(salida)
-    _escribir_ruta(salida / "pronosticos.json", pronosticos())
-    _escribir_ruta(salida / "apuestas.json", apuestas())
+    _escribir_ruta(salida / "pronosticos.json", [_pronostico_exportado(p) for p in pronosticos()])
+    _escribir_ruta(salida / "apuestas.json", apuestas_exportadas())
+    _escribir_ruta(salida / "apuestas_papel.json", papel_para_dashboard())
     _escribir_ruta(salida / "papel.json", parlays_papel())
     _escribir_ruta(salida / "resumen_papel.json", resumen_papel())
     _escribir_ruta(salida / "parlays.json", parlays_para_dashboard())

@@ -172,6 +172,7 @@ def cmd_pronostico(a) -> None:
         p.notas.append("AVISO: no se encontró el partido en ESPN; no se podrá calificar automáticamente")
 
     registro = {
+        "deporte": "futbol",
         "liga": a.liga,
         "partido": p.partido,
         "local": partido["local"] if partido else a.local,
@@ -436,7 +437,8 @@ def cmd_apostar(a) -> None:
         p = R.buscar_pronostico(pid)
         if not p:
             sys.exit(f"No existe el pronóstico {pid}")
-        patas.append({"pronostico": pid, "partido": p["partido"], "liga": p["liga"], "espn_id": p.get("espn_id"),
+        patas.append({"pronostico": pid, "partido": p["partido"], "liga": p["liga"],
+                      "deporte": p.get("deporte") or R.DEPORTE_DEFECTO, "espn_id": p.get("espn_id"),
                       "mercado": mercado, "seleccion": seleccion, "cuota": dec, "estado": "pendiente"})
     cuota = C.cuota_parlay(x["cuota"] for x in patas)
     ap = R.agregar_apuesta({

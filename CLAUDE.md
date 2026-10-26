@@ -158,6 +158,9 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
 
 GitHub Actions califica todo automáticamente cada 3 horas y actualiza el dashboard. Si faltan datos de un partido
 (córners, tarjetas), lo vuelve a intentar en cada corrida durante 48 h; las patas sin datos quedan pendientes.
+El dashboard filtra por deporte, liga y periodo (día, semana, mes o año, en hora de Sonora; por defecto el mes actual)
+y muestra cada parlay con sus patas, cuotas y estados. Cada pronóstico guarda `deporte` (hoy siempre `futbol`;
+los registros viejos sin ese campo cuentan como fútbol).
 
 ## Reglas de valor (revisadas el 26-oct-2026 tras el backtest)
 

@@ -29,13 +29,27 @@
   .parlay .pie { color:var(--texto); font-variant-numeric:tabular-nums; }
   .pata { display:flex; gap:8px; justify-content:space-between; padding:3px 0; }
   .pata .t { overflow-wrap:anywhere; } .pata .c { white-space:nowrap; font-variant-numeric:tabular-nums; }
-  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:12px; }
+  .filtros { display:flex; flex-wrap:wrap; gap:8px 12px; margin:0 0 6px; }
+  .filtros label { display:flex; flex-direction:column; font-size:13px; color:var(--suave); flex:1 1 140px; }
+  .filtros select, .filtros input { font:inherit; color:var(--texto); background:var(--card); border:1px solid var(--borde); border-radius:8px; padding:6px 8px; min-width:0; }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr)); gap:12px; }
 </style>
 </head>
 <body>
 <main>
   <h1>Predicciones Deportivas</h1>
   <p class="sub" id="actualizado">Cargando…</p>
+
+  <div class="filtros">
+    <label>Deporte <select id="f-deporte"></select></label>
+    <label>Liga <select id="f-liga"></select></label>
+    <label>Periodo <select id="f-periodo">
+      <option value="dia">Día</option><option value="semana">Semana</option>
+      <option value="mes" selected>Mes</option><option value="anio">Año</option><option value="todo">Todo</option>
+    </select></label>
+    <label>&nbsp;<input id="f-valor" min="2026" max="2100"></label>
+  </div>
+  <p class="sub">Los filtros aplican a todo menos al bank y su gráfica. Fechas en hora de Sonora (día en que se apostó; pronósticos: día del partido).</p>
 
   <div class="kpis" id="kpis"></div>
 
@@ -49,7 +63,7 @@
 
   <h2>Prueba en papel (hasta 26-nov-2026, sin dinero real)</h2>
   <div class="card" id="papel"></div>
-  <h2>Prueba en papel por categoría (se comparan el 26-nov-2026)</h2>
+  <h2>Prueba en papel por categoría (se comparan el 26-nov-2026; según el filtro)</h2>
   <div class="card" id="papel-categorias"></div>
 
   <h2>Parlays y combinadas (reales y en papel)</h2>
@@ -102,57 +116,23 @@ function agrupar(lista, clave) {
 }
 
 (async () => {
-  const [bank, apuestas, pronos, parlaysPapel, resumenPapel, parlays] = await Promise.all([
+  const [bank, apuestasTodas, pronosTodos, papelTodo, parlaysTodos] = await Promise.all([
     leer("registro/bank.json", {bank_inicial: 10000, movimientos: []}),
     leer("registro/apuestas.json", []),
     leer("registro/pronosticos.json", []),
-    leer("registro/papel.json", []),
-    leer("registro/resumen_papel.json", {}),
+    leer("registro/apuestas_papel.json", []),
     leer("registro/parlays.json", []),
   ]);
   document.getElementById("actualizado").textContent =
-    `Bank inicial ${MXN(bank.bank_inicial)} · ${pronos.length} pronósticos · ${apuestas.length} apuestas · actualizado ${new Date().toLocaleString("es-MX", {timeZone: "America/Hermosillo"})} (hora de Sonora)`;
+    `Bank inicial ${MXN(bank.bank_inicial)} · actualizado ${new Date().toLocaleString("es-MX", {timeZone: "America/Hermosillo"})} (hora de Sonora)`;
 
-  // bank en el tiempo
+  // bank en el tiempo (siempre completo: el bank no se filtra)
   const eventos = [];
   for (const m of bank.movimientos || []) eventos.push({t: m.fecha, d: m.tipo === "deposito" ? m.monto : -m.monto});
-  for (const a of apuestas) if (a.liquidada) eventos.push({t: a.liquidada, d: a.ganancia});
+  for (const a of apuestasTodas) if (a.liquidada) eventos.push({t: a.liquidada, d: a.ganancia});
   eventos.sort((a, b) => a.t.localeCompare(b.t));
   let saldo = bank.bank_inicial; const puntos = [{x: (bank.inicio || "") , y: saldo}];
   for (const e of eventos) { saldo += e.d; puntos.push({x: e.t.slice(0, 10), y: Math.round(saldo)}); }
-
-  const r = resumen(apuestas);
-  const recomendadas = [];
-  for (const p of pronos) for (const e of (p.evaluacion || [])) if (e.apostar) {
-    const s = (p.selecciones || []).find(x => x.mercado === e.mercado && x.seleccion === e.seleccion) || {};
-    const estado = s.estado || "pendiente";
-    const d = decimal(e.cuota_winpot);
-    const monto = e.monto_sencilla || 0;
-    recomendadas.push({liga: p.liga, mercado: e.mercado, estado, monto,
-      ganancia: estado === "ganada" ? monto * (d - 1) : estado === "perdida" ? -monto : 0});
-  }
-  const rr = resumen(recomendadas);
-  // prueba en papel: selecciones con valor que no se apostaron con dinero
-  const papel = [];
-  for (const p of pronos) for (const x of (p.apuestas_papel || []))
-    papel.push({partido: p.partido, liga: p.liga, mercado: x.mercado, seleccion: x.seleccion, cuota: x.cuota_americana || americana(x.cuota),
-                monto: x.monto || 0, estado: x.estado || "pendiente", ganancia: x.ganancia || 0});
-  for (const x of parlaysPapel)
-    papel.push({mercado: "parlay", monto: x.monto || 0, estado: x.estado || "pendiente", ganancia: x.ganancia || 0});
-  const rp = resumen(papel);
-  const kpis = [
-    ["Bank actual", MXN(saldo), clase(saldo - bank.bank_inicial)],
-    ["Ganancia neta", MXN(r.gan), clase(r.gan)],
-    ["ROI apuestas reales", PCT(r.roi), clase(r.roi)],
-    ["Acierto apuestas reales", PCT(r.acierto), ""],
-    ["ROI recomendaciones", PCT(rr.roi), clase(rr.roi)],
-    ["ROI en papel", PCT(rp.roi), clase(rp.roi)],
-    ["Pendientes", String(apuestas.filter(a => a.estado === "pendiente").length), ""],
-    ["Revisar a mano", String(apuestas.filter(a => a.estado === "pendiente" && a.requiere_revision).length),
-     apuestas.some(a => a.estado === "pendiente" && a.requiere_revision) ? "neg" : ""],
-  ];
-  document.getElementById("kpis").innerHTML = kpis.map(k => `<div class="kpi"><div class="l">${esc(k[0])}</div><div class="v ${esc(k[2])}">${esc(k[1])}</div></div>`).join("");
-
   if (puntos.length > 1 && window.Chart) {
     const css = getComputedStyle(document.documentElement);
     new Chart(document.getElementById("grafica"), {
@@ -165,41 +145,134 @@ function agrupar(lista, clave) {
     document.getElementById("grafica-vacia").hidden = false;
   }
 
+  // ---------------- filtros: deporte, liga y periodo (fechas de Sonora)
+  const $ = id => document.getElementById(id);
+  const hoy = new Date().toLocaleDateString("en-CA", {timeZone: "America/Hermosillo"});  // AAAA-MM-DD
+  const NOMBRE_DEPORTE = {futbol: "Fútbol"};
+  const todasLasFilas = [...pronosTodos, ...apuestasTodas, ...papelTodo, ...parlaysTodos];
+  const deportes = [...new Set(todasLasFilas.map(x => x.deporte || "futbol"))].sort();
+  if (!deportes.includes("futbol")) deportes.unshift("futbol");
+  $("f-deporte").innerHTML = deportes.map(d => `<option value="${esc(d)}">${esc(NOMBRE_DEPORTE[d] || d)}</option>`).join("");
+  $("f-deporte").value = "futbol";
+  function opcionesLiga() {
+    const dep = $("f-deporte").value;
+    const ligas = new Set();
+    for (const x of todasLasFilas) if ((x.deporte || "futbol") === dep) for (const l of (x.ligas || [x.liga])) if (l) ligas.add(l);
+    $("f-liga").innerHTML = '<option value="">Todas</option>' + [...ligas].sort().map(l => `<option>${esc(l)}</option>`).join("");
+    $("f-liga").value = "";
+  }
+  function controlPeriodo() {
+    const tipo = $("f-periodo").value, el = $("f-valor");
+    el.hidden = tipo === "todo";
+    if (tipo === "dia" || tipo === "semana") { el.type = "date"; el.value = hoy; }
+    else if (tipo === "mes") { el.type = "month"; el.value = hoy.slice(0, 7); }
+    else if (tipo === "anio") { el.type = "number"; el.value = hoy.slice(0, 4); }
+  }
+  function rango() {
+    const tipo = $("f-periodo").value, v = $("f-valor").value || hoy;
+    if (tipo === "dia") return [v, v];
+    if (tipo === "semana") {  // lunes a domingo de la semana elegida
+      const d = new Date(v + "T12:00:00Z"), lunes = new Date(d - ((d.getUTCDay() + 6) % 7) * 864e5);
+      return [lunes.toISOString().slice(0, 10), new Date(+lunes + 6 * 864e5).toISOString().slice(0, 10)];
+    }
+    if (tipo === "mes") return [v.slice(0, 7) + "-01", v.slice(0, 7) + "-31"];
+    if (tipo === "anio") return [v + "-01-01", v + "-12-31"];
+    return ["", "9999"];
+  }
+  function pasa(x, [desde, hasta]) {
+    const liga = $("f-liga").value, f = x.fecha || "";
+    return (x.deporte || "futbol") === $("f-deporte").value
+      && (!liga || (x.ligas || [x.liga]).includes(liga))
+      && f >= desde && f <= hasta;
+  }
+
+  function racha(lista) {
+    let peor = 0, n = 0;
+    for (const x of lista.slice().sort((a, b) => String(a.orden || a.fecha).localeCompare(String(b.orden || b.fecha)))) {
+      if (x.estado === "perdida") peor = Math.max(peor, ++n); else if (x.estado === "ganada") n = 0;
+    }
+    return peor;
+  }
+  const claseEstado = e => e === "ganada" ? "pos" : e === "perdida" ? "neg" : "";
   const cols = [["Grupo", f => f.k], ["Apuestas", f => f.n], ["Liquidadas", f => f.liq], ["Acierto", f => PCT(f.acierto)],
                 ["Apostado", f => MXN(f.apostado)], ["Ganancia", f => MXN(f.gan), f => clase(f.gan)], ["ROI", f => PCT(f.roi), f => clase(f.roi)]];
-  tabla(document.getElementById("por-tipo"), cols, agrupar(apuestas, a => a.tipo));
-  tabla(document.getElementById("por-mercado"), cols, agrupar(recomendadas, x => x.mercado));
-  tabla(document.getElementById("por-liga"), cols, agrupar(recomendadas, x => x.liga));
-  tabla(document.getElementById("papel"), cols, papel.length ? [{k: "Total", ...rp}, ...agrupar(papel, x => x.mercado)] : []);
+  const nombres = {valor: "Valor", sencilla_fuerte: "Sencilla fuerte", combinada: "Combinada"};
 
-  const nombres = {valor: "Valor", sencilla_fuerte: "Sencilla fuerte", combinada: "Combinada", total: "Total"};
-  tabla(document.getElementById("papel-categorias"), [
-    ["Categoría", f => nombres[f.k] || f.k], ["Apuestas", f => f.apuestas], ["Liquidadas", f => f.liquidadas],
-    ["Acierto", f => PCT(f.acierto)], ["Ganancia", f => MXN(f.ganancia), f => clase(f.ganancia)],
-    ["ROI", f => PCT(f.roi), f => clase(f.roi)], ["Peor racha", f => f.peor_racha + " perdidas"], ["Recortadas", f => f.recortadas ?? 0],
-  ], Object.entries(resumenPapel).filter(([, v]) => v.apuestas).map(([k, v]) => ({k, ...v})));
+  function pintar() {
+    const rg = rango();
+    const apuestas = apuestasTodas.filter(x => pasa(x, rg));
+    const pronos = pronosTodos.filter(x => pasa(x, rg));
+    const papel = papelTodo.filter(x => pasa(x, rg));
+    const parlays = parlaysTodos.filter(x => pasa(x, rg));
 
-  const claseEstado = e => e === "ganada" ? "pos" : e === "perdida" ? "neg" : "";
-  const elParlays = document.getElementById("parlays");
-  elParlays.innerHTML = parlays.length ? parlays.slice(0, 40).map(x => `<div class="parlay">
-    <div class="cab">${esc(x.categoria)} · ${x.origen === "papel" ? "en papel" : "real"} · ${esc(x.fecha)}${x.recortada ? " · recortada" : ""}</div>
-    ${x.patas.map(q => `<div class="pata"><span class="t">${esc(q.texto)}</span><span class="c">${esc(q.cuota)} · <span class="${claseEstado(q.estado)}">${esc(q.estado)}</span></span></div>`).join("")}
-    <div class="pie">Cuota ${esc(x.cuota)} · Monto ${MXN(x.monto)} · <span class="${claseEstado(x.estado)}">${esc(x.estado)}</span> · Ganancia ${x.ganancia == null ? "—" : `<span class="${clase(x.ganancia)}">${MXN(x.ganancia)}</span>`}</div>
-  </div>`).join("") : '<div class="vacio">Sin parlays todavía.</div>';
+    const r = resumen(apuestas);
+    const recomendadas = [];
+    for (const p of pronos) for (const e of (p.evaluacion || [])) if (e.apostar) {
+      const s = (p.selecciones || []).find(x => x.mercado === e.mercado && x.seleccion === e.seleccion) || {};
+      const estado = s.estado || "pendiente";
+      const d = decimal(e.cuota_winpot);
+      const monto = e.monto_sencilla || 0;
+      recomendadas.push({liga: p.liga, mercado: e.mercado, estado, monto,
+        ganancia: estado === "ganada" ? monto * (d - 1) : estado === "perdida" ? -monto : 0});
+    }
+    const rr = resumen(recomendadas), rp = resumen(papel);
+    const kpis = [
+      ["Bank actual", MXN(saldo), clase(saldo - bank.bank_inicial)],
+      ["Ganancia neta", MXN(r.gan), clase(r.gan)],
+      ["ROI apuestas reales", PCT(r.roi), clase(r.roi)],
+      ["Acierto apuestas reales", PCT(r.acierto), ""],
+      ["ROI recomendaciones", PCT(rr.roi), clase(rr.roi)],
+      ["ROI en papel", PCT(rp.roi), clase(rp.roi)],
+      ["Pendientes", String(apuestas.filter(a => a.estado === "pendiente").length), ""],
+      ["Revisar a mano", String(apuestas.filter(a => a.estado === "pendiente" && a.requiere_revision).length),
+       apuestas.some(a => a.estado === "pendiente" && a.requiere_revision) ? "neg" : ""],
+    ];
+    $("kpis").innerHTML = kpis.map(k => `<div class="kpi"><div class="l">${esc(k[0])}</div><div class="v ${esc(k[2])}">${esc(k[1])}</div></div>`).join("");
 
-  tabla(document.getElementById("apuestas"), [
-    ["Fecha", a => String(a.creado || "").slice(0, 10)], ["Tipo", a => a.tipo],
-    ["Selecciones", a => (a.patas || []).map(p => `${p.partido}: ${p.mercado} ${p.seleccion}`)],
-    ["Cuota", a => a.cuota_americana || americana(a.cuota)], ["Monto", a => MXN(a.monto)],
-    ["Estado", a => a.estado === "pendiente" && a.requiere_revision ? "revisar a mano" : a.estado], ["Ganancia", a => a.ganancia == null ? "—" : MXN(a.ganancia), a => clase(a.ganancia || 0)],
-  ], apuestas.slice().reverse().slice(0, 50));
+    tabla($("por-tipo"), cols, agrupar(apuestas, a => a.tipo));
+    tabla($("por-mercado"), cols, agrupar(recomendadas, x => x.mercado));
+    tabla($("por-liga"), cols, agrupar(recomendadas, x => x.liga));
+    tabla($("papel"), cols, papel.length ? [{k: "Total", ...rp}, ...agrupar(papel, x => x.mercado)] : []);
 
-  tabla(document.getElementById("pronosticos"), [
-    ["Partido", p => p.partido], ["Liga", p => p.liga], ["Inicio (Sonora)", p => p.inicio_sonora],
-    ["Goles esperados", p => (p.goles_esperados || []).join(" – ")],
-    ["Resultado", p => p.resultado ? `${p.resultado.goles_local}–${p.resultado.goles_visitante}` : "pendiente"],
-    ["Con valor", p => (p.evaluacion || []).filter(e => e.apostar).map(e => `${e.mercado} ${e.seleccion} (${e.cuota_winpot})`)],
-  ], pronos.slice().reverse().slice(0, 50));
+    // por categoría: se recalcula con las filas filtradas
+    const porCat = Object.keys(nombres).map(c => {
+      const g = papel.filter(x => x.categoria === c);
+      return {k: nombres[c], ...resumen(g), racha: racha(g), recortadas: g.filter(x => x.recortada).length};
+    }).filter(f => f.n);
+    if (porCat.length > 1) porCat.push({k: "Total", ...rp, racha: racha(papel), recortadas: papel.filter(x => x.recortada).length});
+    tabla($("papel-categorias"), [
+      ["Categoría", f => f.k], ["Apuestas", f => f.n], ["Liquidadas", f => f.liq], ["Acierto", f => PCT(f.acierto)],
+      ["Ganancia", f => MXN(f.gan), f => clase(f.gan)], ["ROI", f => PCT(f.roi), f => clase(f.roi)],
+      ["Peor racha", f => f.racha + " perdidas"], ["Recortadas", f => f.recortadas],
+    ], porCat);
+
+    $("parlays").innerHTML = parlays.length ? parlays.slice(0, 40).map(x => `<div class="parlay">
+      <div class="cab">${esc(x.categoria)} · ${x.origen === "papel" ? "en papel" : "real"} · ${esc(x.fecha)}${x.recortada ? " · recortada" : ""}</div>
+      ${x.patas.map(q => `<div class="pata"><span class="t">${esc(q.texto)}</span><span class="c">${esc(q.cuota)} · <span class="${claseEstado(q.estado)}">${esc(q.estado)}</span></span></div>`).join("")}
+      <div class="pie">Cuota ${esc(x.cuota)} · Monto ${MXN(x.monto)} · <span class="${claseEstado(x.estado)}">${esc(x.estado)}</span> · Ganancia ${x.ganancia == null ? "—" : `<span class="${clase(x.ganancia)}">${MXN(x.ganancia)}</span>`}</div>
+    </div>`).join("") : '<div class="vacio">Sin parlays en este periodo.</div>';
+
+    tabla($("apuestas"), [
+      ["Fecha", a => a.fecha], ["Tipo", a => a.tipo],
+      ["Selecciones", a => (a.patas || []).map(p => `${p.partido}: ${p.mercado} ${p.seleccion}`)],
+      ["Cuota", a => a.cuota_americana || americana(a.cuota)], ["Monto", a => MXN(a.monto)],
+      ["Estado", a => a.estado === "pendiente" && a.requiere_revision ? "revisar a mano" : a.estado], ["Ganancia", a => a.ganancia == null ? "—" : MXN(a.ganancia), a => clase(a.ganancia || 0)],
+    ], apuestas.slice().reverse().slice(0, 50));
+
+    tabla($("pronosticos"), [
+      ["Partido", p => p.partido], ["Liga", p => p.liga], ["Inicio (Sonora)", p => p.inicio_sonora],
+      ["Goles esperados", p => (p.goles_esperados || []).join(" – ")],
+      ["Resultado", p => p.resultado ? `${p.resultado.goles_local}–${p.resultado.goles_visitante}` : "pendiente"],
+      ["Con valor", p => (p.evaluacion || []).filter(e => e.apostar).map(e => `${e.mercado} ${e.seleccion} (${e.cuota_winpot})`)],
+    ], pronos.slice().reverse().slice(0, 50));
+  }
+
+  opcionesLiga(); controlPeriodo();
+  $("f-deporte").onchange = () => { opcionesLiga(); pintar(); };
+  $("f-periodo").onchange = () => { controlPeriodo(); pintar(); };
+  $("f-liga").onchange = pintar;
+  $("f-valor").onchange = pintar;
+  pintar();
 })();
 </script>
 </body>
