@@ -121,10 +121,11 @@ def referencia_de(mercado: str, seleccion: str) -> str | None:
     return None
 
 
-def _mezclar_mercado(probs: dict[str, float], mercado: dict[str, float] | None) -> dict[str, float]:
+def _mezclar_mercado(probs: dict[str, float], mercado: dict[str, float] | None,
+                     peso_modelo: float = V.PESO_MODELO) -> dict[str, float]:
     if not mercado:
         return dict(probs)
-    return {k: V.mezclar(v, mercado.get(k)) for k, v in probs.items()}
+    return {k: V.mezclar(v, mercado.get(k), peso_modelo) for k, v in probs.items()}
 
 
 def pronosticar(
@@ -136,10 +137,12 @@ def pronosticar(
     cuotas_pinnacle: dict[str, float] | None = None,
     confianza_datos: str = "media",
     neutral: bool = False,
+    peso_modelo: float = V.PESO_MODELO,
 ) -> Pronostico:
     """cuotas_pinnacle: cuotas decimales con claves "1","X","2","mas_2.5","menos_2.5".
 
     neutral=True: cancha neutral, sin ventaja de local.
+    peso_modelo: peso del modelo al mezclar con Pinnacle (el resto es Pinnacle).
     """
     aj = ajustes or Ajustes()
     notas: list[str] = []
@@ -200,16 +203,17 @@ def pronosticar(
         if all(claves_1x2):
             justo = C.quitar_margen(claves_1x2)
             mercado_1x2 = dict(zip(("1", "X", "2"), justo))
-            finales["ganador"] = _mezclar_mercado(modelo["ganador"], mercado_1x2)
+            finales["ganador"] = _mezclar_mercado(modelo["ganador"], mercado_1x2, peso_modelo)
             p1, px, p2 = (finales["ganador"][k] for k in ("1", "X", "2"))
             finales["doble_oportunidad"] = {"1X": p1 + px, "12": p1 + p2, "X2": px + p2}
-            notas.append("Ganador mezclado 50/50 con Pinnacle sin margen")
+            notas.append(f"Ganador mezclado {round(peso_modelo * 100)}/{round((1 - peso_modelo) * 100)}"
+                         " con Pinnacle sin margen")
             if max(abs(modelo["ganador"][k] - finales["ganador"][k]) for k in ("1", "X", "2")) > V.DESACUERDO_FUERTE / 2:
                 desacuerdos.add("1x2")
         mas, menos = cuotas_pinnacle.get("mas_2.5"), cuotas_pinnacle.get("menos_2.5")
         if mas and menos:
             pm, pmn = C.quitar_margen([mas, menos])
-            mezcla = V.mezclar(modelo["goles"]["mas_2.5"], pm)
+            mezcla = V.mezclar(modelo["goles"]["mas_2.5"], pm, peso_modelo)
             finales["goles"]["mas_2.5"], finales["goles"]["menos_2.5"] = mezcla, 1 - mezcla
             if abs(modelo["goles"]["mas_2.5"] - mezcla) > V.DESACUERDO_FUERTE / 2:
                 desacuerdos.add("goles_2.5")
