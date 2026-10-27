@@ -289,20 +289,40 @@ def cmd_evaluar(a) -> None:
     cuotas = [(m, _resolver_jugador(m, s_, p["selecciones"]), d) for m, s_, d in (_parsear_cuota(t) for t in a.winpot)]
     # en papel: lo ya calificado no se toca; se reemplazan solo las selecciones que se vuelven a evaluar
     evaluadas = {(m, s_) for m, s_, _ in cuotas}
-    previas = p.get("apuestas_papel", [])
+    todas_previas = p.get("apuestas_papel", [])
+    previas = [x for x in todas_previas if x.get("categoria") != V.PICK_MODELO]
     calificadas = {(x["mercado"], x["seleccion"]) for x in previas if x.get("estado") != "pendiente"}
     conservar = [x for x in previas if (x["mercado"], x["seleccion"]) in calificadas
                  or (x["mercado"], x["seleccion"]) not in evaluadas]
+    # sin trampa: una vez empezado el partido no se agregan apuestas en papel
+    iniciado = bool(p.get("resultado")) or bool(
+        p.get("inicio_utc") and datetime.fromisoformat(p["inicio_utc"]) <= R.ahora())
+    # pick del modelo: uno por partido; volver a evaluar reemplaza el pendiente de este pronóstico
+    # entre todas las cuotas de Winpot conocidas del pronóstico (las guardadas y las de ahora; gana la más nueva)
+    conocidas = {}
+    for k, v in p.get("cuotas_winpot", {}).items():
+        m, _, s_ = k.partition(":")
+        if v:
+            conocidas[(m, s_)] = C.americana_a_decimal(float(str(v).replace("\u2212", "-")))
+    conocidas.update({(m, s_): d for m, s_, d in cuotas})
+    pick = V.elegir_pick_modelo([
+        V.Seleccion(p["partido"], m, s_, f["prob"], f.get("devolucion", 0.0), f["confianza"], d)
+        for (m, s_), d in conocidas.items() for f in p["selecciones"] if f["mercado"] == m and f["seleccion"] == s_])
+    picks_previos = [x for x in todas_previas if x.get("categoria") == V.PICK_MODELO]
+    pick_fijo = any(x.get("estado") != "pendiente" for x in picks_previos) or any(
+        x.get("categoria") == V.PICK_MODELO and any(q.get("pronostico") == p["id"] for q in x.get("patas", []))
+        for x in R.parlays_papel())
+    nuevo_pick = papel and not pausa and not iniciado and not pick_fijo and pick is not None
+    if not nuevo_pick:
+        conservar += picks_previos
     disponible = max(0.0, B.limite_del_dia(bank_hoy, R.ganancia_cobrada_hoy()) - R.apostado_hoy_pendiente())
     if papel:
         # en papel, el límite del día también descuenta lo "apostado" en papel hoy
         hoy = R.ahora().date()
-        propio = sum(x.get("monto", 0.0) for x in conservar if R._fecha_sonora(x["evaluado"]).date() == hoy)
+        propio = sum(x.get("monto", 0.0) for x in conservar
+                     if x.get("categoria") != V.PICK_MODELO and R._fecha_sonora(x["evaluado"]).date() == hoy)
         disponible = max(0.0, disponible - R.apostado_papel_hoy(excluir=p["id"]) - propio)
     disponible_inicial = disponible
-    # sin trampa: una vez empezado el partido no se agregan apuestas en papel
-    iniciado = bool(p.get("resultado")) or bool(
-        p.get("inicio_utc") and datetime.fromisoformat(p["inicio_utc"]) <= R.ahora())
     # máximo por día de cada categoría: se cuenta lo ya puesto hoy (en papel o real)
     cuenta = R.categorias_hoy(excluir=p["id"] if papel else None)
     if papel:
@@ -402,6 +422,22 @@ def cmd_evaluar(a) -> None:
     p["evaluacion"] = [r for r in p.get("evaluacion", []) if (r["mercado"], r["seleccion"]) not in nuevas] + resultado
     p["cuotas_winpot"] = {**p.get("cuotas_winpot", {}),
                           **{f"{r['mercado']}:{r['seleccion']}": r.get("cuota_winpot") for r in resultado if "error" not in r}}
+    pick_res = None
+    if nuevo_pick:
+        # solo medición: monto fijo, no usa ni respeta el límite del día
+        dec = pick.cuota_ofrecida
+        pick_res = {
+            "mercado": pick.mercado, "seleccion": pick.seleccion, "categoria": V.PICK_MODELO,
+            "con_valor": V.tiene_valor(pick), "cuota": round(dec, 4), "cuota_americana": C.formato_americano(dec),
+            "monto": V.MONTO_PICK_MODELO, "ve": round(pick.ve(), 4), "prob": pick.prob,
+            "confianza": pick.confianza,
+            "evaluado": R.ahora().isoformat(), "estado": "pendiente",
+        }
+        en_papel.append(pick_res)
+    elif picks_previos:
+        pick_res = {**picks_previos[-1], "nota": "ya había pick del modelo de este partido"}
+    elif pick_fijo:
+        pick_res = {"nota": "ya hay pick del modelo de este partido en los parlays en papel"}
     if papel and not pausa:
         p["apuestas_papel"] = conservar + ([] if iniciado else en_papel)
         if p.get("resultado"):
@@ -412,6 +448,8 @@ def cmd_evaluar(a) -> None:
         salida["aviso"] = B.MENSAJE_PAPEL
         if iniciado:
             salida["nota"] = "El partido ya empezó o terminó: la evaluación se muestra, pero no se agregan apuestas en papel"
+    if pick_res:
+        salida["pick_modelo"] = pick_res
     _imprimir({**salida, "evaluacion": resultado})
 
 
@@ -495,6 +533,8 @@ def cmd_parlays(a) -> None:
 
 
 def cmd_apostar(a) -> None:
+    if a.categoria == V.PICK_MODELO:
+        sys.exit("El pick del modelo es solo en papel: `evaluar` lo registra solo; nunca se apuesta con dinero real.")
     if B.en_prueba_papel(R.ahora().date()):
         if not a.forzar:
             sys.exit(B.MENSAJE_PAPEL + ". No se registra la apuesta (usa --forzar solo si Salva de verdad apostó).")
@@ -791,7 +831,8 @@ def main(argv=None) -> None:
     s.add_argument("--casa", default="Winpot")
     s.add_argument("--forzar", action="store_true", help="registrar aunque estemos en la prueba en papel")
     s.add_argument("--categoria", choices=V.CATEGORIAS_REGISTRO,
-                   help="categoría de la apuesta (valor, sencilla_fuerte, combinada; eleccion_salva: la eligió Salva)")
+                   help="categoría de la apuesta (valor, sencilla_fuerte, combinada; eleccion_salva: la eligió Salva; "
+                        "pick_modelo: solo lo registra evaluar, en papel; aquí se rechaza)")
     s.set_defaults(f=cmd_apostar)
 
     s = sub.add_parser("movimiento")

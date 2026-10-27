@@ -474,6 +474,7 @@ const ESTADO = {ganada: "Ganada", perdida: "Perdida", devuelta: "Devuelta", pend
 const estado = e => ESTADO[e] || e;
 const claseEstado = e => e === "ganada" ? "pos" : e === "perdida" ? "neg" : "";
 const CAT_CORTA = {valor: "Valor", sencilla_fuerte: "Sencilla fuerte", combinada: "Combinada", eleccion_salva: "Elección de Salva",
+  pick_modelo: "Pick del modelo", "Pick del modelo": "Pick del modelo",
   "Cuota mejor que la justa": "Valor", "Elección de Salva": "Elección de Salva", "Sencilla fuerte (momio negativo)": "Sencilla fuerte", "Combinada corta (+200 a +350)": "Combinada"};
 const mayus = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 const fechaDMA = f => /^\d{4}-\d{2}-\d{2}/.test(f || "") ? `${f.slice(8, 10)}-${f.slice(5, 7)}-${f.slice(0, 4)}` : (f || "—");
@@ -673,13 +674,15 @@ mostrarSeccion();
   let saldoRes = saldo, puntosRes = puntos;
   // movimientos del bank del Resumen con su día de Sonora, para la variación del periodo
   // (papel: `fecha` = día en que se evaluó, el único día que trae apuestas_papel.json; real: día de liquidación)
+  // el pick del modelo es solo medición: no mueve el bank en papel (solo sale en su fila de categoría)
+  const papelBank = papelTodo.filter(x => x.categoria !== "pick_modelo");
   const evBank = (bank.movimientos || []).map(m => ({f: fechaSonora(m.fecha), d: m.tipo === "deposito" ? m.monto : -m.monto, mov: true}));
-  if (EN_PAPEL) { for (const x of papelTodo) if (["ganada", "perdida", "devuelta"].includes(x.estado)) evBank.push({f: x.fecha || fechaSonora(x.orden), d: x.ganancia || 0}); }
+  if (EN_PAPEL) { for (const x of papelBank) if (["ganada", "perdida", "devuelta"].includes(x.estado)) evBank.push({f: x.fecha || fechaSonora(x.orden), d: x.ganancia || 0}); }
   else { for (const a of apuestasTodas) if (a.liquidada) evBank.push({f: fechaSonora(a.liquidada), d: a.ganancia || 0}); }
   if (EN_PAPEL) {
     const evP = [];
     for (const m of bank.movimientos || []) evP.push({t: String(m.fecha || ""), d: m.tipo === "deposito" ? m.monto : -m.monto});
-    for (const x of papelTodo) if (["ganada", "perdida", "devuelta"].includes(x.estado))
+    for (const x of papelBank) if (["ganada", "perdida", "devuelta"].includes(x.estado))
       evP.push({t: String(x.orden || x.fecha || ""), f: x.fecha, d: x.ganancia || 0});
     evP.sort((a, b) => a.t.localeCompare(b.t));
     saldoRes = bank.bank_inicial; puntosRes = [{x: bank.inicio || (evP[0] ? (evP[0].f || evP[0].t).slice(0, 10) : ""), y: saldoRes}];
@@ -705,7 +708,8 @@ mostrarSeccion();
     .reduce((s, a) => s + (a.ganancia || 0), 0);
   const limite = Math.min(saldo * 0.10 + Math.max(0, ganHoy) * 0.5, saldo * 0.20);
   const apostadoHoy = apuestasTodas.filter(a => fechaSonora(a.creado) === HOY).reduce((s, a) => s + (a.monto || 0), 0);
-  const papelHoy = EN_PAPEL ? papelTodo.filter(x => x.fecha === HOY).reduce((s, x) => s + (x.monto || 0), 0) : 0;
+  // el pick del modelo es solo medición: no usa el límite del día (como `cli bank`)
+  const papelHoy = EN_PAPEL ? papelTodo.filter(x => x.fecha === HOY && x.categoria !== "pick_modelo").reduce((s, x) => s + (x.monto || 0), 0) : 0;
   const disponible = Math.max(0, limite - apostadoHoy - papelHoy);
   const usadas = {};
   for (const x of papelTodo) if (x.fecha === HOY) usadas[x.categoria || "valor"] = (usadas[x.categoria || "valor"] || 0) + 1;
@@ -832,9 +836,10 @@ mostrarSeccion();
   const explica = {valor: "Winpot paga más de lo que vale según Pinnacle",
                    sencilla_fuerte: "Apuesta derecha muy probable; se apuesta para ganar 5% del bank (2.5% con confianza media)",
                    combinada: "2 o 3 selecciones probables que juntas pagan +200 a +350",
-                   eleccion_salva: "Las eligió Salva por su cuenta; registro aparte de las 3 formas del sistema"};
+                   eleccion_salva: "Las eligió Salva por su cuenta; registro aparte de las 3 formas del sistema",
+                   pick_modelo: "La mejor selección del modelo en cada partido al precio de Winpot, aunque no tenga valor"};
   // la tabla por categoría agrega aparte la elección de Salva (las tarjetas del Resumen siguen siendo las 3 del sistema)
-  const nombresSalva = "Elección de Salva";
+  const nombresSalva = "Elección de Salva", nombrePick = "Pick del modelo";
   const CORTO = {valor: "Valor", sencilla_fuerte: "Sencilla fuerte", combinada: "Combinada"};
   const explicaCorta = {valor: "Winpot paga más de lo que vale según Pinnacle.",
                         sencilla_fuerte: "Momio −200 o mejor; se apuesta para ganar 5% del bank.",
@@ -956,11 +961,13 @@ mostrarSeccion();
       recomendadas.push({liga: p.liga, mercado: e.mercado, estado, monto,
         ganancia: estado === "ganada" ? monto * (d - 1) : estado === "perdida" ? -monto : 0});
     }
-    const rr = resumen(recomendadas), rp = resumen(papel);
+    // banner y tabla por mercado sin el pick del modelo (solo medición; va en su fila de categoría)
+    const papelSinPick = papel.filter(x => x.categoria !== "pick_modelo");
+    const rr = resumen(recomendadas), rp = resumen(papelSinPick);
 
     // ---- Resumen
-    $("banner-resumen").innerHTML = EN_PAPEL ? bannerPapel(rp, papel) : bannerReal();
-    $("banner-papel").innerHTML = bannerPapel(rp, papel);
+    $("banner-resumen").innerHTML = EN_PAPEL ? bannerPapel(rp, papelSinPick) : bannerReal();
+    $("banner-papel").innerHTML = bannerPapel(rp, papelSinPick);
     // en la prueba: categorías en papel; después: con dinero real (sin categoría cuenta como valor)
     const baseCats = EN_PAPEL ? papel : apuestas.map(a => ({...a, categoria: a.categoria || "valor"}));
     $("cats-nota").textContent = EN_PAPEL ? `En papel · se comparan con Salva el ${fechaDMA(FIN_PAPEL)}` : "Con dinero real";
@@ -975,14 +982,16 @@ mostrarSeccion();
     pintarPronosticos($("pron-resumen"), filasPron.slice(0, 6), true);
 
     // ---- Prueba en papel
-    tabla($("t-papel"), [["Mercado", f => f.k], ...colsBase], conTotal(papel, x => mercado(x.mercado)));
+    tabla($("t-papel"), [["Mercado", f => f.k], ...colsBase], conTotal(papelSinPick, x => mercado(x.mercado)));
     // por categoría: se recalcula con las filas filtradas
-    // el total es solo de las 3 formas del sistema; la elección de Salva va después, aparte
+    // el total es solo de las 3 formas del sistema; la elección de Salva y el pick del modelo van después, aparte
     const filaCat = (k, g, extra = {}) => ({k, ...resumen(g), racha: racha(g), recortadas: g.filter(x => x.recortada).length, ...extra});
     const porCat = Object.keys(nombres).map(c => filaCat({t: nombres[c], nota: explica[c]}, papel.filter(x => x.categoria === c))).filter(f => f.n);
     if (porCat.length > 1) porCat.push(filaCat("Total", papel.filter(x => x.categoria in nombres), {total: true}));
     const deSalva = papel.filter(x => x.categoria === "eleccion_salva");
     if (deSalva.length) porCat.push(filaCat({t: nombresSalva, nota: explica.eleccion_salva + " · no entra en el total"}, deSalva));
+    const dePick = papel.filter(x => x.categoria === "pick_modelo");
+    if (dePick.length) porCat.push(filaCat({t: nombrePick, nota: explica.pick_modelo + " · no entra en el total"}, dePick));
     tabla($("papel-categorias"), [
       ["Categoría", f => f.k], ...colsBase,
       [{t: "Peor racha", nota: "(perdidas seguidas)"}, f => f.racha], [{t: "Recortadas", nota: "por el límite del día"}, f => f.recortadas],
