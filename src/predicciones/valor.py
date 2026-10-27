@@ -48,6 +48,10 @@ ORDEN_CONFIANZA = ["baja", "media", "alta"]
 # categorías de apuesta
 VALOR, FUERTE, COMBINADA = "valor", "sencilla_fuerte", "combinada"
 CATEGORIAS = (VALOR, FUERTE, COMBINADA)
+# apuestas que Salva elige por su cuenta: se registran aparte, sin máximo por día (su monto sí cuenta
+# para el límite del día) y el sistema nunca las genera
+ELECCION_SALVA = "eleccion_salva"
+CATEGORIAS_REGISTRO = CATEGORIAS + (ELECCION_SALVA,)
 TOLERANCIA_ATRACTIVA = 0.04       # Winpot puede pagar hasta 4% menos que la cuota justa (decimal)
 PROB_MIN_FUERTE = 0.60
 CUOTA_MIN_FUERTE = 1.5             # −200: con momio peor no va como sencilla fuerte (aprobado por Salva)

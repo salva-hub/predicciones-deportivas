@@ -21,6 +21,7 @@ from pathlib import Path
 
 from . import bank as B
 from . import cuotas as C
+from .calificar import GANA, PIERDE, calificar
 from .datos.espn import SONORA
 
 RAIZ = Path(os.environ.get("PRED_RAIZ", Path(__file__).resolve().parents[2]))
@@ -28,6 +29,7 @@ CARPETA = RAIZ / "registro"
 LIQUIDADAS = ("ganada", "perdida", "devuelta")
 DEPORTE_DEFECTO = "futbol"  # los registros sin deporte son de fútbol (NBA, NFL, etc. vendrán después)
 _ID_VALIDO = re.compile(r"^[A-Za-z0-9_-]+$")
+ELECCION_SALVA = "eleccion_salva"  # apuestas que eligió Salva: registro aparte (valor.ELECCION_SALVA)
 
 
 def _leer(nombre: str, defecto):
@@ -145,13 +147,18 @@ def actualizar_parlays_papel(doc: dict) -> None:
     _escribir_ruta(_ruta_item("papel", doc["id"]), doc)
 
 
+def _se_reemplaza(x: dict) -> bool:
+    """Parlay en papel pendiente que `parlays` vuelve a armar. Los de Salva nunca se reemplazan."""
+    return x.get("estado") == "pendiente" and x.get("categoria") != ELECCION_SALVA
+
+
 def guardar_parlays_papel(dia, nuevos: list[dict]) -> list[dict]:
     """Guarda los parlays en papel de un día. Los ya calificados se conservan; los
     pendientes se reemplazan por los nuevos (volver a correr parlays no duplica)."""
     did = f"parlays-{dia:%Y%m%d}"
     ruta = _ruta_item("papel", did)
     doc = json.loads(ruta.read_text(encoding="utf-8")) if ruta.exists() else {"id": did, "fecha": str(dia), "creado": ahora().isoformat()}
-    calificados = [x for x in doc.get("parlays", []) if x.get("estado") != "pendiente"]
+    calificados = [x for x in doc.get("parlays", []) if not _se_reemplaza(x)]
     claves = {x["clave"] for x in calificados}
     doc["parlays"] = calificados + [x for x in nuevos if x["clave"] not in claves]
     actualizar_parlays_papel(doc)
@@ -185,10 +192,11 @@ def _peor_racha(estados: list[str]) -> int:
 
 
 def resumen_papel() -> dict:
-    """Resultados de la prueba en papel por categoría (para comparar el 26-nov-2026)."""
+    """Resultados de la prueba en papel por categoría (para comparar el 26-nov-2026).
+    La elección de Salva va en su propia fila; el total incluye todo."""
     todas = apuestas_papel_todas()
     out = {}
-    for cat in ("valor", "sencilla_fuerte", "combinada", "total"):
+    for cat in ("valor", "sencilla_fuerte", "combinada", ELECCION_SALVA, "total"):
         grupo = [x for x in todas if cat == "total" or x["categoria"] == cat]
         liq = [x for x in grupo if x.get("estado") in LIQUIDADAS]
         ganadas = sum(x["estado"] == "ganada" for x in liq)
@@ -224,7 +232,7 @@ def categorias_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -> di
     omitir = f"parlays-{reemplazar_parlays_de:%Y%m%d}" if reemplazar_parlays_de else None
     for doc in archivos_parlays_papel():
         for x in doc.get("parlays", []):
-            if not (doc.get("id") == omitir and x.get("estado") == "pendiente"):
+            if not (doc.get("id") == omitir and _se_reemplaza(x)):
                 sumar(x, x.get("creado"))
     for a in apuestas():
         if a.get("categoria"):
@@ -234,7 +242,7 @@ def categorias_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -> di
 
 # nombres para Salva (las claves internas no cambian)
 NOMBRES_CATEGORIA = {"valor": "Cuota mejor que la justa", "sencilla_fuerte": "Sencilla fuerte (momio negativo)",
-                     "combinada": "Combinada corta (+200 a +350)"}
+                     "combinada": "Combinada corta (+200 a +350)", ELECCION_SALVA: "Elección de Salva"}
 
 
 def _equipos(partido: str) -> tuple[str, str]:
@@ -394,9 +402,53 @@ def apuestas_exportadas() -> list[dict]:
                        for x in a.get("patas", [])]} for a in apuestas()]
 
 
+MERCADOS_CALIBRACION = ("ganador", "doble_oportunidad", "goles", "ambos_anotan", "goles_equipo", "handicap",
+                        "primer_tiempo", "corners", "tarjetas", "tiros_jugador")
+
+
+def _resumen_calibracion(filas: list[tuple[float, int]]) -> dict:
+    n = len(filas)
+    if not n:
+        return {"n": 0, "prob_media": None, "acierto": None, "brier": None}
+    return {"n": n, "prob_media": round(sum(p for p, _ in filas) / n, 4),
+            "acierto": round(sum(g for _, g in filas) / n, 4),
+            "brier": round(sum((p - g) ** 2 for p, g in filas) / n, 4)}
+
+
+def calibracion() -> dict:
+    """Probabilidad pronosticada contra lo que pasó, en todas las selecciones de los pronósticos
+    guardados que ya tienen resultado. Cada selección se califica con calificar() (las mismas
+    reglas que las apuestas: pago anticipado, tiros de jugador solo con datos); devueltas y sin
+    datos no cuentan. Con devolución posible (hándicap 0, líneas enteras) la probabilidad se toma
+    sin las devueltas: prob / (1 − devolución)."""
+    por_mercado: dict[str, list] = {m: [] for m in MERCADOS_CALIBRACION}
+    for p in pronosticos():
+        r = p.get("resultado")
+        if not r:
+            continue
+        for s in p.get("selecciones", []):
+            if s.get("prob") is None or s.get("mercado") not in por_mercado:
+                continue
+            est = calificar(s["mercado"], s["seleccion"], r, bool(p.get("pago_anticipado", False)),
+                            jugador_id=s.get("jugador_id"))
+            if est not in (GANA, PIERDE):
+                continue
+            no_devuelta = 1.0 - float(s.get("devolucion") or 0.0)
+            prob = min(1.0, float(s["prob"]) / no_devuelta) if no_devuelta > 0 else float(s["prob"])
+            por_mercado[s["mercado"]].append((prob, int(est == GANA)))
+    todas = [f for filas in por_mercado.values() for f in filas]
+    rangos = []
+    for i in range(10):
+        lo, hi = i / 10, (i + 1) / 10
+        grupo = [f for f in todas if lo <= f[0] < hi or (i == 9 and f[0] == 1.0)]
+        rangos.append({"desde": lo, "hasta": hi, **_resumen_calibracion(grupo)})
+    return {"mercados": {m: _resumen_calibracion(f) for m, f in por_mercado.items()},
+            "total": _resumen_calibracion(todas), "rangos": rangos}
+
+
 def exportar(salida: str | Path) -> None:
     """Junta todo para el dashboard: pronosticos.json, apuestas.json, apuestas_papel.json,
-    papel.json, resumen_papel.json, parlays.json y bank.json. Cada fila de pronóstico,
+    papel.json, resumen_papel.json, parlays.json, bank.json y calibracion.json. Cada fila de pronóstico,
     apuesta y parlay lleva deporte, liga y fecha (Sonora) para los filtros."""
     salida = Path(salida)
     apuestas_de = _apuestas_por_pronostico()
@@ -407,6 +459,7 @@ def exportar(salida: str | Path) -> None:
     _escribir_ruta(salida / "resumen_papel.json", resumen_papel())
     _escribir_ruta(salida / "parlays.json", parlays_para_dashboard())
     _escribir_ruta(salida / "bank.json", bank_config())
+    _escribir_ruta(salida / "calibracion.json", calibracion())
 
 
 # ---------------------------------------------------------------- bank
@@ -474,7 +527,7 @@ def apostado_papel_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -
     omitir = f"parlays-{reemplazar_parlays_de:%Y%m%d}" if reemplazar_parlays_de else None
     for doc in archivos_parlays_papel():
         for x in doc.get("parlays", []):
-            if doc.get("id") == omitir and x.get("estado") == "pendiente":
+            if doc.get("id") == omitir and _se_reemplaza(x):
                 continue
             if _fecha_sonora(x["creado"]).date() == hoy:
                 total += x.get("monto", 0.0)

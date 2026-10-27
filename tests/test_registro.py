@@ -50,3 +50,40 @@ def test_deposito_no_oculta_pausa(registro_tmp):
     assert not R.en_pausa()
     _apuesta(R, 2500, -2500)
     assert R.en_pausa()  # 7,500 de 15,000
+
+
+def test_calibracion(registro_tmp, tmp_path):
+    R = registro_tmp
+    sel = lambda m, s, prob, **k: {"mercado": m, "seleccion": s, "prob": prob, "confianza": "alta", **k}
+    # 3-1, el local fue 2 arriba; visitante nunca
+    R.agregar_pronostico({"partido": "A vs B", "pago_anticipado": True, "estado": "calificado",
+        "resultado": {"goles_local": 3, "goles_visitante": 1, "ventaja_max_local": 2, "ventaja_max_visitante": 0},
+        "selecciones": [sel("ganador", "1", 0.55), sel("ganador", "2", 0.25),
+                        sel("goles", "mas_2.5", 0.6), sel("goles", "menos_2.5", 0.4),
+                        sel("handicap", "local_-2", 0.3, devolucion=0.2),       # 3-1 con −2: devuelta, no cuenta
+                        sel("handicap", "visitante_+0.5", 0.3),
+                        sel("tiros_jugador", "Juan Perez:mas_0.5", 0.5)]})  # sin datos de tiros: no cuenta
+    # 2-3 pero el local fue 2-0 arriba: con pago anticipado el "1" gana
+    R.agregar_pronostico({"partido": "C vs D", "pago_anticipado": True, "estado": "calificado",
+        "resultado": {"goles_local": 2, "goles_visitante": 3, "ventaja_max_local": 2, "ventaja_max_visitante": 1},
+        "selecciones": [sel("ganador", "1", 0.5)]})
+    R.agregar_pronostico({"partido": "E vs F", "estado": "pendiente", "selecciones": [sel("goles", "mas_2.5", 0.9)]})
+    c = R.calibracion()
+    m = c["mercados"]
+    assert m["ganador"] == {"n": 3, "prob_media": round((0.55 + 0.25 + 0.5) / 3, 4), "acierto": round(2 / 3, 4),
+                            "brier": round((0.45 ** 2 + 0.25 ** 2 + 0.5 ** 2) / 3, 4)}
+    assert m["goles"]["n"] == 2 and m["goles"]["acierto"] == 0.5
+    assert m["handicap"]["n"] == 1 and m["tiros_jugador"]["n"] == 0 and m["tarjetas"]["prob_media"] is None
+    assert c["total"]["n"] == 6
+    assert len(c["rangos"]) == 10
+    r50 = c["rangos"][5]  # 50% a 60%: 0.55 (ganó) y 0.5 (ganó por pago anticipado)
+    assert (r50["n"], r50["acierto"]) == (2, 1.0)
+    R.exportar(tmp_path / "_site")
+    assert json.loads((tmp_path / "_site" / "calibracion.json").read_text())["total"]["n"] == 6
+
+
+def test_calibracion_quita_la_devolucion(registro_tmp):
+    R = registro_tmp
+    R.agregar_pronostico({"partido": "A vs B", "resultado": {"goles_local": 1, "goles_visitante": 0},
+        "selecciones": [{"mercado": "handicap", "seleccion": "local_0", "prob": 0.4, "devolucion": 0.2}]})
+    assert R.calibracion()["mercados"]["handicap"]["prob_media"] == 0.5  # 0.4 / (1 − 0.2)

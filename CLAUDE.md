@@ -170,6 +170,9 @@ GitHub Actions califica todo automáticamente cada 30 minutos (empieza 2.5 h des
 El dashboard filtra por deporte, liga y periodo (día, semana, mes o año, en hora de Sonora; por defecto el mes actual)
 y muestra cada parlay con sus patas, cuotas y estados. Cada pronóstico guarda `deporte` (hoy siempre `futbol`;
 los registros viejos sin ese campo cuentan como fútbol).
+En "Pronósticos" muestra la **calibración** (sin filtros): por mercado, selecciones calificadas, probabilidad media,
+acierto real y Brier; y por rango de probabilidad (0-10% … 90-100%). Usa las mismas reglas de `calificar`
+(pago anticipado incluido); devueltas y sin datos no cuentan.
 
 ## Reglas de valor (revisadas el 26-oct-2026 tras el backtest)
 
@@ -272,6 +275,11 @@ menor a 60%, confianza baja). Si ya se usó la sencilla fuerte del día y la sel
 Con dinero real, mientras sencilla fuerte no esté en `CATEGORIAS_DINERO_REAL`, una selección con valor cuenta como valor.
 Una apuesta cuyo monto bajó por el límite del día queda marcada `recortada: true` (el resumen cuenta cuántas por categoría).
 Un parlay idéntico a uno de valor no se repite como combinada. Los máximos cuentan por día de Sonora en que se evalúa.
+
+**Aparte: Elección de Salva** (`eleccion_salva`): apuestas que Salva elige por su cuenta (en papel o reales,
+`apostar ... --categoria eleccion_salva`). No es una categoría del sistema: va en su propia fila del dashboard,
+no ocupa el máximo por día de sencilla fuerte ni de combinada, y su monto **sí** cuenta para el límite del día.
+`parlays` nunca la reemplaza al rearmar los parlays en papel del día.
 
 ## Resultados del backtest (26-oct-2026)
 
