@@ -436,6 +436,8 @@ const decimal = a => { a = Number(a); return a > 0 ? 1 + a / 100 : 1 + 100 / Mat
 // presentación: signo menos real en momios y signo + en ganancias
 const momio = s => (s == null || s === "") ? "—" : String(s).replace(/^-/, "−");
 const signo = n => (n > 0 ? "+" : "") + MXN(n);
+// etiqueta junto a una cantidad: nunca "Ganancia" con un número negativo
+const etiquetaGan = n => n == null || n > 0 ? "Ganancia" : n < 0 ? "Pérdida" : "Resultado";
 const PCTs = n => (n > 0 ? "+" : "") + PCT(n);
 
 // fin de la prueba en papel (inclusive, fecha de Sonora); empezó el 26-10-2026
@@ -525,8 +527,17 @@ function conTotal(lista, clave) {
 function grafica(el, puntos, {ref = 0, refTexto = "", vacio = "Sin datos todavía.", etiqueta = ""} = {}) {
   if (puntos.length < 2) { el.innerHTML = `<div class="vacio">${esc(vacio)}</div>`; return; }
   el.innerHTML = "";
+  const u = puntos[puntos.length - 1], dif = u.y - ref, txtUlt = ref === 0 ? signo(u.y) : MXN(u.y);
+  // el valor final va a la derecha del último punto, en un margen reservado a su medida:
+  // así nunca lo cruza la línea (que siempre llega por la izquierda) ni el punto
+  let anchoUlt = txtUlt.length * 7.5;
+  try {
+    const ctx = document.createElement("canvas").getContext("2d");
+    ctx.font = `600 12px ${getComputedStyle(el).fontFamily}`;
+    anchoUlt = ctx.measureText(txtUlt).width;
+  } catch (e) { /* se queda la estimación */ }
   const W = Math.max(280, el.clientWidth || 600), H = W < 500 ? 160 : Math.min(340, Math.max(220, el.clientHeight - 4));
-  const pl = 56, pr = 14, pt = 14, pb = 24;
+  const pl = 56, pr = Math.ceil(anchoUlt) + 20, pt = 14, pb = 24;
   const ys = [...puntos.map(p => p.y), ref];
   let min = Math.min(...ys), max = Math.max(...ys);
   if (min === max) { min -= 100; max += 100; }
@@ -543,13 +554,14 @@ function grafica(el, puntos, {ref = 0, refTexto = "", vacio = "Sin datos todaví
   }
   s += `<line class="g-ref" x1="${pl}" x2="${W - pr}" y1="${Y(ref)}" y2="${Y(ref)}"/>`;
   s += `<polyline class="g-linea" points="${puntos.map((p, i) => `${X(i).toFixed(1)},${Y(p.y).toFixed(1)}`).join(" ")}"/>`;
-  const u = puntos[puntos.length - 1], ux = X(puntos.length - 1), uy = Y(u.y);
+  const ux = X(puntos.length - 1), uy = Y(u.y);
   s += `<circle class="g-punto" cx="${ux}" cy="${uy}" r="4"/>`;
-  const dif = u.y - ref;
-  s += `<text class="g-ult ${clase(dif)}" x="${ux - 8}" y="${uy + (uy > H / 2 ? -10 : 18)}" text-anchor="end">${esc(ref === 0 ? signo(u.y) : MXN(u.y))}</text>`;
-  s += `<text class="g-txt" x="${pl}" y="${H - 4}">${esc(fechaDM(puntos[0].x))}</text>`;
-  s += `<text class="g-txt" x="${W - pr}" y="${H - 4}" text-anchor="end">${esc(fechaDM(u.x))}</text>`;
-  el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(etiqueta + ": termina en " + (ref === 0 ? signo(u.y) : MXN(u.y)))}">${s}</svg>`;
+  s += `<text class="g-ult ${clase(dif)}" x="${ux + 10}" y="${uy + 4}">${esc(txtUlt)}</text>`;
+  // fechas del eje: la primera al inicio y la última bajo el último punto; si son el mismo día, solo una vez
+  const f0 = fechaDM(puntos[0].x), f1 = fechaDM(u.x);
+  s += `<text class="g-txt" x="${pl}" y="${H - 4}">${esc(f0)}</text>`;
+  if (f1 !== f0) s += `<text class="g-txt" x="${ux}" y="${H - 4}" text-anchor="middle">${esc(f1)}</text>`;
+  el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(etiqueta + ": termina en " + txtUlt)}">${s}</svg>`;
 }
 
 const ICONO = {ganada: "M3 6.5l2 2 4-5", perdida: "M3.5 3.5l5 5M8.5 3.5l-5 5", otro: "M6 3v3.5l2 1.2"};
@@ -569,7 +581,7 @@ function tarjetasParlay(lista, vacio) {
       }).join("")}</div>
       <div class="pie"><span><span class="k">Momio </span><strong class="num">${esc(momio(x.cuota))}</strong></span>
         <span><span class="k">Monto </span><strong class="num">${MXN(x.monto)}</strong></span>
-        <span><span class="k">Ganancia </span><strong class="num ${x.ganancia == null ? "" : clase(x.ganancia)}">${x.ganancia == null ? "—" : signo(x.ganancia)}</strong></span></div>
+        <span><span class="k">${esc(etiquetaGan(x.ganancia))} </span><strong class="num ${x.ganancia == null ? "" : clase(x.ganancia)}">${x.ganancia == null ? "—" : signo(x.ganancia)}</strong></span></div>
     </article>`;
   }).join("");
 }
@@ -842,7 +854,7 @@ mostrarSeccion();
       </div>
       <div class="datos">
         <div class="dato"><span class="lbl">Bank actual</span><span class="v num">${MXN(saldo)}</span></div>
-        <div class="dato"><span class="lbl">Ganancia<span class="solo-esc"> del mes</span></span><span class="v num ${clase(rMes.gan)}">${signo(rMes.gan)}</span></div>
+        <div class="dato"><span class="lbl">${esc(etiquetaGan(rMes.gan))}<span class="solo-esc"> del mes</span></span><span class="v num ${clase(rMes.gan)}">${signo(rMes.gan)}</span></div>
         <div class="dato"><span class="lbl">Rendimiento<span class="solo-esc"> del mes</span></span><span class="v num ${clase(rMes.roi)}">${PCTs(rMes.roi)}</span></div>
       </div>
     </section>`;
@@ -982,7 +994,7 @@ mostrarSeccion();
       ["Selecciones", a => (a.patas || []).map(p => p.texto || `${p.partido}: ${p.mercado} ${p.seleccion}`)],
       ["Momio", a => momio(a.cuota_americana || americana(a.cuota))], ["Monto", a => MXN(a.monto)],
       ["Estado", a => a.estado === "pendiente" && a.requiere_revision ? "Revisar a mano" : estado(a.estado), a => claseEstado(a.estado)],
-      ["Ganancia", a => a.ganancia == null ? "—" : signo(a.ganancia), a => clase(a.ganancia || 0), "der"],
+      ["Ganancia/Pérdida", a => a.ganancia == null ? "—" : signo(a.ganancia), a => clase(a.ganancia || 0), "der"],
     ], apuestas.slice().reverse().slice(0, 50));
     $("parlays-reales").innerHTML = tarjetasParlay(parlaysReales.slice(0, 40), "Sin parlays con dinero real en este periodo.");
 
@@ -1007,6 +1019,8 @@ mostrarSeccion();
   $("f-liga").onchange = pintar;
   alMostrar = () => dibujar();
   let tRes; window.addEventListener("resize", () => { clearTimeout(tRes); tRes = setTimeout(() => dibujar(), 150); });
+  // el margen del valor final se mide con la letra en uso: cuando termina de cargar Inter se redibuja
+  if (document.fonts) { document.fonts.ready.then(() => dibujar()); document.fonts.addEventListener?.("loadingdone", () => dibujar()); }
   pintar();
 })();
 </script>
