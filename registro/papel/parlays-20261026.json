@@ -6,7 +6,7 @@
     {
       "clave": "P-20261026-5c686d:corners:menos_9.5|P-20261026-5c686d:ganador:1",
       "tipo": "parlay",
-      "categoria": "eleccion_salva",
+      "categoria": "combinada",
       "patas": [
         {
           "pronostico": "P-20261026-5c686d",
@@ -42,6 +42,68 @@
       "pago_anticipado": true,
       "ganancia": -300,
       "liquidada": "2026-10-26T17:14:52.885519-07:00"
+    },
+    {
+      "clave": "P-20261026-5c686d:corners:mas_7.5|P-20261026-5c686d:ganador:1|P-20261026-5c686d:goles:mas_1.5|P-20261026-5c686d:tarjetas:menos_7.5",
+      "tipo": "parlay",
+      "categoria": "eleccion_salva",
+      "patas": [
+        {
+          "pronostico": "P-20261026-5c686d",
+          "partido": "Sevilla vs Osasuna",
+          "liga": "laliga",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.4425,
+          "prob": 0.525,
+          "confianza": "alta",
+          "estado": "ganada"
+        },
+        {
+          "pronostico": "P-20261026-5c686d",
+          "partido": "Sevilla vs Osasuna",
+          "liga": "laliga",
+          "mercado": "goles",
+          "seleccion": "mas_1.5",
+          "cuota": 1.4425,
+          "prob": 0.69,
+          "confianza": "media",
+          "estado": "ganada"
+        },
+        {
+          "pronostico": "P-20261026-5c686d",
+          "partido": "Sevilla vs Osasuna",
+          "liga": "laliga",
+          "mercado": "corners",
+          "seleccion": "mas_7.5",
+          "cuota": 1.4425,
+          "prob": 0.527,
+          "confianza": "alta",
+          "estado": "ganada"
+        },
+        {
+          "pronostico": "P-20261026-5c686d",
+          "partido": "Sevilla vs Osasuna",
+          "liga": "laliga",
+          "mercado": "tarjetas",
+          "seleccion": "menos_7.5",
+          "cuota": 1.4425,
+          "prob": null,
+          "confianza": "alta",
+          "estado": "ganada"
+        }
+      ],
+      "cuota": 4.33,
+      "cuota_americana": "+333",
+      "prob": 0.15,
+      "monto": 300,
+      "recortada": false,
+      "creado": "2026-10-26T12:25:06-07:00",
+      "excepcion": "Elección de Salva (registro aparte, aprobado 27-oct): mismo partido; prob. conjunta ~15% (justa ~+566), VE ~-35%. Cuota total +333 de Winpot repartida entre patas. Registrada después del partido.",
+      "pago_anticipado": true,
+      "estado": "ganada",
+      "ganancia": 999.0,
+      "liquidada": "2026-10-26T17:14:52-07:00"
     }
   ]
 }
