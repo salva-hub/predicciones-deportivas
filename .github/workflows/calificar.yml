@@ -44,7 +44,7 @@ jobs:
           cp dashboard/index.html _site/
           PYTHONPATH=src python -m predicciones.cli exportar --salida _site/registro
       - if: steps.hay.outputs.si == 'true' || github.event_name != 'schedule'
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: _site
   publicar:
