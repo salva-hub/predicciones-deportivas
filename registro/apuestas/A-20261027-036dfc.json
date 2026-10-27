@@ -1,0 +1,47 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261027-a1cf2d",
+      "partido": "Sassuolo vs Lazio",
+      "liga": "serie_a",
+      "deporte": "futbol",
+      "espn_id": "401874980",
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "cuota": 1.5186,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261027-a1cf2d",
+      "partido": "Sassuolo vs Lazio",
+      "liga": "serie_a",
+      "deporte": "futbol",
+      "espn_id": "401874980",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 1.4241,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261027-a1cf2d",
+      "partido": "Sassuolo vs Lazio",
+      "liga": "serie_a",
+      "deporte": "futbol",
+      "espn_id": "401874980",
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota": 1.2299,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 2.66,
+  "cuota_americana": "+166",
+  "monto": 400.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261027-036dfc",
+  "creado": "2026-10-27T10:05:08.277997-07:00",
+  "estado": "pendiente",
+  "nota": "Elección de Salva, dinero real (confirmado 27-oct). Cuota total +166 de Winpot repartida entre patas."
+}
