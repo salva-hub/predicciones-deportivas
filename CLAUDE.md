@@ -123,7 +123,7 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    | Mercado | Probabilidad | Cuota justa | Cuota mínima para apostar |
    | --- | --- | --- | --- |
    (ganador; doble oportunidad solo si ningún resultado llega a 55%; total de goles 2.5 y la línea más cercana al esperado;
-   ambos anotan; hándicap asiático principal; goles por equipo; córners y tarjetas en la línea más común; con alineación
+   ambos anotan; hándicap asiático principal; goles por equipo; córners y tarjetas en la línea más común; tarjetas 1X2; con alineación
    oficial, tiros a puerta de los 2 o 3 jugadores con más esperado de cada equipo, confianza baja)
 
    **Justificación:** 3 a 6 viñetas con lo que movió el pronóstico (forma y fuerza, bajas, árbitro, clima, altitud, contexto),
@@ -186,6 +186,19 @@ pronóstico y línea (1X2, más/menos 2.5, hándicap, etc.) solo cuenta el lado 
 - Sencilla en ganador, doble oportunidad, goles, ambos anotan, hándicap: valor esperado ≥ 3%.
 - Sencilla en córners o tarjetas: valor esperado ≥ 5%. (Sin Pinnacle para estos mercados; el modelo se encoge
   hacia 50% porque el backtest mostró que se confiaba de más en los extremos.)
+- Tarjetas 1X2 (`tarjetas_1x2`, aprobado por Salva el 27-oct-2026): qué equipo recibe más tarjetas, contadas como
+  Winpot (amarilla 1, roja 2, doble amarilla 3). "1" = el local recibe más, "X" = mismas, "2" = el visitante recibe
+  más. Valor esperado ≥ 5%, como córners y tarjetas. Cuota de Winpot: `--winpot "tarjetas_1x2:1=+122"`.
+  - Cálculo (`tarjetas_1x2` en `modelos/conteos.py`): tarjetas esperadas de cada equipo del modelo de tarjetas (las que
+    recibe, las que provoca al rival y la sede) × factor del árbitro × ajustes de tarjetas; el menos favorito según el
+    1X2 sin margen recibe un poco más (`B_FAVORITO`). Dos Poisson dan empate ~20% y en la realidad pasa 24.7%: se
+    recalibra (`RECAL_TARJETAS_1X2`) y queda en 24.7%.
+  - Prueba histórica (`python -m predicciones.backtest_tarjetas_1x2 --liga premier --liga laliga --liga serie_a
+    --liga bundesliga --liga ligue_1 --liga liga_mx`; 5,537 partidos ene-2024 a oct-2026): log-loss 1.0577 contra
+    1.0730 del promedio de la liga; calibrado por rangos. Le gana poco al promedio: es un mercado muy al azar. No hay
+    cuotas viejas gratis de este mercado: la ganancia se mide en papel. Winpot cobra mucho margen aquí (13% en
+    Torino-Como): habrá pocas apuestas con valor.
+  - Con prórroga queda sin datos y se liquida a mano (ESPN mezcla las tarjetas de la prórroga).
 - Doble oportunidad: solo si ningún resultado del 1X2 llega a 55% y tiene valor.
 - Parlay: 2 a 4 selecciones de partidos distintos, cada una con valor ≥ 2% y el parlay completo ≥ 5%.
   Ideal: +200 o más con 2 selecciones de confianza alta. Si una sencilla tiene claramente más valor, recomienda la sencilla.

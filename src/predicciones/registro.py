@@ -294,6 +294,9 @@ def texto_seleccion(partido: str, mercado: str, seleccion: str) -> str:
         if mercado == "tiros_jugador":
             nombre, linea = seleccion.rsplit(":", 1)
             return f"{nombre}: {_linea(linea, 'tiros a puerta').lower()}"
+        if mercado == "tarjetas_1x2":
+            return {"1": f"Más tarjetas: {local}", "2": f"Más tarjetas: {visitante}",
+                    "X": "Mismas tarjetas los dos equipos"}[seleccion]
         if mercado in ("corners", "tarjetas"):
             return _linea(seleccion, "córners" if mercado == "corners" else "tarjetas")
     except (KeyError, ValueError):
@@ -416,7 +419,7 @@ def apuestas_exportadas() -> list[dict]:
 
 
 MERCADOS_CALIBRACION = ("ganador", "doble_oportunidad", "goles", "ambos_anotan", "goles_equipo", "handicap",
-                        "primer_tiempo", "corners", "tarjetas", "tiros_jugador")
+                        "primer_tiempo", "corners", "tarjetas", "tarjetas_1x2", "tiros_jugador")
 
 
 def _resumen_calibracion(filas: list[tuple[float, int]]) -> dict:

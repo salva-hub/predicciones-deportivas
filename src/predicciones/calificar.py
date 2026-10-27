@@ -122,6 +122,14 @@ def calificar(mercado: str, seleccion: str, r: dict, pago_anticipado: bool = Fal
         if ajustado == 0:
             return DEVUELVE
         return GANA if ajustado > 0 else PIERDE
+    if mercado == "tarjetas_1x2":
+        if r.get("prorroga"):
+            return SIN_DATOS  # ESPN mezcla las de la prórroga: se liquida a mano
+        a, b = (_tarjetas(r, l) for l in ("local", "visitante"))
+        if a is None or b is None:
+            return SIN_DATOS
+        real = "1" if a > b else "2" if b > a else "X"
+        return GANA if seleccion == real else PIERDE
     if mercado in ("corners", "tarjetas"):
         a, b = (_tarjetas(r, l) for l in ("local", "visitante")) if mercado == "tarjetas" else (
             r.get("corners_local"), r.get("corners_visitante"))

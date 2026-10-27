@@ -22,7 +22,7 @@ from . import pago_anticipado as PA
 from . import valor as V
 from .ajustes import Ajustes
 from .equipos import resolver
-from .modelos.conteos import ModeloConteo, ajustar_modelo_conteo
+from .modelos.conteos import ModeloConteo, ajustar_modelo_conteo, tarjetas_1x2
 from .modelos.goles import (
     ModeloGoles,
     ajustar_modelo_goles,
@@ -324,6 +324,10 @@ def pronosticar(
         tot = (tl + tv) * factor_arbitro * aj.factor("tarjetas")
         modelo["tarjetas"] = finales["tarjetas"] = modelos.tarjetas.mercados(tot, LINEAS_TARJETAS)
         notas.append(f"Tarjetas esperadas: {tot:.1f} (factor árbitro x{factor_arbitro:.2f})")
+        # tarjetas 1X2 (quién recibe más): mismos esperados por equipo; favorito según el 1X2 real
+        f_t = factor_arbitro * aj.factor("tarjetas")
+        modelo["tarjetas_1x2"] = finales["tarjetas_1x2"] = tarjetas_1x2(
+            tl * f_t, tv * f_t, ganador_sin_pago["1"], ganador_sin_pago["2"])
 
     if desacuerdos:
         notas.append("Modelo y Pinnacle discrepan mucho en " + ", ".join(sorted(desacuerdos))

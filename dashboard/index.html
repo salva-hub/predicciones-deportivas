@@ -931,7 +931,7 @@ mostrarSeccion();
                     ["Ganancia o pérdida", f => signo(f.gan), f => clase(f.gan)],
                     [{t: "Rendimiento", nota: "(ganancia ÷ apostado)"}, f => PCT(f.roi), f => clase(f.roi)]];
   const MERCADO = {ganador: "Ganador", doble_oportunidad: "Doble oportunidad", goles: "Total de goles", ambos_anotan: "Ambos anotan",
-    goles_equipo: "Goles por equipo", primer_tiempo: "Primer tiempo", handicap: "Hándicap", corners: "Córners", tarjetas: "Tarjetas", parlay: "Parlay",
+    goles_equipo: "Goles por equipo", primer_tiempo: "Primer tiempo", handicap: "Hándicap", corners: "Córners", tarjetas: "Tarjetas", tarjetas_1x2: "Tarjetas 1X2", parlay: "Parlay",
     tiros_jugador: "Tiros a puerta de jugador"};
   const mercado = m => MERCADO[m] || m;
   const nombres = {valor: "Cuota mejor que la justa", sencilla_fuerte: "Sencilla fuerte (momio negativo)", combinada: "Combinada corta (+200 a +350)"};
