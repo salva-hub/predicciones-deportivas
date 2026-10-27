@@ -107,7 +107,7 @@
   .banner .datos { display:flex; gap:32px; flex-wrap:wrap; }
   .dato { display:flex; flex-direction:column; gap:2px; }
   .banner.ambar .dato .lbl { color:var(--ambar-lbl); }
-  .banner .dato .v { font-size:26px; font-weight:700; }
+  .banner .dato .v { font-size:26px; font-weight:700; white-space:nowrap; }
 
   /* categorías */
   .cats { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(300px,100%), 1fr)); gap:16px; }
@@ -241,8 +241,8 @@
     .banner .izq { flex-basis:auto; }
     .banner .grande { font-size:16px; }
     .banner .eti { font-size:11px; }
-    .banner .datos { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px; width:100%; }
-    .banner .dato .v { font-size:20px; }
+    .banner .datos { display:grid; grid-template-columns:repeat(3, auto); justify-content:space-between; gap:8px; width:100%; }
+    .banner .dato .v { font-size:clamp(16px, 4.6vw, 20px); }
     .banner .dato .lbl { font-size:12px; }
     .cat { padding:14px 16px; gap:10px; }
     .cat .gan .g { font-size:24px; }
@@ -776,6 +776,25 @@ mostrarSeccion();
     }
     return peor;
   }
+  // racha activa: resultados liquidados seguidos del mismo tipo, contando desde el más reciente.
+  // Pendientes y sin datos no cuentan; una devuelta se salta (ni corta ni alarga la racha).
+  function rachaActiva(lista) {
+    let n = 0, tipo = null;
+    const orden = lista.slice().sort((a, b) => String(a.orden || a.fecha).localeCompare(String(b.orden || b.fecha)));
+    for (let i = orden.length - 1; i >= 0; i--) {
+      const e = orden[i].estado;
+      if (e !== "ganada" && e !== "perdida") continue;
+      if (tipo && e !== tipo) break;
+      tipo = e; n++;
+    }
+    return {n, tipo};
+  }
+  function rachaHtml(lista) {
+    const {n, tipo} = rachaActiva(lista);
+    if (!n) return '<span class="v num">—</span>';
+    const g = tipo === "ganada";
+    return `<span class="v num ${g ? "pos" : "neg"}">${n} ${g ? "ganada" : "perdida"}${n === 1 ? "" : "s"}</span>`;
+  }
   const colsBase = [["Apuestas", f => f.n], ["Ganadas", f => f.ganadas], ["Perdidas", f => f.perdidas], ["Pendientes", f => f.pendientes],
                     ["% de acierto", f => PCT(f.acierto)], ["Apostado", f => MXN(f.apostado)],
                     ["Ganancia o pérdida", f => signo(f.gan), f => clase(f.gan)],
@@ -793,7 +812,7 @@ mostrarSeccion();
                         sencilla_fuerte: "Momio −200 o mejor; se apuesta para ganar 5% del bank.",
                         combinada: "2 o 3 selecciones probables que juntas pagan +200 a +350."};
 
-  function bannerPapel(rp) {
+  function bannerPapel(rp, lista) {
     const total = diasEntre(INICIO_PAPEL, FIN_PAPEL) + 1;
     const dia = Math.min(total, Math.max(1, diasEntre(INICIO_PAPEL, HOY) + 1));
     const terminado = !EN_PAPEL;
@@ -806,7 +825,7 @@ mostrarSeccion();
       <div class="datos">
         <div class="dato"><span class="lbl">Resultado<span class="solo-esc"> en papel</span></span><span class="v num ${clase(rp.gan)}">${signo(rp.gan)}</span></div>
         <div class="dato"><span class="lbl">Rendimiento</span><span class="v num ${clase(rp.roi)}">${PCTs(rp.roi)}</span></div>
-        <div class="dato"><span class="lbl">Acierto</span><span class="v num">${rp.ganadas} de ${rp.ganadas + rp.perdidas}</span></div>
+        <div class="dato"><span class="lbl">Racha</span>${rachaHtml(lista)}</div>
       </div>
     </section>`;
   }
@@ -842,7 +861,7 @@ mostrarSeccion();
       <div class="tres">
         <div class="dato"><span class="lbl">Apuestas</span><span class="v num">${r.n}</span></div>
         <div class="dato"><span class="lbl">Acierto</span><span class="v num">${PCT(r.acierto)}</span></div>
-        <div class="dato"><span class="lbl">Peor racha</span><span class="v num">${racha(g)}</span></div>
+        <div class="dato"><span class="lbl">Racha</span>${rachaHtml(g)}</div>
       </div>
     </article>`;
   }
@@ -912,8 +931,8 @@ mostrarSeccion();
     const rr = resumen(recomendadas), rp = resumen(papel);
 
     // ---- Resumen
-    $("banner-resumen").innerHTML = EN_PAPEL ? bannerPapel(rp) : bannerReal();
-    $("banner-papel").innerHTML = bannerPapel(rp);
+    $("banner-resumen").innerHTML = EN_PAPEL ? bannerPapel(rp, papel) : bannerReal();
+    $("banner-papel").innerHTML = bannerPapel(rp, papel);
     // en la prueba: categorías en papel; después: con dinero real (sin categoría cuenta como valor)
     const baseCats = EN_PAPEL ? papel : apuestas.map(a => ({...a, categoria: a.categoria || "valor"}));
     $("cats-nota").textContent = EN_PAPEL ? `En papel · se comparan con Salva el ${fechaDMA(FIN_PAPEL)}` : "Con dinero real";
