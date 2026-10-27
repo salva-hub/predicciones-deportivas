@@ -855,7 +855,7 @@ def test_eleccion_salva_registro_aparte(cli, capsys):
     assert R.apostado_papel_hoy(reemplazar_parlays_de=hoy) == 400
     res = R.resumen_papel()
     assert res["eleccion_salva"]["apuestas"] == 1 and res["combinada"]["apuestas"] == 0
-    assert res["total"]["apuestas"] == 1
+    assert res["total"]["apuestas"] == 0  # el total es solo de las 3 categorías del sistema
     p = _pronostico(cli, capsys)
     cli.main(["apostar", "--pata", f"{p['id']}:goles:mas_2.5=+150", "--monto", "300", "--categoria", "eleccion_salva"])
     assert _salida(capsys)["categoria"] == "eleccion_salva"

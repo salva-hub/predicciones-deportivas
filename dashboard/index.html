@@ -365,7 +365,7 @@
     <div id="banner-papel"></div>
     <p class="sub">Todo lo que dice “papel” es <strong>dinero simulado</strong>: no se apostó dinero real. Sirve para medir las reglas antes de usar dinero.</p>
     <section class="bloque">
-      <div class="titulo-fila"><h2>Prueba en papel por categoría</h2><span class="sub">Las tres formas de apostar que se comparan el 26-11-2026, y aparte la elección de Salva</span></div>
+      <div class="titulo-fila"><h2>Prueba en papel por categoría</h2><span class="sub">Las tres formas de apostar que se comparan el 26-11-2026; la elección de Salva va aparte y no entra en el total</span></div>
       <div class="card caja-tabla" id="papel-categorias"></div>
     </section>
     <section class="bloque">
@@ -420,11 +420,11 @@
       <div class="card" id="t-pronosticos"></div>
     </section>
     <section class="bloque">
-      <div class="titulo-fila"><h2>Calibración por mercado</h2><span class="sub">Probabilidad pronosticada contra lo que pasó, en cada selección calificada (sin filtros; devueltas no cuentan)</span></div>
+      <div class="titulo-fila"><h2>Calibración por mercado</h2><span class="sub">Probabilidad pronosticada contra lo que pasó; de cada línea solo cuenta el lado que el modelo vio más probable (sin filtros; devueltas no cuentan)</span></div>
       <div class="card caja-tabla" id="t-calibracion"></div>
     </section>
     <section class="bloque">
-      <div class="titulo-fila"><h2>Calibración por rango de probabilidad</h2><span class="sub">Todos los mercados juntos: si el modelo dice 60%, debería acertar cerca de 60%</span></div>
+      <div class="titulo-fila"><h2>Calibración por rango de probabilidad</h2><span class="sub">Todos los mercados juntos, con el lado que el modelo vio más probable: si dice 60%, debería acertar cerca de 60%</span></div>
       <div class="card caja-tabla" id="t-calibracion-rangos"></div>
     </section>
   </section>
@@ -830,8 +830,8 @@ mostrarSeccion();
                    sencilla_fuerte: "Apuesta derecha muy probable; se apuesta para ganar 5% del bank (2.5% con confianza media)",
                    combinada: "2 o 3 selecciones probables que juntas pagan +200 a +350",
                    eleccion_salva: "Las eligió Salva por su cuenta; registro aparte de las 3 formas del sistema"};
-  // la tabla por categoría agrega la elección de Salva (las tarjetas del Resumen siguen siendo las 3 del sistema)
-  const nombresTabla = {...nombres, eleccion_salva: "Elección de Salva"};
+  // la tabla por categoría agrega aparte la elección de Salva (las tarjetas del Resumen siguen siendo las 3 del sistema)
+  const nombresSalva = "Elección de Salva";
   const CORTO = {valor: "Valor", sencilla_fuerte: "Sencilla fuerte", combinada: "Combinada"};
   const explicaCorta = {valor: "Winpot paga más de lo que vale según Pinnacle.",
                         sencilla_fuerte: "Momio −200 o mejor; se apuesta para ganar 5% del bank.",
@@ -974,11 +974,12 @@ mostrarSeccion();
     // ---- Prueba en papel
     tabla($("t-papel"), [["Mercado", f => f.k], ...colsBase], conTotal(papel, x => mercado(x.mercado)));
     // por categoría: se recalcula con las filas filtradas
-    const porCat = Object.keys(nombresTabla).map(c => {
-      const g = papel.filter(x => x.categoria === c);
-      return {k: {t: nombresTabla[c], nota: explica[c]}, ...resumen(g), racha: racha(g), recortadas: g.filter(x => x.recortada).length};
-    }).filter(f => f.n);
-    if (porCat.length > 1) porCat.push({k: "Total", total: true, ...rp, racha: racha(papel), recortadas: papel.filter(x => x.recortada).length});
+    // el total es solo de las 3 formas del sistema; la elección de Salva va después, aparte
+    const filaCat = (k, g, extra = {}) => ({k, ...resumen(g), racha: racha(g), recortadas: g.filter(x => x.recortada).length, ...extra});
+    const porCat = Object.keys(nombres).map(c => filaCat({t: nombres[c], nota: explica[c]}, papel.filter(x => x.categoria === c))).filter(f => f.n);
+    if (porCat.length > 1) porCat.push(filaCat("Total", papel.filter(x => x.categoria in nombres), {total: true}));
+    const deSalva = papel.filter(x => x.categoria === "eleccion_salva");
+    if (deSalva.length) porCat.push(filaCat({t: nombresSalva, nota: explica.eleccion_salva + " · no entra en el total"}, deSalva));
     tabla($("papel-categorias"), [
       ["Categoría", f => f.k], ...colsBase,
       [{t: "Peor racha", nota: "(perdidas seguidas)"}, f => f.racha], [{t: "Recortadas", nota: "por el límite del día"}, f => f.recortadas],

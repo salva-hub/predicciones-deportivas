@@ -193,11 +193,12 @@ def _peor_racha(estados: list[str]) -> int:
 
 def resumen_papel() -> dict:
     """Resultados de la prueba en papel por categoría (para comparar el 26-nov-2026).
-    La elección de Salva va en su propia fila; el total incluye todo."""
+    El total es solo de las 3 categorías del sistema; la elección de Salva va aparte."""
     todas = apuestas_papel_todas()
+    sistema = ("valor", "sencilla_fuerte", "combinada")
     out = {}
-    for cat in ("valor", "sencilla_fuerte", "combinada", ELECCION_SALVA, "total"):
-        grupo = [x for x in todas if cat == "total" or x["categoria"] == cat]
+    for cat in (*sistema, "total", ELECCION_SALVA):
+        grupo = [x for x in todas if x["categoria"] in (sistema if cat == "total" else (cat,))]
         liq = [x for x in grupo if x.get("estado") in LIQUIDADAS]
         ganadas = sum(x["estado"] == "ganada" for x in liq)
         decididas = sum(x["estado"] != "devuelta" for x in liq)
@@ -415,27 +416,55 @@ def _resumen_calibracion(filas: list[tuple[float, int]]) -> dict:
             "brier": round(sum((p - g) ** 2 for p, g in filas) / n, 4)}
 
 
+def _grupo_calibracion(mercado: str, seleccion: str):
+    """Selecciones que son lados de la misma apuesta (de cada grupo solo cuenta el más probable):
+    1X2, doble oportunidad y ambos anotan, un grupo; totales, por línea; goles por equipo, por equipo
+    y línea; hándicap, por línea vista desde el local (local −1 = visitante +1); primer tiempo, su 1X2
+    o cada línea; tiros de jugador, cada selección (solo existe "más")."""
+    try:
+        if mercado in ("goles", "corners", "tarjetas"):
+            return seleccion.split("_", 1)[1]
+        if mercado == "goles_equipo":
+            partes = seleccion.split("_")
+            return partes[0], partes[-1]
+        if mercado == "handicap":
+            lado, linea = seleccion.split("_", 1)
+            return float(linea) if lado == "local" else -float(linea)
+        if mercado == "primer_tiempo":
+            sel = seleccion.removeprefix("pt_")
+            return "1x2" if sel in ("1", "X", "2") else sel.split("_", 1)[1]
+    except (IndexError, ValueError):
+        return seleccion
+    return seleccion if mercado == "tiros_jugador" else ""
+
+
 def calibracion() -> dict:
-    """Probabilidad pronosticada contra lo que pasó, en todas las selecciones de los pronósticos
-    guardados que ya tienen resultado. Cada selección se califica con calificar() (las mismas
-    reglas que las apuestas: pago anticipado, tiros de jugador solo con datos); devueltas y sin
-    datos no cuentan. Con devolución posible (hándicap 0, líneas enteras) la probabilidad se toma
-    sin las devueltas: prob / (1 − devolución)."""
+    """Probabilidad pronosticada contra lo que pasó, en los pronósticos guardados que ya tienen
+    resultado. Como se guardan los dos lados de cada línea (más y menos, 1/X/2...), por pronóstico
+    y por línea solo cuenta el lado que el modelo vio más probable (si no, la probabilidad media
+    sería igual al acierto por construcción). Se elige antes de calificar. Cada selección se
+    califica con calificar() (las mismas reglas que las apuestas: pago anticipado, tiros de jugador
+    solo con datos); devueltas y sin datos no cuentan. Con devolución posible (hándicap 0, líneas
+    enteras) la probabilidad se toma sin las devueltas: prob / (1 − devolución)."""
     por_mercado: dict[str, list] = {m: [] for m in MERCADOS_CALIBRACION}
     for p in pronosticos():
         r = p.get("resultado")
         if not r:
             continue
+        favoritas: dict[tuple, tuple[float, dict]] = {}
         for s in p.get("selecciones", []):
             if s.get("prob") is None or s.get("mercado") not in por_mercado:
                 continue
-            est = calificar(s["mercado"], s["seleccion"], r, bool(p.get("pago_anticipado", False)),
-                            jugador_id=s.get("jugador_id"))
-            if est not in (GANA, PIERDE):
-                continue
             no_devuelta = 1.0 - float(s.get("devolucion") or 0.0)
             prob = min(1.0, float(s["prob"]) / no_devuelta) if no_devuelta > 0 else float(s["prob"])
-            por_mercado[s["mercado"]].append((prob, int(est == GANA)))
+            clave = (s["mercado"], _grupo_calibracion(s["mercado"], s["seleccion"]))
+            if clave not in favoritas or prob > favoritas[clave][0]:
+                favoritas[clave] = (prob, s)
+        for (mercado, _), (prob, s) in favoritas.items():
+            est = calificar(mercado, s["seleccion"], r, bool(p.get("pago_anticipado", False)),
+                            jugador_id=s.get("jugador_id"))
+            if est in (GANA, PIERDE):
+                por_mercado[mercado].append((prob, int(est == GANA)))
     todas = [f for filas in por_mercado.values() for f in filas]
     rangos = []
     for i in range(10):

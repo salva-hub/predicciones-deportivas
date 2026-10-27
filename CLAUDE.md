@@ -172,7 +172,8 @@ y muestra cada parlay con sus patas, cuotas y estados. Cada pronóstico guarda `
 los registros viejos sin ese campo cuentan como fútbol).
 En "Pronósticos" muestra la **calibración** (sin filtros): por mercado, selecciones calificadas, probabilidad media,
 acierto real y Brier; y por rango de probabilidad (0-10% … 90-100%). Usa las mismas reglas de `calificar`
-(pago anticipado incluido); devueltas y sin datos no cuentan.
+(pago anticipado incluido); devueltas y sin datos no cuentan. Como se guardan los dos lados de cada línea, de cada
+pronóstico y línea (1X2, más/menos 2.5, hándicap, etc.) solo cuenta el lado que el modelo vio más probable.
 
 ## Reglas de valor (revisadas el 26-oct-2026 tras el backtest)
 
@@ -277,7 +278,7 @@ Una apuesta cuyo monto bajó por el límite del día queda marcada `recortada: t
 Un parlay idéntico a uno de valor no se repite como combinada. Los máximos cuentan por día de Sonora en que se evalúa.
 
 **Aparte: Elección de Salva** (`eleccion_salva`): apuestas que Salva elige por su cuenta (en papel o reales,
-`apostar ... --categoria eleccion_salva`). No es una categoría del sistema: va en su propia fila del dashboard,
+`apostar ... --categoria eleccion_salva`). No es una categoría del sistema: va en su propia fila del dashboard (después del total, que es solo de las 3 categorías),
 no ocupa el máximo por día de sencilla fuerte ni de combinada, y su monto **sí** cuenta para el límite del día.
 `parlays` nunca la reemplaza al rearmar los parlays en papel del día.
 
