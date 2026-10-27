@@ -167,9 +167,12 @@
   .parlay .cab { display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; }
   .parlay .cab .t { font-size:13px; color:var(--suave); }
   .parlay .cab .e { font-size:14px; font-weight:600; }
-  .pata { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--borde-suave); }
-  .pata:last-child { border-bottom:0; }
-  .pata .ic { width:20px; height:20px; border-radius:99px; display:flex; align-items:center; justify-content:center; flex:none; background:var(--gris-fuerte); }
+  /* selecciones unidas por una línea vertical, como en el boleto de Winpot */
+  .pata { position:relative; display:flex; align-items:center; gap:10px; padding:8px 0; }
+  .pata:not(:first-child)::before, .pata:not(:last-child)::after { content:""; position:absolute; left:9px; width:2px; background:var(--suave); opacity:.45; }
+  .pata:not(:first-child)::before { top:0; bottom:calc(50% + 10px); }
+  .pata:not(:last-child)::after { top:calc(50% + 10px); bottom:0; }
+  .pata .ic { position:relative; z-index:1; width:20px; height:20px; border-radius:99px; display:flex; align-items:center; justify-content:center; flex:none; background:var(--gris-fuerte); }
   .pata .ic.ganada { background:var(--cuadro-g); } .pata .ic.perdida { background:var(--cuadro-p); }
   .pata .ic path { stroke:#FFFFFF; }
   .pata .tx { display:flex; flex-direction:column; flex:1 1 auto; min-width:0; }
