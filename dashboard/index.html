@@ -15,6 +15,7 @@
     --ambar-bg:#FFF8EB; --ambar-borde:#F5D9A8; --ambar-titulo:#8A4B00; --ambar-lbl:#7A4A12; --ambar-pista:#F3E2C2; --ambar-barra:#B45309;
     --pista:#EAECF0; --activo:#F2F4F7; --logo:#101828; --logo-trazo:#FFFFFF;
     --cuadro-g:#13794A; --cuadro-p:#B42318; --cuadro-d:#667085;
+    --naranja:#C2410C; --naranja-bg:#FFF4ED; --naranja-texto:#9A3412;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -24,6 +25,7 @@
       --ambar-bg:#271D0C; --ambar-borde:#5A4318; --ambar-titulo:#F5B65A; --ambar-lbl:#E8C48A; --ambar-pista:#4A3818; --ambar-barra:#F59E0B;
       --pista:#2A2F38; --activo:#232730; --logo:#ECEEF2; --logo-trazo:#0F1115;
       --cuadro-g:#13794A; --cuadro-p:#B42318; --cuadro-d:#5B6474;
+      --naranja:#FB923C; --naranja-bg:#2B1D14; --naranja-texto:#FDBA74;
     }
   }
   * { box-sizing:border-box; }
@@ -216,6 +218,53 @@
   .pron-item .f3 { font-size:12px; color:var(--medio); }
   .pie-pagina { margin:0; font-size:12px; color:var(--suave); }
 
+  /* Resumen: 2 parlays + últimos pronósticos en la tercera columna */
+  .res-fila { display:grid; grid-template-columns:1fr; gap:24px; align-items:start; }
+  .parlays.dos { grid-template-columns:repeat(auto-fit, minmax(min(300px,100%), 1fr)); }
+  @media (min-width: 1000px) {
+    .res-fila { grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px; }
+    .res-parlays { grid-column:span 2; }
+    .parlays.dos { grid-template-columns:repeat(2, minmax(0,1fr)); }
+  }
+  .pron-mini .pron-item .f2 .r { font-weight:400; }
+
+  /* modelo vs salva */
+  .oculto { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  .cmp-tbl { width:100%; border-collapse:collapse; font-size:14px; table-layout:fixed; }
+  .cmp-tbl th, .cmp-tbl td { padding:10px 8px; border-bottom:1px solid var(--borde-suave); text-align:right; }
+  .cmp-tbl thead th { font-size:13px; font-weight:600; color:var(--suave); vertical-align:bottom; border-bottom-color:var(--borde); }
+  .cmp-tbl th:first-child { text-align:left; padding-left:0; width:34%; }
+  .cmp-tbl td:last-child, .cmp-tbl th:last-child { padding-right:0; }
+  .cmp-tbl tbody th { font-weight:500; color:var(--medio); }
+  .cmp-tbl td { font-weight:600; white-space:nowrap; }
+  .cmp-tbl tr:last-child > * { border-bottom:0; }
+  .cmp-tbl .modelo { color:var(--azul); } .cmp-tbl .tu { color:var(--naranja-texto); }
+  .ley-linea.naranja { background:var(--naranja); }
+  .ley-puntos { width:14px; height:0; border-top:3px dotted var(--naranja); }
+  .g-serie { fill:none; stroke-width:2.5; stroke-linejoin:round; stroke-linecap:round; }
+  .cmp-fila { display:grid; grid-template-columns:1fr; gap:16px; align-items:stretch; }
+  .cmp-fila .graf { flex:1 1 auto; }
+  @media (min-width: 1000px) { .cmp-fila { grid-template-columns:minmax(0,5fr) minmax(0,7fr); } }
+  .cmp-partidos { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(360px,100%), 1fr)); gap:16px; align-items:start; }
+  .cmp-partido { padding:16px 20px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+  .cmp-cab { display:flex; justify-content:space-between; align-items:baseline; gap:2px 12px; flex-wrap:wrap; }
+  .cmp-cab b { font-size:16px; overflow-wrap:anywhere; }
+  .cmp-cab span { font-size:13px; color:var(--suave); white-space:nowrap; }
+  .cmp-bloque { border-radius:10px; padding:10px 12px; display:flex; flex-direction:column; gap:6px; background:var(--activo); }
+  .cmp-bloque.tu { background:var(--naranja-bg); }
+  .cmp-eti { font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--suave); }
+  .cmp-bloque.tu .cmp-eti { color:var(--naranja-texto); }
+  .cmp-no { font-size:14px; color:var(--suave); }
+  .cmp-ap { display:flex; flex-direction:column; gap:2px; }
+  .cmp-ap + .cmp-ap { border-top:1px solid var(--borde); padding-top:8px; margin-top:2px; }
+  .cmp-ap .f1, .cmp-ap .f3 { display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+  .cmp-ap .f1 { font-size:13px; color:var(--suave); }
+  .cmp-ap .f1 strong { color:var(--texto); }
+  .cmp-ap .f3 { font-size:14px; font-weight:600; }
+  .cmp-ap .f3 .k { font-weight:400; color:var(--suave); }
+  .cmp-ap .pata { padding:5px 0; }
+  .cmp-nota { margin:4px 0 0; font-size:12px; color:var(--suave); }
+
   :focus-visible { outline:2px solid var(--azul); outline-offset:2px; }
 
   /* ---------- celular */
@@ -263,9 +312,19 @@
     .tbl td, .tbl th { padding:10px; }
     details.card { padding:0 16px; }
     details.card > .caja-tabla { margin:0 -16px; }
+    .cmp-tbl { font-size:13px; }
+    .cmp-tbl th, .cmp-tbl td { padding:9px 4px; }
+    .cmp-tbl thead th { font-size:12px; }
+    .cmp-partido { padding:14px 16px; }
   }
   @media (min-width: 720px) {
     .top-izq { display:contents; }
+  }
+  /* con 5 secciones el encabezado no cabe en una línea entre 720 y 1099 px: la fecha baja a su propia línea */
+  @media (min-width: 720px) and (max-width: 1099px) {
+    .top-in { flex-wrap:wrap; column-gap:20px; }
+    .tabs { gap:16px; }
+    .top .actualizado { flex-basis:100%; padding-bottom:8px; margin-top:-6px; }
   }
 </style>
 </head>
@@ -352,14 +411,36 @@
       <section class="card pad hoy-card" aria-label="Hoy" id="hoy"></section>
     </div>
 
-    <section class="bloque" aria-label="Parlays">
-      <div class="titulo-fila"><h2>Parlays</h2><a class="ver-todos" id="parlays-ver" href="#papel">Ver todos</a></div>
-      <div class="parlays" id="parlays-resumen"></div>
-    </section>
+    <div class="res-fila">
+      <section class="bloque res-parlays" aria-label="Parlays">
+        <div class="titulo-fila"><h2>Parlays</h2><a class="ver-todos" id="parlays-ver" href="#papel">Ver todos</a></div>
+        <div class="parlays dos" id="parlays-resumen"></div>
+      </section>
+      <section class="bloque res-pron" aria-label="Últimos pronósticos">
+        <div class="titulo-fila"><h2>Últimos pronósticos</h2><a class="ver-todos" href="#pronosticos">Ver todos</a></div>
+        <div class="card" id="pron-resumen"></div>
+      </section>
+    </div>
+  </section>
 
-    <section class="bloque" aria-label="Últimos pronósticos">
-      <div class="titulo-fila"><h2>Últimos pronósticos</h2><a class="ver-todos" href="#pronosticos">Ver todos</a></div>
-      <div class="card" id="pron-resumen"></div>
+  <!-- ===================== Modelo vs Salva -->
+  <section class="panel" id="s-comparar" aria-label="Modelo vs Salva" hidden>
+    <div class="titulo-fila"><h2>Modelo vs Salva</h2><span class="sub">Lo que apostó el sistema contra lo que apostaste tú; tu papel y tu dinero real van por separado</span></div>
+    <div class="cmp-fila">
+    <section class="card pad bloque" aria-labelledby="cmp-titulo">
+      <h2 class="chico" id="cmp-titulo">¿Quién va mejor?</h2>
+      <div id="cmp-tabla"></div>
+      <p class="cmp-nota" id="cmp-nota"></p>
+    </section>
+    <section class="card pad graf-card" aria-labelledby="cmp-graf-titulo">
+      <div class="titulo-fila"><h2 class="chico" id="cmp-graf-titulo">Ganancia acumulada</h2><span class="sub">Solo apuestas calificadas, por día del partido</span></div>
+      <div class="leyenda"><span><span class="ley-linea"></span>Modelo</span><span><span class="ley-linea naranja"></span>Tú (papel)</span><span><span class="ley-puntos"></span>Tú (real)</span></div>
+      <div class="graf" id="cmp-graf"></div>
+    </section>
+    </div>
+    <section class="bloque" aria-label="Partido por partido">
+      <div class="titulo-fila"><h2>Partido por partido</h2><span class="sub">Partidos donde apostaste, el más reciente primero</span></div>
+      <div class="cmp-partidos" id="cmp-partidos"></div>
     </section>
   </section>
 
@@ -576,6 +657,7 @@ function grafica(el, puntos, {ref = 0, refTexto = "", vacio = "Sin datos todaví
 }
 
 const ICONO = {ganada: "M3 6.5l2 2 4-5", perdida: "M3.5 3.5l5 5M8.5 3.5l-5 5", otro: "M6 3v3.5l2 1.2"};
+// en los parlays solo se muestra el momio total (el de cada pata a veces es la cuota total repartida, no la de Winpot)
 function tarjetasParlay(lista, vacio) {
   if (!lista.length) return `<div class="card vacio">${esc(vacio)}</div>`;
   return lista.map(x => {
@@ -588,7 +670,7 @@ function tarjetasParlay(lista, vacio) {
         const partido = q.partido || (i >= 0 ? t.slice(0, i) : t), sel = i >= 0 ? t.slice(i + 3) : "";
         const ic = q.estado === "ganada" || q.estado === "perdida" ? q.estado : "otro";
         return `<div class="pata"><span class="ic ${ic}" role="img" aria-label="${esc(estado(q.estado))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="${ICONO[ic]}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <div class="tx"><b>${esc(partido)}</b><span>${esc(sel)}</span></div><span class="c num">${esc(momio(q.cuota))}</span></div>`;
+          <div class="tx"><b>${esc(partido)}</b><span>${esc(sel)}</span></div></div>`;
       }).join("")}</div>
       <div class="pie"><span><span class="k">Momio </span><strong class="num">${esc(momio(x.cuota))}</strong></span>
         <span><span class="k">Monto </span><strong class="num">${MXN(x.monto)}</strong></span>
@@ -600,11 +682,12 @@ function tarjetasParlay(lista, vacio) {
 // ---------------- secciones y menú
 const SECCIONES = {
   resumen: {nombre: "Resumen", icono: "M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-3H4zM14 4v3h6V4z"},
+  comparar: {nombre: "Modelo vs Salva", icono: "M12 4v16M8 20h8M5 7h14M5 7l-3 7h6zM19 7l-3 7h6z"},
   papel: {nombre: "Prueba en papel", icono: "M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5"},
   apuestas: {nombre: "Apuestas", icono: "M4 7h16v10H4zM12 10v4M9 12h6"},
   pronosticos: {nombre: "Pronósticos", icono: "M5 19V9M10 19V5M15 19v-7M20 19v-4"},
 };
-const ORDEN = EN_PAPEL ? ["resumen", "papel", "apuestas", "pronosticos"] : ["resumen", "apuestas", "pronosticos", "papel"];
+const ORDEN = EN_PAPEL ? ["resumen", "comparar", "papel", "apuestas", "pronosticos"] : ["resumen", "comparar", "apuestas", "pronosticos", "papel"];
 const $ = id => document.getElementById(id);
 $("tabs").innerHTML = ORDEN.map(k => `<a class="tab" href="#${k}" data-s="${k}">${SECCIONES[k].nombre}</a>`).join("");
 $("cajon-links").innerHTML = ORDEN.map(k => `<a href="#${k}" data-s="${k}"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="${SECCIONES[k].icono}" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg>${SECCIONES[k].nombre}</a>`).join("");
@@ -647,14 +730,32 @@ $("btn-filtros").onclick = () => {
 mostrarSeccion();
 
 (async () => {
-  const [bank, apuestasTodas, pronosTodos, papelTodo, parlaysTodos, calib] = await Promise.all([
+  const [bank, apuestasTodas, pronosTodos, papelTodo, parlaysTodos, calib, papelParlaysRaw] = await Promise.all([
     leer("registro/bank.json", {bank_inicial: 10000, movimientos: []}),
     leer("registro/apuestas.json", []),
     leer("registro/pronosticos.json", []),
     leer("registro/apuestas_papel.json", []),
     leer("registro/parlays.json", []),
     leer("registro/calibracion.json", {mercados: {}, total: {n: 0}, rangos: []}),
+    leer("registro/papel.json", []),  // parlays en papel tal como se guardaron (patas con su pronóstico, excepción, liquidada)
   ]);
+  // parlays.json no trae fechas de creación ni de liquidación ni el pronóstico de cada pata: se le une su registro original.
+  // El exportador los arma con los reales de más de una pata y los de papel.json, del más reciente al más viejo
+  // (orden estable), así que van en el mismo orden; se confirma por origen, número de patas y monto.
+  {
+    const fuentes = [...apuestasTodas.filter(a => (a.patas || []).length > 1).map(a => ({...a, _origen: "real"})),
+                     ...(Array.isArray(papelParlaysRaw) ? papelParlaysRaw : []).map(x => ({...x, _origen: "papel"}))];
+    fuentes.sort((a, b) => { const x = String(a.creado || ""), y = String(b.creado || ""); return x < y ? 1 : x > y ? -1 : 0; });
+    // mismo origen, patas (partido y estado), monto, estado y día; si la posición no cuadra, se busca entre los no usados
+    const cuadra = (x, f) => f && !f._usada && f._origen === (x.origen === "papel" ? "papel" : "real")
+      && (f.patas || []).length === (x.patas || []).length && Number(f.monto) === Number(x.monto)
+      && (!x.fecha || fechaSonora(f.creado || f.evaluado) === x.fecha)
+      && (f.patas || []).every((q, j) => { const p = x.patas[j] || {}; return (!p.partido || !q.partido || p.partido === q.partido); });
+    parlaysTodos.forEach((x, i) => {
+      const f = cuadra(x, fuentes[i]) ? fuentes[i] : fuentes.find(f => cuadra(x, f));
+      if (f) { f._usada = true; x._fuente = f; }
+    });
+  }
   const cuando = ultimaModificacion || new Date();
   const txtAct = `Actualizado ${fechaDMA(cuando.toLocaleDateString("en-CA", {timeZone: ZONA}))} · ${horaSonora(cuando)} (Sonora)`;
   $("actualizado").textContent = txtAct; $("actualizado-cel").textContent = txtAct;
@@ -917,6 +1018,188 @@ mostrarSeccion();
       ${conVerTodos ? '<a class="ver-todos" href="#pronosticos" style="padding:0 16px">Ver todos</a>' : ""}</div>`;
   }
 
+  // lista corta de pronósticos para la tercera columna del Resumen (también en celular)
+  function pintarPronMini(el, filas) {
+    if (!filas.length) { el.innerHTML = '<div class="vacio">Sin pronósticos en este periodo.</div>'; return; }
+    const [cPart, cLiga, , cFecha, cRes, cMom, , cGan] = colsPron;
+    el.innerHTML = `<div class="pron-mini">${filas.map(f => `<div class="pron-item">
+        <div class="f1"><b>${esc(cPart[1](f))}</b><span class="r ${esc(cRes[2](f))}" style="font-size:13px;font-weight:600;white-space:nowrap">${esc(cRes[1](f))}</span></div>
+        <div class="f2"><span>${esc(cFecha[1](f))} · ${esc(cLiga[1](f))}</span><span class="num" style="white-space:nowrap">${f.a ? `Momio ${esc(cMom[1](f))} · <strong class="${esc(cGan[2](f))}">${esc(cGan[1](f))}</strong>` : ""}</span></div>
+      </div>`).join("")}</div>`;
+  }
+
+  // ---------------- Modelo vs Salva: todas las apuestas en una sola forma
+  // quien: "modelo" (valor, sencilla fuerte y combinada; en papel o reales), "papel" (elección de Salva en papel),
+  // "real" (elección de Salva con dinero real). fecha = día en que se apostó (para los filtros);
+  // fLiq = día del partido (en un parlay, el de su última pata), como dice la gráfica; sin pronóstico, el día en que se apostó
+  const CAT_CLAVE = {"Cuota mejor que la justa": "valor", "Sencilla fuerte (momio negativo)": "sencilla_fuerte",
+    "Combinada corta (+200 a +350)": "combinada", "Elección de Salva": "eleccion_salva"};
+  const catClave = c => CAT_CLAVE[c] || c || "valor";
+  const pronPorId = Object.fromEntries(pronosTodos.map(p => [p.id, p]));
+  function buscarPron(partido, fecha, pid) {
+    if (pid && pronPorId[pid]) return pronPorId[pid];
+    const desde = fecha ? masDias(fecha, -1) : "";
+    return pronosTodos.filter(p => p.partido === partido && String(p.fecha || "") >= desde)
+      .sort((a, b) => String(a.fecha).localeCompare(String(b.fecha)))[0] || null;
+  }
+  const partirTexto = t => { t = String(t || ""); const i = t.indexOf(" · "); return i >= 0 ? [t.slice(0, i), t.slice(i + 3)] : [t, ""]; };
+  function pataCmp(partido, sel, est, fechaAp, pid, cuota) {
+    const p = buscarPron(partido, fechaAp, pid);
+    return {partido, sel, estado: est || "pendiente", cuota, fp: p ? String(p.fecha || "").slice(0, 10) : fechaAp, liga: p ? p.liga : ""};
+  }
+  const maxF = (patas, defecto) => patas.reduce((m, q) => q.fp && q.fp > m ? q.fp : m, "") || defecto;
+  const apCmp = [];
+  for (const x of papelTodo) if (x.tipo !== "parlay") {
+    const [partido, sel] = partirTexto(x.texto), cat = x.categoria || "valor";
+    const patas = [pataCmp(partido, sel, x.estado, x.fecha, null, x.cuota)];
+    apCmp.push({quien: cat === "eleccion_salva" ? "papel" : "modelo", origen: "papel", categoria: cat,
+      deporte: x.deporte, liga: x.liga, ligas: x.ligas, fecha: x.fecha, orden: String(x.orden || x.fecha || ""),
+      momio: x.cuota, monto: x.monto || 0, estado: x.estado || "pendiente",
+      ganancia: LIQ.includes(x.estado) ? (x.ganancia || 0) : null, patas, fLiq: maxF(patas, x.fecha)});
+  }
+  for (const x of parlaysTodos) if (x.origen === "papel") {
+    const f = x._fuente || {}, cat = f.categoria || catClave(x.categoria);
+    const patas = (x.patas || []).map((q, j) => {
+      const [partido, sel] = partirTexto(q.texto), raw = (f.patas || [])[j] || {};
+      return pataCmp(q.partido || partido, sel, q.estado, x.fecha, raw.pronostico, q.cuota);
+    });
+    apCmp.push({quien: cat === "eleccion_salva" ? "papel" : "modelo", origen: "papel", categoria: cat,
+      deporte: x.deporte, liga: x.liga, ligas: x.ligas, fecha: x.fecha, orden: String(f.creado || x.fecha || ""),
+      momio: x.cuota, monto: x.monto || 0, estado: x.estado || "pendiente",
+      ganancia: LIQ.includes(x.estado) ? (x.ganancia || 0) : null, patas,
+      fLiq: maxF(patas, x.fecha)});
+  }
+  for (const a of apuestasTodas) {
+    const cat = a.categoria || "valor";
+    const patas = (a.patas || []).map(q => {
+      const [partido, sel] = partirTexto(q.texto);
+      return pataCmp(q.partido || partido, sel, q.estado, a.fecha, q.pronostico, q.cuota ? americana(q.cuota) : null);
+    });
+    apCmp.push({quien: cat === "eleccion_salva" ? "real" : "modelo", origen: "real", categoria: cat,
+      deporte: a.deporte, liga: a.liga, ligas: a.ligas, fecha: a.fecha, orden: String(a.creado || a.fecha || ""),
+      momio: a.cuota_americana || (a.cuota ? americana(a.cuota) : null), monto: a.monto || 0, estado: a.estado || "pendiente",
+      requiere_revision: a.requiere_revision, ganancia: LIQ.includes(a.estado) ? (a.ganancia || 0) : null, patas, fLiq: maxF(patas, a.fecha)});
+  }
+  const hayModeloReal = apCmp.some(x => x.quien === "modelo" && x.origen === "real");
+  const QUIENES = [["modelo", "Modelo"], ["papel", "Tú (papel)"], ["real", "Tú (real)"]];
+
+  function tablaCmp(grupos) {
+    const r = Object.fromEntries(QUIENES.map(([k]) => [k, resumen(grupos[k])]));
+    const fila = (titulo, f) => `<tr><th scope="row">${titulo}</th>${QUIENES.map(([k]) => { const [t, c] = f(r[k], grupos[k]); return `<td class="num ${c || ""}">${esc(t)}</td>`; }).join("")}</tr>`;
+    const racha = g => { const {n, tipo} = rachaActiva(g); return n ? [`${n} ${tipo === "ganada" ? "ganada" : "perdida"}${n === 1 ? "" : "s"}`, tipo === "ganada" ? "pos" : "neg"] : ["—"]; };
+    return `<table class="cmp-tbl"><thead><tr><th scope="col"><span class="oculto">Medida</span></th>
+        <th scope="col" class="modelo">Modelo</th><th scope="col" class="tu">Tú (papel)</th><th scope="col" class="tu">Tú (real)</th></tr></thead><tbody>
+      ${fila("Apuestas", x => [String(x.n)])}
+      ${fila("Acierto", x => [PCT(x.acierto)])}
+      ${fila("Ganancia/Pérdida", x => x.liq ? [signo(Math.round(x.gan)), clase(x.gan)] : ["—"])}
+      ${fila("Rendimiento", x => [PCTs(x.roi), clase(x.roi)])}
+      ${fila("Racha", (x, g) => racha(g))}
+      ${fila("Pendientes", x => [String(x.pendientes)])}
+    </tbody></table>`;
+  }
+
+  function apuestaCmp(x, partidosGrupo) {
+    const n = x.patas.length;
+    const tipo = x.quien === "modelo" ? (CAT_CORTA[x.categoria] || x.categoria) : (n > 1 ? "Parlay" : "Sencilla");
+    const est = x.estado === "pendiente" && x.requiere_revision ? "Revisar a mano" : estado(x.estado);
+    const enOtro = x.patas.some(q => !partidosGrupo.has(q.partido)) || partidosGrupo.size > 1;
+    const patas = x.patas.map(q => {
+      const ic = q.estado === "ganada" || q.estado === "perdida" ? q.estado : "otro";
+      const titulo = q.sel || q.partido;
+      return `<div class="pata"><span class="ic ${ic}" role="img" aria-label="${esc(estado(q.estado))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="${ICONO[ic]}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div class="tx"><b>${esc(titulo)}</b>${enOtro && q.sel ? `<span>${esc(q.partido)}</span>` : ""}</div></div>`;
+    }).join("");
+    return `<div class="cmp-ap">
+      <div class="f1"><span>${esc(tipo)}${n > 1 ? ` · ${n} selecciones` : ""}${x.quien === "modelo" && x.origen === "real" ? " · dinero real" : ""}</span><span>Momio <strong class="num">${esc(momio(x.momio))}</strong></span></div>
+      <div>${patas}</div>
+      <div class="f3"><span class="${claseEstado(x.estado)}">${esc(est)}</span><span><span class="k">${esc(etiquetaGan(x.ganancia))} </span><span class="num ${x.ganancia == null ? "" : clase(x.ganancia)}">${x.ganancia == null ? "—" : esc(signo(x.ganancia))}</span></span></div>
+    </div>`;
+  }
+  function bloqueCmp(cls, etiqueta, lista, vacioTxt, partidosGrupo) {
+    const total = lista.reduce((t, x) => t + (x.monto || 0), 0);
+    return `<div class="cmp-bloque ${cls}"><div class="cmp-eti">${esc(etiqueta)}${lista.length ? " · " + esc(MXN(total)) : ""}</div>
+      ${lista.length ? lista.map(x => apuestaCmp(x, partidosGrupo)).join("") : `<div class="cmp-no">${esc(vacioTxt)}</div>`}</div>`;
+  }
+  function partidosCmp(enPeriodo) {
+    const llave = q => q.partido + "|" + q.fp;
+    const grupos = new Map();
+    for (const x of enPeriodo.filter(x => x.quien !== "modelo")) {
+      const ks = [...new Set(x.patas.map(llave))].sort(), k = ks.join("¦");
+      if (!grupos.has(k)) grupos.set(k, {patas: [], salva: [], orden: ""});
+      const g = grupos.get(k); g.salva.push(x); g.patas.push(...x.patas); if (x.orden > g.orden) g.orden = x.orden;
+    }
+    if (!grupos.size) return `<div class="card vacio">No apostaste por tu cuenta en este periodo. Cuando registres una apuesta tuya, aquí sale junto a lo que hizo el modelo en ese partido.</div>`;
+    const modelo = apCmp.filter(x => x.quien === "modelo" && (x.deporte || "futbol") === $("f-deporte").value);
+    return [...grupos.values()].map(g => ({...g, f: maxF(g.patas, "")}))
+      .sort((a, b) => b.f.localeCompare(a.f) || b.orden.localeCompare(a.orden))
+      .map(g => {
+        const partidos = [...new Set(g.patas.map(q => q.partido))];
+        const ligas = [...new Set(g.patas.map(q => q.liga).filter(Boolean))];
+        const ligaTxt = ligas.length > 1 ? "Varias ligas" : liga(ligas[0] || g.salva[0].liga || "");
+        // mismo partido con ±1 día de diferencia (por si una apuesta no encontró su pronóstico y usa el día en que se apostó)
+        const mismo = q => g.patas.some(r => r.partido === q.partido && Math.abs(diasEntre(r.fp || q.fp, q.fp || r.fp)) <= 1);
+        const deModelo = modelo.filter(x => x.patas.some(mismo)).sort((a, b) => a.orden.localeCompare(b.orden));
+        const enOrden = l => l.slice().sort((a, b) => a.orden.localeCompare(b.orden));
+        const papelS = enOrden(g.salva.filter(x => x.quien === "papel")), realS = enOrden(g.salva.filter(x => x.quien === "real"));
+        const set = new Set(partidos);
+        return `<article class="card cmp-partido">
+          <div class="cmp-cab"><b>${esc(partidos.join(" + "))}</b><span>${esc(ligaTxt)} · ${esc(fechaDMA(g.f))}</span></div>
+          ${bloqueCmp("modelo", deModelo.some(x => x.origen === "real") ? "Modelo" : "Modelo · en papel", deModelo, "No apostó en este partido.", set)}
+          ${papelS.length ? bloqueCmp("tu", "Tú · en papel", papelS, "", set) : ""}
+          ${realS.length ? bloqueCmp("tu", "Tú · dinero real", realS, "", set) : ""}
+        </article>`;
+      }).join("");
+  }
+
+  // ganancia acumulada de varias series sobre los mismos días (punto 0 = $0 antes del primer día)
+  function graficaSeries(el, fechas, series, {vacio = "Sin datos todavía.", etiqueta = ""} = {}) {
+    const vivas = series.filter(x => x.valores);
+    if (!fechas.length || !vivas.length) { el.innerHTML = `<div class="vacio">${esc(vacio)}</div>`; return; }
+    el.innerHTML = "";
+    const n = fechas.length + 1;
+    const W = Math.max(280, el.clientWidth || 600), H = W < 500 ? 190 : Math.min(340, Math.max(240, el.clientHeight - 4));
+    const pl = 56, pr = 22, pt = 14, pb = 24;
+    let min = Math.min(0, ...vivas.flatMap(x => x.valores)), max = Math.max(0, ...vivas.flatMap(x => x.valores));
+    if (min === max) { min -= 100; max += 100; }
+    const bruto = (max - min) / 3, pot = Math.pow(10, Math.floor(Math.log10(bruto)));
+    const paso = [1, 2, 2.5, 5, 10].map(m => m * pot).find(v => v >= bruto) || bruto;
+    const y0 = Math.floor(min / paso) * paso, y1 = Math.ceil(max / paso) * paso;
+    const X = i => pl + i * (W - pl - pr) / (n - 1);
+    const Y = v => pt + (y1 - v) * (H - pt - pb) / (y1 - y0);
+    const corto = v => (v < 0 ? "−" : v > 0 ? "+" : "") + "$" + Math.abs(v).toLocaleString("es-MX", {maximumFractionDigits: 0});
+    let s = "";
+    for (let v = y0; v <= y1 + paso / 2; v += paso) {
+      s += `<line class="g-rejilla" x1="${pl}" x2="${W - pr}" y1="${Y(v)}" y2="${Y(v)}"/>`;
+      s += `<text class="g-txt" x="${pl - 8}" y="${Y(v) + 4}" text-anchor="end">${esc(corto(v))}</text>`;
+    }
+    s += `<line class="g-ref" x1="${pl}" x2="${W - pr}" y1="${Y(0)}" y2="${Y(0)}"/>`;
+    for (const x of vivas) {
+      const pts = x.valores.map((v, i) => `${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
+      s += `<polyline class="g-serie" style="stroke:var(${x.color})"${x.punteada ? ' stroke-dasharray="0.1 6"' : ""} points="${pts}"/>`;
+      s += `<circle cx="${X(n - 1)}" cy="${Y(x.valores[n - 1])}" r="4" style="fill:var(${x.color})"/>`;
+    }
+    // días del eje: todos si caben; si no, el primero y el último
+    const hueco = (W - pl - pr) / (n - 1);
+    const idx = hueco >= 54 ? fechas.map((_, i) => i + 1) : [...new Set([1, n - 1])];
+    for (const i of idx) s += `<text class="g-txt" x="${X(i)}" y="${H - 4}" text-anchor="${i === n - 1 && n > 2 ? "end" : "middle"}">${esc(fechaDM(fechas[i - 1]))}</text>`;
+    const desc = vivas.map(x => `${x.nombre} ${signo(x.valores[n - 1])}`).join(", ");
+    el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(etiqueta + ": " + desc)}">${s}</svg>`;
+  }
+  function seriesCmp(grupos) {
+    const liq = QUIENES.flatMap(([k]) => grupos[k]).filter(x => LIQ.includes(x.estado) && x.fLiq);
+    const fechas = [...new Set(liq.map(x => x.fLiq))].sort();
+    const color = {modelo: "--azul", papel: "--naranja", real: "--naranja"};
+    const series = QUIENES.map(([k, nombre]) => {
+      const mias = liq.filter(x => grupos[k].includes(x));
+      if (!mias.length) return {nombre, valores: null};
+      let acc = 0; const valores = [0];
+      for (const f of fechas) { for (const x of mias) if (x.fLiq === f) acc += x.ganancia || 0; valores.push(Math.round(acc)); }
+      return {nombre, valores, color: color[k], punteada: k === "real"};
+    });
+    return {fechas, series};
+  }
+  let datosGrafCmp = {fechas: [], series: []};
+
   let dibujar = () => {};
   function pintar() {
     // controles del periodo
@@ -968,11 +1251,11 @@ mostrarSeccion();
 
 
     const parlaysPapel = parlays.filter(x => x.origen === "papel"), parlaysReales = parlays.filter(x => x.origen !== "papel");
-    $("parlays-resumen").innerHTML = tarjetasParlay(parlays.slice(0, 4), "Sin parlays en este periodo.");
+    $("parlays-resumen").innerHTML = tarjetasParlay(parlays.slice(0, 2), "Sin parlays en este periodo.");
     $("parlays-ver").href = EN_PAPEL ? "#papel" : "#apuestas";
 
     const filasPron = pronos.slice().reverse().flatMap(p => (p.apuestas && p.apuestas.length ? p.apuestas : [null]).map(a => ({p, a}))).slice(0, 80);
-    pintarPronosticos($("pron-resumen"), filasPron.slice(0, 6), true);
+    pintarPronMini($("pron-resumen"), filasPron.slice(0, 5));
 
     // ---- Prueba en papel
     tabla($("t-papel"), [["Mercado", f => f.k], ...colsBase], conTotal(papel, x => mercado(x.mercado)));
@@ -1014,6 +1297,16 @@ mostrarSeccion();
     ], apuestas.slice().reverse().slice(0, 50));
     $("parlays-reales").innerHTML = tarjetasParlay(parlaysReales.slice(0, 40), "Sin parlays con dinero real en este periodo.");
 
+    // ---- Modelo vs Salva
+    {
+      const enPeriodo = apCmp.filter(x => pasa(x, rg));
+      const grupos = Object.fromEntries(QUIENES.map(([k]) => [k, enPeriodo.filter(x => x.quien === k)]));
+      $("cmp-tabla").innerHTML = tablaCmp(grupos);
+      $("cmp-nota").textContent = `Modelo: las 3 formas del sistema (valor, sencilla fuerte y combinada)${hayModeloReal ? ", en papel y con dinero real" : " en papel"}. Tú: tus elecciones, en papel y con dinero real por separado. Acierto y rendimiento cuentan solo las calificadas.`;
+      datosGrafCmp = seriesCmp(grupos);
+      $("cmp-partidos").innerHTML = partidosCmp(enPeriodo);
+    }
+
     // ---- Pronósticos
     pintarPronosticos($("t-pronosticos"), filasPron, false);
     // calibración (sin filtros): diferencia = acierto real − probabilidad media (verde si acertó más de lo previsto)
@@ -1033,6 +1326,8 @@ mostrarSeccion();
         vacio: EN_PAPEL ? "Aún no hay apuestas en papel calificadas." : "Aún no hay apuestas liquidadas."});
       if (!$("s-apuestas").hidden) grafica($("graf-bank"), puntos, {ref: bank.bank_inicial, etiqueta: "Evolución del bank",
         vacio: "Aún no hay apuestas liquidadas."});
+      if (!$("s-comparar").hidden) graficaSeries($("cmp-graf"), datosGrafCmp.fechas, datosGrafCmp.series,
+        {etiqueta: "Ganancia acumulada", vacio: "Aún no hay apuestas calificadas en este periodo."});
     };
     dibujar();
   }
