@@ -295,6 +295,7 @@ function conTotal(lista, clave) {
       ["Partido", p => p.partido], ["Liga", p => p.liga], ["Inicio (Sonora)", p => p.inicio_sonora],
       ["Goles esperados", p => (p.goles_esperados || []).join(" – ")],
       ["Resultado", p => p.resultado ? `${p.resultado.goles_local}–${p.resultado.goles_visitante}` : "pendiente"],
+      ["Apuesta (momio)", p => (p.apuestas || []).map(a => `${a.tipo}${a.origen === "papel" ? " en papel" : ""} ${a.momio} · ${MXN(a.monto)} · ${a.estado}`)],
       ["Con valor", p => (p.evaluacion || []).filter(e => e.apostar).map(e => `${e.texto || e.mercado + " " + e.seleccion} (${e.cuota_winpot})`)],
     ], pronos.slice().reverse().slice(0, 50));
   }

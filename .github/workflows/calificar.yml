@@ -1,7 +1,7 @@
 name: Calificar y publicar dashboard
 on:
   schedule:
-    - cron: "15 */3 * * *"   # cada 3 horas
+    - cron: "7,37 * * * *"   # cada 30 min (GitHub a veces retrasa o salta corridas)
   workflow_dispatch:
   push:
     branches: [main]
@@ -15,27 +15,41 @@ jobs:
   calificar:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      seguir: ${{ steps.hay.outputs.si == 'true' || github.event_name != 'schedule' }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      # En las corridas programadas, si no hay partidos terminados por calificar,
+      # se detiene aquí: no instala nada, no llama a ESPN ni vuelve a publicar el sitio.
+      - name: ¿Hay algo que calificar?
+        id: hay
+        run: python3 .github/scripts/hay_pendientes.py
+      - if: steps.hay.outputs.si == 'true' || github.event_name != 'schedule'
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install -r requirements.txt
-      - name: Calificar pronósticos y apuestas terminados
+      - if: steps.hay.outputs.si == 'true' || github.event_name != 'schedule'
+        run: pip install -r requirements.txt
+      - if: steps.hay.outputs.si == 'true' || github.event_name != 'schedule'
+        name: Calificar pronósticos y apuestas terminados
         run: PYTHONPATH=src python -m predicciones.cli calificar
-      - name: Guardar cambios en el registro
+      - if: steps.hay.outputs.si == 'true' || github.event_name != 'schedule'
+        name: Guardar cambios en el registro
         run: .github/scripts/publicar.sh "Calificación automática de resultados" registro/
-      - name: Preparar sitio
+      - if: steps.hay.outputs.si == 'true' || github.event_name != 'schedule'
+        name: Preparar sitio
         run: |
           mkdir -p _site/registro
           cp dashboard/index.html _site/
           PYTHONPATH=src python -m predicciones.cli exportar --salida _site/registro
-      - uses: actions/upload-pages-artifact@v3
+      - if: steps.hay.outputs.si == 'true' || github.event_name != 'schedule'
+        uses: actions/upload-pages-artifact@v3
         with:
           path: _site
   publicar:
     needs: calificar
+    if: needs.calificar.outputs.seguir == 'true'
     runs-on: ubuntu-latest
     permissions:
       pages: write
