@@ -138,7 +138,7 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    Recomienda solo lo que salga con `apostar: true`, con el monto calculado. Cada fila trae su `categoria`
    (`valor`, `sencilla_fuerte` o vacía) y `sirve_para_combinada`. Para la jornada, arma parlays de valor y
    combinadas con `python -m predicciones.cli parlays --fecha hoy` (cada uno trae su `categoria`).
-   Dile a Salva en qué categoría va cada apuesta. Si Salva apuesta, registra con `apostar ... --categoria <categoría>`.
+   Dile a Salva en qué categoría va cada apuesta y muéstrale el `pick_modelo` del partido (selección, momio y si tiene valor). Si Salva apuesta, registra con `apostar ... --categoria <categoría>`.
    Respeta el `disponible_hoy` de `python -m predicciones.cli bank` (en la prueba en papel ya descuenta lo
    "apostado" en papel hoy; `evaluar` y `parlays` también lo respetan entre varias selecciones).
    **Prueba en papel hasta el 26-nov-2026 (inclusive):** `evaluar` devuelve `apostar: false` siempre y marca con
@@ -281,6 +281,15 @@ Un parlay idéntico a uno de valor no se repite como combinada. Los máximos cue
 `apostar ... --categoria eleccion_salva`). No es una categoría del sistema: va en su propia fila del dashboard (después del total, que es solo de las 3 categorías),
 no ocupa el máximo por día de sencilla fuerte ni de combinada, y su monto **sí** cuenta para el límite del día.
 `parlays` nunca la reemplaza al rearmar los parlays en papel del día.
+
+**Aparte: Pick del modelo** (`pick_modelo`, aprobado por Salva el 27-oct-2026; solo en papel, nunca con dinero real):
+en cada partido que se evalúa, `evaluar` guarda la mejor sencilla al precio de Winpot **aunque no tenga valor**,
+entre todas las cuotas de Winpot que se conocen del partido (mayor valor esperado; empate: la más probable; sin tiros de jugador), con 300 MXN (`MONTO_PICK_MODELO`), para que
+cada partido deje al menos un pick que medir. Uno por partido: volver a evaluar reemplaza el pendiente. Va en su
+propia fila del dashboard (fuera del total), sin máximo por día y **fuera del límite del día**: es solo medición,
+ni lo usa ni lo recortan, y nunca le quita lugar a las apuestas de valor ni a las de Salva. `parlays` nunca lo reemplaza. Combinaciones del mismo
+partido o entre partidos quedan fuera por ahora. No mueve el bank en papel, el resumen ni la tabla por mercado;
+`apostar --categoria pick_modelo` se rechaza.
 
 ## Resultados del backtest (26-oct-2026)
 

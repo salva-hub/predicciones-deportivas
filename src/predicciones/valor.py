@@ -51,7 +51,12 @@ CATEGORIAS = (VALOR, FUERTE, COMBINADA)
 # apuestas que Salva elige por su cuenta: se registran aparte, sin máximo por día (su monto sí cuenta
 # para el límite del día) y el sistema nunca las genera
 ELECCION_SALVA = "eleccion_salva"
-CATEGORIAS_REGISTRO = CATEGORIAS + (ELECCION_SALVA,)
+# pick del modelo (aprobado por Salva el 27-oct-2026; solo en papel): en cada partido que se evalúa, la mejor
+# sencilla al precio de Winpot aunque no tenga valor, para medir al modelo. Sin máximo por día y fuera del
+# límite del día (ni lo usa ni lo recortan): nunca le quita lugar a las demás apuestas
+PICK_MODELO = "pick_modelo"
+MONTO_PICK_MODELO = 300.0  # MXN
+CATEGORIAS_REGISTRO = CATEGORIAS + (ELECCION_SALVA, PICK_MODELO)
 TOLERANCIA_ATRACTIVA = 0.04       # Winpot puede pagar hasta 4% menos que la cuota justa (decimal)
 PROB_MIN_FUERTE = 0.60
 CUOTA_MIN_FUERTE = 1.5             # −200: con momio peor no va como sencilla fuerte (aprobado por Salva)
@@ -270,3 +275,10 @@ def armar_combinadas(candidatas: list[Seleccion], top: int = MAX_POR_DIA[COMBINA
 
 def clave_patas(p: Parlay) -> frozenset:
     return frozenset((x.partido, x.mercado, x.seleccion) for x in p.patas)
+
+
+def elegir_pick_modelo(candidatas: list[Seleccion]) -> Seleccion | None:
+    """La sencilla de mayor valor esperado al precio de Winpot (empate: la más probable).
+    No usa tiros de jugador. None si no hay ninguna con cuota."""
+    validas = [s for s in candidatas if s.cuota_ofrecida and s.mercado not in MERCADOS_JUGADOR]
+    return max(validas, key=lambda s: (round(s.ve(), 9), s.prob), default=None)

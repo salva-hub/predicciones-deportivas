@@ -102,6 +102,8 @@ def test_parlay_de_salva_con_pata_sin_prob(registro_tmp, tmp_path):
     R = registro_tmp
     R.guardar_parlays_papel(R.ahora().date(), [{"clave": "k", "tipo": "parlay", "categoria": "eleccion_salva",
         "patas": [{"pronostico": "P-x", "mercado": "tarjetas", "seleccion": "menos_7.5", "cuota": 1.5, "prob": None,
+                   "estado": "ganada"},
+                  {"pronostico": "P-y", "mercado": "goles", "seleccion": "mas_0.5", "cuota": 1.25, "prob": None,
                    "estado": "ganada"}],
         "cuota": 1.5, "prob": None, "monto": 100, "estado": "ganada", "ganancia": 50, "creado": R.ahora().isoformat()}])
     assert R.resumen_papel()["eleccion_salva"]["ganancia"] == 50
