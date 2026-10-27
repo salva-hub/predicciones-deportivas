@@ -1,0 +1,1030 @@
+{
+  "deporte": "futbol",
+  "liga": "serie_a",
+  "partido": "Sassuolo vs Lazio",
+  "local": "Sassuolo",
+  "visitante": "Lazio",
+  "espn_id": "401874980",
+  "inicio_utc": "2026-10-27T17:30:00+00:00",
+  "inicio_sonora": "2026-10-27 10:30",
+  "estadio": "Mapei Stadium",
+  "techado": false,
+  "neutral": false,
+  "pago_anticipado": true,
+  "clima": null,
+  "arbitro": "Luca Zufferli",
+  "factor_arbitro": 0.797,
+  "pinnacle": {
+    "1": 3.87,
+    "X": 3.64,
+    "2": 2.02,
+    "mas_2.5": 1.7,
+    "menos_2.5": 2.27
+  },
+  "goles_esperados": [
+    1.22,
+    1.77
+  ],
+  "modelo_1x2": {
+    "1": 0.303,
+    "X": 0.252,
+    "2": 0.487
+  },
+  "marcadores_probables": [
+    [
+      "1-1",
+      0.12434829547532103
+    ],
+    [
+      "1-2",
+      0.09600219793750583
+    ],
+    [
+      "0-2",
+      0.07844154741303268
+    ]
+  ],
+  "notas": [
+    "Base: Pinnacle sin margen (modelo solo como referencia)",
+    "Goles esperados del modelo solo: 1.11 – 1.51",
+    "Pago anticipado de Winpot: el ganador local/visitante incluye la probabilidad de ir 2 goles arriba y no ganar (local +2.9%, visitante +2.6%)",
+    "Córners esperados: 9.3",
+    "Tarjetas esperadas: 4.4 (factor árbitro x0.80)",
+    "Modelo y Pinnacle discrepan mucho en goles_2.5: baja la confianza de los mercados relacionados",
+    "Tiros a puerta de jugador de Sassuolo: 46 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador de Lazio: 46 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador: alineación oficial de ESPN; modelo Poisson con tasa por 90, minutos y rival; confianza siempre baja; solo con valor de 10% o más"
+  ],
+  "confianza": "alta",
+  "selecciones": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "prob": 0.278,
+      "cuota_justa": "+259",
+      "cuota_minima": "+271",
+      "confianza": "alta",
+      "prob_sin_pago_anticipado": 0.249
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "X",
+      "prob": 0.265,
+      "cuota_justa": "+277",
+      "cuota_minima": "+289",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
+      "prob": 0.511,
+      "cuota_justa": "-105",
+      "cuota_minima": "+102",
+      "confianza": "alta",
+      "prob_sin_pago_anticipado": 0.486
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "1X",
+      "prob": 0.514,
+      "cuota_justa": "-106",
+      "cuota_minima": "+101",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "12",
+      "prob": 0.735,
+      "cuota_justa": "-277",
+      "cuota_minima": "-248",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "X2",
+      "prob": 0.751,
+      "cuota_justa": "-301",
+      "cuota_minima": "-269",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_0.5",
+      "prob": 0.934,
+      "cuota_justa": "-1417",
+      "cuota_minima": "-973",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_0.5",
+      "prob": 0.066,
+      "cuota_justa": "+1417",
+      "cuota_minima": "+1463",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_1.5",
+      "prob": 0.815,
+      "cuota_justa": "-441",
+      "cuota_minima": "-379",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_1.5",
+      "prob": 0.185,
+      "cuota_justa": "+441",
+      "cuota_minima": "+458",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "prob": 0.575,
+      "cuota_justa": "-135",
+      "cuota_minima": "-126",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_2.5",
+      "prob": 0.425,
+      "cuota_justa": "+135",
+      "cuota_minima": "+143",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_3.5",
+      "prob": 0.351,
+      "cuota_justa": "+185",
+      "cuota_minima": "+194",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "prob": 0.649,
+      "cuota_justa": "-185",
+      "cuota_minima": "-170",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_4.5",
+      "prob": 0.183,
+      "cuota_justa": "+446",
+      "cuota_minima": "+463",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_4.5",
+      "prob": 0.817,
+      "cuota_justa": "-446",
+      "cuota_minima": "-382",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "prob": 0.601,
+      "cuota_justa": "-151",
+      "cuota_minima": "-140",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "no",
+      "prob": 0.399,
+      "cuota_justa": "+151",
+      "cuota_minima": "+159",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_0.5",
+      "prob": 0.706,
+      "cuota_justa": "-240",
+      "cuota_minima": "-217",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_0.5",
+      "prob": 0.294,
+      "cuota_justa": "+240",
+      "cuota_minima": "+251",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_0.5",
+      "prob": 0.829,
+      "cuota_justa": "-486",
+      "cuota_minima": "-412",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_0.5",
+      "prob": 0.171,
+      "cuota_justa": "+486",
+      "cuota_minima": "+504",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_1.5",
+      "prob": 0.346,
+      "cuota_justa": "+189",
+      "cuota_minima": "+198",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_1.5",
+      "prob": 0.654,
+      "cuota_justa": "-189",
+      "cuota_minima": "-173",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_1.5",
+      "prob": 0.527,
+      "cuota_justa": "-112",
+      "cuota_minima": "-104",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_1.5",
+      "prob": 0.473,
+      "cuota_justa": "+112",
+      "cuota_minima": "+118",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_2.5",
+      "prob": 0.126,
+      "cuota_justa": "+695",
+      "cuota_minima": "+720",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_2.5",
+      "prob": 0.874,
+      "cuota_justa": "-695",
+      "cuota_minima": "-561",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_2.5",
+      "prob": 0.261,
+      "cuota_justa": "+284",
+      "cuota_minima": "+296",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_2.5",
+      "prob": 0.739,
+      "cuota_justa": "-284",
+      "cuota_minima": "-254",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_1",
+      "prob": 0.232,
+      "cuota_justa": "+331",
+      "cuota_minima": "+345",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_X",
+      "prob": 0.387,
+      "cuota_justa": "+158",
+      "cuota_minima": "+166",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_2",
+      "prob": 0.381,
+      "cuota_justa": "+163",
+      "cuota_minima": "+171",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_0.5",
+      "prob": 0.74,
+      "cuota_justa": "-284",
+      "cuota_minima": "-254",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_0.5",
+      "prob": 0.26,
+      "cuota_justa": "+284",
+      "cuota_minima": "+296",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_1.5",
+      "prob": 0.389,
+      "cuota_justa": "+157",
+      "cuota_minima": "+165",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_1.5",
+      "prob": 0.611,
+      "cuota_justa": "-157",
+      "cuota_minima": "-145",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "prob": 0.108,
+      "cuota_justa": "+826",
+      "cuota_minima": "+854",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1.5",
+      "prob": 0.275,
+      "cuota_justa": "+264",
+      "cuota_minima": "+275",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1",
+      "prob": 0.108,
+      "cuota_justa": "+695",
+      "cuota_minima": "+723",
+      "confianza": "alta",
+      "devolucion": 0.141
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1",
+      "prob": 0.275,
+      "cuota_justa": "+187",
+      "cuota_minima": "+198",
+      "confianza": "alta",
+      "devolucion": 0.211
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+0",
+      "prob": 0.249,
+      "cuota_justa": "+195",
+      "cuota_minima": "+208",
+      "confianza": "alta",
+      "devolucion": 0.265
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+0",
+      "prob": 0.486,
+      "cuota_justa": "-195",
+      "cuota_minima": "-174",
+      "confianza": "alta",
+      "devolucion": 0.265
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1",
+      "prob": 0.514,
+      "cuota_justa": "-187",
+      "cuota_minima": "-168",
+      "confianza": "alta",
+      "devolucion": 0.211
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1",
+      "prob": 0.751,
+      "cuota_justa": "-695",
+      "cuota_minima": "-543",
+      "confianza": "alta",
+      "devolucion": 0.141
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1.5",
+      "prob": 0.725,
+      "cuota_justa": "-264",
+      "cuota_minima": "-237",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1.5",
+      "prob": 0.892,
+      "cuota_justa": "-826",
+      "cuota_minima": "-646",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "prob": 0.627,
+      "cuota_justa": "-168",
+      "cuota_minima": "-148",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_7.5",
+      "prob": 0.373,
+      "cuota_justa": "+168",
+      "cuota_minima": "+182",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "prob": 0.546,
+      "cuota_justa": "-120",
+      "cuota_minima": "-108",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_8.5",
+      "prob": 0.454,
+      "cuota_justa": "+120",
+      "cuota_minima": "+132",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_9.5",
+      "prob": 0.465,
+      "cuota_justa": "+115",
+      "cuota_minima": "+126",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_9.5",
+      "prob": 0.535,
+      "cuota_justa": "-115",
+      "cuota_minima": "-103",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_10.5",
+      "prob": 0.39,
+      "cuota_justa": "+156",
+      "cuota_minima": "+170",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_10.5",
+      "prob": 0.61,
+      "cuota_justa": "-156",
+      "cuota_minima": "-138",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_11.5",
+      "prob": 0.325,
+      "cuota_justa": "+208",
+      "cuota_minima": "+223",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_11.5",
+      "prob": 0.675,
+      "cuota_justa": "-208",
+      "cuota_minima": "-179",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_2.5",
+      "prob": 0.714,
+      "cuota_justa": "-250",
+      "cuota_minima": "-212",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_2.5",
+      "prob": 0.286,
+      "cuota_justa": "+250",
+      "cuota_minima": "+268",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "prob": 0.591,
+      "cuota_justa": "-145",
+      "cuota_minima": "-128",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_3.5",
+      "prob": 0.409,
+      "cuota_justa": "+145",
+      "cuota_minima": "+157",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_4.5",
+      "prob": 0.458,
+      "cuota_justa": "+119",
+      "cuota_minima": "+130",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_4.5",
+      "prob": 0.542,
+      "cuota_justa": "-119",
+      "cuota_minima": "-106",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_5.5",
+      "prob": 0.342,
+      "cuota_justa": "+193",
+      "cuota_minima": "+208",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_5.5",
+      "prob": 0.658,
+      "cuota_justa": "-193",
+      "cuota_minima": "-168",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_6.5",
+      "prob": 0.257,
+      "cuota_justa": "+289",
+      "cuota_minima": "+309",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_6.5",
+      "prob": 0.743,
+      "cuota_justa": "-289",
+      "cuota_minima": "-241",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Domenico Berardi:mas_0.5",
+      "prob": 0.598,
+      "cuota_justa": "-149",
+      "cuota_minima": "-119",
+      "confianza": "baja",
+      "jugador": "Domenico Berardi",
+      "jugador_id": "173817",
+      "equipo": "Sassuolo",
+      "posicion": "F",
+      "tiros_esperados": 0.999
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Domenico Berardi:mas_1.5",
+      "prob": 0.244,
+      "cuota_justa": "+309",
+      "cuota_minima": "+351",
+      "confianza": "baja",
+      "jugador": "Domenico Berardi",
+      "jugador_id": "173817",
+      "equipo": "Sassuolo",
+      "posicion": "F",
+      "tiros_esperados": 0.999
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Domenico Berardi:mas_2.5",
+      "prob": 0.074,
+      "cuota_justa": "+1260",
+      "cuota_minima": "+1396",
+      "confianza": "baja",
+      "jugador": "Domenico Berardi",
+      "jugador_id": "173817",
+      "equipo": "Sassuolo",
+      "posicion": "F",
+      "tiros_esperados": 0.999
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Armand Laurienté:mas_0.5",
+      "prob": 0.527,
+      "cuota_justa": "-111",
+      "cuota_minima": "+109",
+      "confianza": "baja",
+      "jugador": "Armand Laurienté",
+      "jugador_id": "272719",
+      "equipo": "Sassuolo",
+      "posicion": "F",
+      "tiros_esperados": 0.803
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Armand Laurienté:mas_1.5",
+      "prob": 0.18,
+      "cuota_justa": "+455",
+      "cuota_minima": "+511",
+      "confianza": "baja",
+      "jugador": "Armand Laurienté",
+      "jugador_id": "272719",
+      "equipo": "Sassuolo",
+      "posicion": "F",
+      "tiros_esperados": 0.803
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Sebastiano Esposito:mas_0.5",
+      "prob": 0.451,
+      "cuota_justa": "+122",
+      "cuota_minima": "+144",
+      "confianza": "baja",
+      "jugador": "Sebastiano Esposito",
+      "jugador_id": "286929",
+      "equipo": "Sassuolo",
+      "posicion": "F",
+      "tiros_esperados": 0.631
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Sebastiano Esposito:mas_1.5",
+      "prob": 0.126,
+      "cuota_justa": "+694",
+      "cuota_minima": "+774",
+      "confianza": "baja",
+      "jugador": "Sebastiano Esposito",
+      "jugador_id": "286929",
+      "equipo": "Sassuolo",
+      "posicion": "F",
+      "tiros_esperados": 0.631
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Kristian Thorstvedt:mas_0.5",
+      "prob": 0.421,
+      "cuota_justa": "+138",
+      "cuota_minima": "+162",
+      "confianza": "baja",
+      "jugador": "Kristian Thorstvedt",
+      "jugador_id": "284212",
+      "equipo": "Sassuolo",
+      "posicion": "M",
+      "tiros_esperados": 0.57
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Kristian Thorstvedt:mas_1.5",
+      "prob": 0.108,
+      "cuota_justa": "+827",
+      "cuota_minima": "+921",
+      "confianza": "baja",
+      "jugador": "Kristian Thorstvedt",
+      "jugador_id": "284212",
+      "equipo": "Sassuolo",
+      "posicion": "M",
+      "tiros_esperados": 0.57
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Darryl Bakola:mas_0.5",
+      "prob": 0.308,
+      "cuota_justa": "+225",
+      "cuota_minima": "+258",
+      "confianza": "baja",
+      "jugador": "Darryl Bakola",
+      "jugador_id": "384170",
+      "equipo": "Sassuolo",
+      "posicion": "M",
+      "tiros_esperados": 0.369
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Darryl Bakola:mas_1.5",
+      "prob": 0.055,
+      "cuota_justa": "+1715",
+      "cuota_minima": "+1897",
+      "confianza": "baja",
+      "jugador": "Darryl Bakola",
+      "jugador_id": "384170",
+      "equipo": "Sassuolo",
+      "posicion": "M",
+      "tiros_esperados": 0.369
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Luca Lipani:mas_0.5",
+      "prob": 0.197,
+      "cuota_justa": "+407",
+      "cuota_minima": "+458",
+      "confianza": "baja",
+      "jugador": "Luca Lipani",
+      "jugador_id": "347408",
+      "equipo": "Sassuolo",
+      "posicion": "M",
+      "tiros_esperados": 0.206
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Tijjani Noslin:mas_0.5",
+      "prob": 0.553,
+      "cuota_justa": "-124",
+      "cuota_minima": "-100",
+      "confianza": "baja",
+      "jugador": "Tijjani Noslin",
+      "jugador_id": "323113",
+      "equipo": "Lazio",
+      "posicion": "F",
+      "tiros_esperados": 0.869
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Tijjani Noslin:mas_1.5",
+      "prob": 0.202,
+      "cuota_justa": "+396",
+      "cuota_minima": "+446",
+      "confianza": "baja",
+      "jugador": "Tijjani Noslin",
+      "jugador_id": "323113",
+      "equipo": "Lazio",
+      "posicion": "F",
+      "tiros_esperados": 0.869
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Tijjani Noslin:mas_2.5",
+      "prob": 0.054,
+      "cuota_justa": "+1766",
+      "cuota_minima": "+1953",
+      "confianza": "baja",
+      "jugador": "Tijjani Noslin",
+      "jugador_id": "323113",
+      "equipo": "Lazio",
+      "posicion": "F",
+      "tiros_esperados": 0.869
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Gustav Isaksen:mas_0.5",
+      "prob": 0.526,
+      "cuota_justa": "-111",
+      "cuota_minima": "+110",
+      "confianza": "baja",
+      "jugador": "Gustav Isaksen",
+      "jugador_id": "291550",
+      "equipo": "Lazio",
+      "posicion": "F",
+      "tiros_esperados": 0.801
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Gustav Isaksen:mas_1.5",
+      "prob": 0.179,
+      "cuota_justa": "+457",
+      "cuota_minima": "+514",
+      "confianza": "baja",
+      "jugador": "Gustav Isaksen",
+      "jugador_id": "291550",
+      "equipo": "Lazio",
+      "posicion": "F",
+      "tiros_esperados": 0.801
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Mattia Zaccagni:mas_0.5",
+      "prob": 0.501,
+      "cuota_justa": "-101",
+      "cuota_minima": "+120",
+      "confianza": "baja",
+      "jugador": "Mattia Zaccagni",
+      "jugador_id": "204669",
+      "equipo": "Lazio",
+      "posicion": "F",
+      "tiros_esperados": 0.742
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Mattia Zaccagni:mas_1.5",
+      "prob": 0.16,
+      "cuota_justa": "+523",
+      "cuota_minima": "+586",
+      "confianza": "baja",
+      "jugador": "Mattia Zaccagni",
+      "jugador_id": "204669",
+      "equipo": "Lazio",
+      "posicion": "F",
+      "tiros_esperados": 0.742
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Davide Frattesi:mas_0.5",
+      "prob": 0.323,
+      "cuota_justa": "+210",
+      "cuota_minima": "+241",
+      "confianza": "baja",
+      "jugador": "Davide Frattesi",
+      "jugador_id": "250850",
+      "equipo": "Lazio",
+      "posicion": "M",
+      "tiros_esperados": 0.394
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Davide Frattesi:mas_1.5",
+      "prob": 0.061,
+      "cuota_justa": "+1543",
+      "cuota_minima": "+1708",
+      "confianza": "baja",
+      "jugador": "Davide Frattesi",
+      "jugador_id": "250850",
+      "equipo": "Lazio",
+      "posicion": "M",
+      "tiros_esperados": 0.394
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Kenneth Taylor:mas_0.5",
+      "prob": 0.313,
+      "cuota_justa": "+220",
+      "cuota_minima": "+252",
+      "confianza": "baja",
+      "jugador": "Kenneth Taylor",
+      "jugador_id": "282228",
+      "equipo": "Lazio",
+      "posicion": "M",
+      "tiros_esperados": 0.377
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Kenneth Taylor:mas_1.5",
+      "prob": 0.057,
+      "cuota_justa": "+1653",
+      "cuota_minima": "+1829",
+      "confianza": "baja",
+      "jugador": "Kenneth Taylor",
+      "jugador_id": "282228",
+      "equipo": "Lazio",
+      "posicion": "M",
+      "tiros_esperados": 0.377
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Reda Belahyane:mas_0.5",
+      "prob": 0.235,
+      "cuota_justa": "+325",
+      "cuota_minima": "+368",
+      "confianza": "baja",
+      "jugador": "Reda Belahyane",
+      "jugador_id": "345323",
+      "equipo": "Lazio",
+      "posicion": "M",
+      "tiros_esperados": 0.259
+    }
+  ],
+  "estado": "pendiente",
+  "tiros_jugador": [
+    {
+      "jugador": "Domenico Berardi",
+      "equipo": "Sassuolo",
+      "posicion": "F",
+      "tiros_esperados": 0.999,
+      "tasa90": 1.074,
+      "minutos_esperados": 79.7,
+      "minutos_historial": 2438
+    },
+    {
+      "jugador": "Armand Laurienté",
+      "equipo": "Sassuolo",
+      "posicion": "F",
+      "tiros_esperados": 0.803,
+      "tasa90": 0.883,
+      "minutos_esperados": 77.9,
+      "minutos_historial": 3265
+    },
+    {
+      "jugador": "Sebastiano Esposito",
+      "equipo": "Sassuolo",
+      "posicion": "F",
+      "tiros_esperados": 0.631,
+      "tasa90": 0.804,
+      "minutos_esperados": 67.2,
+      "minutos_historial": 273
+    },
+    {
+      "jugador": "Kristian Thorstvedt",
+      "equipo": "Sassuolo",
+      "posicion": "M",
+      "tiros_esperados": 0.57,
+      "tasa90": 0.58,
+      "minutos_esperados": 84.2,
+      "minutos_historial": 2767
+    },
+    {
+      "jugador": "Darryl Bakola",
+      "equipo": "Sassuolo",
+      "posicion": "M",
+      "tiros_esperados": 0.369,
+      "tasa90": 0.372,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 691
+    },
+    {
+      "jugador": "Luca Lipani",
+      "equipo": "Sassuolo",
+      "posicion": "M",
+      "tiros_esperados": 0.206,
+      "tasa90": 0.252,
+      "minutos_esperados": 69.8,
+      "minutos_historial": 1231
+    },
+    {
+      "jugador": "Tijjani Noslin",
+      "equipo": "Lazio",
+      "posicion": "F",
+      "tiros_esperados": 0.869,
+      "tasa90": 0.947,
+      "minutos_esperados": 76.5,
+      "minutos_historial": 1555
+    },
+    {
+      "jugador": "Gustav Isaksen",
+      "equipo": "Lazio",
+      "posicion": "F",
+      "tiros_esperados": 0.801,
+      "tasa90": 0.92,
+      "minutos_esperados": 72.5,
+      "minutos_historial": 2004
+    },
+    {
+      "jugador": "Mattia Zaccagni",
+      "equipo": "Lazio",
+      "posicion": "F",
+      "tiros_esperados": 0.742,
+      "tasa90": 0.747,
+      "minutos_esperados": 82.8,
+      "minutos_historial": 2814
+    },
+    {
+      "jugador": "Davide Frattesi",
+      "equipo": "Lazio",
+      "posicion": "M",
+      "tiros_esperados": 0.394,
+      "tasa90": 0.389,
+      "minutos_esperados": 84.3,
+      "minutos_historial": 626
+    },
+    {
+      "jugador": "Kenneth Taylor",
+      "equipo": "Lazio",
+      "posicion": "M",
+      "tiros_esperados": 0.377,
+      "tasa90": 0.383,
+      "minutos_esperados": 82.1,
+      "minutos_historial": 2053
+    },
+    {
+      "jugador": "Reda Belahyane",
+      "equipo": "Lazio",
+      "posicion": "M",
+      "tiros_esperados": 0.259,
+      "tasa90": 0.254,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 1198
+    }
+  ],
+  "id": "P-20261027-a1cf2d",
+  "creado": "2026-10-27T09:46:18.809471-07:00"
+}
