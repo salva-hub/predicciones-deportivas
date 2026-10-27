@@ -1,7 +1,7 @@
 name: Calificar y publicar dashboard
 on:
   schedule:
-    - cron: "15 */3 * * *"   # cada 3 horas
+    - cron: "7,37 * * * *"   # cada 30 min (GitHub a veces retrasa o salta corridas)
   workflow_dispatch:
   push:
     branches: [main]
