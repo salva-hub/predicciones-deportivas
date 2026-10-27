@@ -17,7 +17,7 @@
           "cuota": 1.7752,
           "prob": 0.535,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261026-5c686d",
@@ -28,7 +28,7 @@
           "cuota": 1.4984,
           "prob": 0.646,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 2.66,
@@ -37,9 +37,11 @@
       "monto": 300,
       "recortada": false,
       "creado": "2026-10-26T12:39:21.020870-07:00",
-      "estado": "pendiente",
+      "estado": "perdida",
       "excepcion": "Pedida por Salva: mismo partido, sin valor (justa +189, mínimo +177) y Sevilla gana < 55%. Cuota total +166 de Winpot repartida entre patas.",
-      "pago_anticipado": true
+      "pago_anticipado": true,
+      "ganancia": -300,
+      "liquidada": "2026-10-26T17:14:52.885519-07:00"
     }
   ]
 }
