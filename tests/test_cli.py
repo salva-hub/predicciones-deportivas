@@ -699,7 +699,7 @@ def test_categoria_se_califica_y_resume(papel, capsys, monkeypatch):
     cli.main(["exportar", "--salida", str(R.RAIZ / "_site")])
     capsys.readouterr()
     res = json.loads((R.RAIZ / "_site" / "resumen_papel.json").read_text())
-    assert set(res) == {"valor", "sencilla_fuerte", "combinada", "total"}
+    assert set(res) == {"valor", "sencilla_fuerte", "combinada", "eleccion_salva", "total"}
     f = res["sencilla_fuerte"]
     assert (f["apuestas"], f["acierto"], f["ganancia"], f["roi"], f["peor_racha"]) == (1, 1.0, 500, 0.625, 0)
     assert res["valor"]["apuestas"] == 0 and res["total"]["apuestas"] == 1
@@ -841,3 +841,62 @@ def test_exportar_campos_de_filtro(papel, capsys):
 
 def test_pronostico_guarda_deporte(cli, capsys):
     assert _pronostico(cli, capsys)["deporte"] == "futbol"
+
+
+def test_eleccion_salva_registro_aparte(cli, capsys):
+    """Elección de Salva: no ocupa el cupo de combinadas ni se reemplaza al rearmar parlays,
+    pero su monto sí cuenta para el límite del día; `apostar` la acepta."""
+    R = cli.R
+    hoy = R.ahora().date()
+    R.guardar_parlays_papel(hoy, [{"clave": "salva", "tipo": "parlay", "categoria": "eleccion_salva", "patas": [],
+                                   "cuota": 2.66, "monto": 400, "creado": R.ahora().isoformat(), "estado": "pendiente"}])
+    assert [x["clave"] for x in R.guardar_parlays_papel(hoy, [])] == ["salva"]  # no se borra
+    assert R.categorias_hoy(reemplazar_parlays_de=hoy) == {"eleccion_salva": 1}  # no toca combinada ni fuerte
+    assert R.apostado_papel_hoy(reemplazar_parlays_de=hoy) == 400
+    res = R.resumen_papel()
+    assert res["eleccion_salva"]["apuestas"] == 1 and res["combinada"]["apuestas"] == 0
+    assert res["total"]["apuestas"] == 0  # el total es solo de las 3 categorías del sistema
+    p = _pronostico(cli, capsys)
+    cli.main(["apostar", "--pata", f"{p['id']}:goles:mas_2.5=+150", "--monto", "300", "--categoria", "eleccion_salva"])
+    assert _salida(capsys)["categoria"] == "eleccion_salva"
+    cli.main(["bank"])
+    b = _salida(capsys)
+    assert b["usadas_hoy"]["eleccion_salva"] == 2 and b["usadas_hoy"]["combinada"] == 0
+    assert b["apostado_hoy"] == 300  # el monto real cuenta para el límite del día
+
+
+def test_eleccion_salva_en_dashboard(cli, capsys):
+    R = cli.R
+    p = _pronostico(cli, capsys)
+    cli.main(["apostar", "--pata", f"{p['id']}:goles:mas_2.5=+150", "--pata", f"{p['id']}:ambos_anotan:si=-150",
+              "--monto", "300", "--categoria", "eleccion_salva"])
+    capsys.readouterr()
+    (par,) = R.parlays_para_dashboard()
+    assert (par["origen"], par["categoria"]) == ("real", "Elección de Salva")
+
+
+def test_parlay_en_papel_sin_estado_se_califica(cli, capsys):
+    R = cli.R
+    p = R.agregar_pronostico({"partido": "A vs B", "estado": "calificado", "selecciones": [],
+                              "resultado": {"goles_local": 2, "goles_visitante": 1}})
+    R.guardar_parlays_papel(R.ahora().date(), [{"clave": "k", "tipo": "parlay", "categoria": "eleccion_salva",
+        "patas": [{"pronostico": p["id"], "mercado": "goles", "seleccion": "mas_2.5", "cuota": 2.0}],
+        "cuota": 2.0, "monto": 100, "creado": R.ahora().isoformat()}])
+    cli.main(["calificar"])
+    capsys.readouterr()
+    (x,) = R.parlays_papel()
+    assert (x["estado"], x["ganancia"]) == ("ganada", 100)
+
+
+def test_liquidar_patas_sin_estado_no_truena():
+    """Parlay registrado a mano sin estado en las patas: una pata perdida liquida sin KeyError,
+    y si falta el resultado de otra pata queda pendiente."""
+    from predicciones import cli
+    por = {"A": {"resultado": {"goles_local": 0, "goles_visitante": 0}, "estado": "calificado"}}
+    ap = {"patas": [{"pronostico": "A", "mercado": "goles", "seleccion": "mas_2.5", "cuota": 2.0},
+                    {"pronostico": "B", "mercado": "goles", "seleccion": "mas_2.5", "cuota": 2.0}], "monto": 100}
+    assert cli._liquidar(ap, por) == "liquidada"
+    assert ap["estado"] == "perdida" and ap["patas"][1]["estado"] == "pendiente"
+    ap = {"patas": [{"pronostico": "B", "mercado": "goles", "seleccion": "mas_2.5", "cuota": 2.0}], "monto": 100}
+    assert cli._liquidar(ap, por) == "patas"
+    assert "estado" not in ap and ap["patas"][0]["estado"] == "pendiente"

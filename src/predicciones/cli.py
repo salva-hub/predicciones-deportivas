@@ -548,7 +548,7 @@ def cmd_bank(a) -> None:
         "monto_parlay_media_baja": B.monto(actual, B.REGLAS.parlay_media_baja),
         # categorías nuevas (en papel hasta el 26-nov-2026)
         "categorias_dinero_real": sorted(B.CATEGORIAS_DINERO_REAL),
-        "usadas_hoy": {c: hoy.get(c, 0) for c in V.CATEGORIAS},
+        "usadas_hoy": {c: hoy.get(c, 0) for c in V.CATEGORIAS_REGISTRO},
         "max_por_dia": V.MAX_POR_DIA,
         "sencilla_fuerte_ganar": {"alta": B.monto(actual, B.REGLAS.fuerte_ganar_alta),
                                   "media": B.monto(actual, B.REGLAS.fuerte_ganar_media)},
@@ -642,7 +642,7 @@ def cmd_calificar(a) -> None:
     for doc in R.archivos_parlays_papel():
         cambio_doc = False
         for par in doc.get("parlays", []):
-            if par.get("estado") == "pendiente":
+            if par.get("estado", "pendiente") == "pendiente":  # sin estado (registrado a mano): pendiente
                 cambio = _liquidar(par, por_id, "parlay en papel")
                 cambio_doc |= bool(cambio)
                 cambios += cambio == "liquidada"
@@ -658,7 +658,8 @@ def _liquidar(ap: dict, por_id: dict, etiqueta: str = "apuesta") -> str | None:
     """
     antes = [x.get("estado") for x in ap["patas"]]
     for pata in ap["patas"]:
-        if pata.get("estado") not in ("pendiente", SIN_DATOS):
+        pata.setdefault("estado", "pendiente")  # pata sin estado (registrada a mano): pendiente
+        if pata["estado"] not in ("pendiente", SIN_DATOS):
             continue
         p = por_id.get(pata["pronostico"])
         if not p or not p.get("resultado"):
@@ -789,7 +790,8 @@ def main(argv=None) -> None:
     s.add_argument("--monto", type=float, required=True)
     s.add_argument("--casa", default="Winpot")
     s.add_argument("--forzar", action="store_true", help="registrar aunque estemos en la prueba en papel")
-    s.add_argument("--categoria", choices=V.CATEGORIAS, help="categoría de la apuesta (valor, sencilla_fuerte, combinada)")
+    s.add_argument("--categoria", choices=V.CATEGORIAS_REGISTRO,
+                   help="categoría de la apuesta (valor, sencilla_fuerte, combinada; eleccion_salva: la eligió Salva)")
     s.set_defaults(f=cmd_apostar)
 
     s = sub.add_parser("movimiento")
