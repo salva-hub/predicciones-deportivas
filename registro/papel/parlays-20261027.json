@@ -1,0 +1,67 @@
+{
+  "id": "parlays-20261027",
+  "fecha": "2026-10-27",
+  "creado": "2026-10-27T12:26:41.024543-07:00",
+  "parlays": [
+    {
+      "clave": "P-20261027-f66b98:corners:mas_7.5|P-20261027-f66b98:ganador:2|P-20261027-f66b98:goles_equipo:visitante_mas_1.5|P-20261027-f66b98:tarjetas:menos_5.5",
+      "tipo": "parlay",
+      "categoria": "eleccion_salva",
+      "patas": [
+        {
+          "pronostico": "P-20261027-f66b98",
+          "partido": "Torino vs Como",
+          "liga": "serie_a",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.5603,
+          "prob": 0.577,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261027-f66b98",
+          "partido": "Torino vs Como",
+          "liga": "serie_a",
+          "mercado": "goles_equipo",
+          "seleccion": "visitante_mas_1.5",
+          "cuota": 1.5068,
+          "prob": 0.575,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261027-f66b98",
+          "partido": "Torino vs Como",
+          "liga": "serie_a",
+          "mercado": "corners",
+          "seleccion": "mas_7.5",
+          "cuota": 1.3174,
+          "prob": 0.529,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261027-f66b98",
+          "partido": "Torino vs Como",
+          "liga": "serie_a",
+          "mercado": "tarjetas",
+          "seleccion": "menos_5.5",
+          "cuota": 1.0494,
+          "prob": 0.701,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.25,
+      "cuota_americana": "+225",
+      "prob": 0.179,
+      "monto": 300,
+      "recortada": false,
+      "creado": "2026-10-27T12:26:41.024543-07:00",
+      "excepcion": "Elección de Salva en papel: mismo partido; prob. conjunta 17.9% con correlación Como gana-Como 2+ goles (justa +459), valor -42%. Cuota total +225 de Winpot repartida entre patas.",
+      "pago_anticipado": true,
+      "estado": "pendiente"
+    }
+  ]
+}
