@@ -286,8 +286,8 @@ no ocupa el máximo por día de sencilla fuerte ni de combinada, y su monto **s�
 en cada partido que se evalúa, `evaluar` guarda la mejor sencilla al precio de Winpot **aunque no tenga valor**
 (mayor valor esperado; empate: la más probable; sin tiros de jugador), con 300 MXN (`MONTO_PICK_MODELO`), para que
 cada partido deje al menos un pick que medir. Uno por partido: volver a evaluar reemplaza el pendiente. Va en su
-propia fila del dashboard (fuera del total), sin máximo por día; su monto cuenta para el límite del día, pero se
-registra completo aunque no alcance (`fuera_de_limite: true`). `parlays` nunca lo reemplaza. Combinaciones del mismo
+propia fila del dashboard (fuera del total), sin máximo por día y **fuera del límite del día**: es solo medición,
+ni lo usa ni lo recortan, y nunca le quita lugar a las apuestas de valor ni a las de Salva. `parlays` nunca lo reemplaza. Combinaciones del mismo
 partido o entre partidos quedan fuera por ahora.
 
 ## Resultados del backtest (26-oct-2026)

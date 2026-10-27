@@ -902,7 +902,7 @@ mostrarSeccion();
     ["Deporte", f => NOMBRE_DEPORTE[f.p.deporte] || f.p.deporte], ["Fecha", f => fechaDMA(f.p.fecha)],
     ["Resultado", f => f.a ? estado(f.a.estado) : "Sin apuesta", f => f.a ? claseEstado(f.a.estado) : ""],
     ["Momio", f => f.a ? momio(f.a.momio) : "—"],
-    ["Tipo de apuesta", f => f.a ? `${f.a.tipo.charAt(0).toUpperCase() + f.a.tipo.slice(1)} en ${f.a.origen === "papel" ? "papel" : "dinero real"}${f.a.categoria ? ` (${CAT_CORTA[f.a.categoria] || f.a.categoria})` : ""}` : "—"],
+    ["Tipo de apuesta", f => f.a ? `${f.a.tipo.charAt(0).toUpperCase() + f.a.tipo.slice(1)} en ${f.a.origen === "papel" ? "papel" : "dinero real"}` : "—"],
     ["Ganancia/Pérdida", f => f.a && f.a.ganancia != null ? signo(f.a.ganancia) : "—", f => f.a ? clase(f.a.ganancia || 0) : "", "der"],
   ];
   function pintarPronosticos(el, filas, conVerTodos) {

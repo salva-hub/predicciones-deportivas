@@ -30,7 +30,7 @@ LIQUIDADAS = ("ganada", "perdida", "devuelta")
 DEPORTE_DEFECTO = "futbol"  # los registros sin deporte son de fútbol (NBA, NFL, etc. vendrán después)
 _ID_VALIDO = re.compile(r"^[A-Za-z0-9_-]+$")
 ELECCION_SALVA = "eleccion_salva"  # apuestas que eligió Salva: registro aparte (valor.ELECCION_SALVA)
-PICK_MODELO = "pick_modelo"  # mejor selección del modelo en cada partido, en papel (valor.PICK_MODELO)
+PICK_MODELO = "pick_modelo"  # mejor selección del modelo en cada partido, en papel; fuera del límite del día
 APARTE = (ELECCION_SALVA, PICK_MODELO)  # categorías fuera del total y que `parlays` nunca reemplaza
 
 
@@ -559,16 +559,18 @@ def apostado_hoy_pendiente() -> float:
 def apostado_papel_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -> float:
     """Montos en papel puestos hoy (prueba sin dinero): sencillas y parlays, sin importar
     el día del partido. No cuenta las sencillas del pronóstico `excluir` ni los parlays
-    pendientes del día `reemplazar_parlays_de` (se van a reemplazar)."""
+    pendientes del día `reemplazar_parlays_de` (se van a reemplazar). El pick del modelo no cuenta:
+    es solo medición y nunca le quita lugar a las demás apuestas."""
     hoy = ahora().date()
     total = sum(
         x.get("monto", 0.0) for p in pronosticos() if p.get("id") != excluir
-        for x in p.get("apuestas_papel", []) if _fecha_sonora(x["evaluado"]).date() == hoy
+        for x in p.get("apuestas_papel", [])
+        if x.get("categoria") != PICK_MODELO and _fecha_sonora(x["evaluado"]).date() == hoy
     )
     omitir = f"parlays-{reemplazar_parlays_de:%Y%m%d}" if reemplazar_parlays_de else None
     for doc in archivos_parlays_papel():
         for x in doc.get("parlays", []):
-            if doc.get("id") == omitir and _se_reemplaza(x):
+            if (doc.get("id") == omitir and _se_reemplaza(x)) or x.get("categoria") == PICK_MODELO:
                 continue
             if _fecha_sonora(x["creado"]).date() == hoy:
                 total += x.get("monto", 0.0)

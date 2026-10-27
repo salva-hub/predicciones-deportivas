@@ -312,7 +312,8 @@ def cmd_evaluar(a) -> None:
     if papel:
         # en papel, el límite del día también descuenta lo "apostado" en papel hoy
         hoy = R.ahora().date()
-        propio = sum(x.get("monto", 0.0) for x in conservar if R._fecha_sonora(x["evaluado"]).date() == hoy)
+        propio = sum(x.get("monto", 0.0) for x in conservar
+                     if x.get("categoria") != V.PICK_MODELO and R._fecha_sonora(x["evaluado"]).date() == hoy)
         disponible = max(0.0, disponible - R.apostado_papel_hoy(excluir=p["id"]) - propio)
     disponible_inicial = disponible
     # máximo por día de cada categoría: se cuenta lo ya puesto hoy (en papel o real)
@@ -416,13 +417,13 @@ def cmd_evaluar(a) -> None:
                           **{f"{r['mercado']}:{r['seleccion']}": r.get("cuota_winpot") for r in resultado if "error" not in r}}
     pick_res = None
     if nuevo_pick:
-        # se registra completo aunque el límite del día no alcance: la medición no se pierde
+        # solo medición: monto fijo, no usa ni respeta el límite del día
         dec = pick.cuota_ofrecida
         pick_res = {
             "mercado": pick.mercado, "seleccion": pick.seleccion, "categoria": V.PICK_MODELO,
             "con_valor": V.tiene_valor(pick), "cuota": round(dec, 4), "cuota_americana": C.formato_americano(dec),
             "monto": V.MONTO_PICK_MODELO, "ve": round(pick.ve(), 4), "prob": pick.prob,
-            "confianza": pick.confianza, "fuera_de_limite": V.MONTO_PICK_MODELO > disponible + 1e-9,
+            "confianza": pick.confianza,
             "evaluado": R.ahora().isoformat(), "estado": "pendiente",
         }
         en_papel.append(pick_res)

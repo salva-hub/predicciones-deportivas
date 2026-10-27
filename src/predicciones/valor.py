@@ -52,8 +52,8 @@ CATEGORIAS = (VALOR, FUERTE, COMBINADA)
 # para el límite del día) y el sistema nunca las genera
 ELECCION_SALVA = "eleccion_salva"
 # pick del modelo (aprobado por Salva el 27-oct-2026; solo en papel): en cada partido que se evalúa, la mejor
-# sencilla al precio de Winpot aunque no tenga valor, para medir al modelo. Sin máximo por día; su monto cuenta
-# para el límite del día, pero se registra completo aunque no alcance (se marca fuera_de_limite)
+# sencilla al precio de Winpot aunque no tenga valor, para medir al modelo. Sin máximo por día y fuera del
+# límite del día (ni lo usa ni lo recortan): nunca le quita lugar a las demás apuestas
 PICK_MODELO = "pick_modelo"
 MONTO_PICK_MODELO = 300.0  # MXN
 CATEGORIAS_REGISTRO = CATEGORIAS + (ELECCION_SALVA, PICK_MODELO)
