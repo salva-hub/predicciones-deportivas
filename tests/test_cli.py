@@ -886,3 +886,17 @@ def test_parlay_en_papel_sin_estado_se_califica(cli, capsys):
     capsys.readouterr()
     (x,) = R.parlays_papel()
     assert (x["estado"], x["ganancia"]) == ("ganada", 100)
+
+
+def test_liquidar_patas_sin_estado_no_truena():
+    """Parlay registrado a mano sin estado en las patas: una pata perdida liquida sin KeyError,
+    y si falta el resultado de otra pata queda pendiente."""
+    from predicciones import cli
+    por = {"A": {"resultado": {"goles_local": 0, "goles_visitante": 0}, "estado": "calificado"}}
+    ap = {"patas": [{"pronostico": "A", "mercado": "goles", "seleccion": "mas_2.5", "cuota": 2.0},
+                    {"pronostico": "B", "mercado": "goles", "seleccion": "mas_2.5", "cuota": 2.0}], "monto": 100}
+    assert cli._liquidar(ap, por) == "liquidada"
+    assert ap["estado"] == "perdida" and ap["patas"][1]["estado"] == "pendiente"
+    ap = {"patas": [{"pronostico": "B", "mercado": "goles", "seleccion": "mas_2.5", "cuota": 2.0}], "monto": 100}
+    assert cli._liquidar(ap, por) == "patas"
+    assert "estado" not in ap and ap["patas"][0]["estado"] == "pendiente"

@@ -658,7 +658,8 @@ def _liquidar(ap: dict, por_id: dict, etiqueta: str = "apuesta") -> str | None:
     """
     antes = [x.get("estado") for x in ap["patas"]]
     for pata in ap["patas"]:
-        if pata.get("estado", "pendiente") not in ("pendiente", SIN_DATOS):  # sin estado: pendiente
+        pata.setdefault("estado", "pendiente")  # pata sin estado (registrada a mano): pendiente
+        if pata["estado"] not in ("pendiente", SIN_DATOS):
             continue
         p = por_id.get(pata["pronostico"])
         if not p or not p.get("resultado"):
@@ -667,7 +668,7 @@ def _liquidar(ap: dict, por_id: dict, etiqueta: str = "apuesta") -> str | None:
                         jugador_id=_id_jugador(p, pata["mercado"], pata["seleccion"]))
         # sin datos todavía: queda pendiente para volver a calificarla
         pata["estado"] = "pendiente" if est == SIN_DATOS and p.get("estado") != "calificado" else est
-    estados = [x.get("estado", "pendiente") for x in ap["patas"]]
+    estados = [x["estado"] for x in ap["patas"]]
     # una pata perdida liquida el parlay sin esperar a las demás
     if estado_parlay(estados) == SIN_DATOS:
         # pasada la ventana de 48 h, una pata sin datos ya no se va a calificar sola: revisión a mano
