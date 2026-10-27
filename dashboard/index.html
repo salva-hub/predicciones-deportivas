@@ -89,7 +89,7 @@
   <div class="card" id="apuestas"></div>
 
   <h2>Últimos pronósticos</h2>
-  <p class="sub">Partidos pronosticados y las selecciones que salieron para apostar.</p>
+  <p class="sub">Cada apuesta de cada partido pronosticado (real o en papel), la más reciente primero.</p>
   <div class="card" id="pronosticos"></div>
 </main>
 <script>
@@ -291,13 +291,18 @@ function conTotal(lista, clave) {
       ["Estado", a => a.estado === "pendiente" && a.requiere_revision ? "revisar a mano" : a.estado], ["Ganancia", a => a.ganancia == null ? "—" : MXN(a.ganancia), a => clase(a.ganancia || 0)],
     ], apuestas.slice().reverse().slice(0, 50));
 
+    // una fila por apuesta (real o en papel); un pronóstico sin apuesta sale una vez con "Sin apuesta"
+    const fechaDMA = f => /^\d{4}-\d{2}-\d{2}/.test(f || "") ? `${f.slice(8, 10)}-${f.slice(5, 7)}-${f.slice(0, 4)}` : (f || "—");
+    const ESTADO = {ganada: "Ganada", perdida: "Perdida", devuelta: "Devuelta", pendiente: "Pendiente", "sin datos": "Sin datos"};
+    const filasPron = pronos.slice().reverse().flatMap(p => (p.apuestas && p.apuestas.length ? p.apuestas : [null]).map(a => ({p, a}))).slice(0, 80);
     tabla($("pronosticos"), [
-      ["Partido", p => p.partido], ["Liga", p => p.liga], ["Inicio (Sonora)", p => p.inicio_sonora],
-      ["Goles esperados", p => (p.goles_esperados || []).join(" – ")],
-      ["Resultado", p => p.resultado ? `${p.resultado.goles_local}–${p.resultado.goles_visitante}` : "pendiente"],
-      ["Apuesta (momio)", p => (p.apuestas || []).map(a => `${a.tipo}${a.origen === "papel" ? " en papel" : ""} ${a.momio} · ${MXN(a.monto)} · ${a.estado}`)],
-      ["Con valor", p => (p.evaluacion || []).filter(e => e.apostar).map(e => `${e.texto || e.mercado + " " + e.seleccion} (${e.cuota_winpot})`)],
-    ], pronos.slice().reverse().slice(0, 50));
+      ["Partido", f => f.p.partido], ["Liga", f => f.p.liga],
+      ["Deporte", f => NOMBRE_DEPORTE[f.p.deporte] || f.p.deporte], ["Fecha", f => fechaDMA(f.p.fecha)],
+      ["Resultado", f => f.a ? (ESTADO[f.a.estado] || f.a.estado) : "Sin apuesta", f => f.a ? claseEstado(f.a.estado) : ""],
+      ["Momio", f => f.a ? f.a.momio : "—"],
+      ["Tipo de apuesta", f => f.a ? `${f.a.tipo.charAt(0).toUpperCase() + f.a.tipo.slice(1)} en ${f.a.origen === "papel" ? "papel" : "dinero real"}` : "—"],
+      ["Ganancia/Pérdida", f => f.a && f.a.ganancia != null ? MXN(f.a.ganancia) : "—", f => f.a ? clase(f.a.ganancia || 0) : ""],
+    ], filasPron);
   }
 
   opcionesLiga(); controlPeriodo();
