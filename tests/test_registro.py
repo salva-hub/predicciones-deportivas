@@ -85,5 +85,19 @@ def test_calibracion(registro_tmp, tmp_path):
 def test_calibracion_quita_la_devolucion(registro_tmp):
     R = registro_tmp
     R.agregar_pronostico({"partido": "A vs B", "resultado": {"goles_local": 1, "goles_visitante": 0},
-        "selecciones": [{"mercado": "handicap", "seleccion": "local_0", "prob": 0.4, "devolucion": 0.2}]})
-    assert R.calibracion()["mercados"]["handicap"]["prob_media"] == 0.5  # 0.4 / (1 − 0.2)
+        "selecciones": [{"mercado": "handicap", "seleccion": "local_0", "prob": 0.4, "devolucion": 0.2},
+                        {"mercado": "tarjetas", "seleccion": "menos_7.5", "prob": None}]})  # sin prob: no cuenta
+    c = R.calibracion()
+    assert c["mercados"]["handicap"]["prob_media"] == 0.5  # 0.4 / (1 − 0.2)
+    assert c["total"]["n"] == 1
+
+
+def test_parlay_de_salva_con_pata_sin_prob(registro_tmp, tmp_path):
+    R = registro_tmp
+    R.guardar_parlays_papel(R.ahora().date(), [{"clave": "k", "tipo": "parlay", "categoria": "eleccion_salva",
+        "patas": [{"pronostico": "P-x", "mercado": "tarjetas", "seleccion": "menos_7.5", "cuota": 1.5, "prob": None,
+                   "estado": "ganada"}],
+        "cuota": 1.5, "prob": None, "monto": 100, "estado": "ganada", "ganancia": 50, "creado": R.ahora().isoformat()}])
+    assert R.resumen_papel()["eleccion_salva"]["ganancia"] == 50
+    R.exportar(tmp_path / "_site")
+    assert json.loads((tmp_path / "_site" / "parlays.json").read_text())[0]["categoria"] == "Elección de Salva"
