@@ -15,7 +15,7 @@
     --ambar-bg:#FFF8EB; --ambar-borde:#F5D9A8; --ambar-titulo:#8A4B00; --ambar-lbl:#7A4A12; --ambar-pista:#F3E2C2; --ambar-barra:#B45309;
     --pista:#EAECF0; --activo:#F2F4F7; --logo:#101828; --logo-trazo:#FFFFFF;
     --cuadro-g:#13794A; --cuadro-p:#B42318; --cuadro-d:#667085;
-    --tu:#9333EA; --tu-bg:#F7F0FE; --tu-texto:#7E22CE;
+    --modelo:#1D4ED8; --modelo-bg:#EEF2FF; --modelo-texto:#1D4ED8; --tu:#9333EA; --tu-bg:#F7F0FE; --tu-texto:#7E22CE;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -25,7 +25,7 @@
       --ambar-bg:#271D0C; --ambar-borde:#5A4318; --ambar-titulo:#F5B65A; --ambar-lbl:#E8C48A; --ambar-pista:#4A3818; --ambar-barra:#F59E0B;
       --pista:#2A2F38; --activo:#232730; --logo:#ECEEF2; --logo-trazo:#0F1115;
       --cuadro-g:#13794A; --cuadro-p:#B42318; --cuadro-d:#5B6474;
-      --tu:#C084FC; --tu-bg:#251A33; --tu-texto:#D8B4FE;
+      --modelo:#7AA2F7; --modelo-bg:#18213A; --modelo-texto:#7AA2F7; --tu:#C084FC; --tu-bg:#251A33; --tu-texto:#D8B4FE;
     }
   }
   * { box-sizing:border-box; }
@@ -238,8 +238,9 @@
   .cmp-tbl tbody th { font-weight:500; color:var(--medio); }
   .cmp-tbl td { font-weight:600; white-space:nowrap; }
   .cmp-tbl tr:last-child > * { border-bottom:0; }
-  .cmp-tbl .modelo { color:var(--azul); } .cmp-tbl .tu { color:var(--tu-texto); }
-  .ley-linea.tu { background:var(--tu); }
+  .cmp-tbl .modelo { color:var(--modelo-texto); } .cmp-tbl .tu { color:var(--tu-texto); }
+  .ley-linea.modelo { background:var(--modelo); } .ley-linea.tu { background:var(--tu); }
+  .cmp-bloque:not(.tu) .cmp-eti { color:var(--modelo-texto); }
   .ley-puntos { width:14px; height:0; border-top:3px dotted var(--tu); }
   .g-serie { fill:none; stroke-width:2.5; stroke-linejoin:round; stroke-linecap:round; }
   .cmp-fila { display:grid; grid-template-columns:1fr; gap:16px; align-items:stretch; }
@@ -251,7 +252,7 @@
   .cmp-cab b { font-size:16px; overflow-wrap:anywhere; }
   .cmp-cab span { font-size:13px; color:var(--suave); white-space:nowrap; }
   .cmp-bloque { border-radius:10px; padding:10px 12px; display:flex; flex-direction:column; gap:6px; background:var(--activo); }
-  .cmp-bloque.tu { background:var(--tu-bg); }
+  .cmp-bloque.tu { background:var(--tu-bg); } .cmp-bloque.modelo { background:var(--modelo-bg); }
   .cmp-eti { font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--suave); }
   .cmp-bloque.tu .cmp-eti { color:var(--tu-texto); }
   .cmp-no { font-size:14px; color:var(--suave); }
@@ -434,7 +435,7 @@
     </section>
     <section class="card pad graf-card" aria-labelledby="cmp-graf-titulo">
       <div class="titulo-fila"><h2 class="chico" id="cmp-graf-titulo">Ganancia acumulada</h2><span class="sub">Solo apuestas calificadas, por día del partido</span></div>
-      <div class="leyenda"><span><span class="ley-linea"></span>Modelo</span><span><span class="ley-linea tu"></span>Tú (papel)</span><span><span class="ley-puntos"></span>Tú (real)</span></div>
+      <div class="leyenda"><span><span class="ley-linea modelo"></span>Modelo</span><span><span class="ley-linea tu"></span>Tú (papel)</span><span><span class="ley-puntos"></span>Tú (real)</span></div>
       <div class="graf" id="cmp-graf"></div>
     </section>
     </div>
@@ -1188,7 +1189,7 @@ mostrarSeccion();
   function seriesCmp(grupos) {
     const liq = QUIENES.flatMap(([k]) => grupos[k]).filter(x => LIQ.includes(x.estado) && x.fLiq);
     const fechas = [...new Set(liq.map(x => x.fLiq))].sort();
-    const color = {modelo: "--azul", papel: "--tu", real: "--tu"};
+    const color = {modelo: "--modelo", papel: "--tu", real: "--tu"};
     const series = QUIENES.map(([k, nombre]) => {
       const mias = liq.filter(x => grupos[k].includes(x));
       if (!mias.length) return {nombre, valores: null};
