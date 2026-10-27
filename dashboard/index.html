@@ -706,7 +706,8 @@ mostrarSeccion();
     .reduce((s, a) => s + (a.ganancia || 0), 0);
   const limite = Math.min(saldo * 0.10 + Math.max(0, ganHoy) * 0.5, saldo * 0.20);
   const apostadoHoy = apuestasTodas.filter(a => fechaSonora(a.creado) === HOY).reduce((s, a) => s + (a.monto || 0), 0);
-  const papelHoy = EN_PAPEL ? papelTodo.filter(x => x.fecha === HOY).reduce((s, x) => s + (x.monto || 0), 0) : 0;
+  // el pick del modelo es solo medición: no usa el límite del día (como `cli bank`)
+  const papelHoy = EN_PAPEL ? papelTodo.filter(x => x.fecha === HOY && x.categoria !== "pick_modelo").reduce((s, x) => s + (x.monto || 0), 0) : 0;
   const disponible = Math.max(0, limite - apostadoHoy - papelHoy);
   const usadas = {};
   for (const x of papelTodo) if (x.fecha === HOY) usadas[x.categoria || "valor"] = (usadas[x.categoria || "valor"] || 0) + 1;

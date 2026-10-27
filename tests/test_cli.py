@@ -326,6 +326,7 @@ def test_papel_reevaluar_no_pisa_calificadas_ni_agrega_tras_resultado(papel, cap
     assert papel_["mas_2.5"]["ganancia"] == 999  # no se pisó
     # con resultado ya conocido no se agregan apuestas en papel (sería trampa)
     assert "no" not in papel_
+    assert all(x["seleccion"] != "no" for x in R.buscar_pronostico(p["id"])["apuestas_papel"])  # ni como pick
     assert ev["evaluacion"][1]["apostar_papel"] is False and "ya empezó" in ev["evaluacion"][1]["motivo"]
     assert "nota" in ev
 
