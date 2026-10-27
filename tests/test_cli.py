@@ -793,6 +793,11 @@ def test_exportar_parlays_legibles(papel, capsys, monkeypatch):
     real = next(x for x in datos if x["origen"] == "real")
     assert real["cuota"] == "+450" and real["categoria"] == "Cuota mejor que la justa" and real["estado"] == "perdida"
     assert [q["cuota"] for q in real["patas"]] == ["+120", "+150"]
+    # cada pronóstico lleva sus apuestas con el momio total que paga la apuesta
+    pron = {x["partido"]: x for x in json.loads((R.RAIZ / "_site" / "pronosticos.json").read_text())}
+    ap = pron["Sevilla vs Osasuna"]["apuestas"]
+    assert {(x["origen"], x["tipo"], x["momio"], x["estado"]) for x in ap} == \
+        {("papel", "combinada", "+213", "perdida"), ("real", "parlay", "+450", "perdida")}
     # nunca cuotas decimales
     texto = json.dumps(datos)
     assert '"cuota": 1.' not in texto and '"cuota": 2.' not in texto
