@@ -133,6 +133,13 @@
   .ley-linea { width:14px; height:3px; background:var(--azul); border-radius:2px; }
   .ley-guion { width:14px; height:0; border-top:2px dashed var(--gris); }
   .graf { width:100%; min-height:150px; }
+  .bank-cifras { display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 10px; font-size:15px; color:var(--suave); }
+  .bank-cifras strong { font-size:22px; color:var(--texto); font-weight:650; }
+  .bank-cifras .flecha-b { color:var(--gris-fuerte); }
+  .bank-cifras .dif { font-size:17px; font-weight:650; }
+  .bank-var { display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 8px; font-size:14px; color:var(--suave);
+    padding:8px 12px; border-radius:10px; background:var(--borde-suave); }
+  .bank-var strong { font-size:16px; font-weight:650; }
   .graf svg { display:block; overflow:visible; }
   .g-rejilla { stroke:var(--borde-suave); } .g-ref { stroke:var(--gris); stroke-dasharray:4 4; }
   .g-linea { stroke:var(--azul); fill:none; stroke-width:2.5; stroke-linejoin:round; stroke-linecap:round; }
@@ -328,12 +335,15 @@
     </section>
 
     <div class="fila2">
-      <section class="card pad graf-card" aria-label="Ganancia acumulada">
+      <section class="card pad graf-card" aria-label="Evolución del bank" id="bank-card">
         <div class="titulo-fila">
-          <h2 class="chico" id="graf-titulo">Ganancia acumulada</h2>
-          <div class="leyenda"><span><span class="ley-linea"></span><span id="graf-ley">En papel</span></span><span><span class="ley-guion"></span>$0</span></div>
+          <h2 class="chico" id="bank-titulo">Evolución del bank</h2>
+          <span class="sub" id="bank-nota">Bank y gráfica sin filtros</span>
         </div>
-        <div class="graf" id="graf-ganancia"></div>
+        <div class="bank-cifras" id="bank-cifras"></div>
+        <div class="bank-var" id="bank-variacion" aria-live="polite"></div>
+        <div class="leyenda"><span><span class="ley-linea"></span><span id="bank-ley">Bank</span></span><span><span class="ley-guion"></span><span id="bank-ley-inicial">Bank inicial</span></span></div>
+        <div class="graf" id="graf-bank-resumen"></div>
       </section>
       <section class="card pad hoy-card" aria-label="Hoy" id="hoy"></section>
     </div>
@@ -633,6 +643,37 @@ mostrarSeccion();
   for (const e of eventos) { saldo += e.d; puntos.push({x: e.t.slice(0, 10), y: Math.round(saldo)}); }
   $("ley-inicial").textContent = `Bank inicial ${MXN(bank.bank_inicial)}`;
 
+  // bank del Resumen (sin filtros): en la prueba, bank en papel = inicial + movimientos + ganancia de las
+  // apuestas en papel calificadas (apuestas_papel.json ya trae sencillas y parlays en papel); después, el bank real
+  let saldoRes = saldo, puntosRes = puntos;
+  // movimientos del bank del Resumen con su día de Sonora, para la variación del periodo
+  // (papel: `fecha` = día en que se evaluó, el único día que trae apuestas_papel.json; real: día de liquidación)
+  const evBank = (bank.movimientos || []).map(m => ({f: fechaSonora(m.fecha), d: m.tipo === "deposito" ? m.monto : -m.monto, mov: true}));
+  if (EN_PAPEL) { for (const x of papelTodo) if (["ganada", "perdida", "devuelta"].includes(x.estado)) evBank.push({f: x.fecha || fechaSonora(x.orden), d: x.ganancia || 0}); }
+  else { for (const a of apuestasTodas) if (a.liquidada) evBank.push({f: fechaSonora(a.liquidada), d: a.ganancia || 0}); }
+  if (EN_PAPEL) {
+    const evP = [];
+    for (const m of bank.movimientos || []) evP.push({t: String(m.fecha || ""), d: m.tipo === "deposito" ? m.monto : -m.monto});
+    for (const x of papelTodo) if (["ganada", "perdida", "devuelta"].includes(x.estado))
+      evP.push({t: String(x.orden || x.fecha || ""), f: x.fecha, d: x.ganancia || 0});
+    evP.sort((a, b) => a.t.localeCompare(b.t));
+    saldoRes = bank.bank_inicial; puntosRes = [{x: bank.inicio || (evP[0] ? (evP[0].f || evP[0].t).slice(0, 10) : ""), y: saldoRes}];
+    for (const e of evP) { saldoRes += e.d; puntosRes.push({x: (e.f || fechaSonora(e.t)).slice(0, 10), y: Math.round(saldoRes)}); }
+  }
+  {
+    const dif = Math.round(saldoRes - bank.bank_inicial);
+    const movNeto = (bank.movimientos || []).reduce((t, m) => t + (m.tipo === "deposito" ? m.monto : -m.monto), 0);
+    $("bank-titulo").textContent = EN_PAPEL ? "Evolución del bank en papel" : "Evolución del bank";
+    $("bank-nota").textContent = EN_PAPEL ? "Dinero simulado · bank y gráfica sin filtros" : "Bank y gráfica sin filtros";
+    $("bank-ley").textContent = EN_PAPEL ? "Bank en papel" : "Bank";
+    $("bank-ley-inicial").textContent = `Bank inicial ${MXN(bank.bank_inicial)}`;
+    $("bank-cifras").innerHTML = `<span>Bank inicial <strong class="num">${esc(MXN(bank.bank_inicial))}</strong></span>
+      <span class="flecha-b" aria-hidden="true">→</span>
+      <span>Bank actual${EN_PAPEL ? " en papel" : ""} <strong class="num">${esc(MXN(saldoRes))}</strong></span>
+      <span class="dif num ${clase(dif)}">${esc(signo(dif))}</span>${movNeto ? `
+      <span class="sub">(incluye depósitos y retiros: ${esc(signo(movNeto))})</span>` : ""}`;
+  }
+
   // ---------------- hoy (día de Sonora): límite del día como `cli bank`
   const LIQ = ["ganada", "perdida", "devuelta"];
   const ganHoy = apuestasTodas.filter(a => LIQ.includes(a.estado) && fechaSonora(a.liquidada || a.creado) === HOY)
@@ -839,6 +880,20 @@ mostrarSeccion();
     $("btn-filtros-txt").textContent = `${dep.options[dep.selectedIndex]?.text || ""} · ${lg.options[lg.selectedIndex]?.text || "Todas"}`;
 
     const rg = rango();
+
+    // variación del bank en el periodo elegido: solo resultados de apuestas (sin depósitos ni retiros),
+    // contra el bank al inicio del periodo; no usa deporte ni liga (el bank no se filtra)
+    {
+      let inicio = bank.bank_inicial, varPer = 0;
+      for (const e of evBank) { if (e.f < rg[0]) inicio += e.d; else if (e.f <= rg[1] && !e.mov) varPer += e.d; }
+      varPer = Math.round(varPer);
+      const nombrePer = {dia: `del día ${fechaDMA(per.ref)}`, semana: `de la semana del ${fechaDMA(rg[0])}`,
+        mes: `del mes (${etiquetaPeriodo()})`, anio: `del año ${per.ref.slice(0, 4)}`, todo: "histórica"}[per.tipo];
+      const pctPer = inicio > 0 ? varPer / inicio : null;
+      $("bank-variacion").innerHTML = `<span>Variación ${esc(nombrePer)}</span>
+        <strong class="num ${clase(varPer)}">${esc(signo(varPer))}</strong>
+        <span class="num ${clase(varPer)}">(${esc(pctPer == null ? "—" : PCTs(pctPer))})</span>`;
+    }
     const apuestas = apuestasTodas.filter(x => pasa(x, rg));
     const pronos = pronosTodos.filter(x => pasa(x, rg));
     const papel = papelTodo.filter(x => pasa(x, rg));
@@ -864,19 +919,6 @@ mostrarSeccion();
     $("cats-nota").textContent = EN_PAPEL ? `En papel · se comparan con Salva el ${fechaDMA(FIN_PAPEL)}` : "Con dinero real";
     $("cats").innerHTML = Object.keys(nombres).map(c => tarjetaCategoria(c, baseCats.filter(x => x.categoria === c))).join("");
 
-    // ganancia acumulada del periodo filtrado (papel en la prueba, real después)
-    let ptsGan;
-    if (EN_PAPEL) {
-      const liq = papel.filter(x => LIQ.includes(x.estado)).sort((a, b) => String(a.orden || a.fecha).localeCompare(String(b.orden || b.fecha)));
-      let acum = 0; ptsGan = liq.length ? [{x: liq[0].fecha, y: 0}] : [];
-      for (const x of liq) { acum += x.ganancia; ptsGan.push({x: x.fecha, y: Math.round(acum)}); }
-    } else {
-      const liq = apuestas.filter(a => LIQ.includes(a.estado)).sort((a, b) => String(a.liquidada || a.creado).localeCompare(String(b.liquidada || b.creado)));
-      let acum = 0; ptsGan = liq.length ? [{x: fLiq(liq[0]), y: 0}] : [];
-      for (const a of liq) { acum += a.ganancia; ptsGan.push({x: fLiq(a), y: Math.round(acum)}); }
-    }
-    $("graf-titulo").textContent = EN_PAPEL ? "Ganancia acumulada en papel" : "Ganancia acumulada con dinero real";
-    $("graf-ley").textContent = EN_PAPEL ? "En papel" : "Dinero real";
 
     const parlaysPapel = parlays.filter(x => x.origen === "papel"), parlaysReales = parlays.filter(x => x.origen !== "papel");
     $("parlays-resumen").innerHTML = tarjetasParlay(parlays.slice(0, 4), "Sin parlays en este periodo.");
@@ -929,8 +971,8 @@ mostrarSeccion();
 
     // las gráficas se dibujan cuando su sección está visible (necesitan el ancho)
     dibujar = () => {
-      if (!$("s-resumen").hidden) grafica($("graf-ganancia"), ptsGan, {ref: 0, etiqueta: $("graf-titulo").textContent,
-        vacio: EN_PAPEL ? "Aún no hay apuestas en papel calificadas en este periodo." : "Aún no hay apuestas liquidadas en este periodo."});
+      if (!$("s-resumen").hidden) grafica($("graf-bank-resumen"), puntosRes, {ref: bank.bank_inicial, etiqueta: $("bank-titulo").textContent,
+        vacio: EN_PAPEL ? "Aún no hay apuestas en papel calificadas." : "Aún no hay apuestas liquidadas."});
       if (!$("s-apuestas").hidden) grafica($("graf-bank"), puntos, {ref: bank.bank_inicial, etiqueta: "Evolución del bank",
         vacio: "Aún no hay apuestas liquidadas."});
     };
