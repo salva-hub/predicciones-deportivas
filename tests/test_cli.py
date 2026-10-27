@@ -1031,8 +1031,25 @@ def test_pick_modelo_registro_real_de_una_pata(cli, capsys):
 def test_pick_modelo_nunca_con_dinero_real(cli, capsys):
     assert "pick_modelo" not in cli.B.CATEGORIAS_DINERO_REAL
     p = _pronostico(cli, capsys)
-    cli.main(["apostar", "--pata", f"{p['id']}:goles:mas_2.5=+150", "--monto", "300", "--categoria", "pick_modelo"])
-    assert _salida(capsys)["categoria"] == "pick_modelo"
+    with pytest.raises(SystemExit) as e:
+        cli.main(["apostar", "--pata", f"{p['id']}:goles:mas_2.5=+150", "--monto", "300", "--categoria", "pick_modelo"])
+    assert "solo en papel" in str(e.value)
+    assert cli.R.apuestas() == []
     # fuera de la prueba en papel no se genera pick
     cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+150"])
     assert "pick_modelo" not in _salida(capsys)
+
+
+def test_pick_modelo_usa_todas_las_cuotas_conocidas(papel, capsys):
+    cli, R = papel, papel.R
+    a = _pron_cat(R, "A vs B", [("ganador", "1", 0.55, "alta"), ("goles", "mas_2.5", 0.5, "alta")])
+    cli.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=+100"])  # VE +10%
+    assert _salida(capsys)["pick_modelo"]["mercado"] == "ganador"
+    # una evaluación posterior con otra selección peor no le quita el pick a la guardada
+    cli.main(["evaluar", "--id", a["id"], "--winpot", "goles:mas_2.5=-110"])
+    assert _salida(capsys)["pick_modelo"]["mercado"] == "ganador"
+    # la cuota más nueva de una selección reemplaza a la vieja
+    cli.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-200", "--winpot", "goles:mas_2.5=+100"])
+    pk = _salida(capsys)["pick_modelo"]
+    assert (pk["mercado"], pk["cuota_americana"]) == ("goles", "+100")
+    assert [x["categoria"] for x in R.buscar_pronostico(a["id"])["apuestas_papel"]].count("pick_modelo") == 1

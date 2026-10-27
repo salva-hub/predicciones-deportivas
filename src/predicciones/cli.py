@@ -298,9 +298,16 @@ def cmd_evaluar(a) -> None:
     iniciado = bool(p.get("resultado")) or bool(
         p.get("inicio_utc") and datetime.fromisoformat(p["inicio_utc"]) <= R.ahora())
     # pick del modelo: uno por partido; volver a evaluar reemplaza el pendiente de este pronóstico
+    # entre todas las cuotas de Winpot conocidas del pronóstico (las guardadas y las de ahora; gana la más nueva)
+    conocidas = {}
+    for k, v in p.get("cuotas_winpot", {}).items():
+        m, _, s_ = k.partition(":")
+        if v:
+            conocidas[(m, s_)] = C.americana_a_decimal(float(str(v).replace("\u2212", "-")))
+    conocidas.update({(m, s_): d for m, s_, d in cuotas})
     pick = V.elegir_pick_modelo([
         V.Seleccion(p["partido"], m, s_, f["prob"], f.get("devolucion", 0.0), f["confianza"], d)
-        for m, s_, d in cuotas for f in p["selecciones"] if f["mercado"] == m and f["seleccion"] == s_])
+        for (m, s_), d in conocidas.items() for f in p["selecciones"] if f["mercado"] == m and f["seleccion"] == s_])
     picks_previos = [x for x in todas_previas if x.get("categoria") == V.PICK_MODELO]
     pick_fijo = any(x.get("estado") != "pendiente" for x in picks_previos) or any(
         x.get("categoria") == V.PICK_MODELO and any(q.get("pronostico") == p["id"] for q in x.get("patas", []))
@@ -526,6 +533,8 @@ def cmd_parlays(a) -> None:
 
 
 def cmd_apostar(a) -> None:
+    if a.categoria == V.PICK_MODELO:
+        sys.exit("El pick del modelo es solo en papel: `evaluar` lo registra solo; nunca se apuesta con dinero real.")
     if B.en_prueba_papel(R.ahora().date()):
         if not a.forzar:
             sys.exit(B.MENSAJE_PAPEL + ". No se registra la apuesta (usa --forzar solo si Salva de verdad apostó).")
@@ -823,7 +832,7 @@ def main(argv=None) -> None:
     s.add_argument("--forzar", action="store_true", help="registrar aunque estemos en la prueba en papel")
     s.add_argument("--categoria", choices=V.CATEGORIAS_REGISTRO,
                    help="categoría de la apuesta (valor, sencilla_fuerte, combinada; eleccion_salva: la eligió Salva; "
-                        "pick_modelo: la mejor del modelo, en papel)")
+                        "pick_modelo: solo lo registra evaluar, en papel; aquí se rechaza)")
     s.set_defaults(f=cmd_apostar)
 
     s = sub.add_parser("movimiento")

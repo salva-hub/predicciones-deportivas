@@ -674,13 +674,15 @@ mostrarSeccion();
   let saldoRes = saldo, puntosRes = puntos;
   // movimientos del bank del Resumen con su día de Sonora, para la variación del periodo
   // (papel: `fecha` = día en que se evaluó, el único día que trae apuestas_papel.json; real: día de liquidación)
+  // el pick del modelo es solo medición: no mueve el bank en papel (solo sale en su fila de categoría)
+  const papelBank = papelTodo.filter(x => x.categoria !== "pick_modelo");
   const evBank = (bank.movimientos || []).map(m => ({f: fechaSonora(m.fecha), d: m.tipo === "deposito" ? m.monto : -m.monto, mov: true}));
-  if (EN_PAPEL) { for (const x of papelTodo) if (["ganada", "perdida", "devuelta"].includes(x.estado)) evBank.push({f: x.fecha || fechaSonora(x.orden), d: x.ganancia || 0}); }
+  if (EN_PAPEL) { for (const x of papelBank) if (["ganada", "perdida", "devuelta"].includes(x.estado)) evBank.push({f: x.fecha || fechaSonora(x.orden), d: x.ganancia || 0}); }
   else { for (const a of apuestasTodas) if (a.liquidada) evBank.push({f: fechaSonora(a.liquidada), d: a.ganancia || 0}); }
   if (EN_PAPEL) {
     const evP = [];
     for (const m of bank.movimientos || []) evP.push({t: String(m.fecha || ""), d: m.tipo === "deposito" ? m.monto : -m.monto});
-    for (const x of papelTodo) if (["ganada", "perdida", "devuelta"].includes(x.estado))
+    for (const x of papelBank) if (["ganada", "perdida", "devuelta"].includes(x.estado))
       evP.push({t: String(x.orden || x.fecha || ""), f: x.fecha, d: x.ganancia || 0});
     evP.sort((a, b) => a.t.localeCompare(b.t));
     saldoRes = bank.bank_inicial; puntosRes = [{x: bank.inicio || (evP[0] ? (evP[0].f || evP[0].t).slice(0, 10) : ""), y: saldoRes}];
@@ -959,11 +961,13 @@ mostrarSeccion();
       recomendadas.push({liga: p.liga, mercado: e.mercado, estado, monto,
         ganancia: estado === "ganada" ? monto * (d - 1) : estado === "perdida" ? -monto : 0});
     }
-    const rr = resumen(recomendadas), rp = resumen(papel);
+    // banner y tabla por mercado sin el pick del modelo (solo medición; va en su fila de categoría)
+    const papelSinPick = papel.filter(x => x.categoria !== "pick_modelo");
+    const rr = resumen(recomendadas), rp = resumen(papelSinPick);
 
     // ---- Resumen
-    $("banner-resumen").innerHTML = EN_PAPEL ? bannerPapel(rp, papel) : bannerReal();
-    $("banner-papel").innerHTML = bannerPapel(rp, papel);
+    $("banner-resumen").innerHTML = EN_PAPEL ? bannerPapel(rp, papelSinPick) : bannerReal();
+    $("banner-papel").innerHTML = bannerPapel(rp, papelSinPick);
     // en la prueba: categorías en papel; después: con dinero real (sin categoría cuenta como valor)
     const baseCats = EN_PAPEL ? papel : apuestas.map(a => ({...a, categoria: a.categoria || "valor"}));
     $("cats-nota").textContent = EN_PAPEL ? `En papel · se comparan con Salva el ${fechaDMA(FIN_PAPEL)}` : "Con dinero real";
@@ -978,7 +982,7 @@ mostrarSeccion();
     pintarPronosticos($("pron-resumen"), filasPron.slice(0, 6), true);
 
     // ---- Prueba en papel
-    tabla($("t-papel"), [["Mercado", f => f.k], ...colsBase], conTotal(papel, x => mercado(x.mercado)));
+    tabla($("t-papel"), [["Mercado", f => f.k], ...colsBase], conTotal(papelSinPick, x => mercado(x.mercado)));
     // por categoría: se recalcula con las filas filtradas
     // el total es solo de las 3 formas del sistema; la elección de Salva y el pick del modelo van después, aparte
     const filaCat = (k, g, extra = {}) => ({k, ...resumen(g), racha: racha(g), recortadas: g.filter(x => x.recortada).length, ...extra});

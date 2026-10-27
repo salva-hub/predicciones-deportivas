@@ -283,12 +283,13 @@ no ocupa el máximo por día de sencilla fuerte ni de combinada, y su monto **s�
 `parlays` nunca la reemplaza al rearmar los parlays en papel del día.
 
 **Aparte: Pick del modelo** (`pick_modelo`, aprobado por Salva el 27-oct-2026; solo en papel, nunca con dinero real):
-en cada partido que se evalúa, `evaluar` guarda la mejor sencilla al precio de Winpot **aunque no tenga valor**
-(mayor valor esperado; empate: la más probable; sin tiros de jugador), con 300 MXN (`MONTO_PICK_MODELO`), para que
+en cada partido que se evalúa, `evaluar` guarda la mejor sencilla al precio de Winpot **aunque no tenga valor**,
+entre todas las cuotas de Winpot que se conocen del partido (mayor valor esperado; empate: la más probable; sin tiros de jugador), con 300 MXN (`MONTO_PICK_MODELO`), para que
 cada partido deje al menos un pick que medir. Uno por partido: volver a evaluar reemplaza el pendiente. Va en su
 propia fila del dashboard (fuera del total), sin máximo por día y **fuera del límite del día**: es solo medición,
 ni lo usa ni lo recortan, y nunca le quita lugar a las apuestas de valor ni a las de Salva. `parlays` nunca lo reemplaza. Combinaciones del mismo
-partido o entre partidos quedan fuera por ahora.
+partido o entre partidos quedan fuera por ahora. No mueve el bank en papel, el resumen ni la tabla por mercado;
+`apostar --categoria pick_modelo` se rechaza.
 
 ## Resultados del backtest (26-oct-2026)
 
