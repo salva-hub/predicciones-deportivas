@@ -1,7 +1,9 @@
 """Dice si hay algo que calificar, sin llamar a ninguna API.
 
 Escribe "si=true" en $GITHUB_OUTPUT cuando hay al menos un pronóstico pendiente
-cuyo partido empezó hace 2.5 h o más (o sin hora de inicio); si no, "si=false".
+cuyo partido empezó hace 2.5 h o más; si no, "si=false". Igual que `calificar`, ignora los
+pronósticos sin `espn_id` o sin `inicio_utc` (no se pueden calificar solos). Un archivo que no
+se puede leer cuenta como "sí", para no dejar de calificar por un error.
 """
 import json
 import os
@@ -14,13 +16,16 @@ HORAS_ESPERA = 2.5  # igual que cmd_calificar
 
 def hay_pendientes(carpeta: Path, ahora: datetime) -> bool:
     for f in carpeta.glob("*.json"):
-        p = json.loads(f.read_text(encoding="utf-8"))
-        if p.get("estado") != "pendiente":
-            continue
-        inicio = p.get("inicio_utc")
-        if not inicio:
+        try:
+            p = json.loads(f.read_text(encoding="utf-8"))
+            if p.get("estado") != "pendiente" or not p.get("espn_id") or not p.get("inicio_utc"):
+                continue
+            inicio = datetime.fromisoformat(p["inicio_utc"])
+            if inicio.tzinfo is None:
+                inicio = inicio.replace(tzinfo=timezone.utc)
+        except (ValueError, OSError, AttributeError):
             return True
-        if datetime.fromisoformat(inicio) + timedelta(hours=HORAS_ESPERA) <= ahora:
+        if inicio + timedelta(hours=HORAS_ESPERA) <= ahora:
             return True
     return False
 
