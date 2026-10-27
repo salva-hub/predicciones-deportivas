@@ -30,6 +30,8 @@ LIQUIDADAS = ("ganada", "perdida", "devuelta")
 DEPORTE_DEFECTO = "futbol"  # los registros sin deporte son de fútbol (NBA, NFL, etc. vendrán después)
 _ID_VALIDO = re.compile(r"^[A-Za-z0-9_-]+$")
 ELECCION_SALVA = "eleccion_salva"  # apuestas que eligió Salva: registro aparte (valor.ELECCION_SALVA)
+PICK_MODELO = "pick_modelo"  # mejor selección del modelo en cada partido, en papel (valor.PICK_MODELO)
+APARTE = (ELECCION_SALVA, PICK_MODELO)  # categorías fuera del total y que `parlays` nunca reemplaza
 
 
 def _leer(nombre: str, defecto):
@@ -148,8 +150,8 @@ def actualizar_parlays_papel(doc: dict) -> None:
 
 
 def _se_reemplaza(x: dict) -> bool:
-    """Parlay en papel pendiente que `parlays` vuelve a armar. Los de Salva nunca se reemplazan."""
-    return x.get("estado") == "pendiente" and x.get("categoria") != ELECCION_SALVA
+    """Parlay en papel pendiente que `parlays` vuelve a armar. Los de Salva y el pick del modelo nunca se reemplazan."""
+    return x.get("estado") == "pendiente" and x.get("categoria") not in APARTE
 
 
 def guardar_parlays_papel(dia, nuevos: list[dict]) -> list[dict]:
@@ -174,8 +176,16 @@ def apuestas_papel_todas() -> list[dict]:
             out.append({**x, "tipo": "sencilla", "partido": p.get("partido"), "pronostico": p.get("id"),
                         "liga": p.get("liga", ""), "deporte": p.get("deporte") or DEPORTE_DEFECTO,
                         "categoria": x.get("categoria") or "valor", "fecha": x.get("evaluado", "")})
+    por_id = {p["id"]: p for p in pronosticos()}
     for x in parlays_papel():
-        out.append({**x, "categoria": x.get("categoria") or "valor", "fecha": x.get("creado", "")})
+        fila = {**x, "categoria": x.get("categoria") or "valor", "fecha": x.get("creado", "")}
+        if len(x.get("patas", [])) == 1:  # parlay de una pata (p. ej. pick del modelo a mano): es una sencilla
+            q = x["patas"][0]
+            pr = por_id.get(q.get("pronostico"), {})
+            fila.update(tipo="sencilla", mercado=q["mercado"], seleccion=q["seleccion"], pronostico=q.get("pronostico"),
+                        partido=q.get("partido") or pr.get("partido"), liga=q.get("liga") or pr.get("liga", ""),
+                        deporte=q.get("deporte") or pr.get("deporte") or DEPORTE_DEFECTO, evaluado=x.get("creado", ""))
+        out.append(fila)
     return sorted(out, key=lambda x: str(x["fecha"]))
 
 
@@ -193,11 +203,11 @@ def _peor_racha(estados: list[str]) -> int:
 
 def resumen_papel() -> dict:
     """Resultados de la prueba en papel por categoría (para comparar el 26-nov-2026).
-    El total es solo de las 3 categorías del sistema; la elección de Salva va aparte."""
+    El total es solo de las 3 categorías del sistema; la elección de Salva y el pick del modelo van aparte."""
     todas = apuestas_papel_todas()
     sistema = ("valor", "sencilla_fuerte", "combinada")
     out = {}
-    for cat in (*sistema, "total", ELECCION_SALVA):
+    for cat in (*sistema, "total", *APARTE):
         grupo = [x for x in todas if x["categoria"] in (sistema if cat == "total" else (cat,))]
         liq = [x for x in grupo if x.get("estado") in LIQUIDADAS]
         ganadas = sum(x["estado"] == "ganada" for x in liq)
@@ -243,7 +253,8 @@ def categorias_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -> di
 
 # nombres para Salva (las claves internas no cambian)
 NOMBRES_CATEGORIA = {"valor": "Cuota mejor que la justa", "sencilla_fuerte": "Sencilla fuerte (momio negativo)",
-                     "combinada": "Combinada corta (+200 a +350)", ELECCION_SALVA: "Elección de Salva"}
+                     "combinada": "Combinada corta (+200 a +350)", ELECCION_SALVA: "Elección de Salva",
+                     PICK_MODELO: "Pick del modelo"}
 
 
 def _equipos(partido: str) -> tuple[str, str]:
@@ -296,11 +307,12 @@ def _estado_legible(estado: str | None) -> str:
 
 def parlays_para_dashboard() -> list[dict]:
     """Todos los parlays (reales y en papel) listos para mostrar: patas en español, cuotas
-    americanas (nunca decimales), monto, estado y ganancia. Más recientes primero."""
+    americanas (nunca decimales), monto, estado y ganancia. Más recientes primero.
+    Los de una sola pata son sencillas: no salen aquí."""
     out = []
     por_id = {p["id"]: p for p in pronosticos()}
-    reales = [(a, "real") for a in apuestas() if len(a.get("patas", [])) > 1]
-    for par, origen in reales + [(x, "papel") for x in parlays_papel()]:
+    lista = [(a, "real") for a in apuestas()] + [(x, "papel") for x in parlays_papel()]
+    for par, origen in [(x, o) for x, o in lista if len(x.get("patas", [])) > 1]:
         cat = par.get("categoria")
         out.append({
             "origen": origen,
