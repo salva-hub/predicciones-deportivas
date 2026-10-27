@@ -1112,6 +1112,23 @@
       "sirve_para_combinada": true,
       "apostar_papel": false,
       "monto_papel": 0
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Domenico Berardi:mas_0.5",
+      "cuota_winpot": "-334",
+      "cuota_minima": "-119",
+      "prob": 0.598,
+      "ve": -0.223,
+      "confianza": "baja",
+      "categoria": null,
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "apostar_papel": false,
+      "monto_papel": 0
     }
   ],
   "cuotas_winpot": {
@@ -1119,7 +1136,8 @@
     "goles:mas_2.5": "-148",
     "ambos_anotan:si": "-175",
     "corners:mas_7.5": "-280",
-    "tarjetas:mas_3.5": "-143"
+    "tarjetas:mas_3.5": "-143",
+    "tiros_jugador:Domenico Berardi:mas_0.5": "-334"
   },
   "apuestas_papel": []
 }
