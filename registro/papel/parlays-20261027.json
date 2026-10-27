@@ -62,6 +62,33 @@
       "excepcion": "Elección de Salva en papel: mismo partido; prob. conjunta 17.9% con correlación Como gana-Como 2+ goles (justa +459), valor -42%. Cuota total +225 de Winpot repartida entre patas.",
       "pago_anticipado": true,
       "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261027-f66b98:ganador:2",
+      "tipo": "parlay",
+      "categoria": "pick_modelo",
+      "patas": [
+        {
+          "pronostico": "P-20261027-f66b98",
+          "partido": "Torino vs Como",
+          "liga": "serie_a",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.6993,
+          "prob": 0.577,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 1.6993,
+      "cuota_americana": "-143",
+      "prob": 0.577,
+      "monto": 300,
+      "recortada": false,
+      "creado": "2026-10-27T12:37:00.903337-07:00",
+      "excepcion": "Pick del modelo (aprobado 27-oct): mejor selección al precio de Winpot aunque no tenga valor; Como gana −143, valor −2.0% (justa −137).",
+      "pago_anticipado": true,
+      "estado": "pendiente"
     }
   ]
 }
