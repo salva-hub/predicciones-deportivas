@@ -239,6 +239,7 @@
   .cmp-tbl tbody th { font-weight:500; color:var(--medio); }
   .cmp-tbl td { font-weight:600; white-space:nowrap; }
   .cmp-tbl tr:last-child > * { border-bottom:0; }
+  .cmp-tbl td.centro { text-align:center; }
   .cmp-tbl .modelo { color:var(--modelo-texto); } .cmp-tbl .tu { color:var(--tu-texto); }
   .ley-linea.modelo { background:var(--modelo); } .ley-linea.tu { background:var(--tu); }
   .cmp-bloque:not(.tu) .cmp-eti { color:var(--modelo-texto); }
@@ -1120,12 +1121,12 @@ mostrarSeccion();
         <th scope="col" class="modelo">Modelo</th><th scope="col" class="modelo">Pick del modelo</th><th scope="col" class="tu">Tú (papel)</th><th scope="col" class="tu">Tú (real)</th></tr></thead><tbody>
       ${fila("Bank inicial", (x, g, k) => [MXN(bank.bank_inicial)])}
       ${fila("Bank actual", (x, g, k) => { const b = bankCmp[k]; return [MXN(b), clase(b - bank.bank_inicial)]; })}
-      ${fila("Apuestas", x => [String(x.n)])}
+      ${fila("Apuestas", x => [String(x.n)], "centro")}
       ${fila("Acierto", x => [PCT(x.acierto)])}
       ${fila("Ganancia / Pérdida", x => x.liq ? [signo(Math.round(x.gan)), clase(x.gan)] : ["—"])}
       ${fila("Rendimiento", x => [PCTs(x.roi), clase(x.roi)])}
       ${fila("Racha", (x, g) => racha(g), "racha")}
-      ${fila("Pendientes", x => [String(x.pendientes)], "racha")}
+      ${fila("Pendientes", x => [String(x.pendientes)], "centro")}
     </tbody></table>`;
   }
 
