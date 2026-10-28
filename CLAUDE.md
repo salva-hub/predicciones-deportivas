@@ -139,8 +139,10 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    (`valor`, `sencilla_fuerte` o vacía) y `sirve_para_combinada`. Para la jornada, arma parlays de valor y
    combinadas con `python -m predicciones.cli parlays --fecha hoy` (cada uno trae su `categoria`).
    Dile a Salva en qué categoría va cada apuesta y muéstrale el `pick_modelo` del partido (selección, momio y si tiene valor). Si Salva apuesta, registra con `apostar ... --categoria <categoría>`.
-   Respeta el `disponible_hoy` de `python -m predicciones.cli bank` (en la prueba en papel ya descuenta lo
-   "apostado" en papel hoy; `evaluar` y `parlays` también lo respetan entre varias selecciones).
+   Con dinero real respeta el `disponible_hoy` de `python -m predicciones.cli bank` (`evaluar` y `parlays` también lo
+   respetan entre varias selecciones). **En la prueba en papel no hay límite del día ni máximo por día de sencillas
+   fuertes o combinadas** (Salva, 28-oct-2026: se necesitan datos con montos): `disponible_hoy` y `max_por_dia` salen
+   `null`. Se controla con `LIMITE_EN_PAPEL` y `MAXIMOS_EN_PAPEL` en `bank.py`.
    **Prueba en papel hasta el 26-nov-2026 (inclusive):** `evaluar` devuelve `apostar: false` siempre y marca con
    `apostar_papel: true` (y `monto_papel`) lo que habría pasado; lo guarda en `apuestas_papel` del pronóstico y
    GitHub Actions lo califica. `parlays` los lista como `parlays_papel`. Dile a Salva: "Prueba en papel hasta
@@ -334,6 +336,8 @@ Temporadas 2022/23 a 2025/26, apostando contra la cuota de apertura de Pinnacle 
 - Sencilla: 5% como máximo (500 MXN con 10,000) con confianza alta y valor de al menos el doble del mínimo;
   3% con valor normal; 2% con confianza baja.
 - Ningún monto recomendado pasa de lo que queda del límite del día (`disponible_hoy`).
+- **En la prueba en papel no se aplican el límite del día ni los máximos por día** (1 sencilla fuerte, 2 combinadas):
+  cada apuesta lleva su monto completo. Con dinero real sí se aplican.
 - Parlay de valor: 3% con confianza alta; 2% con confianza media o baja.
 - Sencilla fuerte: lo necesario para **ganar** 5% del bank con confianza alta (con 10,000: ganar 500; a −120 se ponen 600)
   o 2.5% con confianza media (ganar 250). Se redondea hacia arriba a 10 MXN. Como el momio mínimo es −200, el riesgo

@@ -67,6 +67,15 @@ COMBINADA_CUOTA_MIN = 3.0          # +200
 COMBINADA_CUOTA_MAX = 4.5          # +350
 COMBINADA_PATAS = (2, 3)
 MAX_POR_DIA = {FUERTE: 1, COMBINADA: 2}  # por día de Sonora (día en que se evalúa)
+SIN_MAXIMO = 10**6
+
+
+def max_por_dia(categoria: str, papel: bool) -> int:
+    """Máximo por día de la categoría. En la prueba en papel no hay máximo (bank.MAXIMOS_EN_PAPEL)."""
+    from . import bank  # aquí para no importar en círculo
+    if papel and not bank.MAXIMOS_EN_PAPEL:
+        return SIN_MAXIMO
+    return MAX_POR_DIA[categoria]
 
 
 def familia(mercado: str) -> str:
