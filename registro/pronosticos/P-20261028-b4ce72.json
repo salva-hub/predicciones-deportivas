@@ -1,0 +1,1043 @@
+{
+  "deporte": "futbol",
+  "liga": "premier",
+  "partido": "Bournemouth vs Aston Villa",
+  "local": "AFC Bournemouth",
+  "visitante": "Aston Villa",
+  "espn_id": "401921840",
+  "inicio_utc": "2026-10-28T19:45:00+00:00",
+  "inicio_sonora": "2026-10-28 12:45",
+  "estadio": "Vitality Stadium",
+  "techado": false,
+  "neutral": false,
+  "pago_anticipado": true,
+  "clima": null,
+  "arbitro": "Tony Harrington (sin confirmar)",
+  "factor_arbitro": 0.921,
+  "pinnacle": {
+    "1": 2.23,
+    "X": 3.76,
+    "2": 3.13,
+    "mas_2.5": 1.5681818181818183,
+    "menos_2.5": 2.5
+  },
+  "goles_esperados": [
+    1.67,
+    1.38
+  ],
+  "modelo_1x2": {
+    "1": 0.448,
+    "X": 0.275,
+    "2": 0.325
+  },
+  "marcadores_probables": [
+    [
+      "1-1",
+      0.12186159095418508
+    ],
+    [
+      "2-1",
+      0.09111377916782779
+    ],
+    [
+      "1-2",
+      0.07535946506090246
+    ]
+  ],
+  "notas": [
+    "Base: Pinnacle sin margen (modelo solo como referencia)",
+    "Goles esperados del modelo solo: 1.52 – 1.25",
+    "Pago anticipado de Winpot: el ganador local/visitante incluye la probabilidad de ir 2 goles arriba y no ganar (local +2.9%, visitante +3.1%)",
+    "Córners esperados: 10.2",
+    "Tarjetas esperadas: 4.9 (factor árbitro x0.92)",
+    "Copa: juegan 2 de 11 titulares habituales (fuera Evanilson, Kluivert, Rayan, Adams, Truffert…) (alineación oficial ESPN): goles_local x0.95",
+    "Copa: juegan 3 de 11 titulares habituales (fuera N. Jackson, McGinn, Kamara, Pau Torres, Cash…) (alineación oficial ESPN): goles_visitante x0.95",
+    "Eliminatoria de copa (Copa de la Liga, 4a ronda): tarjetas x1.05",
+    "Tiros a puerta de jugador de AFC Bournemouth: 46 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador de Aston Villa: 46 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador: alineación oficial de ESPN; modelo Poisson con tasa por 90, minutos y rival; confianza siempre baja; solo con valor de 10% o más"
+  ],
+  "confianza": "media",
+  "selecciones": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "prob": 0.46,
+      "cuota_justa": "+117",
+      "cuota_minima": "+124",
+      "confianza": "media",
+      "prob_sin_pago_anticipado": 0.431
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "X",
+      "prob": 0.263,
+      "cuota_justa": "+280",
+      "cuota_minima": "+292",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
+      "prob": 0.337,
+      "cuota_justa": "+197",
+      "cuota_minima": "+206",
+      "confianza": "media",
+      "prob_sin_pago_anticipado": 0.306
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "1X",
+      "prob": 0.694,
+      "cuota_justa": "-227",
+      "cuota_minima": "-206",
+      "confianza": "media"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "12",
+      "prob": 0.737,
+      "cuota_justa": "-280",
+      "cuota_minima": "-251",
+      "confianza": "media"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "X2",
+      "prob": 0.569,
+      "cuota_justa": "-132",
+      "cuota_minima": "-123",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_0.5",
+      "prob": 0.94,
+      "cuota_justa": "-1563",
+      "cuota_minima": "-1042",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_0.5",
+      "prob": 0.06,
+      "cuota_justa": "+1563",
+      "cuota_minima": "+1614",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_1.5",
+      "prob": 0.82,
+      "cuota_justa": "-455",
+      "cuota_minima": "-390",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_1.5",
+      "prob": 0.18,
+      "cuota_justa": "+455",
+      "cuota_minima": "+472",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "prob": 0.587,
+      "cuota_justa": "-142",
+      "cuota_minima": "-132",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_2.5",
+      "prob": 0.413,
+      "cuota_justa": "+142",
+      "cuota_minima": "+150",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_3.5",
+      "prob": 0.363,
+      "cuota_justa": "+176",
+      "cuota_minima": "+185",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "prob": 0.637,
+      "cuota_justa": "-176",
+      "cuota_minima": "-162",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_4.5",
+      "prob": 0.192,
+      "cuota_justa": "+420",
+      "cuota_minima": "+436",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_4.5",
+      "prob": 0.808,
+      "cuota_justa": "-420",
+      "cuota_minima": "-363",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "prob": 0.619,
+      "cuota_justa": "-163",
+      "cuota_minima": "-150",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "no",
+      "prob": 0.381,
+      "cuota_justa": "+163",
+      "cuota_minima": "+171",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_0.5",
+      "prob": 0.811,
+      "cuota_justa": "-429",
+      "cuota_minima": "-370",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_0.5",
+      "prob": 0.189,
+      "cuota_justa": "+429",
+      "cuota_minima": "+446",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_0.5",
+      "prob": 0.748,
+      "cuota_justa": "-297",
+      "cuota_minima": "-265",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_0.5",
+      "prob": 0.252,
+      "cuota_justa": "+297",
+      "cuota_minima": "+309",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_1.5",
+      "prob": 0.496,
+      "cuota_justa": "+102",
+      "cuota_minima": "+108",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_1.5",
+      "prob": 0.504,
+      "cuota_justa": "-102",
+      "cuota_minima": "+105",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_1.5",
+      "prob": 0.401,
+      "cuota_justa": "+150",
+      "cuota_minima": "+158",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_1.5",
+      "prob": 0.599,
+      "cuota_justa": "-150",
+      "cuota_minima": "-139",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_2.5",
+      "prob": 0.234,
+      "cuota_justa": "+328",
+      "cuota_minima": "+341",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_2.5",
+      "prob": 0.766,
+      "cuota_justa": "-328",
+      "cuota_minima": "-290",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_2.5",
+      "prob": 0.161,
+      "cuota_justa": "+520",
+      "cuota_minima": "+539",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_2.5",
+      "prob": 0.839,
+      "cuota_justa": "-520",
+      "cuota_minima": "-438",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_1",
+      "prob": 0.346,
+      "cuota_justa": "+189",
+      "cuota_minima": "+198",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_X",
+      "prob": 0.387,
+      "cuota_justa": "+159",
+      "cuota_minima": "+167",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_2",
+      "prob": 0.267,
+      "cuota_justa": "+274",
+      "cuota_minima": "+286",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_0.5",
+      "prob": 0.746,
+      "cuota_justa": "-293",
+      "cuota_minima": "-262",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_0.5",
+      "prob": 0.254,
+      "cuota_justa": "+293",
+      "cuota_minima": "+306",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_1.5",
+      "prob": 0.398,
+      "cuota_justa": "+151",
+      "cuota_minima": "+159",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_1.5",
+      "prob": 0.602,
+      "cuota_justa": "-151",
+      "cuota_minima": "-140",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "prob": 0.231,
+      "cuota_justa": "+333",
+      "cuota_minima": "+347",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1.5",
+      "prob": 0.142,
+      "cuota_justa": "+604",
+      "cuota_minima": "+626",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1",
+      "prob": 0.231,
+      "cuota_justa": "+247",
+      "cuota_minima": "+260",
+      "confianza": "media",
+      "devolucion": 0.2
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1",
+      "prob": 0.142,
+      "cuota_justa": "+489",
+      "cuota_minima": "+510",
+      "confianza": "media",
+      "devolucion": 0.164
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+0",
+      "prob": 0.431,
+      "cuota_justa": "-141",
+      "cuota_minima": "-128",
+      "confianza": "media",
+      "devolucion": 0.263
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+0",
+      "prob": 0.306,
+      "cuota_justa": "+141",
+      "cuota_minima": "+151",
+      "confianza": "media",
+      "devolucion": 0.263
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1",
+      "prob": 0.694,
+      "cuota_justa": "-489",
+      "cuota_minima": "-403",
+      "confianza": "media",
+      "devolucion": 0.164
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1",
+      "prob": 0.569,
+      "cuota_justa": "-247",
+      "cuota_minima": "-218",
+      "confianza": "media",
+      "devolucion": 0.2
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1.5",
+      "prob": 0.858,
+      "cuota_justa": "-604",
+      "cuota_minima": "-498",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1.5",
+      "prob": 0.769,
+      "cuota_justa": "-333",
+      "cuota_minima": "-295",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "prob": 0.694,
+      "cuota_justa": "-227",
+      "cuota_minima": "-195",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_7.5",
+      "prob": 0.306,
+      "cuota_justa": "+227",
+      "cuota_minima": "+244",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "prob": 0.621,
+      "cuota_justa": "-164",
+      "cuota_minima": "-144",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_8.5",
+      "prob": 0.379,
+      "cuota_justa": "+164",
+      "cuota_minima": "+178",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_9.5",
+      "prob": 0.54,
+      "cuota_justa": "-118",
+      "cuota_minima": "-105",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_9.5",
+      "prob": 0.46,
+      "cuota_justa": "+118",
+      "cuota_minima": "+129",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_10.5",
+      "prob": 0.459,
+      "cuota_justa": "+118",
+      "cuota_minima": "+129",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_10.5",
+      "prob": 0.541,
+      "cuota_justa": "-118",
+      "cuota_minima": "-106",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_11.5",
+      "prob": 0.384,
+      "cuota_justa": "+160",
+      "cuota_minima": "+174",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_11.5",
+      "prob": 0.616,
+      "cuota_justa": "-160",
+      "cuota_minima": "-141",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_2.5",
+      "prob": 0.744,
+      "cuota_justa": "-291",
+      "cuota_minima": "-243",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_2.5",
+      "prob": 0.256,
+      "cuota_justa": "+291",
+      "cuota_minima": "+311",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "prob": 0.642,
+      "cuota_justa": "-179",
+      "cuota_minima": "-157",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_3.5",
+      "prob": 0.358,
+      "cuota_justa": "+179",
+      "cuota_minima": "+194",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_4.5",
+      "prob": 0.523,
+      "cuota_justa": "-110",
+      "cuota_minima": "+101",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_4.5",
+      "prob": 0.477,
+      "cuota_justa": "+110",
+      "cuota_minima": "+121",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_5.5",
+      "prob": 0.409,
+      "cuota_justa": "+144",
+      "cuota_minima": "+157",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_5.5",
+      "prob": 0.591,
+      "cuota_justa": "-144",
+      "cuota_minima": "-128",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_6.5",
+      "prob": 0.315,
+      "cuota_justa": "+217",
+      "cuota_minima": "+234",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_6.5",
+      "prob": 0.685,
+      "cuota_justa": "-217",
+      "cuota_minima": "-187",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "1",
+      "prob": 0.482,
+      "cuota_justa": "+107",
+      "cuota_minima": "+118",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "X",
+      "prob": 0.222,
+      "cuota_justa": "+351",
+      "cuota_minima": "+374",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "2",
+      "prob": 0.296,
+      "cuota_justa": "+238",
+      "cuota_minima": "+255",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Marcus Tavernier:mas_0.5",
+      "prob": 0.596,
+      "cuota_justa": "-148",
+      "cuota_minima": "-118",
+      "confianza": "baja",
+      "jugador": "Marcus Tavernier",
+      "jugador_id": "243364",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.991
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Marcus Tavernier:mas_1.5",
+      "prob": 0.242,
+      "cuota_justa": "+313",
+      "cuota_minima": "+355",
+      "confianza": "baja",
+      "jugador": "Marcus Tavernier",
+      "jugador_id": "243364",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.991
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Marcus Tavernier:mas_2.5",
+      "prob": 0.072,
+      "cuota_justa": "+1283",
+      "cuota_minima": "+1421",
+      "confianza": "baja",
+      "jugador": "Marcus Tavernier",
+      "jugador_id": "243364",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.991
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Amine Adli:mas_0.5",
+      "prob": 0.482,
+      "cuota_justa": "+107",
+      "cuota_minima": "+128",
+      "confianza": "baja",
+      "jugador": "Amine Adli",
+      "jugador_id": "291613",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.699
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Amine Adli:mas_1.5",
+      "prob": 0.147,
+      "cuota_justa": "+581",
+      "cuota_minima": "+650",
+      "confianza": "baja",
+      "jugador": "Amine Adli",
+      "jugador_id": "291613",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.699
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ben Gannon-Doak:mas_0.5",
+      "prob": 0.46,
+      "cuota_justa": "+118",
+      "cuota_minima": "+140",
+      "confianza": "baja",
+      "jugador": "Ben Gannon-Doak",
+      "jugador_id": "332948",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.649
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ben Gannon-Doak:mas_1.5",
+      "prob": 0.131,
+      "cuota_justa": "+661",
+      "cuota_minima": "+738",
+      "confianza": "baja",
+      "jugador": "Ben Gannon-Doak",
+      "jugador_id": "332948",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.649
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Álvaro Rodríguez:mas_0.5",
+      "prob": 0.451,
+      "cuota_justa": "+122",
+      "cuota_minima": "+144",
+      "confianza": "baja",
+      "jugador": "Álvaro Rodríguez",
+      "jugador_id": "353151",
+      "equipo": "AFC Bournemouth",
+      "posicion": "F",
+      "tiros_esperados": 0.631
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Álvaro Rodríguez:mas_1.5",
+      "prob": 0.126,
+      "cuota_justa": "+694",
+      "cuota_minima": "+773",
+      "confianza": "baja",
+      "jugador": "Álvaro Rodríguez",
+      "jugador_id": "353151",
+      "equipo": "AFC Bournemouth",
+      "posicion": "F",
+      "tiros_esperados": 0.631
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ryan Christie:mas_0.5",
+      "prob": 0.433,
+      "cuota_justa": "+131",
+      "cuota_minima": "+154",
+      "confianza": "baja",
+      "jugador": "Ryan Christie",
+      "jugador_id": "93435",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.594
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ryan Christie:mas_1.5",
+      "prob": 0.115,
+      "cuota_justa": "+770",
+      "cuota_minima": "+858",
+      "confianza": "baja",
+      "jugador": "Ryan Christie",
+      "jugador_id": "93435",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.594
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Lewis Cook:mas_0.5",
+      "prob": 0.2,
+      "cuota_justa": "+400",
+      "cuota_minima": "+451",
+      "confianza": "baja",
+      "jugador": "Lewis Cook",
+      "jugador_id": "223452",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.209
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Brian Madjo:mas_0.5",
+      "prob": 0.555,
+      "cuota_justa": "-125",
+      "cuota_minima": "-101",
+      "confianza": "baja",
+      "jugador": "Brian Madjo",
+      "jugador_id": "401451",
+      "equipo": "Aston Villa",
+      "posicion": "F",
+      "tiros_esperados": 0.874
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Brian Madjo:mas_1.5",
+      "prob": 0.203,
+      "cuota_justa": "+392",
+      "cuota_minima": "+442",
+      "confianza": "baja",
+      "jugador": "Brian Madjo",
+      "jugador_id": "401451",
+      "equipo": "Aston Villa",
+      "posicion": "F",
+      "tiros_esperados": 0.874
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Brian Madjo:mas_2.5",
+      "prob": 0.054,
+      "cuota_justa": "+1741",
+      "cuota_minima": "+1925",
+      "confianza": "baja",
+      "jugador": "Brian Madjo",
+      "jugador_id": "401451",
+      "equipo": "Aston Villa",
+      "posicion": "F",
+      "tiros_esperados": 0.874
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ibrahim Mbaye:mas_0.5",
+      "prob": 0.418,
+      "cuota_justa": "+139",
+      "cuota_minima": "+163",
+      "confianza": "baja",
+      "jugador": "Ibrahim Mbaye",
+      "jugador_id": "388522",
+      "equipo": "Aston Villa",
+      "posicion": "M",
+      "tiros_esperados": 0.565
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ibrahim Mbaye:mas_1.5",
+      "prob": 0.106,
+      "cuota_justa": "+840",
+      "cuota_minima": "+934",
+      "confianza": "baja",
+      "jugador": "Ibrahim Mbaye",
+      "jugador_id": "388522",
+      "equipo": "Aston Villa",
+      "posicion": "M",
+      "tiros_esperados": 0.565
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Emiliano Buendía:mas_0.5",
+      "prob": 0.331,
+      "cuota_justa": "+203",
+      "cuota_minima": "+233",
+      "confianza": "baja",
+      "jugador": "Emiliano Buendía",
+      "jugador_id": "214375",
+      "equipo": "Aston Villa",
+      "posicion": "M",
+      "tiros_esperados": 0.406
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Emiliano Buendía:mas_1.5",
+      "prob": 0.064,
+      "cuota_justa": "+1464",
+      "cuota_minima": "+1621",
+      "confianza": "baja",
+      "jugador": "Emiliano Buendía",
+      "jugador_id": "214375",
+      "equipo": "Aston Villa",
+      "posicion": "M",
+      "tiros_esperados": 0.406
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Leon Goretzka:mas_0.5",
+      "prob": 0.303,
+      "cuota_justa": "+230",
+      "cuota_minima": "+263",
+      "confianza": "baja",
+      "jugador": "Leon Goretzka",
+      "jugador_id": "174550",
+      "equipo": "Aston Villa",
+      "posicion": "M",
+      "tiros_esperados": 0.362
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Leon Goretzka:mas_1.5",
+      "prob": 0.054,
+      "cuota_justa": "+1769",
+      "cuota_minima": "+1956",
+      "confianza": "baja",
+      "jugador": "Leon Goretzka",
+      "jugador_id": "174550",
+      "equipo": "Aston Villa",
+      "posicion": "M",
+      "tiros_esperados": 0.362
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "George Hemmings:mas_0.5",
+      "prob": 0.252,
+      "cuota_justa": "+296",
+      "cuota_minima": "+337",
+      "confianza": "baja",
+      "jugador": "George Hemmings",
+      "jugador_id": "366248",
+      "equipo": "Aston Villa",
+      "posicion": "M",
+      "tiros_esperados": 0.284
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "João Gomes:mas_0.5",
+      "prob": 0.193,
+      "cuota_justa": "+419",
+      "cuota_minima": "+471",
+      "confianza": "baja",
+      "jugador": "João Gomes",
+      "jugador_id": "301524",
+      "equipo": "Aston Villa",
+      "posicion": "M",
+      "tiros_esperados": 0.199
+    }
+  ],
+  "estado": "pendiente",
+  "tiros_jugador": [
+    {
+      "jugador": "Marcus Tavernier",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.991,
+      "tasa90": 0.9,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 3408
+    },
+    {
+      "jugador": "Amine Adli",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.699,
+      "tasa90": 0.731,
+      "minutos_esperados": 73.7,
+      "minutos_historial": 1096
+    },
+    {
+      "jugador": "Ben Gannon-Doak",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.649,
+      "tasa90": 0.642,
+      "minutos_esperados": 78.0,
+      "minutos_historial": 190
+    },
+    {
+      "jugador": "Álvaro Rodríguez",
+      "equipo": "AFC Bournemouth",
+      "posicion": "F",
+      "tiros_esperados": 0.631,
+      "tasa90": 0.649,
+      "minutos_esperados": 75.0,
+      "minutos_historial": 39
+    },
+    {
+      "jugador": "Ryan Christie",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.594,
+      "tasa90": 0.659,
+      "minutos_esperados": 69.6,
+      "minutos_historial": 1267
+    },
+    {
+      "jugador": "Lewis Cook",
+      "equipo": "AFC Bournemouth",
+      "posicion": "M",
+      "tiros_esperados": 0.209,
+      "tasa90": 0.194,
+      "minutos_esperados": 83.4,
+      "minutos_historial": 1207
+    },
+    {
+      "jugador": "Brian Madjo",
+      "equipo": "Aston Villa",
+      "posicion": "F",
+      "tiros_esperados": 0.874,
+      "tasa90": 1.146,
+      "minutos_esperados": 75.0,
+      "minutos_historial": 8
+    },
+    {
+      "jugador": "Ibrahim Mbaye",
+      "equipo": "Aston Villa",
+      "posicion": "M",
+      "tiros_esperados": 0.565,
+      "tasa90": 0.712,
+      "minutos_esperados": 78.0,
+      "minutos_historial": 108
+    },
+    {
+      "jugador": "Emiliano Buendía",
+      "equipo": "Aston Villa",
+      "posicion": "M",
+      "tiros_esperados": 0.406,
+      "tasa90": 0.565,
+      "minutos_esperados": 70.7,
+      "minutos_historial": 2324
+    },
+    {
+      "jugador": "Leon Goretzka",
+      "equipo": "Aston Villa",
+      "posicion": "M",
+      "tiros_esperados": 0.362,
+      "tasa90": 0.456,
+      "minutos_esperados": 78.0,
+      "minutos_historial": 26
+    },
+    {
+      "jugador": "George Hemmings",
+      "equipo": "Aston Villa",
+      "posicion": "M",
+      "tiros_esperados": 0.284,
+      "tasa90": 0.397,
+      "minutos_esperados": 70.2,
+      "minutos_historial": 324
+    },
+    {
+      "jugador": "João Gomes",
+      "equipo": "Aston Villa",
+      "posicion": "M",
+      "tiros_esperados": 0.199,
+      "tasa90": 0.265,
+      "minutos_esperados": 74.0,
+      "minutos_historial": 370
+    }
+  ],
+  "id": "P-20261028-b4ce72",
+  "creado": "2026-10-28T11:46:57.086055-07:00"
+}
