@@ -1,0 +1,47 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261028-b57d80",
+      "partido": "Manchester City vs Brighton",
+      "liga": "premier",
+      "deporte": "futbol",
+      "espn_id": "401921834",
+      "mercado": "ganador",
+      "seleccion": "1",
+      "cuota": 1.8264462809917354,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261028-b57d80",
+      "partido": "Manchester City vs Brighton",
+      "liga": "premier",
+      "deporte": "futbol",
+      "espn_id": "401921834",
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "cuota": 1.4201680672268908,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261028-b57d80",
+      "partido": "Manchester City vs Brighton",
+      "liga": "premier",
+      "deporte": "futbol",
+      "espn_id": "401921834",
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "cuota": 2.06,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 5.33,
+  "cuota_americana": "+433",
+  "monto": 300.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261028-0eda98",
+  "creado": "2026-10-28T12:31:24.361959-07:00",
+  "estado": "pendiente",
+  "nota": "Elección de Salva, dinero real (Winpot crea tu apuesta, ID 5585608015, 12:23 Sonora). Cuota total +433 de Winpot repartida entre patas."
+}
