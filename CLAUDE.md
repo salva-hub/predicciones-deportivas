@@ -278,12 +278,12 @@ por categoría": apuestas, acierto, ganancia, ROI y peor racha). "Precio justo" 
 1. **Valor** (`valor`): las reglas de arriba (sencillas y parlays con valor).
 2. **Sencilla fuerte** (`sencilla_fuerte`): cuota negativa en Winpot de **−200 o mejor** (−150 sí, −250 no;
    `CUOTA_MIN_FUERTE` en `valor.py`), probabilidad ≥ 60%, confianza alta o media (nunca baja) y dentro de tolerancia.
-   Se apuesta para **ganar** un objetivo (ver Montos). Máximo 1 por día. Con momio peor que −200 no va como
+   Se apuesta para **ganar** un objetivo (ver Montos). Máximo 1 por día (en la prueba en papel, sin máximo). Con momio peor que −200 no va como
    sencilla fuerte (`motivo`: "momio peor que −200…"), pero puede ir como valor si cumple sus reglas o como pata
    de combinada (`sirve_para_combinada`).
 3. **Combinada** (`combinada`): 2 o 3 patas de partidos distintos, cada una con probabilidad ≥ 55%, confianza alta o
    media y dentro de tolerancia (o con valor); cuota total de Winpot entre +200 y +350. Se prefieren las de 2 patas y
-   luego la de mayor probabilidad; ninguna pata se repite entre las combinadas del día. Máximo 2 por día.
+   luego la de mayor probabilidad; ninguna pata se repite entre las combinadas del día. Máximo 2 por día (en la prueba en papel, sin máximo).
 
 Una sencilla que cumple sencilla fuerte cuenta como **sencilla fuerte aunque tenga valor** (se apuesta para ganar el
 objetivo); queda marcada `con_valor: true` para analizarla aparte. Valor cubre el resto (cuotas positivas, probabilidad
@@ -344,7 +344,7 @@ Temporadas 2022/23 a 2025/26, apostando contra la cuota de apertura de Pinnacle 
   máximo es el doble del objetivo (con 10,000 y confianza alta: 1,000 a −200).
 - Combinada: 5% del bank si todas las patas son de confianza alta; 3% si alguna es media.
 - Límite del día: 10% del bank; si ese día ya hay ganancia cobrada, 10% más la mitad de esa ganancia, hasta 20%.
-  Cubre las tres categorías del sistema juntas (en la prueba en papel, solo las de papel: lo real y las otras dos no lo usan). Si los montos pasan del disponible, se **recortan en orden**:
+  Cubre las tres categorías del sistema juntas, solo con dinero real (en la prueba en papel no hay límite). Si los montos pasan del disponible, se **recortan en orden**:
   en `evaluar` sencillas fuertes y de valor juntas, primero la de mayor valor esperado; en `parlays` primero los de valor y luego las combinadas. Cada uno
   toma lo que queda; cuando ya no queda nada, esa apuesta no se hace.
 - Pausa: si las apuestas del mes pierden 50% de la base del mes (bank al inicio del mes + depósitos − retiros del mes),

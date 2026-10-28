@@ -596,6 +596,8 @@ def cmd_bank(a) -> None:
         # en papel no hay límite del día (None = sin límite)
         "disponible_hoy": None if papel and not B.LIMITE_EN_PAPEL else max(0, limite - real_hoy - en_papel),
         "limite_en_papel": B.LIMITE_EN_PAPEL,
+        # dinero real (p. ej. `apostar --forzar` durante el papel): siempre con límite
+        "disponible_hoy_real": max(0, B.limite_del_dia(*_bank_del_dia(False)[:2]) - R.apostado_hoy_pendiente()),
         "resultado_apuestas_mes": R.resultado_papel_mes("sistema") if papel else R.resultado_apuestas_mes(),
         "base_mes": R.base_mes_papel("sistema") if papel else R.base_mes(),
         "en_pausa": pausa,

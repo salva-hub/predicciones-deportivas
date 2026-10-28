@@ -1138,8 +1138,39 @@ def test_papel_sin_maximo_de_sencillas_fuertes(papel, capsys):
     assert b_["usadas_hoy"]["sencilla_fuerte"] == 2 and b_["max_por_dia"] is None
 
 
-def test_dinero_real_conserva_limite_y_maximos(cli):
+def test_dinero_real_conserva_limite_y_maximos(cli, capsys):
     """Fuera de la prueba en papel siguen el límite del día y los máximos."""
     from predicciones import valor as V
     assert V.max_por_dia(V.FUERTE, papel=False) == 1 and V.max_por_dia(V.COMBINADA, papel=False) == 2
     assert V.max_por_dia(V.FUERTE, papel=True) == V.SIN_MAXIMO
+    cli.main(["bank"])
+    b = _salida(capsys)
+    assert b["prueba_papel"] is False and isinstance(b["disponible_hoy"], (int, float))
+    assert b["max_por_dia"] == {"sencilla_fuerte": 1, "combinada": 2}
+
+
+def test_papel_combinadas_sin_maximo_ni_limite(papel, capsys):
+    """En papel salen todas las combinadas posibles, cada una con su monto completo."""
+    R = papel.R
+    pr = [_pron_cat(R, f"E{i} vs F{i}", [("goles", "mas_1.5", 0.56, "alta")]) for i in range(6)]
+    for p in pr:
+        papel.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_1.5=-130"])
+        capsys.readouterr()
+    papel.main(["parlays"])
+    comb = [x for x in _salida(capsys)["parlays_papel"] if x["categoria"] == "combinada"]
+    assert len(comb) == 3 and all(x["monto_papel"] == 500 for x in comb)
+    assert not any(x.get("recortada") for x in comb)
+
+
+def test_papel_fuerte_y_valor_con_monto_completo(papel, capsys):
+    """Una sencilla fuerte y varias de valor del mismo día llevan su monto completo juntas."""
+    R = papel.R
+    f = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta")])
+    papel.main(["evaluar", "--id", f["id"], "--winpot", "ganador:1=-160"])  # 800 en papel
+    (r,) = _salida(capsys)["evaluacion"]
+    assert r["monto_papel"] == 800
+    p = _pronostico(papel, capsys)
+    papel.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400", "--winpot", "goles:mas_1.5=+400"])
+    ev = _salida(capsys)
+    montos = [x["monto_papel"] for x in ev["evaluacion"] if x.get("apostar_papel")]
+    assert montos and all(m >= 200 for m in montos) and not any(x.get("recortada") for x in ev["evaluacion"])

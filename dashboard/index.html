@@ -810,7 +810,7 @@ mostrarSeccion();
       <span class="sub" style="flex-basis:100%">Otros banks en papel (cada uno empieza en ${esc(MXN(bank.bank_inicial))}): elecciones de Salva <strong class="num" style="font-size:15px">${esc(MXN(bankPapelDe("eleccion_salva")))}</strong> · pick del modelo <strong class="num" style="font-size:15px">${esc(MXN(bankPapelDe("pick_modelo")))}</strong></span>` : ""}`;
   }
 
-  // ---------------- hoy (día de Sonora): límite del día como `cli bank`
+  // ---------------- hoy (día de Sonora): límite del día como `cli bank` (en papel no hay límite ni máximos)
   const LIQ = ["ganada", "perdida", "devuelta"];
   const ganHoy = apuestasTodas.filter(a => LIQ.includes(a.estado) && fechaSonora(a.liquidada || a.creado) === HOY)
     .reduce((s, a) => s + (a.ganancia || 0), 0);
@@ -830,14 +830,15 @@ mostrarSeccion();
   const revisar = apuestasTodas.filter(a => a.estado === "pendiente" && a.requiere_revision).length;
   $("hoy").innerHTML = `
     <div class="titulo-fila"><h2 class="chico">Hoy</h2><span class="sub num">${esc(fechaDMA(HOY))}</span></div>
-    <div class="disp">
+    <div class="disp">${EN_PAPEL ? `
+      <div class="fila"><span>Disponible hoy</span><span class="num"><strong>Sin límite</strong> en papel</span></div>` : `
       <div class="fila"><span>Disponible hoy</span><span class="num"><strong>${MXN(disponible)}</strong> de ${MXN(limite)}</span></div>
-      <div class="barra" style="max-width:none;margin-top:0"><div style="width:${limite > 0 ? (100 * disponible / limite).toFixed(1) : 0}%"></div></div>
+      <div class="barra" style="max-width:none;margin-top:0"><div style="width:${limite > 0 ? (100 * disponible / limite).toFixed(1) : 0}%"></div></div>`}
     </div>
     <div class="mini3">
       <div><div class="v num">${usadas.valor || 0}</div><div class="lbl">Valor</div></div>
-      <div><div class="v num">${usadas.sencilla_fuerte || 0} de 1</div><div class="lbl">Sencilla fuerte</div></div>
-      <div><div class="v num">${usadas.combinada || 0} de 2</div><div class="lbl">Combinadas</div></div>
+      <div><div class="v num">${usadas.sencilla_fuerte || 0}${EN_PAPEL ? "" : " de 1"}</div><div class="lbl">Sencilla fuerte</div></div>
+      <div><div class="v num">${usadas.combinada || 0}${EN_PAPEL ? "" : " de 2"}</div><div class="lbl">Combinadas</div></div>
     </div>
     <div class="lista-hoy">
       <span class="lbl">Por calificar</span>
