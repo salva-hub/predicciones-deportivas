@@ -139,8 +139,10 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    (`valor`, `sencilla_fuerte` o vacía) y `sirve_para_combinada`. Para la jornada, arma parlays de valor y
    combinadas con `python -m predicciones.cli parlays --fecha hoy` (cada uno trae su `categoria`).
    Dile a Salva en qué categoría va cada apuesta y muéstrale el `pick_modelo` del partido (selección, momio y si tiene valor). Si Salva apuesta, registra con `apostar ... --categoria <categoría>`.
-   Respeta el `disponible_hoy` de `python -m predicciones.cli bank` (en la prueba en papel ya descuenta lo
-   "apostado" en papel hoy; `evaluar` y `parlays` también lo respetan entre varias selecciones).
+   Con dinero real respeta el `disponible_hoy` de `python -m predicciones.cli bank` (`evaluar` y `parlays` también lo
+   respetan entre varias selecciones). **En la prueba en papel no hay límite del día ni máximo por día de sencillas
+   fuertes o combinadas** (Salva, 28-oct-2026: se necesitan datos con montos): `disponible_hoy` y `max_por_dia` salen
+   `null`. Se controla con `LIMITE_EN_PAPEL` y `MAXIMOS_EN_PAPEL` en `bank.py`.
    **Prueba en papel hasta el 26-nov-2026 (inclusive):** `evaluar` devuelve `apostar: false` siempre y marca con
    `apostar_papel: true` (y `monto_papel`) lo que habría pasado; lo guarda en `apuestas_papel` del pronóstico y
    GitHub Actions lo califica. `parlays` los lista como `parlays_papel`. Dile a Salva: "Prueba en papel hasta
@@ -276,12 +278,12 @@ por categoría": apuestas, acierto, ganancia, ROI y peor racha). "Precio justo" 
 1. **Valor** (`valor`): las reglas de arriba (sencillas y parlays con valor).
 2. **Sencilla fuerte** (`sencilla_fuerte`): cuota negativa en Winpot de **−200 o mejor** (−150 sí, −250 no;
    `CUOTA_MIN_FUERTE` en `valor.py`), probabilidad ≥ 60%, confianza alta o media (nunca baja) y dentro de tolerancia.
-   Se apuesta para **ganar** un objetivo (ver Montos). Máximo 1 por día. Con momio peor que −200 no va como
+   Se apuesta para **ganar** un objetivo (ver Montos). Máximo 1 por día (en la prueba en papel, sin máximo). Con momio peor que −200 no va como
    sencilla fuerte (`motivo`: "momio peor que −200…"), pero puede ir como valor si cumple sus reglas o como pata
    de combinada (`sirve_para_combinada`).
 3. **Combinada** (`combinada`): 2 o 3 patas de partidos distintos, cada una con probabilidad ≥ 55%, confianza alta o
    media y dentro de tolerancia (o con valor); cuota total de Winpot entre +200 y +350. Se prefieren las de 2 patas y
-   luego la de mayor probabilidad; ninguna pata se repite entre las combinadas del día. Máximo 2 por día.
+   luego la de mayor probabilidad; ninguna pata se repite entre las combinadas del día. Máximo 2 por día (en la prueba en papel, sin máximo).
 
 Una sencilla que cumple sencilla fuerte cuenta como **sencilla fuerte aunque tenga valor** (se apuesta para ganar el
 objetivo); queda marcada `con_valor: true` para analizarla aparte. Valor cubre el resto (cuotas positivas, probabilidad
@@ -334,13 +336,15 @@ Temporadas 2022/23 a 2025/26, apostando contra la cuota de apertura de Pinnacle 
 - Sencilla: 5% como máximo (500 MXN con 10,000) con confianza alta y valor de al menos el doble del mínimo;
   3% con valor normal; 2% con confianza baja.
 - Ningún monto recomendado pasa de lo que queda del límite del día (`disponible_hoy`).
+- **En la prueba en papel no se aplican el límite del día ni los máximos por día** (1 sencilla fuerte, 2 combinadas):
+  cada apuesta lleva su monto completo. Con dinero real sí se aplican.
 - Parlay de valor: 3% con confianza alta; 2% con confianza media o baja.
 - Sencilla fuerte: lo necesario para **ganar** 5% del bank con confianza alta (con 10,000: ganar 500; a −120 se ponen 600)
   o 2.5% con confianza media (ganar 250). Se redondea hacia arriba a 10 MXN. Como el momio mínimo es −200, el riesgo
   máximo es el doble del objetivo (con 10,000 y confianza alta: 1,000 a −200).
 - Combinada: 5% del bank si todas las patas son de confianza alta; 3% si alguna es media.
 - Límite del día: 10% del bank; si ese día ya hay ganancia cobrada, 10% más la mitad de esa ganancia, hasta 20%.
-  Cubre las tres categorías del sistema juntas (en la prueba en papel, solo las de papel: lo real y las otras dos no lo usan). Si los montos pasan del disponible, se **recortan en orden**:
+  Cubre las tres categorías del sistema juntas, solo con dinero real (en la prueba en papel no hay límite). Si los montos pasan del disponible, se **recortan en orden**:
   en `evaluar` sencillas fuertes y de valor juntas, primero la de mayor valor esperado; en `parlays` primero los de valor y luego las combinadas. Cada uno
   toma lo que queda; cuando ya no queda nada, esa apuesta no se hace.
 - Pausa: si las apuestas del mes pierden 50% de la base del mes (bank al inicio del mes + depósitos − retiros del mes),

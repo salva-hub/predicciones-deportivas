@@ -204,6 +204,14 @@ def papel(cli, monkeypatch):
     return cli
 
 
+@pytest.fixture
+def papel_con_limite(papel, monkeypatch):
+    """Papel con el límite del día y los máximos por día activados (hoy están apagados en papel)."""
+    monkeypatch.setattr(papel.B, "LIMITE_EN_PAPEL", True)
+    monkeypatch.setattr(papel.B, "MAXIMOS_EN_PAPEL", True)
+    return papel
+
+
 def test_papel_no_recomienda_dinero_y_guarda(papel, capsys):
     cli, R = papel, papel.R
     p = _pronostico(cli, capsys)
@@ -291,7 +299,8 @@ def test_limite_del_dia_cubre_varias_selecciones(cli, capsys):
     assert sum(aprobadas) <= 1000  # 10% de 10,000
 
 
-def test_papel_limite_del_dia_y_bank(papel, capsys):
+def test_papel_limite_del_dia_y_bank(papel_con_limite, capsys):
+    papel = papel_con_limite
     cli = papel
     p = _pronostico(cli, capsys)
     cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400", "--winpot", "goles:mas_1.5=+400",
@@ -378,7 +387,8 @@ def test_reevaluar_mezcla_por_seleccion(cli, capsys):
     assert q["cuotas_winpot"] == {"goles:mas_2.5": "+300", "ganador:1": "-1000"}
 
 
-def test_papel_parlays_limite_cuenta_todo_lo_de_hoy(papel, capsys):
+def test_papel_parlays_limite_cuenta_todo_lo_de_hoy(papel_con_limite, capsys):
+    papel = papel_con_limite
     from datetime import date as _d
     R = papel.R
     # parlay en papel guardado hoy para otro día de partido: cuenta en el límite de hoy
@@ -599,7 +609,8 @@ def _pron_cat(R, partido, sels, espn_id=None):
     })
 
 
-def test_papel_sencilla_fuerte_monto_y_maximo_por_dia(papel, capsys):
+def test_papel_sencilla_fuerte_monto_y_maximo_por_dia(papel_con_limite, capsys):
+    papel = papel_con_limite
     R = papel.R
     a = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta")])
     b = _pron_cat(R, "C vs D", [("ganador", "1", 0.62, "media")])
@@ -637,7 +648,8 @@ def test_papel_momio_peor_que_menos_200_no_es_fuerte(papel, capsys):
     assert r["categoria"] == "sencilla_fuerte" and r["monto_papel"] == 750  # para ganar 500 a -150
 
 
-def test_fuerte_gana_sobre_valor_y_sin_cupo_pasa_a_valor(papel, capsys):
+def test_fuerte_gana_sobre_valor_y_sin_cupo_pasa_a_valor(papel_con_limite, capsys):
+    papel = papel_con_limite
     R = papel.R
     a = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta"), ("goles", "mas_2.5", 0.64, "alta")])
     papel.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-120", "--winpot", "goles:mas_2.5=-120"])
@@ -650,7 +662,8 @@ def test_fuerte_gana_sobre_valor_y_sin_cupo_pasa_a_valor(papel, capsys):
     assert x["goles"]["categoria"] == "sencilla_fuerte" and x["goles"]["con_valor"] is True
 
 
-def test_papel_combinadas_maximo_y_limite_entre_categorias(papel, capsys):
+def test_papel_combinadas_maximo_y_limite_entre_categorias(papel_con_limite, capsys):
+    papel = papel_con_limite
     R = papel.R
     pr = [_pron_cat(R, f"E{i} vs F{i}", [("goles", "mas_1.5", 0.56, "alta")]) for i in range(6)]
     for p in pr:
@@ -670,7 +683,8 @@ def test_papel_combinadas_maximo_y_limite_entre_categorias(papel, capsys):
     assert len(R.parlays_papel()) == 2 and all(x["categoria"] == "combinada" for x in R.parlays_papel())
 
 
-def test_limite_del_dia_entre_categorias(papel, capsys):
+def test_limite_del_dia_entre_categorias(papel_con_limite, capsys):
+    papel = papel_con_limite
     R = papel.R
     f = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta")])
     papel.main(["evaluar", "--id", f["id"], "--winpot", "ganador:1=-160"])  # 800 en papel
@@ -809,7 +823,8 @@ def test_exportar_parlays_legibles(papel, capsys, monkeypatch):
     assert '"cuota": 1.' not in texto and '"cuota": 2.' not in texto
 
 
-def test_exportar_campos_de_filtro(papel, capsys):
+def test_exportar_campos_de_filtro(papel_con_limite, capsys):
+    papel = papel_con_limite
     cli, R = papel, papel.R
     a = _pron_cat(R, "Sevilla vs Osasuna", [("goles", "mas_2.5", 0.56, "alta"), ("ganador", "1", 0.62, "alta")])
     viejo = R.buscar_pronostico(a["id"])
@@ -954,7 +969,8 @@ def test_pick_modelo_ya_calificado_no_se_reemplaza(papel, capsys):
     assert (x["seleccion"], x["estado"]) == ("1", "ganada")
 
 
-def test_pick_modelo_fuera_del_limite_del_dia(papel, capsys):
+def test_pick_modelo_fuera_del_limite_del_dia(papel_con_limite, capsys):
+    papel = papel_con_limite
     cli, R = papel, papel.R
     for i in range(4):  # 4 × 300 pasaría el límite del día (1,000 con 10,000 de bank)
         a = _pron_cat(R, f"A{i} vs B{i}", [("ganador", "1", 0.55, "alta")])
@@ -1088,3 +1104,73 @@ def test_pausa_papel_y_apuesta_sin_categoria(papel, capsys):
     assert R.en_pausa_papel()
     cli.main(["bank"])
     assert _salida(capsys)["en_pausa"] is True
+
+
+def test_papel_sin_limite_del_dia(papel, capsys):
+    """Salva (28-oct-2026): en papel cada apuesta con valor lleva su monto completo, sin límite del día."""
+    cli = papel
+    p = _pronostico(cli, capsys)
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400", "--winpot", "goles:mas_1.5=+400",
+              "--winpot", "goles:mas_3.5=+900", "--winpot", "ambos_anotan:si=+400"])
+    ev = _salida(capsys)
+    montos = [r["monto_papel"] for r in ev["evaluacion"] if r.get("apostar_papel")]
+    assert ev["disponible_hoy"] is None
+    assert sum(montos) > 1000 and all(m > 0 for m in montos)
+    assert not any(r.get("recortada") for r in ev["evaluacion"])
+    cli.main(["bank"])
+    b = _salida(capsys)
+    assert b["disponible_hoy"] is None and b["limite_en_papel"] is False
+
+
+def test_papel_sin_maximo_de_sencillas_fuertes(papel, capsys):
+    """Salva (28-oct-2026): en papel no hay máximo por día de sencillas fuertes."""
+    R = papel.R
+    a = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta")])
+    b = _pron_cat(R, "C vs D", [("ganador", "1", 0.62, "media")])
+    papel.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-160"])
+    (r,) = _salida(capsys)["evaluacion"]
+    assert r["categoria"] == "sencilla_fuerte" and r["apostar_papel"] is True
+    papel.main(["evaluar", "--id", b["id"], "--winpot", "ganador:1=-170"])
+    (r,) = _salida(capsys)["evaluacion"]
+    assert r["categoria"] == "sencilla_fuerte" and r["apostar_papel"] is True and r["monto_papel"] > 0
+    papel.main(["bank"])
+    b_ = _salida(capsys)
+    assert b_["usadas_hoy"]["sencilla_fuerte"] == 2 and b_["max_por_dia"] is None
+
+
+def test_dinero_real_conserva_limite_y_maximos(cli, capsys):
+    """Fuera de la prueba en papel siguen el límite del día y los máximos."""
+    from predicciones import valor as V
+    assert V.max_por_dia(V.FUERTE, papel=False) == 1 and V.max_por_dia(V.COMBINADA, papel=False) == 2
+    assert V.max_por_dia(V.FUERTE, papel=True) == V.SIN_MAXIMO
+    cli.main(["bank"])
+    b = _salida(capsys)
+    assert b["prueba_papel"] is False and isinstance(b["disponible_hoy"], (int, float))
+    assert b["max_por_dia"] == {"sencilla_fuerte": 1, "combinada": 2}
+
+
+def test_papel_combinadas_sin_maximo_ni_limite(papel, capsys):
+    """En papel salen todas las combinadas posibles, cada una con su monto completo."""
+    R = papel.R
+    pr = [_pron_cat(R, f"E{i} vs F{i}", [("goles", "mas_1.5", 0.56, "alta")]) for i in range(6)]
+    for p in pr:
+        papel.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_1.5=-130"])
+        capsys.readouterr()
+    papel.main(["parlays"])
+    comb = [x for x in _salida(capsys)["parlays_papel"] if x["categoria"] == "combinada"]
+    assert len(comb) == 3 and all(x["monto_papel"] == 500 for x in comb)
+    assert not any(x.get("recortada") for x in comb)
+
+
+def test_papel_fuerte_y_valor_con_monto_completo(papel, capsys):
+    """Una sencilla fuerte y varias de valor del mismo día llevan su monto completo juntas."""
+    R = papel.R
+    f = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta")])
+    papel.main(["evaluar", "--id", f["id"], "--winpot", "ganador:1=-160"])  # 800 en papel
+    (r,) = _salida(capsys)["evaluacion"]
+    assert r["monto_papel"] == 800
+    p = _pronostico(papel, capsys)
+    papel.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400", "--winpot", "goles:mas_1.5=+400"])
+    ev = _salida(capsys)
+    montos = [x["monto_papel"] for x in ev["evaluacion"] if x.get("apostar_papel")]
+    assert montos and all(m >= 200 for m in montos) and not any(x.get("recortada") for x in ev["evaluacion"])

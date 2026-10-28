@@ -330,7 +330,10 @@ def cmd_evaluar(a) -> None:
         propio = sum(x.get("monto", 0.0) for x in conservar
                      if x.get("categoria") not in R.APARTE and R._fecha_sonora(x["evaluado"]).date() == hoy)
         disponible = max(0.0, disponible - R.apostado_papel_hoy(excluir=p["id"]) - propio)
-    disponible_inicial = disponible
+    sin_limite = papel and not B.LIMITE_EN_PAPEL
+    if sin_limite:
+        disponible = B.SIN_LIMITE
+    disponible_inicial = None if sin_limite else disponible
     # máximo por día de cada categoría: se cuenta lo ya puesto hoy (en papel o real)
     cuenta = R.categorias_hoy(excluir=p["id"] if papel else None)
     if papel:
@@ -353,7 +356,7 @@ def cmd_evaluar(a) -> None:
     # sencilla fuerte: como mucho MAX_POR_DIA al día; si hay varias, la de mayor probabilidad.
     # Sin cupo, si tiene valor pasa a la categoría valor
     fuertes = sorted((i for i, f in enumerate(filas) if f[4] == V.FUERTE), key=lambda i: -filas[i][2].prob)
-    libres = max(0, V.MAX_POR_DIA[V.FUERTE] - cuenta.get(V.FUERTE, 0))
+    libres = max(0, V.max_por_dia(V.FUERTE, papel) - cuenta.get(V.FUERTE, 0))
     sin_cupo = set(fuertes[libres:])
     for i in sin_cupo:
         filas[i] = (*filas[i][:4], V.VALOR if V.tiene_valor(filas[i][2]) else None)
@@ -496,10 +499,12 @@ def cmd_parlays(a) -> None:
     if papel:
         # todo lo puesto hoy en papel, salvo los parlays pendientes de este día (se reemplazan)
         disponible = max(0.0, disponible - R.apostado_papel_hoy(reemplazar_parlays_de=dia))
+    if papel and not B.LIMITE_EN_PAPEL:
+        disponible = B.SIN_LIMITE
     # 1) parlays de valor; 2) combinadas cortas (sin repetir un parlay de valor idéntico)
     valor = V.armar_parlays(cand_valor, max_patas=a.max_patas)
     cuenta = R.categorias_hoy(reemplazar_parlays_de=dia if papel else None)
-    cupo = max(0, V.MAX_POR_DIA[V.COMBINADA] - cuenta.get(V.COMBINADA, 0))
+    cupo = max(0, V.max_por_dia(V.COMBINADA, papel) - cuenta.get(V.COMBINADA, 0))
     combinadas = V.armar_combinadas(cand_comb, top=cupo, excluir={V.clave_patas(x) for x in valor}) if cupo else []
     lista = [(x, V.VALOR, B.monto(bank_hoy, B.porcentaje_parlay(x.confianza))) for x in valor]
     lista += [(x, V.COMBINADA, B.monto(bank_hoy, B.porcentaje_combinada(x.confianza))) for x in combinadas]
@@ -588,7 +593,11 @@ def cmd_bank(a) -> None:
         "ganancia_cobrada_hoy": gan, "limite_del_dia": limite,
         "apostado_hoy": R.apostado_hoy_pendiente(),
         "prueba_papel": papel, "apostado_papel_hoy": en_papel,
-        "disponible_hoy": max(0, limite - real_hoy - en_papel),
+        # en papel no hay límite del día (None = sin límite)
+        "disponible_hoy": None if papel and not B.LIMITE_EN_PAPEL else max(0, limite - real_hoy - en_papel),
+        "limite_en_papel": B.LIMITE_EN_PAPEL,
+        # dinero real (p. ej. `apostar --forzar` durante el papel): siempre con límite
+        "disponible_hoy_real": max(0, B.limite_del_dia(*_bank_del_dia(False)[:2]) - R.apostado_hoy_pendiente()),
         "resultado_apuestas_mes": R.resultado_papel_mes("sistema") if papel else R.resultado_apuestas_mes(),
         "base_mes": R.base_mes_papel("sistema") if papel else R.base_mes(),
         "en_pausa": pausa,
@@ -600,7 +609,7 @@ def cmd_bank(a) -> None:
         # categorías nuevas (en papel hasta el 26-nov-2026)
         "categorias_dinero_real": sorted(B.CATEGORIAS_DINERO_REAL),
         "usadas_hoy": {c: hoy.get(c, 0) for c in V.CATEGORIAS_REGISTRO},
-        "max_por_dia": V.MAX_POR_DIA,
+        "max_por_dia": None if papel and not B.MAXIMOS_EN_PAPEL else V.MAX_POR_DIA,
         "sencilla_fuerte_ganar": {"alta": B.monto(actual, B.REGLAS.fuerte_ganar_alta),
                                   "media": B.monto(actual, B.REGLAS.fuerte_ganar_media)},
         "monto_combinada": {"alta": B.monto(actual, B.REGLAS.combinada_alta),

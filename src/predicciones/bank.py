@@ -34,6 +34,12 @@ MENSAJE_PAPEL = "Prueba en papel hasta 26-nov-2026: no apostar dinero"
 # categorías que pueden recomendarse con dinero real (las demás esperan a que Salva
 # las apruebe al revisar la prueba en papel)
 CATEGORIAS_DINERO_REAL = {"valor"}
+# Salva (28-oct-2026): en la prueba en papel no hay límite del día; cada apuesta con su monto
+# normal, para tener datos con cantidades. Con dinero real el límite sigue.
+LIMITE_EN_PAPEL = False
+# Salva (28-oct-2026): en papel tampoco hay máximo por día de sencillas fuertes ni de combinadas.
+MAXIMOS_EN_PAPEL = False
+SIN_LIMITE = 1e12  # "disponible" cuando no hay límite
 MENSAJE_CATEGORIA_PENDIENTE = "categoría pendiente de aprobación tras la prueba en papel"
 
 
