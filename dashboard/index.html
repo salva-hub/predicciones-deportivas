@@ -776,8 +776,13 @@ mostrarSeccion();
   let saldoRes = saldo, puntosRes = puntos;
   // movimientos del bank del Resumen con su día de Sonora, para la variación del periodo
   // (papel: `fecha` = día en que se evaluó, el único día que trae apuestas_papel.json; real: día de liquidación)
-  // el pick del modelo es solo medición: no mueve el bank en papel (solo sale en su fila de categoría)
-  const papelBank = papelTodo.filter(x => x.categoria !== "pick_modelo");
+  // prueba en papel: tres banks separados (sistema, elección de Salva, pick del modelo), cada uno desde el bank inicial.
+  // La gráfica y la variación del periodo son del bank del sistema; los otros dos van en cifras debajo.
+  const SISTEMA = ["valor", "sencilla_fuerte", "combinada"];
+  const papelBank = papelTodo.filter(x => SISTEMA.includes(x.categoria || "valor"));
+  const movNetoTotal = (bank.movimientos || []).reduce((t, m) => t + (m.tipo === "deposito" ? m.monto : -m.monto), 0);
+  const bankPapelDe = cat => bank.bank_inicial + movNetoTotal + papelTodo
+    .filter(x => x.categoria === cat && ["ganada", "perdida", "devuelta"].includes(x.estado)).reduce((t, x) => t + (x.ganancia || 0), 0);
   const evBank = (bank.movimientos || []).map(m => ({f: fechaSonora(m.fecha), d: m.tipo === "deposito" ? m.monto : -m.monto, mov: true}));
   if (EN_PAPEL) { for (const x of papelBank) if (["ganada", "perdida", "devuelta"].includes(x.estado)) evBank.push({f: x.fecha || fechaSonora(x.orden), d: x.ganancia || 0}); }
   else { for (const a of apuestasTodas) if (a.liquidada) evBank.push({f: fechaSonora(a.liquidada), d: a.ganancia || 0}); }
@@ -793,15 +798,16 @@ mostrarSeccion();
   {
     const dif = Math.round(saldoRes - bank.bank_inicial);
     const movNeto = (bank.movimientos || []).reduce((t, m) => t + (m.tipo === "deposito" ? m.monto : -m.monto), 0);
-    $("bank-titulo").textContent = EN_PAPEL ? "Evolución del bank en papel" : "Evolución del bank";
+    $("bank-titulo").textContent = EN_PAPEL ? "Evolución del bank del sistema en papel" : "Evolución del bank";
     $("bank-nota").textContent = EN_PAPEL ? "Dinero simulado · bank y gráfica sin filtros" : "Bank y gráfica sin filtros";
-    $("bank-ley").textContent = EN_PAPEL ? "Bank en papel" : "Bank";
+    $("bank-ley").textContent = EN_PAPEL ? "Bank del sistema en papel" : "Bank";
     $("bank-ley-inicial").textContent = `Bank inicial ${MXN(bank.bank_inicial)}`;
     $("bank-cifras").innerHTML = `<span>Bank inicial <strong class="num">${esc(MXN(bank.bank_inicial))}</strong></span>
       <span class="flecha-b" aria-hidden="true">→</span>
-      <span>Bank actual${EN_PAPEL ? " en papel" : ""} <strong class="num">${esc(MXN(saldoRes))}</strong></span>
+      <span>Bank actual${EN_PAPEL ? " del sistema en papel" : ""} <strong class="num">${esc(MXN(saldoRes))}</strong></span>
       <span class="dif num ${clase(dif)}">${esc(signo(dif))}</span>${movNeto ? `
-      <span class="sub">(incluye depósitos y retiros: ${esc(signo(movNeto))})</span>` : ""}`;
+      <span class="sub">(incluye depósitos y retiros: ${esc(signo(movNeto))})</span>` : ""}${EN_PAPEL ? `
+      <span class="sub" style="flex-basis:100%">Otros banks en papel (cada uno empieza en ${esc(MXN(bank.bank_inicial))}): elecciones de Salva <strong class="num" style="font-size:15px">${esc(MXN(bankPapelDe("eleccion_salva")))}</strong> · pick del modelo <strong class="num" style="font-size:15px">${esc(MXN(bankPapelDe("pick_modelo")))}</strong></span>` : ""}`;
   }
 
   // ---------------- hoy (día de Sonora): límite del día como `cli bank`

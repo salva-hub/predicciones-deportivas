@@ -858,7 +858,7 @@ def test_eleccion_salva_registro_aparte(cli, capsys):
                                    "cuota": 2.66, "monto": 400, "creado": R.ahora().isoformat(), "estado": "pendiente"}])
     assert [x["clave"] for x in R.guardar_parlays_papel(hoy, [])] == ["salva"]  # no se borra
     assert R.categorias_hoy(reemplazar_parlays_de=hoy) == {"eleccion_salva": 1}  # no toca combinada ni fuerte
-    assert R.apostado_papel_hoy(reemplazar_parlays_de=hoy) == 400
+    assert R.apostado_papel_hoy(reemplazar_parlays_de=hoy) == 0  # tiene su propio bank: no usa el límite del sistema
     res = R.resumen_papel()
     assert res["eleccion_salva"]["apuestas"] == 1 and res["combinada"]["apuestas"] == 0
     assert res["total"]["apuestas"] == 0  # el total es solo de las 3 categorías del sistema
@@ -1053,3 +1053,25 @@ def test_pick_modelo_usa_todas_las_cuotas_conocidas(papel, capsys):
     pk = _salida(capsys)["pick_modelo"]
     assert (pk["mercado"], pk["cuota_americana"]) == ("goles", "+100")
     assert [x["categoria"] for x in R.buscar_pronostico(a["id"])["apuestas_papel"]].count("pick_modelo") == 1
+
+
+def test_banks_en_papel_separados(papel, capsys):
+    cli = papel
+    R = cli.R
+    hoy = R.ahora().date()
+    ahora = R.ahora().isoformat()
+    R.guardar_parlays_papel(hoy, [
+        {"clave": "salva", "tipo": "parlay", "categoria": "eleccion_salva", "patas": [], "cuota": 4.0,
+         "monto": 300, "creado": ahora, "estado": "ganada", "ganancia": 900},
+        {"clave": "pick", "tipo": "parlay", "categoria": "pick_modelo", "patas": [], "cuota": 2.0,
+         "monto": 300, "creado": ahora, "estado": "perdida", "ganancia": -300},
+        {"clave": "sis", "tipo": "parlay", "categoria": "combinada", "patas": [], "cuota": 3.0,
+         "monto": 500, "creado": ahora, "estado": "ganada", "ganancia": 1000}])
+    assert R.bank_papel("sistema") == 11000
+    assert R.bank_papel("eleccion_salva") == 10900
+    assert R.bank_papel("pick_modelo") == 9700
+    assert R.ganancia_papel_hoy("sistema") == 1000
+    assert not R.en_pausa_papel()
+    cli.main(["bank"])
+    b = _salida(capsys)
+    assert b["bank_actual"] == 11000 and b["banks_papel"]["pick_modelo"] == 9700

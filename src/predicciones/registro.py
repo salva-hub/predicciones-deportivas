@@ -562,22 +562,73 @@ def apostado_hoy_pendiente() -> float:
 def apostado_papel_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -> float:
     """Montos en papel puestos hoy (prueba sin dinero): sencillas y parlays, sin importar
     el día del partido. No cuenta las sencillas del pronóstico `excluir` ni los parlays
-    pendientes del día `reemplazar_parlays_de` (se van a reemplazar). El pick del modelo no cuenta:
-    es solo medición y nunca le quita lugar a las demás apuestas."""
+    pendientes del día `reemplazar_parlays_de` (se van a reemplazar). Solo cuenta el bank del
+    sistema: el pick del modelo y la elección de Salva tienen su propio bank en papel y no usan este límite."""
     hoy = ahora().date()
     total = sum(
         x.get("monto", 0.0) for p in pronosticos() if p.get("id") != excluir
         for x in p.get("apuestas_papel", [])
-        if x.get("categoria") != PICK_MODELO and _fecha_sonora(x["evaluado"]).date() == hoy
+        if x.get("categoria") not in APARTE and _fecha_sonora(x["evaluado"]).date() == hoy
     )
     omitir = f"parlays-{reemplazar_parlays_de:%Y%m%d}" if reemplazar_parlays_de else None
     for doc in archivos_parlays_papel():
         for x in doc.get("parlays", []):
-            if (doc.get("id") == omitir and _se_reemplaza(x)) or x.get("categoria") == PICK_MODELO:
+            if (doc.get("id") == omitir and _se_reemplaza(x)) or x.get("categoria") in APARTE:
                 continue
             if _fecha_sonora(x["creado"]).date() == hoy:
                 total += x.get("monto", 0.0)
     return total
+
+
+# Banks en papel (solo durante la prueba): cada uno empieza con `bank_inicial` y suma solo lo suyo.
+BANKS_PAPEL = {
+    "sistema": ("valor", "sencilla_fuerte", "combinada"),
+    ELECCION_SALVA: (ELECCION_SALVA,),
+    PICK_MODELO: (PICK_MODELO,),
+}
+
+
+def _papel_liquidado(banco: str) -> list[dict]:
+    cats = BANKS_PAPEL[banco]
+    return [x for x in apuestas_papel_todas() if x["categoria"] in cats and x.get("estado") in LIQUIDADAS]
+
+
+def _fecha_papel(x: dict) -> datetime:
+    return _fecha_sonora(x.get("evaluado") or x.get("creado") or x["fecha"])
+
+
+def bank_papel(banco: str = "sistema", hasta: datetime | None = None) -> float:
+    """Bank en papel de `banco`: inicial + depósitos − retiros + ganancias en papel de sus categorías."""
+    cfg = bank_config()
+    total = float(cfg["bank_inicial"])
+    for m in cfg["movimientos"]:
+        if hasta and _fecha_sonora(m["fecha"]) >= hasta:
+            continue
+        total += m["monto"] if m["tipo"] == "deposito" else -m["monto"]
+    for x in _papel_liquidado(banco):
+        if hasta and _fecha_papel(x) >= hasta:
+            continue
+        total += x.get("ganancia", 0.0)
+    return round(total, 2)
+
+
+def ganancia_papel_hoy(banco: str = "sistema") -> float:
+    hoy = ahora().date()
+    return round(sum(x.get("ganancia", 0.0) for x in _papel_liquidado(banco) if _fecha_papel(x).date() == hoy), 2)
+
+
+def resultado_papel_mes(banco: str = "sistema") -> float:
+    inicio = _inicio_mes()
+    return round(sum(x.get("ganancia", 0.0) for x in _papel_liquidado(banco) if _fecha_papel(x) >= inicio), 2)
+
+
+def base_mes_papel(banco: str = "sistema") -> float:
+    return round(bank_papel(banco, hasta=_inicio_mes()) + movimientos_mes(), 2)
+
+
+def en_pausa_papel() -> bool:
+    """Pausa del 50% del bank del sistema en papel (los otros dos bancos no tienen pausa)."""
+    return B.en_pausa(resultado_papel_mes("sistema"), base_mes_papel("sistema"))
 
 
 def _inicio_mes() -> datetime:

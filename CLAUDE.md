@@ -290,9 +290,14 @@ Con dinero real, mientras sencilla fuerte no esté en `CATEGORIAS_DINERO_REAL`, 
 Una apuesta cuyo monto bajó por el límite del día queda marcada `recortada: true` (el resumen cuenta cuántas por categoría).
 Un parlay idéntico a uno de valor no se repite como combinada. Los máximos cuentan por día de Sonora en que se evalúa.
 
+**Tres banks en papel (solo hasta el 26-nov-2026; después hay un solo bank con dinero real):** cada uno empieza con
+10,000 MXN y suma solo lo suyo: **sistema** (valor, sencilla fuerte, combinada), **elección de Salva** y **pick del
+modelo**. Los montos (5%, 3%…), el límite del día y la pausa del 50% usan solo el bank del sistema en papel
+(`bank_papel("sistema")`); la elección de Salva y el pick no usan ni recortan ese límite. `cli bank` muestra `banks_papel`.
+
 **Aparte: Elección de Salva** (`eleccion_salva`): apuestas que Salva elige por su cuenta (en papel o reales,
 `apostar ... --categoria eleccion_salva`). No es una categoría del sistema: va en su propia fila del dashboard (después del total, que es solo de las 3 categorías),
-no ocupa el máximo por día de sencilla fuerte ni de combinada, y su monto **sí** cuenta para el límite del día.
+no ocupa el máximo por día de sencilla fuerte ni de combinada, y su monto **no** cuenta para el límite del día (tiene su propio bank en papel).
 `parlays` nunca la reemplaza al rearmar los parlays en papel del día.
 
 **Aparte: Pick del modelo** (`pick_modelo`, aprobado por Salva el 27-oct-2026; solo en papel, nunca con dinero real):
