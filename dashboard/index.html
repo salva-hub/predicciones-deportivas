@@ -1110,18 +1110,22 @@ mostrarSeccion();
   const hayModeloReal = apCmp.some(x => x.quien === "modelo" && x.origen === "real");
   const QUIENES = [["modelo", "Modelo"], ["pick", "Pick del modelo"], ["papel", "Tú (papel)"], ["real", "Tú (real)"]];
 
+  // bank de cada columna, sin filtros: sistema en papel, pick y elección de Salva en papel (cada uno desde el bank inicial) y bank real
+  const bankCmp = {modelo: saldoRes, pick: bankPapelDe("pick_modelo"), papel: bankPapelDe("eleccion_salva"), real: saldo};
   function tablaCmp(grupos) {
     const r = Object.fromEntries(QUIENES.map(([k]) => [k, resumen(grupos[k])]));
-    const fila = (titulo, f, extra = "") => `<tr><th scope="row">${titulo}</th>${QUIENES.map(([k]) => { const [t, c] = f(r[k], grupos[k]); return `<td class="num ${extra} ${c || ""}">${esc(t)}</td>`; }).join("")}</tr>`;
+    const fila = (titulo, f, extra = "") => `<tr><th scope="row">${titulo}</th>${QUIENES.map(([k]) => { const [t, c] = f(r[k], grupos[k], k); return `<td class="num ${extra} ${c || ""}">${esc(t)}</td>`; }).join("")}</tr>`;
     const racha = g => { const {n, tipo} = rachaActiva(g); return n ? [`${n} ${tipo === "ganada" ? "ganada" : "perdida"}${n === 1 ? "" : "s"}`, tipo === "ganada" ? "pos" : "neg"] : ["—"]; };
     return `<table class="cmp-tbl"><thead><tr><th scope="col"><span class="oculto">Medida</span></th>
         <th scope="col" class="modelo">Modelo</th><th scope="col" class="modelo">Pick del modelo</th><th scope="col" class="tu">Tú (papel)</th><th scope="col" class="tu">Tú (real)</th></tr></thead><tbody>
+      ${fila("Bank inicial", (x, g, k) => [MXN(bank.bank_inicial)])}
+      ${fila("Bank actual", (x, g, k) => { const b = bankCmp[k]; return [MXN(b), clase(b - bank.bank_inicial)]; })}
       ${fila("Apuestas", x => [String(x.n)])}
       ${fila("Acierto", x => [PCT(x.acierto)])}
       ${fila("Ganancia / Pérdida", x => x.liq ? [signo(Math.round(x.gan)), clase(x.gan)] : ["—"])}
       ${fila("Rendimiento", x => [PCTs(x.roi), clase(x.roi)])}
       ${fila("Racha", (x, g) => racha(g), "racha")}
-      ${fila("Pendientes", x => [String(x.pendientes)])}
+      ${fila("Pendientes", x => [String(x.pendientes)], "racha")}
     </tbody></table>`;
   }
 
@@ -1337,7 +1341,7 @@ mostrarSeccion();
       const enPeriodo = apCmp.filter(x => pasa(x, rg));
       const grupos = Object.fromEntries(QUIENES.map(([k]) => [k, enPeriodo.filter(x => x.quien === k)]));
       $("cmp-tabla").innerHTML = tablaCmp(grupos);
-      $("cmp-nota").textContent = `Modelo: las 3 formas del sistema (valor, sencilla fuerte y combinada)${hayModeloReal ? ", en papel y con dinero real" : " en papel"}. Pick del modelo: su mejor selección por partido, aunque no tenga valor (solo papel; no está en la gráfica). Tú: tus elecciones, en papel y con dinero real por separado. Acierto y rendimiento cuentan solo las calificadas.`;
+      $("cmp-nota").textContent = `Modelo: las 3 formas del sistema (valor, sencilla fuerte y combinada)${hayModeloReal ? ", en papel y con dinero real" : " en papel"}. Pick del modelo: su mejor selección por partido, aunque no tenga valor (solo papel; no está en la gráfica). Tú: tus elecciones, en papel y con dinero real por separado. Acierto y rendimiento cuentan solo las calificadas. Los bancos van sin filtros.`;
       datosGrafCmp = seriesCmp(grupos);
       $("cmp-partidos").innerHTML = partidosCmp(enPeriodo);
     }
