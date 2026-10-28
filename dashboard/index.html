@@ -233,11 +233,14 @@
   .cmp-tbl { width:100%; border-collapse:collapse; font-size:14px; table-layout:fixed; }
   .cmp-tbl th, .cmp-tbl td { padding:10px 8px; border-bottom:1px solid var(--borde-suave); text-align:right; }
   .cmp-tbl thead th { font-size:13px; font-weight:600; color:var(--suave); vertical-align:bottom; border-bottom-color:var(--borde); }
-  .cmp-tbl th:first-child { text-align:left; padding-left:0; width:34%; }
+  .cmp-tbl th:first-child { text-align:left; padding-left:0; width:26%; }
+  .cmp-tbl thead th { line-height:1.25; overflow-wrap:break-word; hyphens:auto; }
   .cmp-tbl td:last-child, .cmp-tbl th:last-child { padding-right:0; }
   .cmp-tbl tbody th { font-weight:500; color:var(--medio); }
   .cmp-tbl td { font-weight:600; white-space:nowrap; }
   .cmp-tbl tr:last-child > * { border-bottom:0; }
+  .cmp-tbl thead th:not(:first-child), .cmp-tbl td { text-align:center; }
+  .cmp-tbl td:last-child, .cmp-tbl th:last-child { padding-left:8px; padding-right:8px; }
   .cmp-tbl .modelo { color:var(--modelo-texto); } .cmp-tbl .tu { color:var(--tu-texto); }
   .ley-linea.modelo { background:var(--modelo); } .ley-linea.tu { background:var(--tu); }
   .cmp-bloque:not(.tu) .cmp-eti { color:var(--modelo-texto); }
@@ -245,7 +248,7 @@
   .g-serie { fill:none; stroke-width:2.5; stroke-linejoin:round; stroke-linecap:round; }
   .cmp-fila { display:grid; grid-template-columns:1fr; gap:16px; align-items:stretch; }
   .cmp-fila .graf { flex:1 1 auto; }
-  @media (min-width: 1000px) { .cmp-fila { grid-template-columns:minmax(0,5fr) minmax(0,7fr); } }
+  @media (min-width: 1000px) { .cmp-fila { grid-template-columns:minmax(0,7fr) minmax(0,5fr); } }
   .cmp-partidos { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(360px,100%), 1fr)); gap:16px; align-items:start; }
   .cmp-partido { padding:16px 20px; display:flex; flex-direction:column; gap:10px; min-width:0; }
   .cmp-cab { display:flex; justify-content:space-between; align-items:baseline; gap:2px 12px; flex-wrap:wrap; }
@@ -314,9 +317,18 @@
     details.card { padding:0 16px; }
     details.card > .caja-tabla { margin:0 -16px; }
     .cmp-tbl { font-size:13px; }
-    .cmp-tbl th, .cmp-tbl td { padding:9px 4px; }
-    .cmp-tbl thead th { font-size:12px; }
+    .cmp-tbl th, .cmp-tbl td { padding:9px 3px; }
+    .cmp-tbl th:first-child { width:26%; overflow-wrap:break-word; }
+    .cmp-tbl td { font-size:12px; white-space:normal; }
+    .cmp-tbl td:last-child, .cmp-tbl th:last-child { padding-left:3px; padding-right:3px; }
+    .cmp-tbl tbody th { font-size:12px; }
+    .cmp-tbl thead th { font-size:11px; }
     .cmp-partido { padding:14px 16px; }
+  }
+  @media (max-width: 380px) {
+    .cmp-tbl td, .cmp-tbl tbody th { font-size:10.5px; }
+    .cmp-tbl thead th { font-size:10px; }
+    .cmp-tbl th:first-child { width:28%; }
   }
   @media (min-width: 720px) {
     .top-izq { display:contents; }
@@ -1100,18 +1112,22 @@ mostrarSeccion();
   const hayModeloReal = apCmp.some(x => x.quien === "modelo" && x.origen === "real");
   const QUIENES = [["modelo", "Modelo"], ["pick", "Pick del modelo"], ["papel", "Tú (papel)"], ["real", "Tú (real)"]];
 
+  // bank de cada columna, sin filtros: sistema en papel, pick y elección de Salva en papel (cada uno desde el bank inicial) y bank real
+  const bankCmp = {modelo: saldoRes, pick: bankPapelDe("pick_modelo"), papel: bankPapelDe("eleccion_salva"), real: saldo};
   function tablaCmp(grupos) {
     const r = Object.fromEntries(QUIENES.map(([k]) => [k, resumen(grupos[k])]));
-    const fila = (titulo, f) => `<tr><th scope="row">${titulo}</th>${QUIENES.map(([k]) => { const [t, c] = f(r[k], grupos[k]); return `<td class="num ${c || ""}">${esc(t)}</td>`; }).join("")}</tr>`;
+    const fila = (titulo, f, extra = "") => `<tr><th scope="row">${titulo}</th>${QUIENES.map(([k]) => { const [t, c] = f(r[k], grupos[k], k); return `<td class="num ${extra} ${c || ""}">${esc(t)}</td>`; }).join("")}</tr>`;
     const racha = g => { const {n, tipo} = rachaActiva(g); return n ? [`${n} ${tipo === "ganada" ? "ganada" : "perdida"}${n === 1 ? "" : "s"}`, tipo === "ganada" ? "pos" : "neg"] : ["—"]; };
     return `<table class="cmp-tbl"><thead><tr><th scope="col"><span class="oculto">Medida</span></th>
         <th scope="col" class="modelo">Modelo</th><th scope="col" class="modelo">Pick del modelo</th><th scope="col" class="tu">Tú (papel)</th><th scope="col" class="tu">Tú (real)</th></tr></thead><tbody>
-      ${fila("Apuestas", x => [String(x.n)])}
+      ${fila("Bank inicial", (x, g, k) => [MXN(bank.bank_inicial)])}
+      ${fila("Bank actual", (x, g, k) => { const b = bankCmp[k]; return [MXN(b), clase(b - bank.bank_inicial)]; })}
+      ${fila("Apuestas", x => [String(x.n)], "centro")}
       ${fila("Acierto", x => [PCT(x.acierto)])}
-      ${fila("Ganancia/Pérdida", x => x.liq ? [signo(Math.round(x.gan)), clase(x.gan)] : ["—"])}
+      ${fila("Ganancia / Pérdida", x => x.liq ? [signo(Math.round(x.gan)), clase(x.gan)] : ["—"])}
       ${fila("Rendimiento", x => [PCTs(x.roi), clase(x.roi)])}
-      ${fila("Racha", (x, g) => racha(g))}
-      ${fila("Pendientes", x => [String(x.pendientes)])}
+      ${fila("Racha", (x, g) => racha(g), "racha")}
+      ${fila("Pendientes", x => [String(x.pendientes)], "centro")}
     </tbody></table>`;
   }
 
@@ -1327,7 +1343,7 @@ mostrarSeccion();
       const enPeriodo = apCmp.filter(x => pasa(x, rg));
       const grupos = Object.fromEntries(QUIENES.map(([k]) => [k, enPeriodo.filter(x => x.quien === k)]));
       $("cmp-tabla").innerHTML = tablaCmp(grupos);
-      $("cmp-nota").textContent = `Modelo: las 3 formas del sistema (valor, sencilla fuerte y combinada)${hayModeloReal ? ", en papel y con dinero real" : " en papel"}. Pick del modelo: su mejor selección por partido, aunque no tenga valor (solo papel; no está en la gráfica). Tú: tus elecciones, en papel y con dinero real por separado. Acierto y rendimiento cuentan solo las calificadas.`;
+      $("cmp-nota").textContent = `Modelo: las 3 formas del sistema (valor, sencilla fuerte y combinada)${hayModeloReal ? ", en papel y con dinero real" : " en papel"}. Pick del modelo: su mejor selección por partido, aunque no tenga valor (solo papel; no está en la gráfica). Tú: tus elecciones, en papel y con dinero real por separado. Acierto y rendimiento cuentan solo las calificadas. Los bancos van sin filtros.`;
       datosGrafCmp = seriesCmp(grupos);
       $("cmp-partidos").innerHTML = partidosCmp(enPeriodo);
     }
