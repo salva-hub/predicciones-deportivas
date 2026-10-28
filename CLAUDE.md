@@ -293,7 +293,7 @@ Un parlay idéntico a uno de valor no se repite como combinada. Los máximos cue
 **Tres banks en papel (solo hasta el 26-nov-2026; después hay un solo bank con dinero real):** cada uno empieza con
 10,000 MXN y suma solo lo suyo: **sistema** (valor, sencilla fuerte, combinada), **elección de Salva** y **pick del
 modelo**. Los montos (5%, 3%…), el límite del día y la pausa del 50% usan solo el bank del sistema en papel
-(`bank_papel("sistema")`); la elección de Salva y el pick no usan ni recortan ese límite. `cli bank` muestra `banks_papel`.
+(`bank_papel("sistema")`); la elección de Salva y el pick no usan ni recortan ese límite. `cli bank` muestra `banks_papel` (y `bank_real`); los depósitos y retiros se suman a los tres. La ganancia "de hoy" y el corte de mes en papel usan el día en que se evaluó la apuesta.
 
 **Aparte: Elección de Salva** (`eleccion_salva`): apuestas que Salva elige por su cuenta (en papel o reales,
 `apostar ... --categoria eleccion_salva`). No es una categoría del sistema: va en su propia fila del dashboard (después del total, que es solo de las 3 categorías),
@@ -340,7 +340,7 @@ Temporadas 2022/23 a 2025/26, apostando contra la cuota de apertura de Pinnacle 
   máximo es el doble del objetivo (con 10,000 y confianza alta: 1,000 a −200).
 - Combinada: 5% del bank si todas las patas son de confianza alta; 3% si alguna es media.
 - Límite del día: 10% del bank; si ese día ya hay ganancia cobrada, 10% más la mitad de esa ganancia, hasta 20%.
-  Cubre las tres categorías juntas (reales o en papel). Si los montos pasan del disponible, se **recortan en orden**:
+  Cubre las tres categorías del sistema juntas (en la prueba en papel, solo las de papel: lo real y las otras dos no lo usan). Si los montos pasan del disponible, se **recortan en orden**:
   en `evaluar` sencillas fuertes y de valor juntas, primero la de mayor valor esperado; en `parlays` primero los de valor y luego las combinadas. Cada uno
   toma lo que queda; cuando ya no queda nada, esa apuesta no se hace.
 - Pausa: si las apuestas del mes pierden 50% de la base del mes (bank al inicio del mes + depósitos − retiros del mes),

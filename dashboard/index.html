@@ -814,10 +814,13 @@ mostrarSeccion();
   const LIQ = ["ganada", "perdida", "devuelta"];
   const ganHoy = apuestasTodas.filter(a => LIQ.includes(a.estado) && fechaSonora(a.liquidada || a.creado) === HOY)
     .reduce((s, a) => s + (a.ganancia || 0), 0);
-  const limite = Math.min(saldo * 0.10 + Math.max(0, ganHoy) * 0.5, saldo * 0.20);
-  const apostadoHoy = apuestasTodas.filter(a => fechaSonora(a.creado) === HOY).reduce((s, a) => s + (a.monto || 0), 0);
-  // el pick del modelo es solo medición: no usa el límite del día (como `cli bank`)
-  const papelHoy = EN_PAPEL ? papelTodo.filter(x => x.fecha === HOY && x.categoria !== "pick_modelo").reduce((s, x) => s + (x.monto || 0), 0) : 0;
+  // en papel: bank y ganancia de hoy del sistema en papel, sin dinero real (como `cli bank`)
+  const ganPapelHoy = papelBank.filter(x => LIQ.includes(x.estado) && x.fecha === HOY).reduce((s, x) => s + (x.ganancia || 0), 0);
+  const baseLim = EN_PAPEL ? saldoRes : saldo, ganLim = EN_PAPEL ? ganPapelHoy : ganHoy;
+  const limite = Math.min(baseLim * 0.10 + Math.max(0, ganLim) * 0.5, baseLim * 0.20);
+  const apostadoHoy = EN_PAPEL ? 0 : apuestasTodas.filter(a => fechaSonora(a.creado) === HOY).reduce((s, a) => s + (a.monto || 0), 0);
+  // pick del modelo y elección de Salva tienen su propio bank: no usan el límite del día
+  const papelHoy = EN_PAPEL ? papelBank.filter(x => x.fecha === HOY).reduce((s, x) => s + (x.monto || 0), 0) : 0;
   const disponible = Math.max(0, limite - apostadoHoy - papelHoy);
   const usadas = {};
   for (const x of papelTodo) if (x.fecha === HOY) usadas[x.categoria || "valor"] = (usadas[x.categoria || "valor"] || 0) + 1;
@@ -843,7 +846,7 @@ mostrarSeccion();
       <div class="fila"><span>Revisar a mano</span><span class="num ${revisar ? "neg" : ""}">${revisar}</span></div>
     </div>`;
 
-  // ---------------- mes actual (para la pausa del 50%), con dinero real
+  // ---------------- mes actual con dinero real (la pausa del 50% en papel se calcula con el bank del sistema en papel, en `cli bank`)
   const inicioMes = HOY.slice(0, 7) + "-01";
   const fLiq = a => fechaSonora(a.liquidada || a.creado);
   let bankInicioMes = bank.bank_inicial, movMes = 0;

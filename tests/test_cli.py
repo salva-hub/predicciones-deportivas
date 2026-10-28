@@ -1075,3 +1075,16 @@ def test_banks_en_papel_separados(papel, capsys):
     cli.main(["bank"])
     b = _salida(capsys)
     assert b["bank_actual"] == 11000 and b["banks_papel"]["pick_modelo"] == 9700
+
+
+def test_pausa_papel_y_apuesta_sin_categoria(papel, capsys):
+    cli = papel
+    R = cli.R
+    ahora = R.ahora().isoformat()
+    R.guardar_parlays_papel(R.ahora().date(), [
+        {"clave": "v", "tipo": "parlay", "patas": [], "cuota": 2.0, "monto": 6000, "creado": ahora,
+         "estado": "perdida", "ganancia": -6000}])  # sin categoria = valor
+    assert R.bank_papel("sistema") == 4000
+    assert R.en_pausa_papel()
+    cli.main(["bank"])
+    assert _salida(capsys)["en_pausa"] is True
