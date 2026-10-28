@@ -275,13 +275,20 @@ def _parsear_cuota(texto: str) -> tuple[str, str, float]:
     return mercado.strip(), seleccion.strip(), C.americana_a_decimal(v) if abs(v) >= 100 else v
 
 
+def _bank_del_dia(papel: bool) -> tuple[float, float, float, bool]:
+    """(bank, ganancia cobrada hoy, apostado real pendiente hoy, pausa) con que se calculan montos y límite.
+    En la prueba en papel manda el bank del sistema en papel (sus 3 categorías); el dinero real no cuenta."""
+    if papel:
+        return R.bank_papel("sistema"), R.ganancia_papel_hoy("sistema"), 0.0, R.en_pausa_papel()
+    return R.bank_actual(), R.ganancia_cobrada_hoy(), R.apostado_hoy_pendiente(), R.en_pausa()
+
+
 def cmd_evaluar(a) -> None:
     p = R.buscar_pronostico(a.id)
     if not p:
         sys.exit(f"No existe el pronóstico {a.id}")
-    bank_hoy = R.bank_actual()
-    pausa = R.en_pausa()
     papel = B.en_prueba_papel(R.ahora().date())
+    bank_hoy, gan_hoy, real_hoy, pausa = _bank_del_dia(papel)
     if pausa:
         print(MENSAJE_PAUSA, file=sys.stderr)
     elif papel:
@@ -315,12 +322,13 @@ def cmd_evaluar(a) -> None:
     nuevo_pick = papel and not pausa and not iniciado and not pick_fijo and pick is not None
     if not nuevo_pick:
         conservar += picks_previos
-    disponible = max(0.0, B.limite_del_dia(bank_hoy, R.ganancia_cobrada_hoy()) - R.apostado_hoy_pendiente())
+    disponible = max(0.0, B.limite_del_dia(bank_hoy, gan_hoy) - real_hoy)
     if papel:
-        # en papel, el límite del día también descuenta lo "apostado" en papel hoy
+        # en papel, el límite del día descuenta lo "apostado" en papel hoy por el sistema
+        # (la elección de Salva y el pick del modelo tienen su propio bank y no usan el límite)
         hoy = R.ahora().date()
         propio = sum(x.get("monto", 0.0) for x in conservar
-                     if x.get("categoria") != V.PICK_MODELO and R._fecha_sonora(x["evaluado"]).date() == hoy)
+                     if x.get("categoria") not in R.APARTE and R._fecha_sonora(x["evaluado"]).date() == hoy)
         disponible = max(0.0, disponible - R.apostado_papel_hoy(excluir=p["id"]) - propio)
     disponible_inicial = disponible
     # máximo por día de cada categoría: se cuenta lo ya puesto hoy (en papel o real)
@@ -475,16 +483,16 @@ def _candidatas_del_dia(dia: date, campo: str) -> tuple[list, dict]:
 
 
 def cmd_parlays(a) -> None:
-    if R.en_pausa():
+    papel = B.en_prueba_papel(R.ahora().date())
+    bank_hoy, gan_hoy, real_hoy, pausa = _bank_del_dia(papel)
+    if pausa:
         _imprimir(MENSAJE_PAUSA)
         return
     dia = _fecha(a.fecha)
     cand_valor, ids = _candidatas_del_dia(dia, "sirve_para_parlay")
     cand_comb, ids_comb = _candidatas_del_dia(dia, "sirve_para_combinada")
     ids.update(ids_comb)
-    bank_hoy = R.bank_actual()
-    papel = B.en_prueba_papel(R.ahora().date())
-    disponible = max(0.0, B.limite_del_dia(bank_hoy, R.ganancia_cobrada_hoy()) - R.apostado_hoy_pendiente())
+    disponible = max(0.0, B.limite_del_dia(bank_hoy, gan_hoy) - real_hoy)
     if papel:
         # todo lo puesto hoy en papel, salvo los parlays pendientes de este día (se reemplazan)
         disponible = max(0.0, disponible - R.apostado_papel_hoy(reemplazar_parlays_de=dia))
@@ -565,12 +573,13 @@ def cmd_movimiento(a) -> None:
 
 
 def cmd_bank(a) -> None:
-    actual = R.bank_actual()
-    inicio_mes = R.bank_inicio_mes()
-    gan = R.ganancia_cobrada_hoy()
+    papel = B.en_prueba_papel(R.ahora().date())
+    real = R.bank_actual()
+    # en papel mandan los montos y el límite del bank del sistema en papel
+    actual, gan, real_hoy, pausa = _bank_del_dia(papel)
+    inicio_mes = R.bank_papel("sistema", hasta=R._inicio_mes()) if papel else R.bank_inicio_mes()
     limite = B.limite_del_dia(actual, gan)
     pendientes = [x for x in R.apuestas() if x.get("estado") == "pendiente"]
-    papel = B.en_prueba_papel(R.ahora().date())
     # en la prueba en papel, el disponible descuenta también lo "apostado" en papel hoy
     en_papel = R.apostado_papel_hoy() if papel else 0.0
     hoy = R.categorias_hoy()
@@ -579,9 +588,11 @@ def cmd_bank(a) -> None:
         "ganancia_cobrada_hoy": gan, "limite_del_dia": limite,
         "apostado_hoy": R.apostado_hoy_pendiente(),
         "prueba_papel": papel, "apostado_papel_hoy": en_papel,
-        "disponible_hoy": max(0, limite - R.apostado_hoy_pendiente() - en_papel),
-        "resultado_apuestas_mes": R.resultado_apuestas_mes(), "base_mes": R.base_mes(),
-        "en_pausa": R.en_pausa(),
+        "disponible_hoy": max(0, limite - real_hoy - en_papel),
+        "resultado_apuestas_mes": R.resultado_papel_mes("sistema") if papel else R.resultado_apuestas_mes(),
+        "base_mes": R.base_mes_papel("sistema") if papel else R.base_mes(),
+        "en_pausa": pausa,
+        **({"banks_papel": {b: R.bank_papel(b) for b in R.BANKS_PAPEL}, "bank_real": real} if papel else {}),
         "apuestas_pendientes": len(pendientes),
         "monto_sencilla_max": B.monto(actual, B.REGLAS.sencilla_max),
         "monto_parlay_alta": B.monto(actual, B.REGLAS.parlay_alta),
