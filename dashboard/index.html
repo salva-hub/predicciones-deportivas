@@ -228,6 +228,37 @@
   }
   .pron-mini .pron-item .f2 .r { font-weight:400; }
 
+  /* filtros de partido por partido */
+  .fp { display:flex; flex-direction:column; gap:12px; margin-bottom:14px; }
+  .fp-fila1 { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .fp-abrir { display:none; }
+  .fp-panel { display:flex; flex-wrap:wrap; gap:12px 20px; align-items:flex-end; }
+  .fp-campo { display:flex; flex-direction:column; gap:4px; min-width:0; }
+  .fp-eti { font-size:12px; font-weight:600; color:var(--suave); }
+  .fp-chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .segf { border:0; background:transparent; font-size:14px; font-weight:500; color:var(--medio); padding:0 12px; height:36px; border-radius:8px; cursor:pointer; }
+  .segf[aria-pressed="true"] { background:var(--seg-on); color:var(--texto); box-shadow:0 1px 2px var(--sombra); }
+  .chipf { font:inherit; font-size:13px; font-weight:500; color:var(--medio); background:var(--card); border:1px solid var(--control); border-radius:999px; height:34px; padding:0 12px; cursor:pointer; }
+  .chipf[aria-pressed="true"] { background:var(--seg-on); color:var(--texto); border-color:var(--texto); }
+  .fp-resumen { display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--suave); margin-bottom:10px; }
+  .fp-limpiar, .fp-mas { font:inherit; font-size:13px; font-weight:600; color:var(--texto); background:transparent; border:0; text-decoration:underline; cursor:pointer; padding:6px 0; }
+  .fp-mas { display:block; margin:16px auto 0; font-size:14px; border:1px solid var(--control); border-radius:10px; text-decoration:none; padding:0 20px; height:40px; background:var(--card); }
+  .fp-activos { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .fp-activo { font:inherit; font-size:12px; font-weight:500; color:var(--texto); background:var(--seg-on); border:1px solid var(--control); border-radius:999px; height:30px; padding:0 10px; cursor:pointer; }
+  .fp .sel { height:36px; }
+  @media (max-width: 719px) {
+    .fp-abrir { display:inline-block; font:inherit; font-size:14px; font-weight:600; color:var(--texto); background:var(--card); border:1px solid var(--control); border-radius:10px; height:44px; padding:0 16px; flex:0 0 auto; }
+    .fp-fila1 .seg-grupo { flex:1 1 100%; }
+    .fp-abrir { flex:1 1 100%; }
+    .fp-panel { display:none; flex-direction:column; align-items:stretch; background:var(--card); border:1px solid var(--borde); border-radius:12px; padding:14px; gap:14px; }
+    .fp-panel.abierto { display:flex; }
+    .fp-panel .seg-grupo { width:100%; }
+    .fp-panel .segf { flex:1 1 0; padding:0 4px; }
+    .fp .sel { width:100%; height:44px; }
+    .chipf { height:40px; }
+    .fp-activo { height:34px; }
+  }
+
   /* modelo vs salva */
   .oculto { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
   .cmp-tbl { width:100%; border-collapse:collapse; font-size:14px; table-layout:fixed; }
@@ -452,8 +483,9 @@
     </section>
     </div>
     <section class="bloque" aria-label="Partido por partido">
-      <div class="titulo-fila"><h2>Partido por partido</h2><span class="sub">Partidos donde apostaste, el más reciente primero</span></div>
-      <div class="cmp-partidos" id="cmp-partidos"></div>
+      <div class="titulo-fila"><h2>Partido por partido</h2><span class="sub">Por defecto, los partidos de hoy; usa los filtros para ver otros días</span></div>
+      <div class="fp" id="cmp-filtros"></div>
+      <div id="cmp-partidos"></div>
     </section>
   </section>
 
@@ -1153,40 +1185,124 @@ mostrarSeccion();
     return `<div class="cmp-bloque ${cls}"><div class="cmp-eti">${esc(etiqueta)}${lista.length ? " · " + esc(MXN(total)) : ""}</div>
       ${lista.length ? lista.map(x => apuestaCmp(x, partidosGrupo)).join("") : `<div class="cmp-no">${esc(vacioTxt)}</div>`}</div>`;
   }
-  function partidosCmp(enPeriodo) {
+  // ---- filtros de "Partido por partido": por defecto solo los partidos de hoy (día de Sonora)
+  const fp = {per: "hoy", dinero: "todos", quien: new Set(), cat: new Set(), res: "todos", liga: "", q: "", veces: 1};
+  const POR_PAGINA = 10;
+  const QUIEN_TXT = {modelo: "Modelo", pick: "Pick del modelo", salva: "Tú"};
+  const PER_TXT = {hoy: "Hoy", s7: "7 días", mes: "Mes", todo: "Todo"};
+  const RES_TXT = {todos: "Todos", ganada: "Ganada", perdida: "Perdida", pendiente: "Pendiente"};
+  const quienDeCmp = x => x.quien === "papel" || x.quien === "real" ? "salva" : x.quien;
+  const quitaAcentos = t => String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  function pasaPer(f) {
+    if (fp.per === "todo") return true;
+    if (!f) return false;
+    if (fp.per === "hoy") return f === HOY;
+    if (fp.per === "s7") return f >= masDias(HOY, -6) && f <= HOY;
+    return f.slice(0, 7) === HOY.slice(0, 7);
+  }
+  const filtrosActivos = () => {
+    const a = [];
+    if (fp.per !== "hoy") a.push(["per", `Periodo: ${PER_TXT[fp.per]}`]);
+    if (fp.dinero !== "todos") a.push(["dinero", fp.dinero === "papel" ? "Papel" : "Dinero real"]);
+    for (const k of fp.quien) a.push(["quien:" + k, QUIEN_TXT[k]]);
+    for (const k of fp.cat) a.push(["cat:" + k, CAT_CORTA[k] || k]);
+    if (fp.res !== "todos") a.push(["res", RES_TXT[fp.res]]);
+    if (fp.liga) a.push(["liga", liga(fp.liga)]);
+    if (fp.q) a.push(["q", `“${fp.q}”`]);
+    return a;
+  };
+  function quitarFiltro(k) {
+    if (k === "per") fp.per = "hoy"; else if (k === "dinero") fp.dinero = "todos"; else if (k === "res") fp.res = "todos";
+    else if (k === "liga") fp.liga = ""; else if (k === "q") fp.q = "";
+    else if (k.startsWith("quien:")) fp.quien.delete(k.slice(6)); else if (k.startsWith("cat:")) fp.cat.delete(k.slice(4));
+  }
+  function pasaFp(x) {
+    if (fp.dinero !== "todos" && x.origen !== fp.dinero) return false;
+    if (fp.quien.size && !fp.quien.has(quienDeCmp(x))) return false;
+    if (fp.cat.size && !fp.cat.has(x.categoria)) return false;
+    if (fp.res !== "todos" && (fp.res === "pendiente" ? x.estado !== "pendiente" : x.estado !== fp.res)) return false;
+    return true;
+  }
+  const chipCmp = (grupo, clave, txt, activo) => `<button type="button" class="chipf" data-g="${grupo}" data-k="${esc(clave)}" aria-pressed="${activo}">${esc(txt)}</button>`;
+  function barraFiltros() {
+    const nAct = filtrosActivos().length;
+    const ligas = [...new Set(apCmp.flatMap(x => x.patas.map(q => q.liga)).filter(Boolean))].sort((a, b) => liga(a).localeCompare(liga(b), "es"));
+    const seg = (grupo, valores, actual) => `<div class="seg-grupo">${valores.map(([k, t]) => `<button class="segf" type="button" data-g="${grupo}" data-k="${k}" aria-pressed="${String(k === actual)}">${esc(t)}</button>`).join("")}</div>`;
+    return `<div class="fp-fila1">
+        ${seg("per", Object.entries(PER_TXT), fp.per)}
+        <button type="button" class="fp-abrir" id="fp-abrir" aria-expanded="false" aria-controls="fp-panel">Filtros${nAct ? ` (${nAct})` : ""}</button>
+      </div>
+      <div class="fp-panel" id="fp-panel">
+        <div class="fp-campo"><span class="fp-eti">Dinero</span>${seg("dinero", [["todos", "Todos"], ["papel", "Papel"], ["real", "Real"]], fp.dinero)}</div>
+        <div class="fp-campo"><span class="fp-eti">Resultado</span>${seg("res", Object.entries(RES_TXT), fp.res)}</div>
+        <div class="fp-campo"><span class="fp-eti">Quién</span><div class="fp-chips">${Object.entries(QUIEN_TXT).map(([k, t]) => chipCmp("quien", k, t, fp.quien.has(k))).join("")}</div></div>
+        <div class="fp-campo"><span class="fp-eti">Categoría</span><div class="fp-chips">${["valor", "sencilla_fuerte", "combinada", "eleccion_salva", "pick_modelo"].map(k => chipCmp("cat", k, CAT_CORTA[k], fp.cat.has(k))).join("")}</div></div>
+        <div class="fp-campo"><span class="fp-eti">Liga</span><select class="sel" id="fp-liga"><option value="">Todas</option>${ligas.map(l => `<option value="${esc(l)}"${l === fp.liga ? " selected" : ""}>${esc(liga(l))}</option>`).join("")}</select></div>
+        <div class="fp-campo"><span class="fp-eti">Partido</span><input class="sel" id="fp-q" type="search" placeholder="Buscar equipo" value="${esc(fp.q)}" autocomplete="off"></div>
+      </div>`;
+  }
+
+  function partidosCmp() {
     const llave = q => q.partido + "|" + q.fp;
+    const buscar = quitaAcentos(fp.q).trim();
     const grupos = new Map();
-    for (const x of enPeriodo.filter(x => x.quien === "papel" || x.quien === "real")) {
-      const ks = [...new Set(x.patas.map(llave))].sort(), k = ks.join("¦");
-      if (!grupos.has(k)) grupos.set(k, {patas: [], salva: [], orden: ""});
-      const g = grupos.get(k); g.salva.push(x); g.patas.push(...x.patas); if (x.orden > g.orden) g.orden = x.orden;
+    for (const x of apCmp) {
+      if (!pasaFp(x) || (x.deporte || "futbol") !== $("f-deporte").value) continue;
+      const varios = new Set(x.patas.map(llave)).size > 1;
+      for (const q of x.patas) {
+        if (varios) {  // un parlay de varios partidos va una sola vez, en su propia tarjeta
+          if (!pasaPer(maxF(x.patas, "")) || (fp.liga && !x.patas.some(r => r.liga === fp.liga)) || (buscar && !x.patas.some(r => quitaAcentos(r.partido).includes(buscar)))) break;
+          if (!grupos.has("¦parlays")) grupos.set("¦parlays", {partido: "Parlays de varios partidos", f: "", liga: "", items: new Set(), varios: true});
+          grupos.get("¦parlays").items.add(x); break;
+        }
+        if (!pasaPer(q.fp) || (fp.liga && q.liga !== fp.liga) || (buscar && !quitaAcentos(q.partido).includes(buscar))) continue;
+        const k = llave(q);
+        if (!grupos.has(k)) grupos.set(k, {partido: q.partido, f: q.fp || "", liga: q.liga, items: new Set()});
+        grupos.get(k).items.add(x);
+      }
     }
-    if (!grupos.size) return `<div class="card vacio">No apostaste por tu cuenta en este periodo. Cuando registres una apuesta tuya, aquí sale junto a lo que hizo el modelo en ese partido.</div>`;
-    const delDeporte = x => (x.deporte || "futbol") === $("f-deporte").value;
-    const pickes = apCmp.filter(x => x.quien === "pick" && delDeporte(x));
-    const modelo = apCmp.filter(x => x.quien === "modelo" && (x.deporte || "futbol") === $("f-deporte").value);
-    return [...grupos.values()].map(g => ({...g, f: maxF(g.patas, "")}))
-      .sort((a, b) => b.f.localeCompare(a.f) || b.orden.localeCompare(a.orden))
-      .map(g => {
-        const partidos = [...new Set(g.patas.map(q => q.partido))];
-        const ligas = [...new Set(g.patas.map(q => q.liga).filter(Boolean))];
-        const ligaTxt = ligas.length > 1 ? "Varias ligas" : liga(ligas[0] || g.salva[0].liga || "");
-        // mismo partido con ±1 día de diferencia (por si una apuesta no encontró su pronóstico y usa el día en que se apostó)
-        const mismo = q => g.patas.some(r => r.partido === q.partido && Math.abs(diasEntre(r.fp || q.fp, q.fp || r.fp)) <= 1);
-        const deModelo = modelo.filter(x => x.patas.some(mismo)).sort((a, b) => a.orden.localeCompare(b.orden));
-        const dePick = pickes.filter(x => x.patas.some(mismo));
-        const enOrden = l => l.slice().sort((a, b) => a.orden.localeCompare(b.orden));
-        const papelS = enOrden(g.salva.filter(x => x.quien === "papel")), realS = enOrden(g.salva.filter(x => x.quien === "real"));
-        const set = new Set(partidos);
-        return `<article class="card cmp-partido">
-          <div class="cmp-cab"><b>${esc(partidos.join(" + "))}</b><span>${esc(ligaTxt)} · ${esc(fechaDMA(g.f))}</span></div>
-          ${bloqueCmp("modelo", deModelo.some(x => x.origen === "real") ? "Modelo" : "Modelo · en papel", deModelo, "No apostó en este partido.", set)}
-          ${dePick.length ? bloqueCmp("modelo", "Pick del modelo · en papel", dePick, "", set) : ""}
+    const lista = [...grupos.values()].sort((a, b) => (a.varios ? 1 : 0) - (b.varios ? 1 : 0) || b.f.localeCompare(a.f) || a.partido.localeCompare(b.partido));
+    const activos = filtrosActivos().length;
+    const resumen = `<div class="fp-resumen"><span>${lista.filter(g => !g.varios).length} partido${lista.filter(g => !g.varios).length === 1 ? "" : "s"}${lista.some(g => g.varios) ? " + parlays" : ""}</span>${activos ? `<button type="button" class="fp-limpiar" id="fp-limpiar">Limpiar filtros</button>` : ""}</div>`;
+    const chips = activos ? `<div class="fp-activos">${filtrosActivos().map(([k, t]) => `<button type="button" class="fp-activo" data-quitar="${esc(k)}">${esc(t)} <span aria-hidden="true">×</span><span class="oculto"> quitar</span></button>`).join("")}</div>` : "";
+    if (!lista.length) return resumen + chips + `<div class="card vacio">${fp.per === "hoy" && activos === 0 ? "Hoy todavía no hay apuestas. Cambia el periodo para ver días anteriores." : "No hay apuestas con estos filtros."}</div>`;
+    const tarjetas = lista.slice(0, fp.veces * POR_PAGINA).map(g => {
+      const its = [...g.items].sort((a, b) => a.orden.localeCompare(b.orden));
+      const set = new Set(g.varios ? [] : [g.partido]);
+      const de = qn => its.filter(x => x.quien === qn);
+      const modelo = de("modelo"), pick = de("pick"), papelS = de("papel"), realS = de("real");
+      return `<article class="card cmp-partido">
+          <div class="cmp-cab"><b>${esc(g.partido)}</b>${g.varios ? "" : `<span>${esc(liga(g.liga || ""))} · ${esc(fechaDMA(g.f))}</span>`}</div>
+          ${modelo.length ? bloqueCmp("modelo", modelo.some(x => x.origen === "real") ? "Modelo" : "Modelo · en papel", modelo, "", set) : ""}
+          ${pick.length ? bloqueCmp("modelo", "Pick del modelo · en papel", pick, "", set) : ""}
           ${papelS.length ? bloqueCmp("tu", "Tú · en papel", papelS, "", set) : ""}
           ${realS.length ? bloqueCmp("tu", "Tú · dinero real", realS, "", set) : ""}
         </article>`;
-      }).join("");
+    }).join("");
+    const mas = lista.length > fp.veces * POR_PAGINA ? `<button type="button" class="fp-mas" id="fp-mas">Ver más (${lista.length - fp.veces * POR_PAGINA})</button>` : "";
+    return resumen + chips + `<div class="cmp-partidos">${tarjetas}</div>` + mas;
   }
+  function pintarPartidos() {
+    $("cmp-filtros").innerHTML = barraFiltros();
+    $("cmp-partidos").innerHTML = partidosCmp();
+    const panel = $("fp-panel");
+    if (fp.abierto) { panel.classList.add("abierto"); $("fp-abrir").setAttribute("aria-expanded", "true"); }
+  }
+  function cambiaFp() { fp.veces = 1; pintarPartidos(); }
+  document.addEventListener("click", e => {
+    const t = e.target.closest("[data-g],[data-quitar],#fp-abrir,#fp-limpiar,#fp-mas");
+    if (!t || !$("s-comparar").contains(t)) return;
+    if (t.id === "fp-abrir") { fp.abierto = !fp.abierto; pintarPartidos(); return; }
+    if (t.id === "fp-mas") { fp.veces++; pintarPartidos(); return; }
+    if (t.id === "fp-limpiar") { Object.assign(fp, {per: "hoy", dinero: "todos", res: "todos", liga: "", q: ""}); fp.quien.clear(); fp.cat.clear(); return cambiaFp(); }
+    if (t.dataset.quitar) { quitarFiltro(t.dataset.quitar); return cambiaFp(); }
+    const g = t.dataset.g, k = t.dataset.k;
+    if (g === "quien" || g === "cat") { const c = fp[g]; c.has(k) ? c.delete(k) : c.add(k); }
+    else fp[g] = k;
+    cambiaFp();
+  });
+  document.addEventListener("change", e => { if (e.target.id === "fp-liga") { fp.liga = e.target.value; cambiaFp(); } });
+  document.addEventListener("input", e => { if (e.target.id === "fp-q") { fp.q = e.target.value; clearTimeout(fp.t); fp.t = setTimeout(() => { fp.veces = 1; const pos = e.target.selectionStart; pintarPartidos(); const n = $("fp-q"); n.focus(); n.setSelectionRange(pos, pos); }, 200); } });
 
   // ganancia acumulada de varias series sobre los mismos días (punto 0 = $0 antes del primer día)
   function graficaSeries(el, fechas, series, {vacio = "Sin datos todavía.", etiqueta = ""} = {}) {
@@ -1345,7 +1461,7 @@ mostrarSeccion();
       $("cmp-tabla").innerHTML = tablaCmp(grupos);
       $("cmp-nota").textContent = `Modelo: las 3 formas del sistema (valor, sencilla fuerte y combinada)${hayModeloReal ? ", en papel y con dinero real" : " en papel"}. Pick del modelo: su mejor selección por partido, aunque no tenga valor (solo papel; no está en la gráfica). Tú: tus elecciones, en papel y con dinero real por separado. Acierto y rendimiento cuentan solo las calificadas. Los bancos van sin filtros.`;
       datosGrafCmp = seriesCmp(grupos);
-      $("cmp-partidos").innerHTML = partidosCmp(enPeriodo);
+      pintarPartidos();
     }
 
     // ---- Pronósticos
