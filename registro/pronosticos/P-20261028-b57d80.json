@@ -1155,15 +1155,15 @@
       "prob": 0.641,
       "ve": -0.0385,
       "confianza": "alta",
-      "categoria": null,
+      "categoria": "sencilla_fuerte",
       "con_valor": false,
       "apostar": false,
       "monto_sencilla": 0,
       "sirve_para_parlay": false,
       "sirve_para_combinada": true,
-      "motivo": "ya hay una sencilla fuerte hoy (máximo 1 por día)",
-      "apostar_papel": false,
-      "monto_papel": 0
+      "apostar_papel": true,
+      "monto_papel": 970.0,
+      "motivo": "prueba en papel"
     },
     {
       "mercado": "ambos_anotan",
@@ -1387,7 +1387,7 @@
       "ve": 0.1011,
       "prob": 0.564,
       "confianza": "alta",
-      "evaluado": "2026-10-28T12:20:13.929383-07:00",
+      "evaluado": "2026-10-28T12:22:33.848028-07:00",
       "estado": "pendiente"
     },
     {
@@ -1402,7 +1402,22 @@
       "ve": -0.0162,
       "prob": 0.648,
       "confianza": "alta",
-      "evaluado": "2026-10-28T12:20:13.929407-07:00",
+      "evaluado": "2026-10-28T12:22:33.848056-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "categoria": "sencilla_fuerte",
+      "con_valor": false,
+      "recortada": false,
+      "cuota": 1.5,
+      "cuota_americana": "-200",
+      "monto": 970.0,
+      "ve": -0.0385,
+      "prob": 0.641,
+      "confianza": "alta",
+      "evaluado": "2026-10-28T12:22:33.848076-07:00",
       "estado": "pendiente"
     },
     {
@@ -1417,7 +1432,7 @@
       "ve": 0.2562,
       "prob": 0.571,
       "confianza": "alta",
-      "evaluado": "2026-10-28T12:20:13.929365-07:00",
+      "evaluado": "2026-10-28T12:22:33.848002-07:00",
       "estado": "pendiente"
     },
     {
@@ -1432,7 +1447,7 @@
       "ve": 0.5505,
       "prob": 0.443,
       "confianza": "alta",
-      "evaluado": "2026-10-28T12:20:13.929335-07:00",
+      "evaluado": "2026-10-28T12:22:33.847967-07:00",
       "estado": "pendiente"
     },
     {
@@ -1446,7 +1461,7 @@
       "ve": 0.5505,
       "prob": 0.443,
       "confianza": "alta",
-      "evaluado": "2026-10-28T12:20:13.929535-07:00",
+      "evaluado": "2026-10-28T12:22:33.848208-07:00",
       "estado": "pendiente"
     }
   ]
