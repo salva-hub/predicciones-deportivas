@@ -10,7 +10,7 @@
       "mercado": "doble_oportunidad",
       "seleccion": "X2",
       "cuota": 1.341296928327645,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261028-5a098d",
@@ -21,7 +21,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.4878048780487805,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261028-5a098d",
@@ -32,7 +32,7 @@
       "mercado": "goles",
       "seleccion": "mas_2.5",
       "cuota": 1.6097560975609757,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261028-5a098d",
@@ -43,7 +43,7 @@
       "mercado": "tarjetas",
       "seleccion": "mas_3.5",
       "cuota": 1.3246753246753247,
-      "estado": "pendiente"
+      "estado": "ganada"
     }
   ],
   "cuota": 4.25,
@@ -53,6 +53,8 @@
   "categoria": "eleccion_salva",
   "id": "A-20261028-befb23",
   "creado": "2026-10-28T12:31:25.481300-07:00",
-  "estado": "pendiente",
-  "nota": "Elección de Salva, dinero real (Winpot crea tu apuesta, ID 5585671575, 12:29 Sonora). Cuota total +325 de Winpot repartida entre patas."
+  "estado": "perdida",
+  "nota": "Elección de Salva, dinero real (Winpot crea tu apuesta, ID 5585671575, 12:29 Sonora). Cuota total +325 de Winpot repartida entre patas.",
+  "ganancia": -300.0,
+  "liquidada": "2026-10-28T16:04:33.659699-07:00"
 }

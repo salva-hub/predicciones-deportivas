@@ -17,7 +17,7 @@
           "cuota": 3.5,
           "prob": 0.443,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261028-5a098d",
@@ -28,7 +28,7 @@
           "cuota": 1.8,
           "prob": 0.678,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 6.3,
@@ -37,7 +37,9 @@
       "monto": 290.0,
       "recortada": false,
       "creado": "2026-10-28T12:22:37.365375-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -290.0,
+      "liquidada": "2026-10-28T16:04:33.661606-07:00"
     },
     {
       "clave": "P-20261028-5a098d:corners:menos_7.5|P-20261028-b57d80:tarjetas:mas_3.5",
@@ -53,7 +55,7 @@
           "cuota": 2.2,
           "prob": 0.571,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261028-5a098d",
@@ -64,7 +66,7 @@
           "cuota": 3.75,
           "prob": 0.312,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 8.25,
@@ -73,7 +75,9 @@
       "monto": 290.0,
       "recortada": false,
       "creado": "2026-10-28T12:22:37.365417-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -290.0,
+      "liquidada": "2026-10-28T16:04:33.661643-07:00"
     },
     {
       "clave": "P-20261028-5a098d:tarjetas_1x2:2|P-20261028-b57d80:ganador:1",
@@ -89,7 +93,7 @@
           "cuota": 1.9523809523809523,
           "prob": 0.564,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261028-5a098d",
@@ -109,7 +113,9 @@
       "monto": 290.0,
       "recortada": false,
       "creado": "2026-10-28T12:22:37.365445-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -290.0,
+      "liquidada": "2026-10-28T16:04:33.661658-07:00"
     },
     {
       "clave": "P-20261028-5a098d:tarjetas:mas_3.5|P-20261028-b57d80:tarjetas_1x2:1",
@@ -125,7 +131,7 @@
           "cuota": 4.25,
           "prob": 0.243,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261028-5a098d",
@@ -136,7 +142,7 @@
           "cuota": 1.4,
           "prob": 0.757,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 5.95,
@@ -145,7 +151,9 @@
       "monto": 290.0,
       "recortada": false,
       "creado": "2026-10-28T12:22:37.365469-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -290.0,
+      "nota": "Liquidado a mano: pata de tarjetas 1X2 en partido de copa con penales (sin prórroga)"
     },
     {
       "clave": "P-20261028-5a098d:tarjetas:mas_3.5|P-20261028-b57d80:tarjetas:mas_3.5",
@@ -161,7 +169,7 @@
           "cuota": 2.2,
           "prob": 0.571,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261028-5a098d",
@@ -172,7 +180,7 @@
           "cuota": 1.4,
           "prob": 0.757,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 3.08,
@@ -181,7 +189,9 @@
       "monto": 480.0,
       "recortada": false,
       "creado": "2026-10-28T12:22:37.365490-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 998.4,
+      "liquidada": "2026-10-28T16:04:33.661694-07:00"
     },
     {
       "clave": "P-20261028-5a098d:tarjetas:mas_4.5|P-20261028-b4ce72:doble_oportunidad:X2",
@@ -197,7 +207,7 @@
           "cuota": 1.78125,
           "prob": 0.569,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261028-5a098d",
@@ -208,7 +218,7 @@
           "cuota": 1.8,
           "prob": 0.678,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 3.2063,
@@ -217,7 +227,9 @@
       "monto": 290.0,
       "recortada": false,
       "creado": "2026-10-28T12:22:37.365512-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -290.0,
+      "liquidada": "2026-10-28T16:04:33.661706-07:00"
     },
     {
       "clave": "P-20261028-5a098d:ambos_anotan:si|P-20261028-b57d80:ganador:1",
@@ -233,7 +245,7 @@
           "cuota": 1.9523809523809523,
           "prob": 0.564,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261028-5a098d",
@@ -244,7 +256,7 @@
           "cuota": 1.5714285714285714,
           "prob": 0.618,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 3.068,
@@ -253,7 +265,9 @@
       "monto": 480.0,
       "recortada": false,
       "creado": "2026-10-28T12:22:37.365531-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -480.0,
+      "liquidada": "2026-10-28T16:04:33.661763-07:00"
     },
     {
       "clave": "P-20261028-5a098d:tarjetas_1x2:2|P-20261028-b4ce72:tarjetas:mas_3.5|P-20261028-b57d80:goles:mas_2.5",
@@ -269,7 +283,7 @@
           "cuota": 1.5181347150259068,
           "prob": 0.648,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261028-b4ce72",
@@ -280,7 +294,7 @@
           "cuota": 1.5,
           "prob": 0.642,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261028-5a098d",
@@ -291,7 +305,7 @@
           "cuota": 1.7462686567164178,
           "prob": 0.604,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 3.9766,
@@ -300,7 +314,9 @@
       "monto": 290.0,
       "recortada": false,
       "creado": "2026-10-28T12:22:37.365554-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -290.0,
+      "nota": "Liquidado a mano: pata de tarjetas 1X2 en partido de copa con penales (sin prórroga)"
     }
   ]
 }
