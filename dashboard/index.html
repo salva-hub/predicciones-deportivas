@@ -319,6 +319,7 @@
     .cmp-tbl th:first-child { width:26%; overflow-wrap:break-word; }
     .cmp-tbl td { font-size:12px; white-space:normal; }
     .cmp-tbl tbody th { font-size:12px; }
+    .cmp-tbl td.racha { text-align:center; }
     .cmp-tbl thead th { font-size:11px; }
     .cmp-partido { padding:14px 16px; }
   }
@@ -1111,7 +1112,7 @@ mostrarSeccion();
 
   function tablaCmp(grupos) {
     const r = Object.fromEntries(QUIENES.map(([k]) => [k, resumen(grupos[k])]));
-    const fila = (titulo, f) => `<tr><th scope="row">${titulo}</th>${QUIENES.map(([k]) => { const [t, c] = f(r[k], grupos[k]); return `<td class="num ${c || ""}">${esc(t)}</td>`; }).join("")}</tr>`;
+    const fila = (titulo, f, extra = "") => `<tr><th scope="row">${titulo}</th>${QUIENES.map(([k]) => { const [t, c] = f(r[k], grupos[k]); return `<td class="num ${extra} ${c || ""}">${esc(t)}</td>`; }).join("")}</tr>`;
     const racha = g => { const {n, tipo} = rachaActiva(g); return n ? [`${n} ${tipo === "ganada" ? "ganada" : "perdida"}${n === 1 ? "" : "s"}`, tipo === "ganada" ? "pos" : "neg"] : ["—"]; };
     return `<table class="cmp-tbl"><thead><tr><th scope="col"><span class="oculto">Medida</span></th>
         <th scope="col" class="modelo">Modelo</th><th scope="col" class="modelo">Pick del modelo</th><th scope="col" class="tu">Tú (papel)</th><th scope="col" class="tu">Tú (real)</th></tr></thead><tbody>
@@ -1119,7 +1120,7 @@ mostrarSeccion();
       ${fila("Acierto", x => [PCT(x.acierto)])}
       ${fila("Ganancia / Pérdida", x => x.liq ? [signo(Math.round(x.gan)), clase(x.gan)] : ["—"])}
       ${fila("Rendimiento", x => [PCTs(x.roi), clase(x.roi)])}
-      ${fila("Racha", (x, g) => racha(g))}
+      ${fila("Racha", (x, g) => racha(g), "racha")}
       ${fila("Pendientes", x => [String(x.pendientes)])}
     </tbody></table>`;
   }
