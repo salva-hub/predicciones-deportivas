@@ -1,0 +1,1007 @@
+{
+  "deporte": "futbol",
+  "liga": "serie_a",
+  "partido": "Genoa vs Juventus",
+  "local": "Genoa",
+  "visitante": "Juventus",
+  "espn_id": "401874988",
+  "inicio_utc": "2026-10-28T19:45:00+00:00",
+  "inicio_sonora": "2026-10-28 12:45",
+  "estadio": "Stadio Luigi Ferraris",
+  "techado": false,
+  "neutral": false,
+  "pago_anticipado": true,
+  "clima": {
+    "temperatura_c": 15.4,
+    "lluvia_mm_h": 0.0,
+    "viento_kmh": 12.25,
+    "altitud_m": 18.0
+  },
+  "arbitro": "Daniele Doveri",
+  "factor_arbitro": 0.945,
+  "pinnacle": {
+    "1": 5.1,
+    "X": 3.42,
+    "2": 1.8403361344537816,
+    "mas_2.5": 2.49,
+    "menos_2.5": 1.5714285714285714
+  },
+  "goles_esperados": [
+    0.75,
+    1.46
+  ],
+  "modelo_1x2": {
+    "1": 0.232,
+    "X": 0.264,
+    "2": 0.53
+  },
+  "marcadores_probables": [
+    [
+      "0-1",
+      0.15278886347336718
+    ],
+    [
+      "1-1",
+      0.1272483807271418
+    ],
+    [
+      "0-2",
+      0.11657629352499425
+    ]
+  ],
+  "notas": [
+    "Base: Pinnacle sin margen (modelo solo como referencia)",
+    "Goles esperados del modelo solo: 0.82 – 1.43",
+    "Pago anticipado de Winpot: el ganador local/visitante incluye la probabilidad de ir 2 goles arriba y no ganar (local +1.3%, visitante +1.1%)",
+    "Córners esperados: 9.2",
+    "Tarjetas esperadas: 3.6 (factor árbitro x0.95)",
+    "Clima ya incluido en el precio de Pinnacle: no se ajusta",
+    "Tiros a puerta de jugador de Genoa: 46 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador de Juventus: 46 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador: alineación oficial de ESPN; modelo Poisson con tasa por 90, minutos y rival; confianza siempre baja; solo con valor de 10% o más"
+  ],
+  "confianza": "alta",
+  "selecciones": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "prob": 0.199,
+      "cuota_justa": "+403",
+      "cuota_minima": "+419",
+      "confianza": "alta",
+      "prob_sin_pago_anticipado": 0.186
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "X",
+      "prob": 0.281,
+      "cuota_justa": "+256",
+      "cuota_minima": "+267",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
+      "prob": 0.544,
+      "cuota_justa": "-119",
+      "cuota_minima": "-111",
+      "confianza": "alta",
+      "prob_sin_pago_anticipado": 0.533
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "1X",
+      "prob": 0.467,
+      "cuota_justa": "+114",
+      "cuota_minima": "+121",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "12",
+      "prob": 0.719,
+      "cuota_justa": "-256",
+      "cuota_minima": "-231",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "X2",
+      "prob": 0.814,
+      "cuota_justa": "-437",
+      "cuota_minima": "-376",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_0.5",
+      "prob": 0.884,
+      "cuota_justa": "-758",
+      "cuota_minima": "-603",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_0.5",
+      "prob": 0.116,
+      "cuota_justa": "+758",
+      "cuota_minima": "+785",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_1.5",
+      "prob": 0.655,
+      "cuota_justa": "-190",
+      "cuota_minima": "-174",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_1.5",
+      "prob": 0.345,
+      "cuota_justa": "+190",
+      "cuota_minima": "+199",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "prob": 0.38,
+      "cuota_justa": "+163",
+      "cuota_minima": "+171",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_2.5",
+      "prob": 0.62,
+      "cuota_justa": "-163",
+      "cuota_minima": "-150",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_3.5",
+      "prob": 0.183,
+      "cuota_justa": "+446",
+      "cuota_minima": "+463",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "prob": 0.817,
+      "cuota_justa": "-446",
+      "cuota_minima": "-383",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_4.5",
+      "prob": 0.074,
+      "cuota_justa": "+1255",
+      "cuota_minima": "+1296",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_4.5",
+      "prob": 0.926,
+      "cuota_justa": "-1255",
+      "cuota_minima": "-892",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "prob": 0.413,
+      "cuota_justa": "+142",
+      "cuota_minima": "+150",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "no",
+      "prob": 0.587,
+      "cuota_justa": "-142",
+      "cuota_minima": "-132",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_0.5",
+      "prob": 0.529,
+      "cuota_justa": "-112",
+      "cuota_minima": "-105",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_0.5",
+      "prob": 0.471,
+      "cuota_justa": "+112",
+      "cuota_minima": "+119",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_0.5",
+      "prob": 0.768,
+      "cuota_justa": "-330",
+      "cuota_minima": "-292",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_0.5",
+      "prob": 0.232,
+      "cuota_justa": "+330",
+      "cuota_minima": "+344",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_1.5",
+      "prob": 0.174,
+      "cuota_justa": "+474",
+      "cuota_minima": "+491",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_1.5",
+      "prob": 0.826,
+      "cuota_justa": "-474",
+      "cuota_minima": "-404",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_1.5",
+      "prob": 0.428,
+      "cuota_justa": "+133",
+      "cuota_minima": "+141",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_1.5",
+      "prob": 0.572,
+      "cuota_justa": "-133",
+      "cuota_minima": "-124",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_2.5",
+      "prob": 0.041,
+      "cuota_justa": "+2348",
+      "cuota_minima": "+2421",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_2.5",
+      "prob": 0.959,
+      "cuota_justa": "-2348",
+      "cuota_minima": "-1353",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_2.5",
+      "prob": 0.181,
+      "cuota_justa": "+453",
+      "cuota_minima": "+470",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_2.5",
+      "prob": 0.819,
+      "cuota_justa": "-453",
+      "cuota_minima": "-388",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_1",
+      "prob": 0.165,
+      "cuota_justa": "+505",
+      "cuota_minima": "+524",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_X",
+      "prob": 0.456,
+      "cuota_justa": "+119",
+      "cuota_minima": "+126",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_2",
+      "prob": 0.378,
+      "cuota_justa": "+164",
+      "cuota_minima": "+173",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_0.5",
+      "prob": 0.63,
+      "cuota_justa": "-171",
+      "cuota_minima": "-157",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_0.5",
+      "prob": 0.37,
+      "cuota_justa": "+171",
+      "cuota_minima": "+179",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_1.5",
+      "prob": 0.263,
+      "cuota_justa": "+281",
+      "cuota_minima": "+293",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_1.5",
+      "prob": 0.737,
+      "cuota_justa": "-281",
+      "cuota_minima": "-252",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "prob": 0.056,
+      "cuota_justa": "+1675",
+      "cuota_minima": "+1729",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1.5",
+      "prob": 0.275,
+      "cuota_justa": "+264",
+      "cuota_minima": "+275",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1",
+      "prob": 0.056,
+      "cuota_justa": "+1445",
+      "cuota_minima": "+1499",
+      "confianza": "alta",
+      "devolucion": 0.13
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1",
+      "prob": 0.275,
+      "cuota_justa": "+170",
+      "cuota_minima": "+181",
+      "confianza": "alta",
+      "devolucion": 0.258
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+0",
+      "prob": 0.186,
+      "cuota_justa": "+286",
+      "cuota_minima": "+303",
+      "confianza": "alta",
+      "devolucion": 0.281
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+0",
+      "prob": 0.533,
+      "cuota_justa": "-286",
+      "cuota_minima": "-246",
+      "confianza": "alta",
+      "devolucion": 0.281
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1",
+      "prob": 0.467,
+      "cuota_justa": "-170",
+      "cuota_minima": "-153",
+      "confianza": "alta",
+      "devolucion": 0.258
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1",
+      "prob": 0.814,
+      "cuota_justa": "-1445",
+      "cuota_minima": "-942",
+      "confianza": "alta",
+      "devolucion": 0.13
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1.5",
+      "prob": 0.725,
+      "cuota_justa": "-264",
+      "cuota_minima": "-238",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1.5",
+      "prob": 0.944,
+      "cuota_justa": "-1675",
+      "cuota_minima": "-1093",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "prob": 0.621,
+      "cuota_justa": "-164",
+      "cuota_minima": "-144",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_7.5",
+      "prob": 0.379,
+      "cuota_justa": "+164",
+      "cuota_minima": "+177",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "prob": 0.539,
+      "cuota_justa": "-117",
+      "cuota_minima": "-105",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_8.5",
+      "prob": 0.461,
+      "cuota_justa": "+117",
+      "cuota_minima": "+128",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_9.5",
+      "prob": 0.458,
+      "cuota_justa": "+118",
+      "cuota_minima": "+130",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_9.5",
+      "prob": 0.542,
+      "cuota_justa": "-118",
+      "cuota_minima": "-106",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_10.5",
+      "prob": 0.383,
+      "cuota_justa": "+161",
+      "cuota_minima": "+175",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_10.5",
+      "prob": 0.617,
+      "cuota_justa": "-161",
+      "cuota_minima": "-142",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_11.5",
+      "prob": 0.319,
+      "cuota_justa": "+213",
+      "cuota_minima": "+230",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_11.5",
+      "prob": 0.681,
+      "cuota_justa": "-213",
+      "cuota_minima": "-184",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_2.5",
+      "prob": 0.634,
+      "cuota_justa": "-173",
+      "cuota_minima": "-152",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_2.5",
+      "prob": 0.366,
+      "cuota_justa": "+173",
+      "cuota_minima": "+187",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "prob": 0.486,
+      "cuota_justa": "+106",
+      "cuota_minima": "+117",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_3.5",
+      "prob": 0.514,
+      "cuota_justa": "-106",
+      "cuota_minima": "+105",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_4.5",
+      "prob": 0.353,
+      "cuota_justa": "+183",
+      "cuota_minima": "+198",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_4.5",
+      "prob": 0.647,
+      "cuota_justa": "-183",
+      "cuota_minima": "-160",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_5.5",
+      "prob": 0.258,
+      "cuota_justa": "+287",
+      "cuota_minima": "+307",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_5.5",
+      "prob": 0.742,
+      "cuota_justa": "-287",
+      "cuota_minima": "-240",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_6.5",
+      "prob": 0.201,
+      "cuota_justa": "+397",
+      "cuota_minima": "+422",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_6.5",
+      "prob": 0.799,
+      "cuota_justa": "-397",
+      "cuota_minima": "-317",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "1",
+      "prob": 0.369,
+      "cuota_justa": "+171",
+      "cuota_minima": "+185",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "X",
+      "prob": 0.274,
+      "cuota_justa": "+265",
+      "cuota_minima": "+284",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "2",
+      "prob": 0.357,
+      "cuota_justa": "+180",
+      "cuota_minima": "+194",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Vitinha:mas_0.5",
+      "prob": 0.403,
+      "cuota_justa": "+148",
+      "cuota_minima": "+174",
+      "confianza": "baja",
+      "jugador": "Vitinha",
+      "jugador_id": "403234",
+      "equipo": "Genoa",
+      "posicion": "F",
+      "tiros_esperados": 0.535
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Vitinha:mas_1.5",
+      "prob": 0.098,
+      "cuota_justa": "+922",
+      "cuota_minima": "+1025",
+      "confianza": "baja",
+      "jugador": "Vitinha",
+      "jugador_id": "403234",
+      "equipo": "Genoa",
+      "posicion": "F",
+      "tiros_esperados": 0.535
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Milutin Osmajic:mas_0.5",
+      "prob": 0.395,
+      "cuota_justa": "+153",
+      "cuota_minima": "+179",
+      "confianza": "baja",
+      "jugador": "Milutin Osmajic",
+      "jugador_id": "275444",
+      "equipo": "Genoa",
+      "posicion": "F",
+      "tiros_esperados": 0.521
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Milutin Osmajic:mas_1.5",
+      "prob": 0.094,
+      "cuota_justa": "+966",
+      "cuota_minima": "+1073",
+      "confianza": "baja",
+      "jugador": "Milutin Osmajic",
+      "jugador_id": "275444",
+      "equipo": "Genoa",
+      "posicion": "F",
+      "tiros_esperados": 0.521
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Tommaso Baldanzi:mas_0.5",
+      "prob": 0.206,
+      "cuota_justa": "+385",
+      "cuota_minima": "+434",
+      "confianza": "baja",
+      "jugador": "Tommaso Baldanzi",
+      "jugador_id": "309518",
+      "equipo": "Genoa",
+      "posicion": "M",
+      "tiros_esperados": 0.218
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Alexsandro Amorim:mas_0.5",
+      "prob": 0.167,
+      "cuota_justa": "+498",
+      "cuota_minima": "+558",
+      "confianza": "baja",
+      "jugador": "Alexsandro Amorim",
+      "jugador_id": "358445",
+      "equipo": "Genoa",
+      "posicion": "M",
+      "tiros_esperados": 0.166
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Mikael Ellertsson:mas_0.5",
+      "prob": 0.145,
+      "cuota_justa": "+588",
+      "cuota_minima": "+657",
+      "confianza": "baja",
+      "jugador": "Mikael Ellertsson",
+      "jugador_id": "324256",
+      "equipo": "Genoa",
+      "posicion": "M",
+      "tiros_esperados": 0.137
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Morten Frendrup:mas_0.5",
+      "prob": 0.137,
+      "cuota_justa": "+631",
+      "cuota_minima": "+704",
+      "confianza": "baja",
+      "jugador": "Morten Frendrup",
+      "jugador_id": "270884",
+      "equipo": "Genoa",
+      "posicion": "F",
+      "tiros_esperados": 0.126
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Randal Kolo Muani:mas_0.5",
+      "prob": 0.471,
+      "cuota_justa": "+112",
+      "cuota_minima": "+134",
+      "confianza": "baja",
+      "jugador": "Randal Kolo Muani",
+      "jugador_id": "252971",
+      "equipo": "Juventus",
+      "posicion": "F",
+      "tiros_esperados": 0.674
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Randal Kolo Muani:mas_1.5",
+      "prob": 0.139,
+      "cuota_justa": "+618",
+      "cuota_minima": "+690",
+      "confianza": "baja",
+      "jugador": "Randal Kolo Muani",
+      "jugador_id": "252971",
+      "equipo": "Juventus",
+      "posicion": "F",
+      "tiros_esperados": 0.674
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Douglas Luiz:mas_0.5",
+      "prob": 0.399,
+      "cuota_justa": "+150",
+      "cuota_minima": "+176",
+      "confianza": "baja",
+      "jugador": "Douglas Luiz",
+      "jugador_id": "320074",
+      "equipo": "Juventus",
+      "posicion": "M",
+      "tiros_esperados": 0.528
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Douglas Luiz:mas_1.5",
+      "prob": 0.096,
+      "cuota_justa": "+942",
+      "cuota_minima": "+1047",
+      "confianza": "baja",
+      "jugador": "Douglas Luiz",
+      "jugador_id": "320074",
+      "equipo": "Juventus",
+      "posicion": "M",
+      "tiros_esperados": 0.528
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Kerim Alajbegovic:mas_0.5",
+      "prob": 0.374,
+      "cuota_justa": "+167",
+      "cuota_minima": "+195",
+      "confianza": "baja",
+      "jugador": "Kerim Alajbegovic",
+      "jugador_id": "391034",
+      "equipo": "Juventus",
+      "posicion": "M",
+      "tiros_esperados": 0.482
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Kerim Alajbegovic:mas_1.5",
+      "prob": 0.083,
+      "cuota_justa": "+1102",
+      "cuota_minima": "+1223",
+      "confianza": "baja",
+      "jugador": "Kerim Alajbegovic",
+      "jugador_id": "391034",
+      "equipo": "Juventus",
+      "posicion": "M",
+      "tiros_esperados": 0.482
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Weston McKennie:mas_0.5",
+      "prob": 0.356,
+      "cuota_justa": "+181",
+      "cuota_minima": "+209",
+      "confianza": "baja",
+      "jugador": "Weston McKennie",
+      "jugador_id": "256715",
+      "equipo": "Juventus",
+      "posicion": "M",
+      "tiros_esperados": 0.45
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Weston McKennie:mas_1.5",
+      "prob": 0.075,
+      "cuota_justa": "+1234",
+      "cuota_minima": "+1368",
+      "confianza": "baja",
+      "jugador": "Weston McKennie",
+      "jugador_id": "256715",
+      "equipo": "Juventus",
+      "posicion": "M",
+      "tiros_esperados": 0.45
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Andrea Cambiaso:mas_0.5",
+      "prob": 0.346,
+      "cuota_justa": "+189",
+      "cuota_minima": "+219",
+      "confianza": "baja",
+      "jugador": "Andrea Cambiaso",
+      "jugador_id": "308029",
+      "equipo": "Juventus",
+      "posicion": "F",
+      "tiros_esperados": 0.432
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Andrea Cambiaso:mas_1.5",
+      "prob": 0.07,
+      "cuota_justa": "+1324",
+      "cuota_minima": "+1467",
+      "confianza": "baja",
+      "jugador": "Andrea Cambiaso",
+      "jugador_id": "308029",
+      "equipo": "Juventus",
+      "posicion": "F",
+      "tiros_esperados": 0.432
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Pape Matar Sarr:mas_0.5",
+      "prob": 0.306,
+      "cuota_justa": "+226",
+      "cuota_minima": "+260",
+      "confianza": "baja",
+      "jugador": "Pape Matar Sarr",
+      "jugador_id": "297337",
+      "equipo": "Juventus",
+      "posicion": "M",
+      "tiros_esperados": 0.367
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Pape Matar Sarr:mas_1.5",
+      "prob": 0.055,
+      "cuota_justa": "+1732",
+      "cuota_minima": "+1916",
+      "confianza": "baja",
+      "jugador": "Pape Matar Sarr",
+      "jugador_id": "297337",
+      "equipo": "Juventus",
+      "posicion": "M",
+      "tiros_esperados": 0.367
+    }
+  ],
+  "estado": "pendiente",
+  "tiros_jugador": [
+    {
+      "jugador": "Vitinha",
+      "equipo": "Genoa",
+      "posicion": "F",
+      "tiros_esperados": 0.535,
+      "tasa90": 0.819,
+      "minutos_esperados": 76.0,
+      "minutos_historial": 2523
+    },
+    {
+      "jugador": "Milutin Osmajic",
+      "equipo": "Genoa",
+      "posicion": "F",
+      "tiros_esperados": 0.521,
+      "tasa90": 0.713,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 567
+    },
+    {
+      "jugador": "Tommaso Baldanzi",
+      "equipo": "Genoa",
+      "posicion": "M",
+      "tiros_esperados": 0.218,
+      "tasa90": 0.397,
+      "minutos_esperados": 63.9,
+      "minutos_historial": 725
+    },
+    {
+      "jugador": "Alexsandro Amorim",
+      "equipo": "Genoa",
+      "posicion": "M",
+      "tiros_esperados": 0.166,
+      "tasa90": 0.253,
+      "minutos_esperados": 76.1,
+      "minutos_historial": 683
+    },
+    {
+      "jugador": "Mikael Ellertsson",
+      "equipo": "Genoa",
+      "posicion": "M",
+      "tiros_esperados": 0.137,
+      "tasa90": 0.188,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 3471
+    },
+    {
+      "jugador": "Morten Frendrup",
+      "equipo": "Genoa",
+      "posicion": "F",
+      "tiros_esperados": 0.126,
+      "tasa90": 0.173,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 3740
+    },
+    {
+      "jugador": "Randal Kolo Muani",
+      "equipo": "Juventus",
+      "posicion": "F",
+      "tiros_esperados": 0.674,
+      "tasa90": 0.746,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 697
+    },
+    {
+      "jugador": "Douglas Luiz",
+      "equipo": "Juventus",
+      "posicion": "M",
+      "tiros_esperados": 0.528,
+      "tasa90": 0.603,
+      "minutos_esperados": 82.4,
+      "minutos_historial": 659
+    },
+    {
+      "jugador": "Kerim Alajbegovic",
+      "equipo": "Juventus",
+      "posicion": "M",
+      "tiros_esperados": 0.482,
+      "tasa90": 0.751,
+      "minutos_esperados": 60.2,
+      "minutos_historial": 320
+    },
+    {
+      "jugador": "Weston McKennie",
+      "equipo": "Juventus",
+      "posicion": "M",
+      "tiros_esperados": 0.45,
+      "tasa90": 0.498,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 3242
+    },
+    {
+      "jugador": "Andrea Cambiaso",
+      "equipo": "Juventus",
+      "posicion": "F",
+      "tiros_esperados": 0.432,
+      "tasa90": 0.519,
+      "minutos_esperados": 78.3,
+      "minutos_historial": 2936
+    },
+    {
+      "jugador": "Pape Matar Sarr",
+      "equipo": "Juventus",
+      "posicion": "M",
+      "tiros_esperados": 0.367,
+      "tasa90": 0.442,
+      "minutos_esperados": 78.0,
+      "minutos_historial": 248
+    }
+  ],
+  "id": "P-20261028-cf30ea",
+  "creado": "2026-10-28T12:11:23.908361-07:00"
+}
