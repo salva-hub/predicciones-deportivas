@@ -239,7 +239,8 @@
   .cmp-tbl tbody th { font-weight:500; color:var(--medio); }
   .cmp-tbl td { font-weight:600; white-space:nowrap; }
   .cmp-tbl tr:last-child > * { border-bottom:0; }
-  .cmp-tbl td.centro { text-align:center; }
+  .cmp-tbl thead th:not(:first-child), .cmp-tbl td { text-align:center; }
+  .cmp-tbl td:last-child, .cmp-tbl th:last-child { padding-left:8px; padding-right:8px; }
   .cmp-tbl .modelo { color:var(--modelo-texto); } .cmp-tbl .tu { color:var(--tu-texto); }
   .ley-linea.modelo { background:var(--modelo); } .ley-linea.tu { background:var(--tu); }
   .cmp-bloque:not(.tu) .cmp-eti { color:var(--modelo-texto); }
@@ -319,8 +320,8 @@
     .cmp-tbl th, .cmp-tbl td { padding:9px 3px; }
     .cmp-tbl th:first-child { width:26%; overflow-wrap:break-word; }
     .cmp-tbl td { font-size:12px; white-space:normal; }
+    .cmp-tbl td:last-child, .cmp-tbl th:last-child { padding-left:3px; padding-right:3px; }
     .cmp-tbl tbody th { font-size:12px; }
-    .cmp-tbl td.racha { text-align:center; }
     .cmp-tbl thead th { font-size:11px; }
     .cmp-partido { padding:14px 16px; }
   }
