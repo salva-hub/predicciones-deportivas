@@ -2,5 +2,222 @@
   "id": "parlays-20261028",
   "fecha": "2026-10-28",
   "creado": "2026-10-28T12:16:33.158483-07:00",
-  "parlays": []
+  "parlays": [
+    {
+      "clave": "P-20261028-5a098d:tarjetas:mas_4.5|P-20261028-b57d80:tarjetas:mas_4.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261028-b57d80",
+          "partido": "Manchester City vs Brighton",
+          "liga": "premier",
+          "mercado": "tarjetas",
+          "seleccion": "mas_4.5",
+          "cuota": 3.5,
+          "prob": 0.443,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261028-5a098d",
+          "partido": "Liverpool vs Chelsea",
+          "liga": "premier",
+          "mercado": "tarjetas",
+          "seleccion": "mas_4.5",
+          "cuota": 1.8,
+          "prob": 0.678,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 6.3,
+      "cuota_americana": "+530",
+      "prob": 0.3004,
+      "monto": 290.0,
+      "recortada": false,
+      "creado": "2026-10-28T12:20:17.404527-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261028-5a098d:corners:menos_7.5|P-20261028-b57d80:tarjetas:mas_3.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261028-b57d80",
+          "partido": "Manchester City vs Brighton",
+          "liga": "premier",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "cuota": 2.2,
+          "prob": 0.571,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261028-5a098d",
+          "partido": "Liverpool vs Chelsea",
+          "liga": "premier",
+          "mercado": "corners",
+          "seleccion": "menos_7.5",
+          "cuota": 3.75,
+          "prob": 0.312,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 8.25,
+      "cuota_americana": "+725",
+      "prob": 0.1782,
+      "monto": 290.0,
+      "recortada": false,
+      "creado": "2026-10-28T12:20:17.404554-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261028-5a098d:tarjetas_1x2:2|P-20261028-b57d80:ganador:1",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261028-b57d80",
+          "partido": "Manchester City vs Brighton",
+          "liga": "premier",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.9523809523809523,
+          "prob": 0.564,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261028-5a098d",
+          "partido": "Liverpool vs Chelsea",
+          "liga": "premier",
+          "mercado": "tarjetas_1x2",
+          "seleccion": "2",
+          "cuota": 1.7462686567164178,
+          "prob": 0.604,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.4094,
+      "cuota_americana": "+241",
+      "prob": 0.3407,
+      "monto": 290.0,
+      "recortada": false,
+      "creado": "2026-10-28T12:20:17.404573-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261028-5a098d:tarjetas:mas_3.5|P-20261028-b57d80:tarjetas_1x2:1",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261028-b57d80",
+          "partido": "Manchester City vs Brighton",
+          "liga": "premier",
+          "mercado": "tarjetas_1x2",
+          "seleccion": "1",
+          "cuota": 4.25,
+          "prob": 0.243,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261028-5a098d",
+          "partido": "Liverpool vs Chelsea",
+          "liga": "premier",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "cuota": 1.4,
+          "prob": 0.757,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 5.95,
+      "cuota_americana": "+495",
+      "prob": 0.184,
+      "monto": 290.0,
+      "recortada": false,
+      "creado": "2026-10-28T12:20:17.404588-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261028-5a098d:tarjetas:mas_3.5|P-20261028-b57d80:tarjetas:mas_3.5",
+      "tipo": "parlay",
+      "categoria": "combinada",
+      "patas": [
+        {
+          "pronostico": "P-20261028-b57d80",
+          "partido": "Manchester City vs Brighton",
+          "liga": "premier",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "cuota": 2.2,
+          "prob": 0.571,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261028-5a098d",
+          "partido": "Liverpool vs Chelsea",
+          "liga": "premier",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "cuota": 1.4,
+          "prob": 0.757,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.08,
+      "cuota_americana": "+208",
+      "prob": 0.4322,
+      "monto": 480.0,
+      "recortada": false,
+      "creado": "2026-10-28T12:20:17.404602-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261028-5a098d:tarjetas:mas_4.5|P-20261028-b4ce72:doble_oportunidad:X2",
+      "tipo": "parlay",
+      "categoria": "combinada",
+      "patas": [
+        {
+          "pronostico": "P-20261028-b4ce72",
+          "partido": "Bournemouth vs Aston Villa",
+          "liga": "premier",
+          "mercado": "doble_oportunidad",
+          "seleccion": "X2",
+          "cuota": 1.78125,
+          "prob": 0.569,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261028-5a098d",
+          "partido": "Liverpool vs Chelsea",
+          "liga": "premier",
+          "mercado": "tarjetas",
+          "seleccion": "mas_4.5",
+          "cuota": 1.8,
+          "prob": 0.678,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.2063,
+      "cuota_americana": "+221",
+      "prob": 0.3858,
+      "monto": 290.0,
+      "recortada": false,
+      "creado": "2026-10-28T12:20:17.404617-07:00",
+      "estado": "pendiente"
+    }
+  ]
 }

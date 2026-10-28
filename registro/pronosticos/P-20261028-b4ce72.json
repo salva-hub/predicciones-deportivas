@@ -1089,9 +1089,9 @@
       "monto_sencilla": 0,
       "sirve_para_parlay": true,
       "sirve_para_combinada": false,
-      "motivo": "límite del día alcanzado",
-      "apostar_papel": false,
-      "monto_papel": 0
+      "apostar_papel": true,
+      "monto_papel": 290.0,
+      "motivo": "prueba en papel"
     },
     {
       "mercado": "doble_oportunidad",
@@ -1237,13 +1237,13 @@
       "prob": 0.642,
       "ve": -0.037,
       "confianza": "media",
-      "categoria": "sencilla_fuerte",
+      "categoria": null,
       "con_valor": false,
       "apostar": false,
       "monto_sencilla": 0,
       "sirve_para_parlay": false,
       "sirve_para_combinada": true,
-      "motivo": "límite del día alcanzado",
+      "motivo": "ya hay una sencilla fuerte hoy (máximo 1 por día)",
       "apostar_papel": false,
       "monto_papel": 0
     },
@@ -1312,9 +1312,9 @@
       "monto_sencilla": 0,
       "sirve_para_parlay": true,
       "sirve_para_combinada": false,
-      "motivo": "límite del día alcanzado",
-      "apostar_papel": false,
-      "monto_papel": 0
+      "apostar_papel": true,
+      "monto_papel": 290.0,
+      "motivo": "prueba en papel"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -1393,6 +1393,36 @@
     {
       "mercado": "ganador",
       "seleccion": "2",
+      "categoria": "valor",
+      "con_valor": true,
+      "recortada": false,
+      "cuota": 3.75,
+      "cuota_americana": "+275",
+      "monto": 290.0,
+      "ve": 0.2638,
+      "prob": 0.337,
+      "confianza": "media",
+      "evaluado": "2026-10-28T12:20:15.117897-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "1",
+      "categoria": "valor",
+      "con_valor": true,
+      "recortada": false,
+      "cuota": 2.33,
+      "cuota_americana": "+133",
+      "monto": 290.0,
+      "ve": 0.1231,
+      "prob": 0.482,
+      "confianza": "media",
+      "evaluado": "2026-10-28T12:20:15.117922-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
       "categoria": "pick_modelo",
       "con_valor": true,
       "cuota": 3.75,
@@ -1401,7 +1431,7 @@
       "ve": 0.2638,
       "prob": 0.337,
       "confianza": "media",
-      "evaluado": "2026-10-28T12:16:22.678014-07:00",
+      "evaluado": "2026-10-28T12:20:15.118034-07:00",
       "estado": "pendiente"
     }
   ]

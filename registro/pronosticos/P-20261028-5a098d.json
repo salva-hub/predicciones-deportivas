@@ -1232,9 +1232,9 @@
       "monto_sencilla": 0,
       "sirve_para_parlay": true,
       "sirve_para_combinada": false,
-      "motivo": "límite del día alcanzado",
-      "apostar_papel": false,
-      "monto_papel": 0
+      "apostar_papel": true,
+      "monto_papel": 480.0,
+      "motivo": "prueba en papel"
     },
     {
       "mercado": "tarjetas",
@@ -1250,9 +1250,9 @@
       "monto_sencilla": 0,
       "sirve_para_parlay": true,
       "sirve_para_combinada": true,
-      "motivo": "límite del día alcanzado",
-      "apostar_papel": false,
-      "monto_papel": 0
+      "apostar_papel": true,
+      "monto_papel": 290.0,
+      "motivo": "prueba en papel"
     },
     {
       "mercado": "tarjetas",
@@ -1279,15 +1279,15 @@
       "prob": 0.678,
       "ve": 0.2204,
       "confianza": "alta",
-      "categoria": "sencilla_fuerte",
+      "categoria": "valor",
       "con_valor": true,
       "apostar": false,
       "monto_sencilla": 0,
       "sirve_para_parlay": true,
       "sirve_para_combinada": true,
-      "motivo": "límite del día alcanzado",
-      "apostar_papel": false,
-      "monto_papel": 0
+      "apostar_papel": true,
+      "monto_papel": 480.0,
+      "motivo": "prueba en papel"
     },
     {
       "mercado": "tarjetas",
@@ -1354,9 +1354,9 @@
       "monto_sencilla": 0,
       "sirve_para_parlay": true,
       "sirve_para_combinada": true,
-      "motivo": "límite del día alcanzado",
-      "apostar_papel": false,
-      "monto_papel": 0
+      "apostar_papel": true,
+      "monto_papel": 290.0,
+      "motivo": "prueba en papel"
     },
     {
       "mercado": "tiros_jugador",
@@ -1399,6 +1399,66 @@
   },
   "apuestas_papel": [
     {
+      "mercado": "corners",
+      "seleccion": "menos_7.5",
+      "categoria": "valor",
+      "con_valor": true,
+      "recortada": false,
+      "cuota": 3.75,
+      "cuota_americana": "+275",
+      "monto": 480.0,
+      "ve": 0.17,
+      "prob": 0.312,
+      "confianza": "alta",
+      "evaluado": "2026-10-28T12:20:16.221815-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "categoria": "valor",
+      "con_valor": true,
+      "recortada": false,
+      "cuota": 1.4,
+      "cuota_americana": "-250",
+      "monto": 290.0,
+      "ve": 0.0598,
+      "prob": 0.757,
+      "confianza": "alta",
+      "evaluado": "2026-10-28T12:20:16.221831-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_4.5",
+      "categoria": "valor",
+      "con_valor": true,
+      "recortada": false,
+      "cuota": 1.8,
+      "cuota_americana": "-125",
+      "monto": 480.0,
+      "ve": 0.2204,
+      "prob": 0.678,
+      "confianza": "alta",
+      "evaluado": "2026-10-28T12:20:16.221789-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "2",
+      "categoria": "valor",
+      "con_valor": true,
+      "recortada": false,
+      "cuota": 1.7463,
+      "cuota_americana": "-134",
+      "monto": 290.0,
+      "ve": 0.0547,
+      "prob": 0.604,
+      "confianza": "alta",
+      "evaluado": "2026-10-28T12:20:16.221842-07:00",
+      "estado": "pendiente"
+    },
+    {
       "mercado": "tarjetas",
       "seleccion": "mas_4.5",
       "categoria": "pick_modelo",
@@ -1409,7 +1469,7 @@
       "ve": 0.2204,
       "prob": 0.678,
       "confianza": "alta",
-      "evaluado": "2026-10-28T12:16:23.814717-07:00",
+      "evaluado": "2026-10-28T12:20:16.221946-07:00",
       "estado": "pendiente"
     }
   ]
