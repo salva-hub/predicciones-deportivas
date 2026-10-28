@@ -1045,7 +1045,7 @@ mostrarSeccion();
   }
 
   // ---------------- Modelo vs Salva: todas las apuestas en una sola forma
-  // quien: "modelo" (valor, sencilla fuerte y combinada; en papel o reales), "papel" (elección de Salva en papel),
+  // quien: "modelo" (valor, sencilla fuerte y combinada; en papel o reales), "pick" (pick del modelo, solo papel), "papel" (elección de Salva en papel),
   // "real" (elección de Salva con dinero real). fecha = día en que se apostó (para los filtros);
   // fLiq = día del partido (en un parlay, el de su última pata), como dice la gráfica; sin pronóstico, el día en que se apostó
   const CAT_CLAVE = {"Cuota mejor que la justa": "valor", "Sencilla fuerte (momio negativo)": "sencilla_fuerte",
@@ -1064,11 +1064,12 @@ mostrarSeccion();
     return {partido, sel, estado: est || "pendiente", cuota, fp: p ? String(p.fecha || "").slice(0, 10) : fechaAp, liga: p ? p.liga : ""};
   }
   const maxF = (patas, defecto) => patas.reduce((m, q) => q.fp && q.fp > m ? q.fp : m, "") || defecto;
+  const quienDe = (cat, origen) => cat === "eleccion_salva" ? origen : cat === "pick_modelo" ? "pick" : "modelo";
   const apCmp = [];
   for (const x of papelTodo) if (x.tipo !== "parlay") {
     const [partido, sel] = partirTexto(x.texto), cat = x.categoria || "valor";
     const patas = [pataCmp(partido, sel, x.estado, x.fecha, null, x.cuota)];
-    apCmp.push({quien: cat === "eleccion_salva" ? "papel" : "modelo", origen: "papel", categoria: cat,
+    apCmp.push({quien: quienDe(cat, "papel"), origen: "papel", categoria: cat,
       deporte: x.deporte, liga: x.liga, ligas: x.ligas, fecha: x.fecha, orden: String(x.orden || x.fecha || ""),
       momio: x.cuota, monto: x.monto || 0, estado: x.estado || "pendiente",
       ganancia: LIQ.includes(x.estado) ? (x.ganancia || 0) : null, patas, fLiq: maxF(patas, x.fecha)});
@@ -1079,7 +1080,7 @@ mostrarSeccion();
       const [partido, sel] = partirTexto(q.texto), raw = (f.patas || [])[j] || {};
       return pataCmp(q.partido || partido, sel, q.estado, x.fecha, raw.pronostico, q.cuota);
     });
-    apCmp.push({quien: cat === "eleccion_salva" ? "papel" : "modelo", origen: "papel", categoria: cat,
+    apCmp.push({quien: quienDe(cat, "papel"), origen: "papel", categoria: cat,
       deporte: x.deporte, liga: x.liga, ligas: x.ligas, fecha: x.fecha, orden: String(f.creado || x.fecha || ""),
       momio: x.cuota, monto: x.monto || 0, estado: x.estado || "pendiente",
       ganancia: LIQ.includes(x.estado) ? (x.ganancia || 0) : null, patas,
@@ -1091,20 +1092,20 @@ mostrarSeccion();
       const [partido, sel] = partirTexto(q.texto);
       return pataCmp(q.partido || partido, sel, q.estado, a.fecha, q.pronostico, q.cuota ? americana(q.cuota) : null);
     });
-    apCmp.push({quien: cat === "eleccion_salva" ? "real" : "modelo", origen: "real", categoria: cat,
+    apCmp.push({quien: quienDe(cat, "real"), origen: "real", categoria: cat,
       deporte: a.deporte, liga: a.liga, ligas: a.ligas, fecha: a.fecha, orden: String(a.creado || a.fecha || ""),
       momio: a.cuota_americana || (a.cuota ? americana(a.cuota) : null), monto: a.monto || 0, estado: a.estado || "pendiente",
       requiere_revision: a.requiere_revision, ganancia: LIQ.includes(a.estado) ? (a.ganancia || 0) : null, patas, fLiq: maxF(patas, a.fecha)});
   }
   const hayModeloReal = apCmp.some(x => x.quien === "modelo" && x.origen === "real");
-  const QUIENES = [["modelo", "Modelo"], ["papel", "Tú (papel)"], ["real", "Tú (real)"]];
+  const QUIENES = [["modelo", "Modelo"], ["pick", "Pick del modelo"], ["papel", "Tú (papel)"], ["real", "Tú (real)"]];
 
   function tablaCmp(grupos) {
     const r = Object.fromEntries(QUIENES.map(([k]) => [k, resumen(grupos[k])]));
     const fila = (titulo, f) => `<tr><th scope="row">${titulo}</th>${QUIENES.map(([k]) => { const [t, c] = f(r[k], grupos[k]); return `<td class="num ${c || ""}">${esc(t)}</td>`; }).join("")}</tr>`;
     const racha = g => { const {n, tipo} = rachaActiva(g); return n ? [`${n} ${tipo === "ganada" ? "ganada" : "perdida"}${n === 1 ? "" : "s"}`, tipo === "ganada" ? "pos" : "neg"] : ["—"]; };
     return `<table class="cmp-tbl"><thead><tr><th scope="col"><span class="oculto">Medida</span></th>
-        <th scope="col" class="modelo">Modelo</th><th scope="col" class="tu">Tú (papel)</th><th scope="col" class="tu">Tú (real)</th></tr></thead><tbody>
+        <th scope="col" class="modelo">Modelo</th><th scope="col" class="modelo">Pick del modelo</th><th scope="col" class="tu">Tú (papel)</th><th scope="col" class="tu">Tú (real)</th></tr></thead><tbody>
       ${fila("Apuestas", x => [String(x.n)])}
       ${fila("Acierto", x => [PCT(x.acierto)])}
       ${fila("Ganancia/Pérdida", x => x.liq ? [signo(Math.round(x.gan)), clase(x.gan)] : ["—"])}
@@ -1116,7 +1117,7 @@ mostrarSeccion();
 
   function apuestaCmp(x, partidosGrupo) {
     const n = x.patas.length;
-    const tipo = x.quien === "modelo" ? (CAT_CORTA[x.categoria] || x.categoria) : (n > 1 ? "Parlay" : "Sencilla");
+    const tipo = x.quien === "modelo" || x.quien === "pick" ? (CAT_CORTA[x.categoria] || x.categoria) : (n > 1 ? "Parlay" : "Sencilla");
     const est = x.estado === "pendiente" && x.requiere_revision ? "Revisar a mano" : estado(x.estado);
     const enOtro = x.patas.some(q => !partidosGrupo.has(q.partido)) || partidosGrupo.size > 1;
     const patas = x.patas.map(q => {
@@ -1139,12 +1140,14 @@ mostrarSeccion();
   function partidosCmp(enPeriodo) {
     const llave = q => q.partido + "|" + q.fp;
     const grupos = new Map();
-    for (const x of enPeriodo.filter(x => x.quien !== "modelo")) {
+    for (const x of enPeriodo.filter(x => x.quien === "papel" || x.quien === "real")) {
       const ks = [...new Set(x.patas.map(llave))].sort(), k = ks.join("¦");
       if (!grupos.has(k)) grupos.set(k, {patas: [], salva: [], orden: ""});
       const g = grupos.get(k); g.salva.push(x); g.patas.push(...x.patas); if (x.orden > g.orden) g.orden = x.orden;
     }
     if (!grupos.size) return `<div class="card vacio">No apostaste por tu cuenta en este periodo. Cuando registres una apuesta tuya, aquí sale junto a lo que hizo el modelo en ese partido.</div>`;
+    const delDeporte = x => (x.deporte || "futbol") === $("f-deporte").value;
+    const pickes = apCmp.filter(x => x.quien === "pick" && delDeporte(x));
     const modelo = apCmp.filter(x => x.quien === "modelo" && (x.deporte || "futbol") === $("f-deporte").value);
     return [...grupos.values()].map(g => ({...g, f: maxF(g.patas, "")}))
       .sort((a, b) => b.f.localeCompare(a.f) || b.orden.localeCompare(a.orden))
@@ -1155,12 +1158,14 @@ mostrarSeccion();
         // mismo partido con ±1 día de diferencia (por si una apuesta no encontró su pronóstico y usa el día en que se apostó)
         const mismo = q => g.patas.some(r => r.partido === q.partido && Math.abs(diasEntre(r.fp || q.fp, q.fp || r.fp)) <= 1);
         const deModelo = modelo.filter(x => x.patas.some(mismo)).sort((a, b) => a.orden.localeCompare(b.orden));
+        const dePick = pickes.filter(x => x.patas.some(mismo));
         const enOrden = l => l.slice().sort((a, b) => a.orden.localeCompare(b.orden));
         const papelS = enOrden(g.salva.filter(x => x.quien === "papel")), realS = enOrden(g.salva.filter(x => x.quien === "real"));
         const set = new Set(partidos);
         return `<article class="card cmp-partido">
           <div class="cmp-cab"><b>${esc(partidos.join(" + "))}</b><span>${esc(ligaTxt)} · ${esc(fechaDMA(g.f))}</span></div>
           ${bloqueCmp("modelo", deModelo.some(x => x.origen === "real") ? "Modelo" : "Modelo · en papel", deModelo, "No apostó en este partido.", set)}
+          ${dePick.length ? bloqueCmp("modelo", "Pick del modelo · en papel", dePick, "", set) : ""}
           ${papelS.length ? bloqueCmp("tu", "Tú · en papel", papelS, "", set) : ""}
           ${realS.length ? bloqueCmp("tu", "Tú · dinero real", realS, "", set) : ""}
         </article>`;
@@ -1202,10 +1207,10 @@ mostrarSeccion();
     el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(etiqueta + ": " + desc)}">${s}</svg>`;
   }
   function seriesCmp(grupos) {
-    const liq = QUIENES.flatMap(([k]) => grupos[k]).filter(x => LIQ.includes(x.estado) && x.fLiq);
+    const liq = QUIENES.filter(([k]) => k !== "pick").flatMap(([k]) => grupos[k]).filter(x => LIQ.includes(x.estado) && x.fLiq);
     const fechas = [...new Set(liq.map(x => x.fLiq))].sort();
-    const color = {modelo: "--modelo", papel: "--tu", real: "--tu"};
-    const series = QUIENES.map(([k, nombre]) => {
+    const color = {modelo: "--modelo", pick: "--modelo", papel: "--tu", real: "--tu"};
+    const series = QUIENES.filter(([k]) => k !== "pick").map(([k, nombre]) => {
       const mias = liq.filter(x => grupos[k].includes(x));
       if (!mias.length) return {nombre, valores: null};
       let acc = 0; const valores = [0];
@@ -1322,7 +1327,7 @@ mostrarSeccion();
       const enPeriodo = apCmp.filter(x => pasa(x, rg));
       const grupos = Object.fromEntries(QUIENES.map(([k]) => [k, enPeriodo.filter(x => x.quien === k)]));
       $("cmp-tabla").innerHTML = tablaCmp(grupos);
-      $("cmp-nota").textContent = `Modelo: las 3 formas del sistema (valor, sencilla fuerte y combinada)${hayModeloReal ? ", en papel y con dinero real" : " en papel"}. Tú: tus elecciones, en papel y con dinero real por separado. Acierto y rendimiento cuentan solo las calificadas.`;
+      $("cmp-nota").textContent = `Modelo: las 3 formas del sistema (valor, sencilla fuerte y combinada)${hayModeloReal ? ", en papel y con dinero real" : " en papel"}. Pick del modelo: su mejor selección por partido, aunque no tenga valor (solo papel; no está en la gráfica). Tú: tus elecciones, en papel y con dinero real por separado. Acierto y rendimiento cuentan solo las calificadas.`;
       datosGrafCmp = seriesCmp(grupos);
       $("cmp-partidos").innerHTML = partidosCmp(enPeriodo);
     }
