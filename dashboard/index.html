@@ -233,7 +233,8 @@
   .cmp-tbl { width:100%; border-collapse:collapse; font-size:14px; table-layout:fixed; }
   .cmp-tbl th, .cmp-tbl td { padding:10px 8px; border-bottom:1px solid var(--borde-suave); text-align:right; }
   .cmp-tbl thead th { font-size:13px; font-weight:600; color:var(--suave); vertical-align:bottom; border-bottom-color:var(--borde); }
-  .cmp-tbl th:first-child { text-align:left; padding-left:0; width:34%; }
+  .cmp-tbl th:first-child { text-align:left; padding-left:0; width:26%; }
+  .cmp-tbl thead th { line-height:1.25; overflow-wrap:break-word; hyphens:auto; }
   .cmp-tbl td:last-child, .cmp-tbl th:last-child { padding-right:0; }
   .cmp-tbl tbody th { font-weight:500; color:var(--medio); }
   .cmp-tbl td { font-weight:600; white-space:nowrap; }
@@ -245,7 +246,7 @@
   .g-serie { fill:none; stroke-width:2.5; stroke-linejoin:round; stroke-linecap:round; }
   .cmp-fila { display:grid; grid-template-columns:1fr; gap:16px; align-items:stretch; }
   .cmp-fila .graf { flex:1 1 auto; }
-  @media (min-width: 1000px) { .cmp-fila { grid-template-columns:minmax(0,5fr) minmax(0,7fr); } }
+  @media (min-width: 1000px) { .cmp-fila { grid-template-columns:minmax(0,7fr) minmax(0,5fr); } }
   .cmp-partidos { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(360px,100%), 1fr)); gap:16px; align-items:start; }
   .cmp-partido { padding:16px 20px; display:flex; flex-direction:column; gap:10px; min-width:0; }
   .cmp-cab { display:flex; justify-content:space-between; align-items:baseline; gap:2px 12px; flex-wrap:wrap; }
@@ -314,9 +315,18 @@
     details.card { padding:0 16px; }
     details.card > .caja-tabla { margin:0 -16px; }
     .cmp-tbl { font-size:13px; }
-    .cmp-tbl th, .cmp-tbl td { padding:9px 4px; }
-    .cmp-tbl thead th { font-size:12px; }
+    .cmp-tbl th, .cmp-tbl td { padding:9px 3px; }
+    .cmp-tbl th:first-child { width:26%; overflow-wrap:break-word; }
+    .cmp-tbl td { font-size:12px; white-space:normal; }
+    .cmp-tbl tbody th { font-size:12px; }
+    .cmp-tbl td.num { white-space:nowrap; }
+    .cmp-tbl thead th { font-size:11px; }
     .cmp-partido { padding:14px 16px; }
+  }
+  @media (max-width: 380px) {
+    .cmp-tbl td, .cmp-tbl tbody th { font-size:10.5px; }
+    .cmp-tbl thead th { font-size:10px; }
+    .cmp-tbl th:first-child { width:28%; }
   }
   @media (min-width: 720px) {
     .top-izq { display:contents; }
@@ -1108,7 +1118,7 @@ mostrarSeccion();
         <th scope="col" class="modelo">Modelo</th><th scope="col" class="modelo">Pick del modelo</th><th scope="col" class="tu">Tú (papel)</th><th scope="col" class="tu">Tú (real)</th></tr></thead><tbody>
       ${fila("Apuestas", x => [String(x.n)])}
       ${fila("Acierto", x => [PCT(x.acierto)])}
-      ${fila("Ganancia/Pérdida", x => x.liq ? [signo(Math.round(x.gan)), clase(x.gan)] : ["—"])}
+      ${fila("Ganancia / Pérdida", x => x.liq ? [signo(Math.round(x.gan)), clase(x.gan)] : ["—"])}
       ${fila("Rendimiento", x => [PCTs(x.roi), clase(x.roi)])}
       ${fila("Racha", (x, g) => racha(g))}
       ${fila("Pendientes", x => [String(x.pendientes)])}
