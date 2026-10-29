@@ -280,7 +280,8 @@
   .cmp-fila { display:grid; grid-template-columns:1fr; gap:16px; align-items:stretch; }
   .cmp-fila .graf { flex:1 1 auto; }
   @media (min-width: 1000px) { .cmp-fila { grid-template-columns:minmax(0,7fr) minmax(0,5fr); } }
-  .cmp-partidos { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(360px,100%), 1fr)); gap:16px; align-items:start; }
+  .cmp-partidos { columns:360px; column-gap:16px; }
+  .cmp-partidos > .cmp-partido { break-inside:avoid; margin-bottom:16px; }
   .cmp-partido { padding:16px 20px; display:flex; flex-direction:column; gap:10px; min-width:0; }
   .cmp-cab { display:flex; justify-content:space-between; align-items:baseline; gap:2px 12px; flex-wrap:wrap; }
   .cmp-cab b { font-size:16px; overflow-wrap:anywhere; }
