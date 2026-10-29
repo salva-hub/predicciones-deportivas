@@ -1,0 +1,58 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261029-336051",
+      "partido": "Vasco da Gama vs Flamengo",
+      "liga": "brasil",
+      "deporte": "futbol",
+      "espn_id": "401841292",
+      "mercado": "ganador",
+      "seleccion": "2",
+      "cuota": 1.5780346820809248,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261029-336051",
+      "partido": "Vasco da Gama vs Flamengo",
+      "liga": "brasil",
+      "deporte": "futbol",
+      "espn_id": "401841292",
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "cuota": 1.7142857142857144,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261029-336051",
+      "partido": "Vasco da Gama vs Flamengo",
+      "liga": "brasil",
+      "deporte": "futbol",
+      "espn_id": "401841292",
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "cuota": 1.3968253968253967,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261029-336051",
+      "partido": "Vasco da Gama vs Flamengo",
+      "liga": "brasil",
+      "deporte": "futbol",
+      "espn_id": "401841292",
+      "mercado": "tarjetas",
+      "seleccion": "mas_4.5",
+      "cuota": 1.3246753246753247,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 5.0,
+  "cuota_americana": "+400",
+  "monto": 300.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261029-b0ed9a",
+  "creado": "2026-10-29T15:48:38.343310-07:00",
+  "estado": "pendiente",
+  "nota": "Elección de Salva, dinero real (confirmado 29-oct). Ticket de 4 patas del mismo partido a +400 de Winpot repartido entre patas."
+}
