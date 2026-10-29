@@ -180,6 +180,16 @@ def _estadisticas(datos: dict) -> dict | None:
         out[f"rojas_{lado}"] = num("redCards")
         out[f"tiros_{lado}"] = num("totalShots")
         out[f"tiros_puerta_{lado}"] = num("shotsOnTarget")
+    if out.get("tiros_local") == 0 and out.get("tiros_visitante") == 0:
+        # ESPN publicó el boxscore vacío (todo en 0): no hay estadísticas, no son 0 córners
+        # ni 0 tarjetas. Sin datos, calificar reintenta 48 h y luego se liquida a mano.
+        for k in [k for k in out if k.split("_")[0] in ("corners", "amarillas", "rojas", "tiros")]:
+            out[k] = None
+        out.update({f"tarjetas_{l}": None for l in ("local", "visitante")})
+        arbitro = _arbitro(datos)
+        if arbitro:
+            out["arbitro"] = arbitro
+        return out
     segundas = _segundas_amarillas(datos, equipos)
     for lado in ("local", "visitante"):
         if segundas is not None:

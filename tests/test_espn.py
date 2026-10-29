@@ -202,3 +202,19 @@ def test_roja_directa_y_sin_eventos():
     assert r["tarjetas_local"] == 3          # roja directa = 2
     assert r["tarjetas_visitante"] is None   # sin amarillas no hay dato
     assert "segundas_amarillas_local" not in r
+
+
+def test_boxscore_vacio_es_sin_datos():
+    """ESPN a veces publica el boxscore todo en 0: no son 0 córners ni 0 tarjetas."""
+    vacio = [{"name": n, "displayValue": "0"} for n in ("wonCorners", "yellowCards", "redCards", "totalShots", "shotsOnTarget")]
+    datos = {"boxscore": {"teams": [
+        {"homeAway": "home", "team": {"id": "1"}, "statistics": vacio},
+        {"homeAway": "away", "team": {"id": "2"}, "statistics": vacio},
+    ]}}
+    r = espn._estadisticas(datos)
+    assert r["corners_local"] is None and r["tarjetas_visitante"] is None and r["tiros_local"] is None
+    from predicciones.calificar import SIN_DATOS, calificar
+    r.update(goles_local=1, goles_visitante=0)
+    assert calificar("corners", "menos_9.5", r) == SIN_DATOS
+    assert calificar("tarjetas", "menos_4.5", r) == SIN_DATOS
+    assert calificar("tarjetas_1x2", "X", r) == SIN_DATOS
