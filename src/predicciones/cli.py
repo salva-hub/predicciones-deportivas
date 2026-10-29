@@ -353,6 +353,21 @@ def cmd_evaluar(a) -> None:
     # con dinero real y la categoría fuerte sin aprobar, una selección con valor es "valor"
     if not papel and V.FUERTE not in B.CATEGORIAS_DINERO_REAL:
         filas = [(*f[:4], V.VALOR) if f[4] == V.FUERTE and V.tiene_valor(f[2]) else f for f in filas]
+    # regla temporal (29-oct-2026): un "menos" de córners/tarjetas con Winpot muy en contra
+    # del modelo no entra en ninguna categoría ni en parlays o combinadas
+    dec_sel = {(m, s_): d for m, s_, d in cuotas}
+    previas_winpot = p.get("cuotas_winpot", {})
+
+    def _contrario(m: str, s_: str) -> float | None:
+        otro = "mas_" + s_[len("menos_"):]
+        if (m, otro) in dec_sel:
+            return dec_sel[(m, otro)]
+        txt = previas_winpot.get(f"{m}:{otro}")
+        return C.americana_a_decimal(float(txt)) if txt else None
+
+    discrepan = {i for i, f in enumerate(filas) if f[2] is not None and f[1].startswith("menos_")
+                 and V.discrepa_menos(f[0], f[1], f[2].prob, f[2].cuota_ofrecida, _contrario(f[0], f[1]))}
+    filas = [(*f[:4], None) if i in discrepan else f for i, f in enumerate(filas)]
     # sencilla fuerte: como mucho MAX_POR_DIA al día; si hay varias, la de mayor probabilidad.
     # Sin cupo, si tiene valor pasa a la categoría valor
     fuertes = sorted((i for i, f in enumerate(filas) if f[4] == V.FUERTE), key=lambda i: -filas[i][2].prob)
@@ -371,7 +386,9 @@ def cmd_evaluar(a) -> None:
             continue
         dec, ve, dev = s.cuota_ofrecida, s.ve(), s.prob_devolucion
         motivo = None
-        if i in sin_cupo and cat is None:
+        if i in discrepan:
+            motivo = V.MOTIVO_DISCREPANCIA
+        elif i in sin_cupo and cat is None:
             motivo = "ya hay una sencilla fuerte hoy (máximo 1 por día)"
         elif cat is None and V.fuerte_salvo_momio(s):
             motivo = V.MOTIVO_MOMIO_FUERTE
@@ -392,6 +409,8 @@ def cmd_evaluar(a) -> None:
             "sirve_para_parlay": ve >= V.ve_min_parlay_pata(mercado),
             "sirve_para_combinada": V.sirve_para_combinada(s),
         }
+        if i in discrepan:
+            fila_res.update(sirve_para_parlay=False, sirve_para_combinada=False)
         if dev:
             fila_res["devolucion"] = dev
         if 0 < monto < pedido:
