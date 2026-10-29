@@ -110,6 +110,110 @@
       "recortada": false,
       "creado": "2026-10-29T12:13:35.438780-07:00",
       "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261029-97f17c:ambos_anotan:si|P-20261029-97f17c:corners:mas_7.5|P-20261029-97f17c:doble_oportunidad:X2|P-20261029-97f17c:goles:mas_2.5|P-20261029-d012e6:ambos_anotan:si|P-20261029-d012e6:corners:mas_8.5|P-20261029-d012e6:doble_oportunidad:X2|P-20261029-d012e6:goles:mas_2.5",
+      "tipo": "parlay",
+      "categoria": "eleccion_salva",
+      "patas": [
+        {
+          "pronostico": "P-20261029-97f17c",
+          "partido": "Fiorentina vs Atalanta",
+          "liga": "serie_a",
+          "mercado": "doble_oportunidad",
+          "seleccion": "X2",
+          "prob": 0.59,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.5119
+        },
+        {
+          "pronostico": "P-20261029-97f17c",
+          "partido": "Fiorentina vs Atalanta",
+          "liga": "serie_a",
+          "mercado": "goles",
+          "seleccion": "mas_2.5",
+          "prob": 0.655,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.3619
+        },
+        {
+          "pronostico": "P-20261029-97f17c",
+          "partido": "Fiorentina vs Atalanta",
+          "liga": "serie_a",
+          "mercado": "ambos_anotan",
+          "seleccion": "si",
+          "prob": 0.676,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.3196
+        },
+        {
+          "pronostico": "P-20261029-97f17c",
+          "partido": "Fiorentina vs Atalanta",
+          "liga": "serie_a",
+          "mercado": "corners",
+          "seleccion": "mas_7.5",
+          "prob": 0.639,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.396
+        },
+        {
+          "pronostico": "P-20261029-d012e6",
+          "partido": "Everton vs Newcastle United",
+          "liga": "premier",
+          "mercado": "doble_oportunidad",
+          "seleccion": "X2",
+          "prob": 0.581,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.5353
+        },
+        {
+          "pronostico": "P-20261029-d012e6",
+          "partido": "Everton vs Newcastle United",
+          "liga": "premier",
+          "mercado": "goles",
+          "seleccion": "mas_2.5",
+          "prob": 0.592,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.5068
+        },
+        {
+          "pronostico": "P-20261029-d012e6",
+          "partido": "Everton vs Newcastle United",
+          "liga": "premier",
+          "mercado": "ambos_anotan",
+          "seleccion": "si",
+          "prob": 0.625,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.4272
+        },
+        {
+          "pronostico": "P-20261029-d012e6",
+          "partido": "Everton vs Newcastle United",
+          "liga": "premier",
+          "mercado": "corners",
+          "seleccion": "mas_8.5",
+          "prob": 0.677,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.3176
+        }
+      ],
+      "cuota": 16.5,
+      "cuota_americana": "+1550",
+      "prob": 0.036,
+      "monto": 300,
+      "recortada": false,
+      "creado": "2026-10-29T12:30:58.422785-07:00",
+      "excepcion": "Elección de Salva en papel (29-oct): 8 patas, 4 por partido; prob. conjunta 3.6% con correlación de goles (justa +2679), valor -41%. Cuota total +1550 de Winpot repartida entre patas.",
+      "pago_anticipado": true,
+      "estado": "pendiente"
     }
   ]
 }
