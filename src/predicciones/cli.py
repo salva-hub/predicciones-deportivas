@@ -466,13 +466,16 @@ def cmd_evaluar(a) -> None:
 
 def _candidatas_del_dia(dia: date, campo: str) -> tuple[list, dict]:
     """Selecciones evaluadas del día marcadas con `campo` (sirve_para_parlay o
-    sirve_para_combinada). Si un partido tiene varios pronósticos, vale el más reciente."""
+    sirve_para_combinada), solo de partidos que aún no empiezan. Si un partido tiene
+    varios pronósticos, vale el más reciente."""
     candidatas, ids = [], {}  # id(selección) -> su pronóstico
     ultimos: dict[str, dict] = {}
     for p in R.pronosticos():  # ordenados por fecha de creación
         if str(p.get("inicio_sonora", "")).startswith(str(dia)):
             ultimos[p.get("espn_id") or p["partido"]] = p
     for p in ultimos.values():
+        if R.partido_iniciado(p):
+            continue  # partido empezado o jugado: sus selecciones ya no entran a parlays nuevos
         for r in p.get("evaluacion", []):
             if r.get(campo):
                 fila = next((s for s in p.get("selecciones", [])

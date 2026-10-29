@@ -1174,3 +1174,30 @@ def test_papel_fuerte_y_valor_con_monto_completo(papel, capsys):
     ev = _salida(capsys)
     montos = [x["monto_papel"] for x in ev["evaluacion"] if x.get("apostar_papel")]
     assert montos and all(m >= 200 for m in montos) and not any(x.get("recortada") for x in ev["evaluacion"])
+
+
+def test_parlays_no_usan_partidos_empezados_ni_reemplazan_los_ya_en_juego(papel, capsys):
+    """28-oct-2026: `parlays` metía patas de partidos ya jugados y borraba parlays con patas ya en juego."""
+    from datetime import timedelta
+    R = papel.R
+    pr = [_pron_cat(R, f"E{i} vs F{i}", [("goles", "mas_1.5", 0.56, "alta")]) for i in range(4)]
+    for p in pr:
+        papel.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_1.5=-130"])
+        capsys.readouterr()
+    papel.main(["parlays"])
+    antes = _salida(capsys)["parlays_papel"]
+    assert antes and all(x["monto_papel"] > 0 for x in antes)
+    # empiezan dos partidos (E0 y E1)
+    for p in pr[:2]:
+        q = R.buscar_pronostico(p["id"])
+        q["inicio_utc"] = (R.ahora() - timedelta(minutes=5)).isoformat()
+        R.actualizar_pronostico(q)
+    en_juego = [x for x in R.parlays_papel() if any(t["pronostico"] in (pr[0]["id"], pr[1]["id"]) for t in x["patas"])]
+    assert en_juego
+    papel.main(["parlays"])
+    despues = _salida(capsys)["parlays_papel"]
+    nuevos = despues if isinstance(despues, list) else []
+    assert all(not any(n in t for t in x["patas"] for n in ("E0 vs F0", "E1 vs F1")) for x in nuevos)
+    # los parlays con patas ya en juego siguen guardados, sin cambios
+    claves = {x["clave"] for x in R.parlays_papel()}
+    assert all(x["clave"] in claves for x in en_juego)
