@@ -1,0 +1,115 @@
+{
+  "id": "parlays-20261029",
+  "fecha": "2026-10-29",
+  "creado": "2026-10-29T12:13:31.605980-07:00",
+  "parlays": [
+    {
+      "clave": "P-20261029-97f17c:corners:menos_8.5|P-20261029-d012e6:tarjetas:menos_3.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261029-97f17c",
+          "partido": "Fiorentina vs Atalanta",
+          "liga": "serie_a",
+          "mercado": "corners",
+          "seleccion": "menos_8.5",
+          "cuota": 2.5,
+          "prob": 0.482,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261029-d012e6",
+          "partido": "Everton vs Newcastle United",
+          "liga": "premier",
+          "mercado": "tarjetas",
+          "seleccion": "menos_3.5",
+          "cuota": 2.2,
+          "prob": 0.519,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 5.5,
+      "cuota_americana": "+450",
+      "prob": 0.2502,
+      "monto": 200.0,
+      "recortada": false,
+      "creado": "2026-10-29T12:13:35.438737-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261029-97f17c:tarjetas:menos_4.5|P-20261029-d012e6:tarjetas_1x2:1",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261029-97f17c",
+          "partido": "Fiorentina vs Atalanta",
+          "liga": "serie_a",
+          "mercado": "tarjetas",
+          "seleccion": "menos_4.5",
+          "cuota": 1.5555555555555556,
+          "prob": 0.709,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261029-d012e6",
+          "partido": "Everton vs Newcastle United",
+          "liga": "premier",
+          "mercado": "tarjetas_1x2",
+          "seleccion": "1",
+          "cuota": 2.5,
+          "prob": 0.433,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.8889,
+      "cuota_americana": "+289",
+      "prob": 0.307,
+      "monto": 200.0,
+      "recortada": false,
+      "creado": "2026-10-29T12:13:35.438765-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261029-97f17c:tarjetas:menos_3.5|P-20261029-d012e6:ganador:1",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261029-97f17c",
+          "partido": "Fiorentina vs Atalanta",
+          "liga": "serie_a",
+          "mercado": "tarjetas",
+          "seleccion": "menos_3.5",
+          "cuota": 2.0,
+          "prob": 0.525,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261029-d012e6",
+          "partido": "Everton vs Newcastle United",
+          "liga": "premier",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 2.33,
+          "prob": 0.449,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 4.66,
+      "cuota_americana": "+366",
+      "prob": 0.2357,
+      "monto": 200.0,
+      "recortada": false,
+      "creado": "2026-10-29T12:13:35.438780-07:00",
+      "estado": "pendiente"
+    }
+  ]
+}
