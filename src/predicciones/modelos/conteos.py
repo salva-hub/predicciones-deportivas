@@ -27,12 +27,13 @@ from .fuerzas import Fuerzas, ajustar_fuerzas, pesos_por_fecha
 # Medido desde jul-2024 a oct-2026 (4,641 partidos), con (c, a, b) ajustado mes a mes:
 # - córners: log-loss 0.6502 antes -> 0.6370 (solo la frecuencia de la liga 0.6414);
 #   "menos de 7.5" en Liga MX: antes 39.9%, ahora 26.4%, real 25.6%.
-# - tarjetas: log-loss 0.5725 antes -> 0.5509 (solo la frecuencia de la liga 0.5609);
+# - tarjetas (con el factor del árbitro, como en producción): log-loss 0.5685 antes -> 0.5461
+#   (solo la frecuencia de la liga 0.5609);
 #   antes el lado de 25% pasaba 16% y el de 75%, 84%.
 # Los valores son el "recalibracion_con_todo" del backtest: (c, a, b).
 RECAL_CONTEOS = {
     "corners": (-0.003, 0.422, 0.524),
-    "tarjetas": (-0.089, 0.629, 0.369),
+    "tarjetas": (-0.088, 0.662, 0.343),
 }
 DIAS_FRECUENCIA_LIGA = 365
 MIN_PARTIDOS_FRECUENCIA = 50
@@ -132,7 +133,7 @@ def ajustar_modelo_conteo(
     fechas = pd.to_datetime(datos["fecha"])
     ultimo_anio = (fechas >= referencia - pd.Timedelta(days=DIAS_FRECUENCIA_LIGA)) & (fechas < referencia)
     if ultimo_anio.sum() < MIN_PARTIDOS_FRECUENCIA:  # p. ej. referencia = último partido
-        ultimo_anio = fechas >= referencia - pd.Timedelta(days=DIAS_FRECUENCIA_LIGA)
+        ultimo_anio = (fechas >= referencia - pd.Timedelta(days=DIAS_FRECUENCIA_LIGA)) & (fechas <= referencia)
     return ModeloConteo(nombre=nombre, fuerzas=fuerzas, dispersion_k=k, totales_liga=tot[ultimo_anio.to_numpy()])
 
 

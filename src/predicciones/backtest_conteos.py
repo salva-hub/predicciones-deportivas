@@ -1,7 +1,8 @@
 """Prueba contra el pasado de córners y tarjetas (más/menos de cada línea).
 
 Walk-forward mensual por liga: con los partidos anteriores a cada mes se ajusta el
-modelo de conteo (el mismo de pronostico.py, sin árbitro ni ajustes) y se calcula
+modelo de conteo (el mismo de pronostico.py; en tarjetas, con el factor del árbitro
+de sus partidos previos; sin ajustes por noticias) y se calcula
 P(más de la línea) para varias líneas. Se comparan:
 - "anterior": modelo con los partidos sin estadísticas contados como 0 y encogido
   hacia 50% (como estaba hasta el 29-oct-2026);
@@ -15,10 +16,11 @@ Resultado (29-oct-2026; Premier, LaLiga, Serie A, Bundesliga, Ligue 1, Liga MX;
 predicciones desde ene-2024, medidas jul-2024 a oct-2026, 4,641 partidos):
 - córners: log-loss anterior 0.6502, crudo 0.6444, solo frecuencia de la liga 0.6414,
   recalibrado 0.6370; "menos de 7.5" en Liga MX: anterior 39.9%, recalibrado 26.4%, real 25.6%.
-- tarjetas: anterior 0.5725, crudo 0.5531, solo frecuencia 0.5609, recalibrado 0.5509.
-- Recalibrado: calibrado de 10% a 90% en los dos mercados.
-- Aparte (no está en este módulo): la frecuencia de la línea en los últimos 10 partidos
-  de cada equipo casi no agrega nada encima del modelo recalibrado (1 a 2 puntos).
+- tarjetas (con árbitro): anterior 0.5685, crudo 0.5484, solo frecuencia 0.5609, recalibrado 0.5461.
+- Recalibrado: calibrado de 20% a 80% en córners (en los extremos se queda corto: 17.5% predicho
+  y pasa 21%; 82.5% y pasa 79%) y de 0% a 100% en tarjetas.
+- Aparte (prueba en el hilo del 29-oct-2026, no en este módulo): la frecuencia de la línea en
+  los últimos 10 partidos de cada equipo casi no agrega nada encima del modelo recalibrado.
 
 Uso: python -m predicciones.backtest_conteos --liga premier --liga liga_mx ... [--desde 2024-01-01]
 """
@@ -35,6 +37,7 @@ from .modelos.conteos import (
     DIAS_FRECUENCIA_LIGA,
     ajustar_modelo_conteo,
     encoger,
+    factor_arbitro,
     filas_con_estadisticas,
 )
 
@@ -58,11 +61,21 @@ def predicciones_crudas(liga: str, desde: str) -> pd.DataFrame:
             # anterior: con los partidos sin estadísticas como 0 (sin pasar por el filtro)
             sucio = d[d["fecha"] < ini].assign(tiros_local=1, tiros_visitante=1)
             m_ant = ajustar_modelo_conteo(sucio, cl, cv, merc, ini)
-            m = ajustar_modelo_conteo(limpio[limpio["fecha"] < ini], cl, cv, merc, ini)
+            previo = limpio[limpio["fecha"] < ini]
+            m = ajustar_modelo_conteo(previo, cl, cv, merc, ini)
+            # tarjetas: factor del árbitro como en producción (sus partidos previos en la liga)
+            arb, media = None, None
+            if merc == "tarjetas" and "arbitro" in previo.columns:
+                t = previo.assign(t=previo[cl] + previo[cv])
+                arb = t.groupby("arbitro")["t"].agg(["mean", "size"])
+                media = float(t["t"].mean())
             for r in te.itertuples():
                 tot = getattr(r, cl) + getattr(r, cv)
-                mu_a = sum(m_ant.esperados(r.local, r.visitante))
-                mu = sum(m.esperados(r.local, r.visitante))
+                fa = 1.0
+                if arb is not None and getattr(r, "arbitro", None) in arb.index:
+                    fa = factor_arbitro(arb.loc[r.arbitro, "mean"], int(arb.loc[r.arbitro, "size"]), media)
+                mu_a = sum(m_ant.esperados(r.local, r.visitante)) * fa
+                mu = sum(m.esperados(r.local, r.visitante)) * fa
                 for l in lineas:
                     out.append({"liga": liga, "fecha": r.fecha, "merc": merc, "linea": l, "y": int(tot > l),
                                 "p_anterior": encoger(m_ant.prob_mas(mu_a, l)), "p_crudo": m.prob_mas(mu, l),

@@ -60,7 +60,7 @@ def test_conteos_recalibrados_hacia_frecuencia_de_la_liga():
     # liga donde "más de 7.5" pasa 74%; el modelo da 77%
     p = recalibrar_conteo(0.77, 0.74, params)
     assert 0.72 < p < 0.80
-    assert 1 - p < 1 - encoger(0.77) - 0.05  # menos 7.5 ya no sube a ~31%
+    assert 1 - p < 0.30 < 1 - encoger(0.77)  # menos 7.5 ya no sube a ~31%
     # la línea más común queda cerca de lo que dice el modelo
     assert recalibrar_conteo(0.5, 0.5, params) == pytest.approx(0.5, abs=0.01)
 
@@ -77,3 +77,33 @@ def test_conteos_mercados_usan_frecuencia_de_la_liga(liga_sintetica):
     # sin frecuencia de la liga, como antes
     c.totales_liga = None
     assert c.mercados(mu, (7.5,))["mas_7.5"] == pytest.approx(encoger(c.prob_mas(mu, 7.5)))
+
+
+def test_conteos_frecuencia_solo_con_partidos_previos(liga_sintetica):
+    import numpy as np
+    import pandas as pd
+    fechas = pd.to_datetime(liga_sintetica["fecha"])
+    ref = fechas.sort_values().iloc[len(fechas) // 2]
+    c = ajustar_modelo_conteo(liga_sintetica, "corners_local", "corners_visitante", "corners", referencia=ref)
+    previos = liga_sintetica[(fechas < ref) & (fechas >= ref - pd.Timedelta(days=365))]
+    esperado = (previos["corners_local"] + previos["corners_visitante"]).to_numpy()
+    assert sorted(c.totales_liga) == sorted(esperado)
+
+
+def test_conteos_con_pocos_partidos_encoge_hacia_50(liga_sintetica):
+    from predicciones.modelos.conteos import MIN_PARTIDOS_FRECUENCIA, encoger
+    c = ajustar_modelo_conteo(liga_sintetica, "corners_local", "corners_visitante", "corners", vida_media_dias=10_000)
+    c.totales_liga = c.totales_liga[: MIN_PARTIDOS_FRECUENCIA - 1]
+    mu = 10.0
+    assert c.mercados(mu, (9.5,))["mas_9.5"] == pytest.approx(encoger(c.prob_mas(mu, 9.5)))
+
+
+def test_promedio_tarjetas_sin_partidos_sin_estadisticas(liga_sintetica):
+    from predicciones.pronostico import ajustar_modelos
+    h = liga_sintetica.assign(tiros_local=10, tiros_visitante=10)
+    sucio = h.copy()
+    idx = sucio.index[::10]
+    sucio.loc[idx, ["tarjetas_local", "tarjetas_visitante", "tiros_local", "tiros_visitante"]] = 0
+    limpio = h.drop(idx)
+    assert ajustar_modelos(sucio).promedio_tarjetas == pytest.approx(
+        float((limpio["tarjetas_local"] + limpio["tarjetas_visitante"]).mean()))

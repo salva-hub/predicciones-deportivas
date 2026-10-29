@@ -186,12 +186,17 @@ pronóstico y línea (1X2, más/menos 2.5, hándicap, etc.) solo cuenta el lado 
   El modelo propio queda como referencia y para avisar de desacuerdos.
 - Solo se apuesta si Winpot paga más que ese precio justo, con estos mínimos de valor esperado:
 - Sencilla en ganador, doble oportunidad, goles, ambos anotan, hándicap: valor esperado ≥ 3%.
-- Sencilla en córners o tarjetas: valor esperado ≥ 5%. (Sin Pinnacle para estos mercados.) Desde el 29-oct-2026
-  el modelo no usa los partidos que ESPN publicó sin estadísticas (antes contaban como 0) y cada línea se acerca a lo
-  que pasa en esa liga en el último año (`RECAL_CONTEOS`), no a 50%: el 50% inflaba el lado raro ("menos de 7.5
-  córners" en Liga MX salía 40% y pasa 26%). Prueba: `python -m predicciones.backtest_conteos --liga premier ...`
-  (6 ligas, 4,641 partidos jul-2024 a oct-2026, calibrado de 10% a 90%). La frecuencia de la línea en los últimos
-  10 partidos de cada equipo casi no agrega (1 a 2 puntos): va en la justificación como respaldo, no decide.
+- Sencilla en córners o tarjetas: valor esperado ≥ 5%. (Sin Pinnacle para estos mercados.) Desde el 29-oct-2026:
+  - No se usan los partidos que ESPN publicó sin estadísticas (boxscore en 0): antes contaban como 0 córners y 0
+    tarjetas en el modelo, el promedio de la liga y la calificación; ahora quedan sin datos.
+  - Cada línea se acerca a lo que pasa en esa liga en el último año (`RECAL_CONTEOS`), no a 50%: el 50% inflaba el
+    lado raro ("menos de 7.5 córners" en Liga MX salía 40% y pasa 26%). Con menos de 50 partidos de la liga en el
+    último año se vuelve a encoger hacia 50%. En torneos que mezclan historiales (Champions, Libertadores,
+    Concacaf) la frecuencia mezcla ligas; la recalibración se probó solo con las 6 ligas de abajo.
+  - Prueba: `python -m predicciones.backtest_conteos --liga premier ...` (6 ligas, 4,641 partidos jul-2024 a
+    oct-2026; tarjetas con factor del árbitro). Calibrado de 20% a 80%; en los extremos de córners se queda corto.
+  - Efecto: los ajustes (tabla del paso 3, factor del árbitro) mueven menos la probabilidad que antes, porque la
+    recalibración también los acerca a la frecuencia de la liga.
 - Tarjetas 1X2 (`tarjetas_1x2`, aprobado por Salva el 27-oct-2026): qué equipo recibe más tarjetas, contadas como
   Winpot (amarilla 1, roja 2, doble amarilla 3). "1" = el local recibe más, "X" = mismas, "2" = el visitante recibe
   más. Valor esperado ≥ 5%, como córners y tarjetas. Cuota de Winpot: `--winpot "tarjetas_1x2:1=+122"`.
