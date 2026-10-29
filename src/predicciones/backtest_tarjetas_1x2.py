@@ -27,6 +27,7 @@ from . import equipos as E
 from .modelos.conteos import (
     esperados_favorito,
     factor_arbitro,
+    filas_con_estadisticas,
     recalibrar_matriz,
     tarjetas_1x2_crudo,
 )
@@ -37,7 +38,8 @@ MESES_PREVIOS_RECAL = 6
 
 def _cargar(liga: str) -> pd.DataFrame:
     d = pd.read_csv(f"datos/historial/{liga}.csv")
-    d = d[d["terminado"] == True].dropna(subset=["tarjetas_local", "tarjetas_visitante"]).copy()  # noqa: E712
+    d = d[d["terminado"] == True].dropna(subset=["tarjetas_local", "tarjetas_visitante"])  # noqa: E712
+    d = filas_con_estadisticas(d).copy()  # sin los partidos que ESPN publicó sin estadísticas
     d["fecha"] = pd.to_datetime(d["fecha"])
     d["q1"] = np.nan
     d["q2"] = np.nan

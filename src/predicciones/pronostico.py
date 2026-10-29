@@ -22,7 +22,7 @@ from . import pago_anticipado as PA
 from . import valor as V
 from .ajustes import Ajustes
 from .equipos import resolver
-from .modelos.conteos import ModeloConteo, ajustar_modelo_conteo, tarjetas_1x2
+from .modelos.conteos import ModeloConteo, ajustar_modelo_conteo, filas_con_estadisticas, tarjetas_1x2
 from .modelos.goles import (
     ModeloGoles,
     ajustar_modelo_goles,
@@ -59,7 +59,7 @@ def ajustar_modelos(historial: pd.DataFrame, referencia: pd.Timestamp | None = N
         corners = ajustar_modelo_conteo(hist, "corners_local", "corners_visitante", "corners", referencia)
     if {"tarjetas_local", "tarjetas_visitante"} <= set(hist.columns) and hist["tarjetas_local"].notna().sum() > 50:
         tarjetas = ajustar_modelo_conteo(hist, "tarjetas_local", "tarjetas_visitante", "tarjetas", referencia)
-        t = hist.dropna(subset=["tarjetas_local"])
+        t = filas_con_estadisticas(hist.dropna(subset=["tarjetas_local"]))
         prom_t = float((t["tarjetas_local"] + t["tarjetas_visitante"]).mean())
     return Modelos(goles, corners, tarjetas, prom_t)
 

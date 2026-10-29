@@ -38,3 +38,42 @@ def test_conteos(liga_sintetica):
 def test_factor_arbitro():
     assert factor_arbitro(5.4, 30, 4.6) == pytest.approx(1 + 0.75 * (5.4 / 4.6 - 1))
     assert factor_arbitro(None, 0, 4.6) == 1.0
+
+
+def test_conteos_sin_partidos_sin_estadisticas(liga_sintetica):
+    """Los partidos que ESPN publica sin estadísticas (0 tiros) no cuentan como 0 córners."""
+    from predicciones.modelos.conteos import filas_con_estadisticas
+    h = liga_sintetica.assign(tiros_local=10, tiros_visitante=10)
+    sucio = h.copy()
+    idx = sucio.index[::10]
+    sucio.loc[idx, ["corners_local", "corners_visitante", "tiros_local", "tiros_visitante"]] = 0
+    assert len(filas_con_estadisticas(sucio)) == len(h) - len(idx)
+    limpio = ajustar_modelo_conteo(h.drop(idx), "corners_local", "corners_visitante", "corners", vida_media_dias=10_000)
+    filtrado = ajustar_modelo_conteo(sucio, "corners_local", "corners_visitante", "corners", vida_media_dias=10_000)
+    assert sum(filtrado.esperados("Equipo 3", "Equipo 4")) == pytest.approx(sum(limpio.esperados("Equipo 3", "Equipo 4")))
+
+
+def test_conteos_recalibrados_hacia_frecuencia_de_la_liga():
+    """Con frecuencia de la liga ya no se encoge hacia 50%: el lado raro no se infla."""
+    from predicciones.modelos.conteos import RECAL_CONTEOS, recalibrar_conteo, encoger
+    params = RECAL_CONTEOS["corners"]
+    # liga donde "más de 7.5" pasa 74%; el modelo da 77%
+    p = recalibrar_conteo(0.77, 0.74, params)
+    assert 0.72 < p < 0.80
+    assert 1 - p < 1 - encoger(0.77) - 0.05  # menos 7.5 ya no sube a ~31%
+    # la línea más común queda cerca de lo que dice el modelo
+    assert recalibrar_conteo(0.5, 0.5, params) == pytest.approx(0.5, abs=0.01)
+
+
+def test_conteos_mercados_usan_frecuencia_de_la_liga(liga_sintetica):
+    import numpy as np
+    c = ajustar_modelo_conteo(liga_sintetica, "corners_local", "corners_visitante", "corners", vida_media_dias=10_000)
+    assert c.totales_liga is not None and len(c.totales_liga) >= 50
+    from predicciones.modelos.conteos import RECAL_CONTEOS, recalibrar_conteo, encoger
+    mu = sum(c.esperados("Equipo 11", "Equipo 0"))
+    p = c.mercados(mu, (7.5,))["mas_7.5"]
+    assert p == pytest.approx(recalibrar_conteo(c.prob_mas(mu, 7.5), c.frecuencia_liga(7.5), RECAL_CONTEOS["corners"]))
+    assert c.frecuencia_liga(7.5) == pytest.approx(float(np.mean(c.totales_liga > 7.5)))
+    # sin frecuencia de la liga, como antes
+    c.totales_liga = None
+    assert c.mercados(mu, (7.5,))["mas_7.5"] == pytest.approx(encoger(c.prob_mas(mu, 7.5)))

@@ -18,9 +18,25 @@ from scipy.stats import nbinom
 
 from .fuerzas import Fuerzas, ajustar_fuerzas, pesos_por_fecha
 
-# El backtest (26-oct-2026, 5 ligas) mostró que los conteos se confían de más en
-# los extremos: pred. 0.67 -> real 0.62; 0.35 -> 0.41; 0.83 -> 0.61. Se encoge
-# cada probabilidad de más/menos hacia 50%: p' = 0.5 + 0.7 · (p − 0.5).
+# Recalibración (29-oct-2026). Antes se encogía cada probabilidad hacia 50%
+# (p' = 0.5 + 0.7·(p − 0.5)), pero eso inflaba el lado poco probable: "menos de 7.5
+# córners" en Liga MX salía 39% y pasa 25.8%. Ahora se acerca a lo que pasa en esa
+# línea en la liga (último año): logit p' = c + a·logit p + b·logit(frecuencia de la liga).
+# Walk-forward de 6 ligas (`python -m predicciones.backtest_conteos`): con datos limpios
+# y esta recalibración queda calibrado de 10% a 90%; ver el docstring de ese módulo.
+# Medido desde jul-2024 a oct-2026 (4,641 partidos), con (c, a, b) ajustado mes a mes:
+# - córners: log-loss 0.6502 antes -> 0.6370 (solo la frecuencia de la liga 0.6414);
+#   "menos de 7.5" en Liga MX: antes 39.9%, ahora 26.4%, real 25.6%.
+# - tarjetas: log-loss 0.5725 antes -> 0.5509 (solo la frecuencia de la liga 0.5609);
+#   antes el lado de 25% pasaba 16% y el de 75%, 84%.
+# Los valores son el "recalibracion_con_todo" del backtest: (c, a, b).
+RECAL_CONTEOS = {
+    "corners": (-0.003, 0.422, 0.524),
+    "tarjetas": (-0.089, 0.629, 0.369),
+}
+DIAS_FRECUENCIA_LIGA = 365
+MIN_PARTIDOS_FRECUENCIA = 50
+# Sin frecuencia de la liga (pocos partidos) se encoge hacia 50% como antes.
 ENCOGER_CONTEOS = 0.7
 
 
@@ -28,11 +44,36 @@ def encoger(p: float, factor: float = ENCOGER_CONTEOS) -> float:
     return 0.5 + factor * (p - 0.5)
 
 
+def _logit(p: float) -> float:
+    p = min(max(p, 1e-6), 1 - 1e-6)
+    return float(np.log(p / (1 - p)))
+
+
+def recalibrar_conteo(p: float, frecuencia_liga: float, params: tuple[float, float, float]) -> float:
+    c, a, b = params
+    z = c + a * _logit(p) + b * _logit(min(max(frecuencia_liga, 0.01), 0.99))
+    return float(1 / (1 + np.exp(-z)))
+
+
+def filas_con_estadisticas(df: pd.DataFrame) -> pd.DataFrame:
+    """Quita los partidos que ESPN publicó sin estadísticas.
+
+    El historial los guarda con 0 en tiros, córners y tarjetas (un partido real nunca
+    tiene 0 tiros); contarlos como 0 córners / 0 tarjetas bajaba el promedio.
+    """
+    if {"tiros_local", "tiros_visitante"} <= set(df.columns):
+        tiros = df["tiros_local"].fillna(0) + df["tiros_visitante"].fillna(0)
+        return df[tiros > 0]
+    return df
+
+
 @dataclass
 class ModeloConteo:
     nombre: str
     fuerzas: Fuerzas
     dispersion_k: float  # var = mu + mu^2 / k ; k grande -> Poisson
+    # totales de la liga en el último año (para la frecuencia real de cada línea)
+    totales_liga: np.ndarray | None = None
 
     def esperados(self, local: str, visitante: str, neutral: bool = False) -> tuple[float, float]:
         return self.fuerzas.esperados(local, visitante, neutral)
@@ -45,11 +86,20 @@ class ModeloConteo:
 
     def mercados(self, mu_total: float, lineas) -> dict[str, float]:
         out = {}
+        params = RECAL_CONTEOS.get(self.nombre)
+        hay_liga = params is not None and self.totales_liga is not None and len(self.totales_liga) >= MIN_PARTIDOS_FRECUENCIA
         for l in lineas:
-            mas = encoger(self.prob_mas(mu_total, l))
+            crudo = self.prob_mas(mu_total, l)
+            mas = recalibrar_conteo(crudo, self.frecuencia_liga(l), params) if hay_liga else encoger(crudo)
             out[f"mas_{l}"] = mas
             out[f"menos_{l}"] = 1 - mas
         return out
+
+    def frecuencia_liga(self, linea: float) -> float:
+        """Parte de los partidos de la liga (último año) con más de `linea`."""
+        if self.totales_liga is None or not len(self.totales_liga):
+            return 0.5
+        return float(np.mean(self.totales_liga > linea))
 
 
 def estimar_dispersion(totales: np.ndarray, esperados: np.ndarray, pesos: np.ndarray) -> float:
@@ -71,7 +121,7 @@ def ajustar_modelo_conteo(
     vida_media_dias: float = 270.0,
     ridge: float = 3.0,
 ) -> ModeloConteo:
-    datos = df.dropna(subset=[col_local, col_visitante]).copy()
+    datos = filas_con_estadisticas(df.dropna(subset=[col_local, col_visitante])).copy()
     if referencia is None:
         referencia = pd.to_datetime(datos["fecha"]).max()
     fuerzas = ajustar_fuerzas(datos, col_local, col_visitante, referencia, vida_media_dias, ridge)
@@ -79,7 +129,11 @@ def ajustar_modelo_conteo(
     tot = (datos[col_local] + datos[col_visitante]).to_numpy(dtype=float)
     w = pesos_por_fecha(datos["fecha"], referencia, vida_media_dias)
     k = estimar_dispersion(tot, esp, w)
-    return ModeloConteo(nombre=nombre, fuerzas=fuerzas, dispersion_k=k)
+    fechas = pd.to_datetime(datos["fecha"])
+    ultimo_anio = (fechas >= referencia - pd.Timedelta(days=DIAS_FRECUENCIA_LIGA)) & (fechas < referencia)
+    if ultimo_anio.sum() < MIN_PARTIDOS_FRECUENCIA:  # p. ej. referencia = último partido
+        ultimo_anio = fechas >= referencia - pd.Timedelta(days=DIAS_FRECUENCIA_LIGA)
+    return ModeloConteo(nombre=nombre, fuerzas=fuerzas, dispersion_k=k, totales_liga=tot[ultimo_anio.to_numpy()])
 
 
 def factor_arbitro(prom_arbitro: float | None, partidos_arbitro: int, prom_competicion: float, encogimiento: int = 10) -> float:
@@ -97,19 +151,20 @@ def factor_arbitro(prom_arbitro: float | None, partidos_arbitro: int, prom_compe
 
 # --- Tarjetas 1X2: qué equipo recibe más tarjetas (Winpot: amarilla 1, roja 2) ---
 # Backtest walk-forward (27-oct-2026; Premier, LaLiga, Serie A, Bundesliga, Ligue 1 y
-# Liga MX; predicciones desde jul-2023, medidas desde ene-2024 a oct-2026: 5,537 partidos;
+# Liga MX; predicciones desde jul-2023, medidas desde ene-2024 a oct-2026: 5,451 partidos
+# con estadísticas (desde el 29-oct-2026 sin los partidos que ESPN publicó sin ellas);
 # `python -m predicciones.backtest_tarjetas_1x2 --liga premier --liga laliga ...`):
 # - Las tarjetas de cada equipo salen del mismo modelo de tarjetas (las que recibe, las
 #   que provoca al rival y la sede), por el factor del árbitro y de los ajustes.
 # - Favorito: el equipo menos favorito recibe algo más. log(esperado) ± B_FAVORITO ·
 #   (prob. rival − prob. propia), con el 1X2 sin margen (Pinnacle si lo hay). Efecto chico.
-# - Dos Poisson independientes dan empate ~20% y en la realidad pasa 24.7% (las tarjetas de
+# - Dos Poisson independientes dan empate ~20% y en la realidad pasa 23.5% (las tarjetas de
 #   los dos equipos se mueven juntas). Una Poisson bivariada se pasa (27%). Lo que cuadró es
 #   recalibrar: p ∝ [e^(s·z/2), e^(d0 + g·ln pX), e^(−s·z/2)], z = ln(p1/p2), ajustado con
-#   las predicciones de los meses anteriores. Log-loss 1.0577 (promedio de la liga 1.0730,
-#   sin recalibrar 1.0634); empate predicho 24.7% (real 24.7%), calibrado por rangos.
+#   las predicciones de los meses anteriores. Log-loss 1.0521 (promedio de la liga 1.0672,
+#   sin recalibrar 1.0561); empate predicho 22.5% (real 23.5%), calibrado por rangos.
 B_FAVORITO = 0.03
-RECAL_TARJETAS_1X2 = (0.852, 1.516, 1.187)  # (s, d0, g): "recalibracion_con_todo" del backtest
+RECAL_TARJETAS_1X2 = (0.853, 1.142, 0.989)  # (s, d0, g): "recalibracion_con_todo" del backtest
 MAX_TARJETAS_EQUIPO = 20
 
 

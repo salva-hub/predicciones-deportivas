@@ -186,18 +186,22 @@ pronóstico y línea (1X2, más/menos 2.5, hándicap, etc.) solo cuenta el lado 
   El modelo propio queda como referencia y para avisar de desacuerdos.
 - Solo se apuesta si Winpot paga más que ese precio justo, con estos mínimos de valor esperado:
 - Sencilla en ganador, doble oportunidad, goles, ambos anotan, hándicap: valor esperado ≥ 3%.
-- Sencilla en córners o tarjetas: valor esperado ≥ 5%. (Sin Pinnacle para estos mercados; el modelo se encoge
-  hacia 50% porque el backtest mostró que se confiaba de más en los extremos.)
+- Sencilla en córners o tarjetas: valor esperado ≥ 5%. (Sin Pinnacle para estos mercados.) Desde el 29-oct-2026
+  el modelo no usa los partidos que ESPN publicó sin estadísticas (antes contaban como 0) y cada línea se acerca a lo
+  que pasa en esa liga en el último año (`RECAL_CONTEOS`), no a 50%: el 50% inflaba el lado raro ("menos de 7.5
+  córners" en Liga MX salía 40% y pasa 26%). Prueba: `python -m predicciones.backtest_conteos --liga premier ...`
+  (6 ligas, 4,641 partidos jul-2024 a oct-2026, calibrado de 10% a 90%). La frecuencia de la línea en los últimos
+  10 partidos de cada equipo casi no agrega (1 a 2 puntos): va en la justificación como respaldo, no decide.
 - Tarjetas 1X2 (`tarjetas_1x2`, aprobado por Salva el 27-oct-2026): qué equipo recibe más tarjetas, contadas como
   Winpot (amarilla 1, roja 2, doble amarilla 3). "1" = el local recibe más, "X" = mismas, "2" = el visitante recibe
   más. Valor esperado ≥ 5%, como córners y tarjetas. Cuota de Winpot: `--winpot "tarjetas_1x2:1=+122"`.
   - Cálculo (`tarjetas_1x2` en `modelos/conteos.py`): tarjetas esperadas de cada equipo del modelo de tarjetas (las que
     recibe, las que provoca al rival y la sede) × factor del árbitro × ajustes de tarjetas; el menos favorito según el
-    1X2 sin margen recibe un poco más (`B_FAVORITO`). Dos Poisson dan empate ~20% y en la realidad pasa 24.7%: se
-    recalibra (`RECAL_TARJETAS_1X2`) y queda en 24.7%.
+    1X2 sin margen recibe un poco más (`B_FAVORITO`). Dos Poisson dan empate ~20% y en la realidad pasa 23.5%: se
+    recalibra (`RECAL_TARJETAS_1X2`) y queda cerca (22.5% mes a mes).
   - Prueba histórica (`python -m predicciones.backtest_tarjetas_1x2 --liga premier --liga laliga --liga serie_a
-    --liga bundesliga --liga ligue_1 --liga liga_mx`; 5,537 partidos ene-2024 a oct-2026): log-loss 1.0577 contra
-    1.0730 del promedio de la liga; calibrado por rangos. Le gana poco al promedio: es un mercado muy al azar. No hay
+    --liga bundesliga --liga ligue_1 --liga liga_mx`; 5,451 partidos ene-2024 a oct-2026, sin los que no tienen
+    estadísticas): log-loss 1.0521 contra 1.0672 del promedio de la liga; calibrado por rangos. Le gana poco al promedio: es un mercado muy al azar. No hay
     cuotas viejas gratis de este mercado: la ganancia se mide en papel. Winpot cobra mucho margen aquí (13% en
     Torino-Como): habrá pocas apuestas con valor.
   - Con prórroga queda sin datos y se liquida a mano (ESPN mezcla las tarjetas de la prórroga).
@@ -329,7 +333,8 @@ Temporadas 2022/23 a 2025/26, apostando contra la cuota de apertura de Pinnacle 
   Cuando el modelo y Pinnacle discrepan, casi siempre acierta Pinnacle. Por eso la base ahora es Pinnacle.
 - Con la regla nueva (base Pinnacle, sin ajustes) el backtest no encuentra apuestas contra la apertura de Pinnacle:
   es lo esperado. El valor tiene que venir de que Winpot pague más que Pinnacle o de noticias de último momento.
-- Córners y tarjetas: el modelo se confiaba de más (predecía 0.83 y pasaba 0.61); ahora se encoge hacia 50%.
+- Córners y tarjetas: el modelo se confiaba de más (predecía 0.83 y pasaba 0.61); se encogió hacia 50% y desde
+  el 29-oct-2026 se recalibra hacia la frecuencia real de cada línea en la liga (ver Reglas de valor).
 
 ## Montos (porcentaje del bank actual)
 
