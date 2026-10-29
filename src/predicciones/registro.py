@@ -149,9 +149,19 @@ def actualizar_parlays_papel(doc: dict) -> None:
     _escribir_ruta(_ruta_item("papel", doc["id"]), doc)
 
 
+def partido_iniciado(p: dict | None) -> bool:
+    """El partido del pronóstico ya empezó (o ya tiene resultado)."""
+    if not p:
+        return False
+    return bool(p.get("resultado")) or bool(p.get("inicio_utc") and datetime.fromisoformat(p["inicio_utc"]) <= ahora())
+
+
 def _se_reemplaza(x: dict) -> bool:
-    """Parlay en papel pendiente que `parlays` vuelve a armar. Los de Salva y el pick del modelo nunca se reemplazan."""
-    return x.get("estado") == "pendiente" and x.get("categoria") not in APARTE
+    """Parlay en papel pendiente que `parlays` vuelve a armar. Los de Salva y el pick del modelo nunca se reemplazan,
+    ni los que ya tienen una pata de un partido empezado (la apuesta ya está hecha)."""
+    if x.get("estado") != "pendiente" or x.get("categoria") in APARTE:
+        return False
+    return not any(partido_iniciado(buscar_pronostico(q.get("pronostico"))) for q in x.get("patas", []) if q.get("pronostico"))
 
 
 def guardar_parlays_papel(dia, nuevos: list[dict]) -> list[dict]:
