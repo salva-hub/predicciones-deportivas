@@ -317,6 +317,172 @@
       "estado": "perdida",
       "ganancia": -290.0,
       "nota": "Liquidado a mano: pata de tarjetas 1X2 en partido de copa con penales (sin prórroga)"
+    },
+    {
+      "clave": "P-20261028-b4ce72:ganador:2|P-20261028-cd62e6:corners:menos_7.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261028-b4ce72",
+          "partido": "Bournemouth vs Aston Villa",
+          "liga": "premier",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 3.75,
+          "prob": 0.337,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261028-cd62e6",
+          "partido": "América vs Tijuana",
+          "liga": "liga_mx",
+          "mercado": "corners",
+          "seleccion": "menos_7.5",
+          "cuota": 4.75,
+          "prob": 0.31,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 17.8125,
+      "cuota_americana": "+1681",
+      "prob": 0.1045,
+      "monto": 150.0,
+      "recortada": false,
+      "creado": "2026-10-28T19:07:33.859670-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261028-b57d80:ganador:1|P-20261028-cd62e6:goles:menos_3.5",
+      "tipo": "parlay",
+      "categoria": "combinada",
+      "patas": [
+        {
+          "pronostico": "P-20261028-b57d80",
+          "partido": "Manchester City vs Brighton",
+          "liga": "premier",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.9523809523809523,
+          "prob": 0.564,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261028-cd62e6",
+          "partido": "América vs Tijuana",
+          "liga": "liga_mx",
+          "mercado": "goles",
+          "seleccion": "menos_3.5",
+          "cuota": 1.5813953488372094,
+          "prob": 0.644,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.0875,
+      "cuota_americana": "+209",
+      "prob": 0.3632,
+      "monto": 220.0,
+      "recortada": false,
+      "creado": "2026-10-28T19:07:33.859708-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261028-5a098d:ambos_anotan:si|P-20261028-b4ce72:tarjetas:mas_3.5|P-20261028-b57d80:goles:mas_2.5",
+      "tipo": "parlay",
+      "categoria": "combinada",
+      "patas": [
+        {
+          "pronostico": "P-20261028-b57d80",
+          "partido": "Manchester City vs Brighton",
+          "liga": "premier",
+          "mercado": "goles",
+          "seleccion": "mas_2.5",
+          "cuota": 1.5181347150259068,
+          "prob": 0.648,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261028-b4ce72",
+          "partido": "Bournemouth vs Aston Villa",
+          "liga": "premier",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "cuota": 1.5,
+          "prob": 0.642,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261028-5a098d",
+          "partido": "Liverpool vs Chelsea",
+          "liga": "premier",
+          "mercado": "ambos_anotan",
+          "seleccion": "si",
+          "cuota": 1.5714285714285714,
+          "prob": 0.618,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.5785,
+      "cuota_americana": "+258",
+      "prob": 0.2571,
+      "monto": 220.0,
+      "recortada": false,
+      "creado": "2026-10-28T19:07:33.859721-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261028-5a098d:tarjetas_1x2:2|P-20261028-b57d80:ambos_anotan:si|P-20261028-cd62e6:ganador:1",
+      "tipo": "parlay",
+      "categoria": "combinada",
+      "patas": [
+        {
+          "pronostico": "P-20261028-b57d80",
+          "partido": "Manchester City vs Brighton",
+          "liga": "premier",
+          "mercado": "ambos_anotan",
+          "seleccion": "si",
+          "cuota": 1.5,
+          "prob": 0.641,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261028-5a098d",
+          "partido": "Liverpool vs Chelsea",
+          "liga": "premier",
+          "mercado": "tarjetas_1x2",
+          "seleccion": "2",
+          "cuota": 1.7462686567164178,
+          "prob": 0.604,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261028-cd62e6",
+          "partido": "América vs Tijuana",
+          "liga": "liga_mx",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.5714285714285714,
+          "prob": 0.616,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 4.1162,
+      "cuota_americana": "+312",
+      "prob": 0.2385,
+      "monto": 220.0,
+      "recortada": false,
+      "creado": "2026-10-28T19:07:33.859739-07:00",
+      "estado": "pendiente"
     }
   ]
 }
