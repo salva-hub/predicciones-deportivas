@@ -10,7 +10,7 @@
       "mercado": "goles",
       "seleccion": "mas_2.5",
       "cuota": 1.3610108303249098,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261029-97f17c",
@@ -21,7 +21,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.3067484662576687,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261029-97f17c",
@@ -32,7 +32,7 @@
       "mercado": "tarjetas",
       "seleccion": "menos_5.5",
       "cuota": 1.0880281690140845,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261029-d012e6",
@@ -43,7 +43,7 @@
       "mercado": "goles",
       "seleccion": "mas_2.5",
       "cuota": 1.5154639175257731,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261029-d012e6",
@@ -54,7 +54,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.4219409282700421,
-      "estado": "pendiente"
+      "estado": "ganada"
     }
   ],
   "cuota": 4.18,
@@ -64,6 +64,8 @@
   "categoria": "eleccion_salva",
   "id": "A-20261029-7c6d0b",
   "creado": "2026-10-29T12:23:37.143213-07:00",
-  "estado": "pendiente",
-  "nota": "Elección de Salva, dinero real (confirmado 29-oct). Ticket de 5 patas a +318 de Winpot repartido entre patas."
+  "estado": "ganada",
+  "nota": "Elección de Salva, dinero real (confirmado 29-oct). Ticket de 5 patas a +318 de Winpot repartido entre patas.",
+  "ganancia": 954.0,
+  "liquidada": "2026-10-29T14:57:30.062360-07:00"
 }

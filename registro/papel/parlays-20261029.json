@@ -17,7 +17,7 @@
           "cuota": 2.5,
           "prob": 0.482,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261029-d012e6",
@@ -37,7 +37,9 @@
       "monto": 200.0,
       "recortada": false,
       "creado": "2026-10-29T12:13:35.438737-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -200.0,
+      "liquidada": "2026-10-29T14:57:15.267197-07:00"
     },
     {
       "clave": "P-20261029-97f17c:tarjetas:menos_4.5|P-20261029-d012e6:tarjetas_1x2:1",
@@ -53,7 +55,7 @@
           "cuota": 1.5555555555555556,
           "prob": 0.709,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261029-d012e6",
@@ -73,7 +75,9 @@
       "monto": 200.0,
       "recortada": false,
       "creado": "2026-10-29T12:13:35.438765-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -200.0,
+      "liquidada": "2026-10-29T14:57:15.267227-07:00"
     },
     {
       "clave": "P-20261029-97f17c:tarjetas:menos_3.5|P-20261029-d012e6:ganador:1",
@@ -89,7 +93,7 @@
           "cuota": 2.0,
           "prob": 0.525,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261029-d012e6",
@@ -109,7 +113,9 @@
       "monto": 200.0,
       "recortada": false,
       "creado": "2026-10-29T12:13:35.438780-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -200.0,
+      "liquidada": "2026-10-29T14:57:15.267237-07:00"
     },
     {
       "clave": "P-20261029-97f17c:ambos_anotan:si|P-20261029-97f17c:corners:mas_7.5|P-20261029-97f17c:doble_oportunidad:X2|P-20261029-97f17c:goles:mas_2.5|P-20261029-d012e6:ambos_anotan:si|P-20261029-d012e6:corners:mas_8.5|P-20261029-d012e6:doble_oportunidad:X2|P-20261029-d012e6:goles:mas_2.5",
@@ -124,7 +130,7 @@
           "seleccion": "X2",
           "prob": 0.59,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.5119
         },
         {
@@ -135,7 +141,7 @@
           "seleccion": "mas_2.5",
           "prob": 0.655,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.3619
         },
         {
@@ -146,7 +152,7 @@
           "seleccion": "si",
           "prob": 0.676,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.3196
         },
         {
@@ -157,7 +163,7 @@
           "seleccion": "mas_7.5",
           "prob": 0.639,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.396
         },
         {
@@ -168,7 +174,7 @@
           "seleccion": "X2",
           "prob": 0.581,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "perdida",
           "cuota": 1.5353
         },
         {
@@ -179,7 +185,7 @@
           "seleccion": "mas_2.5",
           "prob": 0.592,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.5068
         },
         {
@@ -190,7 +196,7 @@
           "seleccion": "si",
           "prob": 0.625,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.4272
         },
         {
@@ -201,7 +207,7 @@
           "seleccion": "mas_8.5",
           "prob": 0.677,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.3176
         }
       ],
@@ -213,7 +219,9 @@
       "creado": "2026-10-29T12:30:58.422785-07:00",
       "excepcion": "Elección de Salva en papel (29-oct): 8 patas, 4 por partido; prob. conjunta 3.6% con correlación de goles (justa +2679), valor -41%. Cuota total +1550 de Winpot repartida entre patas.",
       "pago_anticipado": true,
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -300,
+      "liquidada": "2026-10-29T14:57:30.063268-07:00"
     }
   ]
 }
