@@ -203,7 +203,8 @@ pronóstico y línea (1X2, más/menos 2.5, hándicap, etc.) solo cuenta el lado 
   (`DISCREPANCIA_MAX_MENOS` en `valor.py`). Motivo: en papel esos "menos" iban 0 de 7 aunque el modelo está
   calibrado en el historial (5,600 partidos; el árbitro pesa bien: darle más peso no mejora). Cuando Winpot discrepa
   mucho en estos mercados (sin Pinnacle), casi siempre acertó Winpot. El pick del modelo no cambia. Revisar con Salva
-  al terminar la prueba en papel.
+  al terminar la prueba en papel. Pasa siempre el "más" y el "menos" de la línea en el mismo `evaluar`
+  (un "menos" evaluado antes no se vuelve a revisar al llegar después el "más").
 - Tarjetas 1X2 (`tarjetas_1x2`, aprobado por Salva el 27-oct-2026): qué equipo recibe más tarjetas, contadas como
   Winpot (amarilla 1, roja 2, doble amarilla 3). "1" = el local recibe más, "X" = mismas, "2" = el visitante recibe
   más. Valor esperado ≥ 5%, como córners y tarjetas. Cuota de Winpot: `--winpot "tarjetas_1x2:1=+122"`.

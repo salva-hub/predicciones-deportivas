@@ -363,7 +363,7 @@ def cmd_evaluar(a) -> None:
         if (m, otro) in dec_sel:
             return dec_sel[(m, otro)]
         txt = previas_winpot.get(f"{m}:{otro}")
-        return C.americana_a_decimal(float(txt)) if txt else None
+        return C.americana_a_decimal(float(str(txt).replace("−", "-"))) if txt else None
 
     discrepan = {i for i, f in enumerate(filas) if f[2] is not None and f[1].startswith("menos_")
                  and V.discrepa_menos(f[0], f[1], f[2].prob, f[2].cuota_ofrecida, _contrario(f[0], f[1]))}

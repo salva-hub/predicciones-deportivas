@@ -1245,3 +1245,15 @@ def test_regla_menos_solo_corners_y_tarjetas():
     assert not V.discrepa_menos("goles", "menos_2.5", 0.60, 2.6, 1.48)      # goles tienen Pinnacle
     assert V.discrepa_menos("tarjetas", "menos_4.5", 0.70, 1.8)             # sin el otro lado: 1/cuota
     assert not V.discrepa_menos("tarjetas", "menos_4.5", 0.60, 1.8)
+
+
+def test_menos_conteo_cuota_guardada_con_signo_tipografico(papel, capsys):
+    cli, R = papel, papel.R
+    a = _pron_cat(R, "Everton vs Newcastle", [("tarjetas", "menos_3.5", 0.519, "alta"),
+                                             ("tarjetas", "mas_3.5", 0.481, "alta")])
+    p = R.buscar_pronostico(a["id"])
+    p["cuotas_winpot"] = {"tarjetas:mas_3.5": "−180"}  # escrito a mano con "−"
+    R.actualizar_pronostico(p)
+    cli.main(["evaluar", "--id", a["id"], "--winpot", "tarjetas:menos_3.5=+120"])
+    (r,) = _salida(capsys)["evaluacion"]
+    assert r["categoria"] is None and "10 puntos" in r["motivo"]
