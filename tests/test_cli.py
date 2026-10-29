@@ -1201,3 +1201,59 @@ def test_parlays_no_usan_partidos_empezados_ni_reemplazan_los_ya_en_juego(papel,
     # los parlays con patas ya en juego siguen guardados, sin cambios
     claves = {x["clave"] for x in R.parlays_papel()}
     assert all(x["clave"] in claves for x in en_juego)
+
+
+# ------------------------------------------- regla temporal: "menos" de córners/tarjetas
+
+def test_menos_conteo_con_winpot_muy_en_contra_no_entra(papel, capsys):
+    """Casos del 29-oct-2026: el modelo pasaba a Winpot por más de 10 puntos en el "menos"."""
+    cli, R = papel, papel.R
+    a = _pron_cat(R, "Fiorentina vs Atalanta", [
+        ("corners", "menos_8.5", 0.482, "alta"), ("corners", "mas_8.5", 0.518, "alta"),
+        ("tarjetas", "menos_3.5", 0.525, "alta"), ("tarjetas", "mas_3.5", 0.475, "alta"),
+        ("tarjetas", "menos_4.5", 0.709, "alta"), ("tarjetas", "mas_4.5", 0.291, "alta")])
+    cli.main(["evaluar", "--id", a["id"], "--winpot", "corners:mas_8.5=-200", "--winpot", "corners:menos_8.5=+150",
+              "--winpot", "tarjetas:mas_3.5=-150", "--winpot", "tarjetas:menos_3.5=+100",
+              "--winpot", "tarjetas:mas_4.5=+120", "--winpot", "tarjetas:menos_4.5=-180"])
+    ev = {(r["mercado"], r["seleccion"]): r for r in _salida(capsys)["evaluacion"]}
+    # córners menos 8.5: Winpot sin margen 37.5% vs modelo 48.2% -> fuera
+    r = ev[("corners", "menos_8.5")]
+    assert r["categoria"] is None and not r["apostar_papel"] and "10 puntos" in r["motivo"]
+    assert not r["sirve_para_parlay"] and not r["sirve_para_combinada"]
+    # tarjetas menos 4.5 (era sencilla fuerte): 58.6% vs 70.9% -> fuera
+    assert ev[("tarjetas", "menos_4.5")]["categoria"] is None
+    # tarjetas menos 3.5: 45.5% vs 52.5% (7 puntos) -> sigue como valor
+    assert ev[("tarjetas", "menos_3.5")]["categoria"] == "valor" and ev[("tarjetas", "menos_3.5")]["apostar_papel"]
+    assert [(x["mercado"], x["seleccion"]) for x in _sin_pick(R.buscar_pronostico(a["id"]))] == [("tarjetas", "menos_3.5")]
+
+
+def test_menos_conteo_usa_cuota_del_mas_ya_guardada(papel, capsys):
+    cli, R = papel, papel.R
+    a = _pron_cat(R, "Everton vs Newcastle", [("tarjetas", "menos_3.5", 0.519, "alta"),
+                                             ("tarjetas", "mas_3.5", 0.481, "alta")])
+    cli.main(["evaluar", "--id", a["id"], "--winpot", "tarjetas:mas_3.5=-180"])
+    capsys.readouterr()
+    cli.main(["evaluar", "--id", a["id"], "--winpot", "tarjetas:menos_3.5=+120"])
+    (r,) = _salida(capsys)["evaluacion"]
+    assert r["categoria"] is None and "10 puntos" in r["motivo"]  # 41.4% vs 51.9%
+
+
+def test_regla_menos_solo_corners_y_tarjetas():
+    from predicciones import valor as V
+    assert V.discrepa_menos("corners", "menos_8.5", 0.482, 2.5, 1.5)
+    assert not V.discrepa_menos("corners", "mas_8.5", 0.70, 1.5, 2.5)       # solo los "menos"
+    assert not V.discrepa_menos("goles", "menos_2.5", 0.60, 2.6, 1.48)      # goles tienen Pinnacle
+    assert V.discrepa_menos("tarjetas", "menos_4.5", 0.70, 1.8)             # sin el otro lado: 1/cuota
+    assert not V.discrepa_menos("tarjetas", "menos_4.5", 0.60, 1.8)
+
+
+def test_menos_conteo_cuota_guardada_con_signo_tipografico(papel, capsys):
+    cli, R = papel, papel.R
+    a = _pron_cat(R, "Everton vs Newcastle", [("tarjetas", "menos_3.5", 0.519, "alta"),
+                                             ("tarjetas", "mas_3.5", 0.481, "alta")])
+    p = R.buscar_pronostico(a["id"])
+    p["cuotas_winpot"] = {"tarjetas:mas_3.5": "−180"}  # escrito a mano con "−"
+    R.actualizar_pronostico(p)
+    cli.main(["evaluar", "--id", a["id"], "--winpot", "tarjetas:menos_3.5=+120"])
+    (r,) = _salida(capsys)["evaluacion"]
+    assert r["categoria"] is None and "10 puntos" in r["motivo"]

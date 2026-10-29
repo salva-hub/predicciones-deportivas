@@ -142,6 +142,32 @@ def doble_oportunidad_permitida(p1: float, px: float, p2: float) -> bool:
     return max(p1, px, p2) < UMBRAL_DOBLE_OPORTUNIDAD
 
 
+# Regla temporal (Salva, 29-oct-2026): en papel, los "menos" de córners y tarjetas iban 0 de 7.
+# El modelo está calibrado en el historial (5,600 partidos), pero cuando Winpot discrepa mucho
+# de él en estos mercados (sin Pinnacle), casi siempre acertó Winpot. Mientras se juntan datos,
+# un "menos" de córners o tarjetas no entra en ninguna categoría si la probabilidad del modelo
+# pasa por más de DISCREPANCIA_MAX_MENOS a la de Winpot (sin margen si se conoce el "más").
+DISCREPANCIA_MAX_MENOS = 0.10
+MERCADOS_DISCREPANCIA = ("corners", "tarjetas")
+MOTIVO_DISCREPANCIA = ("Winpot discrepa más de 10 puntos del modelo en un \"menos\" de córners o tarjetas "
+                       "(regla temporal del 29-oct-2026)")
+
+
+def prob_winpot(decimal: float, decimal_contrario: float | None = None) -> float:
+    """Probabilidad que da Winpot: sin margen si se conoce el otro lado de la línea."""
+    if decimal_contrario:
+        return C.quitar_margen([decimal, decimal_contrario])[0]
+    return 1 / decimal
+
+
+def discrepa_menos(mercado: str, seleccion: str, prob: float, decimal: float,
+                   decimal_contrario: float | None = None) -> bool:
+    """True si es un "menos" de córners/tarjetas y el modelo pasa a Winpot por más del máximo."""
+    if mercado not in MERCADOS_DISCREPANCIA or not seleccion.startswith("menos_"):
+        return False
+    return prob - prob_winpot(decimal, decimal_contrario) > DISCREPANCIA_MAX_MENOS
+
+
 def tiene_valor(s: Seleccion) -> bool:
     v = s.ve()
     return v is not None and v >= s.ve_minimo
