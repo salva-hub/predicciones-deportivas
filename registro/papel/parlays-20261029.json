@@ -222,6 +222,44 @@
       "estado": "perdida",
       "ganancia": -300,
       "liquidada": "2026-10-29T14:57:30.063268-07:00"
+    },
+    {
+      "clave": "P-20261029-336051:corners:mas_8.5|P-20261029-336051:handicap:visitante_-1.5",
+      "tipo": "parlay",
+      "categoria": "eleccion_salva",
+      "patas": [
+        {
+          "pronostico": "P-20261029-336051",
+          "partido": "Vasco da Gama vs Flamengo",
+          "liga": "brasil",
+          "mercado": "handicap",
+          "seleccion": "visitante_-1.5",
+          "prob": 0.356,
+          "confianza": "media",
+          "estado": "pendiente",
+          "cuota": 2.5705
+        },
+        {
+          "pronostico": "P-20261029-336051",
+          "partido": "Vasco da Gama vs Flamengo",
+          "liga": "brasil",
+          "mercado": "corners",
+          "seleccion": "mas_8.5",
+          "prob": 0.619,
+          "confianza": "media",
+          "estado": "pendiente",
+          "cuota": 1.4783
+        }
+      ],
+      "cuota": 3.8,
+      "cuota_americana": "+280",
+      "prob": 0.2204,
+      "monto": 500,
+      "recortada": false,
+      "creado": "2026-10-29T15:50:00.383627-07:00",
+      "excepcion": "Elección de Salva en papel (29-oct): mismo partido; prob. conjunta 22.0% (independientes; justa +354), valor -16%. Cuota total +280 de Winpot repartida entre patas.",
+      "pago_anticipado": true,
+      "estado": "pendiente"
     }
   ]
 }
