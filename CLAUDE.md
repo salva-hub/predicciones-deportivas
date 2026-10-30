@@ -132,6 +132,7 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    **Qué apostar:** las selecciones cuya cuota mínima es alcanzable, en orden de valor. Pide a Salva la cuota de Winpot de esas
    selecciones (o que confirme si Winpot paga la mínima o más). **Pide también la cuota de Winpot de las 3 o 4 selecciones
    más probables del partido** (aunque no tengan valor): sirven para sencillas fuertes y para armar combinadas.
+   Incluye las patas de la **lectura del partido** (ver "Aparte: Lectura del partido"), guardada antes de pedir cuotas.
 
 7. **Cuando Salva da las cuotas de Winpot:**
    `python -m predicciones.cli evaluar --id <id> --winpot "goles:mas_2.5=-130" --winpot "tarjetas:mas_4.5=-133"`
@@ -327,6 +328,34 @@ propia fila del dashboard (fuera del total), sin máximo por día y **fuera del 
 ni lo usa ni lo recortan, y nunca le quita lugar a las apuestas de valor ni a las de Salva. `parlays` nunca lo reemplaza. Combinaciones del mismo
 partido o entre partidos quedan fuera por ahora. No mueve el bank en papel, el resumen ni la tabla por mercado;
 `apostar --categoria pick_modelo` se rechaza.
+
+**Aparte: Lectura del partido** (`lectura`, aprobada por Salva el 30-oct-2026; solo en papel, desde el 31-oct-2026):
+Claude lee el partido por su cuenta y elige el mercado que mejor encaja; Salva solo mete los picks y sigue con sus
+propias elecciones; se comparan el 26-nov. Propuesta y backtest: https://claude.ai/artifact/T5DvVu3ECcF8EQi3EsM8rw
+(`src/predicciones/lectura.py`).
+- **En cada pronóstico definitivo**, antes de pedir las cuotas de Winpot, escribe la lectura (racha de los últimos 5,
+  historial directo, estilo, bajas, motivación) y guárdala:
+  `python -m predicciones.cli lectura --id <id> --texto "Flamengo muy superior, partido abierto" --pata ganador:2 --pata goles:mas_2.5`
+  - Pata principal (una como mucho): **ganador del favorito** (Pinnacle ≥ 40% sin pago anticipado; con favorito
+    claro, 50% o más) o **doble oportunidad** del favorito (1X o X2) si hay dudas.
+  - Patas extra (goles, ambos anotan, goles por equipo, hándicap de media línea, córners, tarjetas): solo si cuadran
+    con la lectura y tienen **60% o más**. Partido parejo sin lectura clara: no se guarda lectura.
+  - Si ya había cuotas de Winpot guardadas, queda marcada `despues_de_winpot: true`.
+- Pide a Salva las cuotas de Winpot de esas patas junto con las demás (y el momio del "crea tu apuesta" si son
+  varias del mismo partido). Luego registra:
+  `python -m predicciones.cli lectura-apostar --pata "<id>:ganador:2=-150" [--pata ...] [--cuota-total=+400]`
+  - Una pata: sencilla solo si Winpot paga **−200 o mejor**. Si no, combinada de 2 o 3 patas con total de
+    **+200 a +350**, mejor de partidos distintos. Varias del mismo partido exigen `--cuota-total` y solo entran si
+    Winpot paga al menos 90% del precio justo de la probabilidad conjunta (matriz de goles; córners y tarjetas
+    independientes). Doble oportunidad: solo si Winpot la paga dentro de 4% de su precio justo.
+  - El crea tu apuesta se liquida con el momio total de Winpot (`cuota_total_fija`); si una pata sale devuelta, va a
+    revisar a mano. `--cuota-total` solo se acepta con varias patas del mismo partido.
+  - Una apuesta de lectura por partido; no se cambia la lectura de un partido que ya tiene apuesta.
+- Montos del sistema (Salva, 30-oct) sobre su propio bank en papel (`bank_papel("lectura")`, empieza en 10,000):
+  sencilla con momio negativo = para ganar 5% (alta) o 2.5% (media); positivo = 5% (alta con valor ≥ doble del
+  mínimo) o 3%; combinada 5% alta / 3% media; confianza baja 2%. Fuera del límite del día y del total del sistema.
+- Se califica sola como cualquier parlay en papel. Dashboard: fila propia en "Prueba en papel por categoría",
+  columna "Lectura" en "Modelo vs Salva" y su bank en el Resumen.
 
 ## Resultados del backtest (26-oct-2026)
 
