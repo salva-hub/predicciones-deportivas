@@ -348,6 +348,8 @@ propias elecciones; se comparan el 26-nov. Propuesta y backtest: https://claude.
     **+200 a +350**, mejor de partidos distintos. Varias del mismo partido exigen `--cuota-total` y solo entran si
     Winpot paga al menos 90% del precio justo de la probabilidad conjunta (matriz de goles; córners y tarjetas
     independientes). Doble oportunidad: solo si Winpot la paga dentro de 4% de su precio justo.
+  - El crea tu apuesta se liquida con el momio total de Winpot (`cuota_total_fija`); si una pata sale devuelta, va a
+    revisar a mano. `--cuota-total` solo se acepta con varias patas del mismo partido.
   - Una apuesta de lectura por partido; no se cambia la lectura de un partido que ya tiene apuesta.
 - Montos del sistema (Salva, 30-oct) sobre su propio bank en papel (`bank_papel("lectura")`, empieza en 10,000):
   sencilla con momio negativo = para ganar 5% (alta) o 2.5% (media); positivo = 5% (alta con valor ≥ doble del

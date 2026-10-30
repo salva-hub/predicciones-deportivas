@@ -98,7 +98,7 @@ def validar_eleccion(p: dict, patas: list[tuple[str, str]]) -> None:
         if mercado == "ganador":
             p1, _, p2 = probs_1x2(p)
             if sel != fav or max(p1, p2) < PROB_MIN_FAVORITO:
-                raise ReglaLectura(f"ganador {sel}: solo el ganador del favorito (Pinnacle {PROB_MIN_FAVORITO:.0%} o más)")
+                raise ReglaLectura(f"ganador {sel}: solo el ganador del favorito (Pinnacle {PROB_MIN_FAVORITO:.0%} o más sin pago anticipado)")
         elif mercado == "doble_oportunidad":
             if sel != ("1X" if fav == "1" else "X2"):
                 raise ReglaLectura(f"doble oportunidad {sel}: solo empate o gana el favorito")
@@ -148,6 +148,8 @@ def prob_conjunta(p: dict, patas: list[tuple[str, str]]) -> float:
     if len(goles) == 1:
         prob = prob_pata(p, *goles[0])[0]
     elif goles:
+        if not p.get("goles_esperados"):
+            raise ReglaLectura(f"{p.get('partido')}: el pronóstico no trae goles esperados para combinar patas")
         mu_l, mu_v = p["goles_esperados"]
         m = matriz_marcadores(float(mu_l), float(mu_v))
         m = m / m.sum()

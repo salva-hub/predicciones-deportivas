@@ -274,7 +274,10 @@ def _parsear_cuota(texto: str) -> tuple[str, str, float]:
     """'goles:mas_2.5=-130' -> ('goles', 'mas_2.5', 1.769)"""
     izq, cuota = texto.split("=")
     mercado, seleccion = izq.split(":", 1)
-    v = float(cuota)
+    try:
+        v = float(cuota.replace("\u2212", "-").strip())  # acepta el signo menos tipográfico
+    except ValueError:
+        sys.exit(f"Cuota inválida: {texto}")
     return mercado.strip(), seleccion.strip(), C.americana_a_decimal(v) if abs(v) >= 100 else v
 
 
@@ -598,10 +601,6 @@ def cmd_apostar(a) -> None:
     _imprimir(ap)
 
 
-def _partido_empezado(p: dict) -> bool:
-    return bool(p.get("resultado")) or bool(p.get("inicio_utc") and datetime.fromisoformat(p["inicio_utc"]) <= R.ahora())
-
-
 def _lectura_en_apuesta(pid: str) -> bool:
     return any(x.get("categoria") == R.LECTURA and any(q.get("pronostico") == pid for q in x.get("patas", []))
                for x in R.parlays_papel())
@@ -614,7 +613,7 @@ def cmd_lectura(a) -> None:
     p = R.buscar_pronostico(a.id)
     if not p:
         sys.exit(f"No existe el pronóstico {a.id}")
-    if _partido_empezado(p):
+    if R.partido_iniciado(p):
         sys.exit("El partido ya empezó: no se guarda la lectura.")
     if _lectura_en_apuesta(p["id"]):
         sys.exit("Este partido ya tiene apuesta de lectura en papel: la lectura no se cambia.")
@@ -657,7 +656,7 @@ def cmd_lectura_apostar(a) -> None:
             sys.exit(f"{p['partido']}: falta la lectura (cli lectura) antes de apostar")
         if not any(x["mercado"] == mercado and x["seleccion"] == sel for x in lec["patas"]):
             sys.exit(f"{p['partido']}: {mercado} {sel} no está en la lectura guardada")
-        if _partido_empezado(p):
+        if R.partido_iniciado(p):
             sys.exit(f"{p['partido']}: el partido ya empezó, no cuenta en papel")
         if _lectura_en_apuesta(pid):
             sys.exit(f"{p['partido']}: ya tiene apuesta de lectura (una por partido)")
@@ -666,19 +665,22 @@ def cmd_lectura_apostar(a) -> None:
                       "deporte": p.get("deporte") or R.DEPORTE_DEFECTO, "espn_id": p.get("espn_id"),
                       "mercado": mercado, "seleccion": sel, "cuota": round(dec, 4), "prob": LE.redondear_prob(prob),
                       "confianza": conf, "estado": "pendiente"})
+        if (mercado, sel) in por_pid.get(pid, (None, []))[1]:
+            sys.exit(f"{p['partido']}: {mercado} {sel} está repetida")
         por_pid.setdefault(pid, (p, []))[1].append((mercado, sel))
     if len(patas) > max(V.COMBINADA_PATAS):
         sys.exit("Como mucho 3 patas")
     mismo_partido = any(len(v[1]) > 1 for v in por_pid.values())
     if mismo_partido and not a.cuota_total:
         sys.exit("Varias patas del mismo partido: pasa --cuota-total con el momio de Winpot del crea tu apuesta")
-    cuota = (C.americana_a_decimal(float(a.cuota_total)) if abs(float(a.cuota_total)) >= 100 else float(a.cuota_total)) \
-        if a.cuota_total else C.cuota_parlay(q["cuota"] for q in patas)
-    prob = 1.0
-    for p, lista in por_pid.values():
-        prob *= LE.prob_conjunta(p, lista)
+    if a.cuota_total and not mismo_partido:
+        sys.exit("--cuota-total es solo para el crea tu apuesta (varias patas del mismo partido)")
+    cuota = _cuota_real(a.cuota_total) if a.cuota_total else C.cuota_parlay(q["cuota"] for q in patas)
     tipo = "sencilla" if len(patas) == 1 else "combinada"
     try:
+        prob = 1.0
+        for p, lista in por_pid.values():
+            prob *= LE.prob_conjunta(p, lista)
         LE.revisar_precio(tipo, patas, cuota, prob, mismo_partido)
     except LE.ReglaLectura as e:
         sys.exit(f"No cumple las reglas de la lectura: {e}")
@@ -691,6 +693,8 @@ def cmd_lectura_apostar(a) -> None:
         "cuota": round(cuota, 4), "cuota_americana": C.formato_americano(cuota),
         "prob": LE.redondear_prob(prob), "ve": round(prob * cuota - 1, 4), "confianza": conf,
         "mismo_partido": mismo_partido, "monto": monto,
+        # el crea tu apuesta se liquida con el momio total de Winpot (no con el producto de las patas)
+        **({"cuota_total_fija": True} if mismo_partido else {}),
         "lecturas": {pid: p["lectura"]["texto"] for pid, (p, _) in por_pid.items()},
         "creado": R.ahora().isoformat(), "estado": "pendiente",
     }
@@ -872,6 +876,17 @@ def _liquidar(ap: dict, por_id: dict, etiqueta: str = "apuesta") -> str | None:
     for x in ap["patas"]:
         if x["estado"] == "ganada":
             cuota_real *= x["cuota"]
+    if ap.get("cuota_total_fija") and est == GANA:
+        # "crea tu apuesta": Winpot paga su momio total, no el producto de las patas.
+        # Con una pata devuelta Winpot recalcula el momio: se liquida a mano
+        if any(x["estado"] != GANA for x in ap["patas"]):
+            if ap.get("requiere_revision"):
+                return None
+            ap["requiere_revision"] = True
+            print(f"Revisar a mano: {etiqueta} {ap.get('id', ap.get('clave', '?'))} (crea tu apuesta con una pata devuelta)",
+                  file=sys.stderr)
+            return "patas"
+        cuota_real = float(ap["cuota"])
     ap["estado"] = est
     ap["ganancia"] = ganancia(est, ap["monto"], cuota_real)
     ap["liquidada"] = R.ahora().isoformat()

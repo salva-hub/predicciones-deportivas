@@ -1365,3 +1365,42 @@ def test_lectura_combinada_se_califica(papel, capsys, monkeypatch):
     assert R.bank_papel("lectura") == 10000 + x["ganancia"]
     assert R.bank_papel("sistema") == 10000
     assert R.resumen_papel()["lectura"]["ganadas"] == 1
+
+
+def test_lectura_crea_tu_apuesta_paga_momio_total(papel, capsys, monkeypatch):
+    cli, R = papel, papel.R
+    p = _pronostico_espn(R, 1, [("ganador", "1"), ("ganador", "X"), ("ganador", "2"), ("goles", "mas_1.5")])
+    for s in p["selecciones"]:
+        s.update(prob={"1": 0.62, "X": 0.22, "2": 0.16, "mas_1.5": 0.78}[s["seleccion"]], confianza="alta")
+    p.update(goles_esperados=[1.8, 0.8], inicio_utc=(R.ahora() + timedelta(hours=2)).isoformat())
+    R.actualizar_pronostico(p)
+    cli.main(["lectura", "--id", p["id"], "--texto", "Local claro", "--pata", "ganador:1", "--pata", "goles:mas_1.5"])
+    capsys.readouterr()
+    with pytest.raises(SystemExit) as e:  # pata repetida
+        cli.main(["lectura-apostar", "--pata", f"{p['id']}:ganador:1=-110", "--pata", f"{p['id']}:ganador:1=-110",
+                  "--cuota-total=+250"])
+    assert "repetida" in str(e.value)
+    # el producto de las patas sería +301; Winpot paga +250 (signo menos tipográfico aceptado en las patas)
+    cli.main(["lectura-apostar", "--pata", f"{p['id']}:ganador:1=−110", "--pata", f"{p['id']}:goles:mas_1.5=+110",
+              "--cuota-total=+250"])
+    ap = _salida(capsys)["apuesta"]
+    assert ap["mismo_partido"] is True and ap["cuota_total_fija"] is True and ap["cuota_americana"] == "+250"
+    p = R.buscar_pronostico(p["id"])
+    p["inicio_utc"] = (R.ahora() - timedelta(hours=3)).isoformat()
+    R.actualizar_pronostico(p)
+    monkeypatch.setattr(cli.espn, "resultado", lambda *x: {"terminado": True, "goles_local": 2, "goles_visitante": 0,
+                                                            "ventaja_max_local": 2, "ventaja_max_visitante": 0})
+    cli.main(["calificar"])
+    capsys.readouterr()
+    (x,) = [x for x in R.parlays_papel() if x["categoria"] == "lectura"]
+    assert x["estado"] == "ganada" and x["ganancia"] == pytest.approx(ap["monto"] * 2.5)  # +250, no +301
+
+
+def test_lectura_cuota_total_solo_mismo_partido(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pronostico(cli, capsys)
+    cli.main(["lectura", "--id", p["id"], "--texto", "x", "--pata", "ganador:1"])
+    capsys.readouterr()
+    with pytest.raises(SystemExit) as e:
+        cli.main(["lectura-apostar", "--pata", f"{p['id']}:ganador:1=-150", "--cuota-total=+300"])
+    assert "crea tu apuesta" in str(e.value)
