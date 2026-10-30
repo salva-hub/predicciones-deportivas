@@ -271,6 +271,10 @@
   .cmp-tbl td { font-weight:600; white-space:nowrap; }
   .cmp-tbl tr:last-child > * { border-bottom:0; }
   .cmp-tbl thead th:not(:first-child), .cmp-tbl td { text-align:center; }
+  /* con 5 columnas, en celular la tabla se desliza de lado en vez de encimar las cifras */
+  #cmp-tabla { overflow-x:auto; -webkit-overflow-scrolling:touch; max-width:100%; }
+  .cmp-fila > * { min-width:0; }
+  @media (max-width:600px) { .cmp-tbl { min-width:460px; font-size:13px; } .cmp-tbl th, .cmp-tbl td { padding:9px 5px; } .cmp-tbl th:first-child { width:88px; } }
   .cmp-tbl td:last-child, .cmp-tbl th:last-child { padding-left:8px; padding-right:8px; }
   .cmp-tbl .modelo { color:var(--modelo-texto); } .cmp-tbl .tu { color:var(--tu-texto); }
   .ley-linea.modelo { background:var(--modelo); } .ley-linea.tu { background:var(--tu); }
@@ -601,7 +605,7 @@ const ESTADO = {ganada: "Ganada", perdida: "Perdida", devuelta: "Devuelta", pend
 const estado = e => ESTADO[e] || e;
 const claseEstado = e => e === "ganada" ? "pos" : e === "perdida" ? "neg" : "";
 const CAT_CORTA = {valor: "Valor", sencilla_fuerte: "Sencilla fuerte", combinada: "Combinada", eleccion_salva: "Elección de Salva",
-  pick_modelo: "Pick del modelo", "Pick del modelo": "Pick del modelo",
+  pick_modelo: "Pick del modelo", "Pick del modelo": "Pick del modelo", lectura: "Lectura del partido", "Lectura del partido": "Lectura del partido",
   "Cuota mejor que la justa": "Valor", "Elección de Salva": "Elección de Salva", "Sencilla fuerte (momio negativo)": "Sencilla fuerte", "Combinada corta (+200 a +350)": "Combinada"};
 const mayus = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 const fechaDMA = f => /^\d{4}-\d{2}-\d{2}/.test(f || "") ? `${f.slice(8, 10)}-${f.slice(5, 7)}-${f.slice(0, 4)}` : (f || "—");
@@ -852,7 +856,7 @@ mostrarSeccion();
       <span>Bank actual${EN_PAPEL ? " del sistema en papel" : ""} <strong class="num">${esc(MXN(saldoRes))}</strong></span>
       <span class="dif num ${clase(dif)}">${esc(signo(dif))}</span>${movNeto ? `
       <span class="sub">(incluye depósitos y retiros: ${esc(signo(movNeto))})</span>` : ""}${EN_PAPEL ? `
-      <span class="sub" style="flex-basis:100%">Otros banks en papel (cada uno empieza en ${esc(MXN(bank.bank_inicial))}): elecciones de Salva <strong class="num" style="font-size:15px">${esc(MXN(bankPapelDe("eleccion_salva")))}</strong> · pick del modelo <strong class="num" style="font-size:15px">${esc(MXN(bankPapelDe("pick_modelo")))}</strong></span>` : ""}`;
+      <span class="sub" style="flex-basis:100%">Otros banks en papel (cada uno empieza en ${esc(MXN(bank.bank_inicial))}): elecciones de Salva <strong class="num" style="font-size:15px">${esc(MXN(bankPapelDe("eleccion_salva")))}</strong> · pick del modelo <strong class="num" style="font-size:15px">${esc(MXN(bankPapelDe("pick_modelo")))}</strong> · lectura del partido <strong class="num" style="font-size:15px">${esc(MXN(bankPapelDe("lectura")))}</strong></span>` : ""}`;
   }
 
   // ---------------- hoy (día de Sonora): límite del día como `cli bank` (en papel no hay límite ni máximos)
@@ -994,9 +998,10 @@ mostrarSeccion();
                    sencilla_fuerte: "Apuesta derecha muy probable; se apuesta para ganar 5% del bank (2.5% con confianza media)",
                    combinada: "2 o 3 selecciones probables que juntas pagan +200 a +350",
                    eleccion_salva: "Las eligió Salva por su cuenta; registro aparte de las 3 formas del sistema",
-                   pick_modelo: "La mejor selección del modelo en cada partido al precio de Winpot, aunque no tenga valor"};
+                   pick_modelo: "La mejor selección del modelo en cada partido al precio de Winpot, aunque no tenga valor",
+                   lectura: "Claude lee el partido y elige el mercado que mejor encaja (ganador, doble oportunidad, goles, córners), con su propio bank"};
   // la tabla por categoría agrega aparte la elección de Salva (las tarjetas del Resumen siguen siendo las 3 del sistema)
-  const nombresSalva = "Elección de Salva", nombrePick = "Pick del modelo";
+  const nombresSalva = "Elección de Salva", nombrePick = "Pick del modelo", nombreLectura = "Lectura del partido";
   const CORTO = {valor: "Valor", sencilla_fuerte: "Sencilla fuerte", combinada: "Combinada"};
   const explicaCorta = {valor: "Winpot paga más de lo que vale según Pinnacle.",
                         sencilla_fuerte: "Momio −200 o mejor; se apuesta para ganar 5% del bank.",
@@ -1094,7 +1099,7 @@ mostrarSeccion();
   // "real" (elección de Salva con dinero real). fecha = día en que se apostó (para los filtros);
   // fLiq = día del partido (en un parlay, el de su última pata), como dice la gráfica; sin pronóstico, el día en que se apostó
   const CAT_CLAVE = {"Cuota mejor que la justa": "valor", "Sencilla fuerte (momio negativo)": "sencilla_fuerte",
-    "Combinada corta (+200 a +350)": "combinada", "Elección de Salva": "eleccion_salva"};
+    "Combinada corta (+200 a +350)": "combinada", "Elección de Salva": "eleccion_salva", "Lectura del partido": "lectura"};
   const catClave = c => CAT_CLAVE[c] || c || "valor";
   const pronPorId = Object.fromEntries(pronosTodos.map(p => [p.id, p]));
   function buscarPron(partido, fecha, pid) {
@@ -1109,7 +1114,7 @@ mostrarSeccion();
     return {partido, sel, estado: est || "pendiente", cuota, fp: p ? String(p.fecha || "").slice(0, 10) : fechaAp, liga: p ? p.liga : ""};
   }
   const maxF = (patas, defecto) => patas.reduce((m, q) => q.fp && q.fp > m ? q.fp : m, "") || defecto;
-  const quienDe = (cat, origen) => cat === "eleccion_salva" ? origen : cat === "pick_modelo" ? "pick" : "modelo";
+  const quienDe = (cat, origen) => cat === "eleccion_salva" ? origen : cat === "pick_modelo" ? "pick" : cat === "lectura" ? "lectura" : "modelo";
   const apCmp = [];
   for (const x of papelTodo) if (x.tipo !== "parlay") {
     const [partido, sel] = partirTexto(x.texto), cat = x.categoria || "valor";
@@ -1143,16 +1148,16 @@ mostrarSeccion();
       requiere_revision: a.requiere_revision, ganancia: LIQ.includes(a.estado) ? (a.ganancia || 0) : null, patas, fLiq: maxF(patas, a.fecha)});
   }
   const hayModeloReal = apCmp.some(x => x.quien === "modelo" && x.origen === "real");
-  const QUIENES = [["modelo", "Modelo"], ["pick", "Pick del modelo"], ["papel", "Tú (papel)"], ["real", "Tú (real)"]];
+  const QUIENES = [["modelo", "Modelo"], ["pick", "Pick del modelo"], ["lectura", "Lectura del partido"], ["papel", "Tú (papel)"], ["real", "Tú (real)"]];
 
   // bank de cada columna, sin filtros: sistema en papel, pick y elección de Salva en papel (cada uno desde el bank inicial) y bank real
-  const bankCmp = {modelo: saldoRes, pick: bankPapelDe("pick_modelo"), papel: bankPapelDe("eleccion_salva"), real: saldo};
+  const bankCmp = {modelo: saldoRes, pick: bankPapelDe("pick_modelo"), lectura: bankPapelDe("lectura"), papel: bankPapelDe("eleccion_salva"), real: saldo};
   function tablaCmp(grupos) {
     const r = Object.fromEntries(QUIENES.map(([k]) => [k, resumen(grupos[k])]));
     const fila = (titulo, f, extra = "") => `<tr><th scope="row">${titulo}</th>${QUIENES.map(([k]) => { const [t, c] = f(r[k], grupos[k], k); return `<td class="num ${extra} ${c || ""}">${esc(t)}</td>`; }).join("")}</tr>`;
     const racha = g => { const {n, tipo} = rachaActiva(g); return n ? [`${n} ${tipo === "ganada" ? "ganada" : "perdida"}${n === 1 ? "" : "s"}`, tipo === "ganada" ? "pos" : "neg"] : ["—"]; };
     return `<table class="cmp-tbl"><thead><tr><th scope="col"><span class="oculto">Medida</span></th>
-        <th scope="col" class="modelo">Modelo</th><th scope="col" class="modelo">Pick del modelo</th><th scope="col" class="tu">Tú (papel)</th><th scope="col" class="tu">Tú (real)</th></tr></thead><tbody>
+        <th scope="col" class="modelo">Modelo</th><th scope="col" class="modelo">Pick del modelo</th><th scope="col" class="modelo">Lectura</th><th scope="col" class="tu">Tú (papel)</th><th scope="col" class="tu">Tú (real)</th></tr></thead><tbody>
       ${fila("Bank inicial", (x, g, k) => [MXN(bank.bank_inicial)])}
       ${fila("Bank actual", (x, g, k) => { const b = bankCmp[k]; return [MXN(b), clase(b - bank.bank_inicial)]; })}
       ${fila("Apuestas", x => [String(x.n)], "centro")}
@@ -1189,7 +1194,7 @@ mostrarSeccion();
   // ---- filtros de "Partido por partido": por defecto solo los partidos de hoy (día de Sonora)
   const fp = {per: "hoy", dinero: "todos", quien: new Set(), cat: new Set(), res: "todos", liga: "", q: "", veces: 1};
   const POR_PAGINA = 10;
-  const QUIEN_TXT = {modelo: "Modelo", pick: "Pick del modelo", salva: "Tú"};
+  const QUIEN_TXT = {modelo: "Modelo", pick: "Pick del modelo", lectura: "Lectura del partido", salva: "Tú"};
   const PER_TXT = {hoy: "Hoy", s7: "7 días", mes: "Mes", todo: "Todo"};
   const RES_TXT = {todos: "Todos", ganada: "Ganada", perdida: "Perdida", pendiente: "Pendiente"};
   const quienDeCmp = x => x.quien === "papel" || x.quien === "real" ? "salva" : x.quien;
@@ -1237,7 +1242,7 @@ mostrarSeccion();
         <div class="fp-campo"><span class="fp-eti">Dinero</span>${seg("dinero", [["todos", "Todos"], ["papel", "Papel"], ["real", "Real"]], fp.dinero)}</div>
         <div class="fp-campo"><span class="fp-eti">Resultado</span>${seg("res", Object.entries(RES_TXT), fp.res)}</div>
         <div class="fp-campo"><span class="fp-eti">Quién</span><div class="fp-chips">${Object.entries(QUIEN_TXT).map(([k, t]) => chipCmp("quien", k, t, fp.quien.has(k))).join("")}</div></div>
-        <div class="fp-campo"><span class="fp-eti">Categoría</span><div class="fp-chips">${["valor", "sencilla_fuerte", "combinada", "eleccion_salva", "pick_modelo"].map(k => chipCmp("cat", k, CAT_CORTA[k], fp.cat.has(k))).join("")}</div></div>
+        <div class="fp-campo"><span class="fp-eti">Categoría</span><div class="fp-chips">${["valor", "sencilla_fuerte", "combinada", "eleccion_salva", "pick_modelo", "lectura"].map(k => chipCmp("cat", k, CAT_CORTA[k], fp.cat.has(k))).join("")}</div></div>
         <div class="fp-campo"><span class="fp-eti">Liga</span><select class="sel" id="fp-liga"><option value="">Todas</option>${ligas.map(l => `<option value="${esc(l)}"${l === fp.liga ? " selected" : ""}>${esc(liga(l))}</option>`).join("")}</select></div>
         <div class="fp-campo"><span class="fp-eti">Partido</span><input class="sel" id="fp-q" type="search" placeholder="Buscar equipo" value="${esc(fp.q)}" autocomplete="off"></div>
       </div>`;
@@ -1271,11 +1276,12 @@ mostrarSeccion();
       const its = [...g.items].sort((a, b) => a.orden.localeCompare(b.orden));
       const set = new Set(g.varios ? [] : [g.partido]);
       const de = qn => its.filter(x => x.quien === qn);
-      const modelo = de("modelo"), pick = de("pick"), papelS = de("papel"), realS = de("real");
+      const modelo = de("modelo"), pick = de("pick"), lect = de("lectura"), papelS = de("papel"), realS = de("real");
       return `<article class="card cmp-partido">
           <div class="cmp-cab"><b>${esc(g.partido)}</b>${g.varios ? "" : `<span>${esc(liga(g.liga || ""))} · ${esc(fechaDMA(g.f))}</span>`}</div>
           ${modelo.length ? bloqueCmp("modelo", modelo.some(x => x.origen === "real") ? "Modelo" : "Modelo · en papel", modelo, "", set) : ""}
           ${pick.length ? bloqueCmp("modelo", "Pick del modelo · en papel", pick, "", set) : ""}
+          ${lect.length ? bloqueCmp("modelo", "Lectura del partido · en papel", lect, "", set) : ""}
           ${papelS.length ? bloqueCmp("tu", "Tú · en papel", papelS, "", set) : ""}
           ${realS.length ? bloqueCmp("tu", "Tú · dinero real", realS, "", set) : ""}
         </article>`;
@@ -1340,10 +1346,10 @@ mostrarSeccion();
     el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(etiqueta + ": " + desc)}">${s}</svg>`;
   }
   function seriesCmp(grupos) {
-    const liq = QUIENES.filter(([k]) => k !== "pick").flatMap(([k]) => grupos[k]).filter(x => LIQ.includes(x.estado) && x.fLiq);
+    const liq = QUIENES.filter(([k]) => k !== "pick" && k !== "lectura").flatMap(([k]) => grupos[k]).filter(x => LIQ.includes(x.estado) && x.fLiq);
     const fechas = [...new Set(liq.map(x => x.fLiq))].sort();
     const color = {modelo: "--modelo", pick: "--modelo", papel: "--tu", real: "--tu"};
-    const series = QUIENES.filter(([k]) => k !== "pick").map(([k, nombre]) => {
+    const series = QUIENES.filter(([k]) => k !== "pick" && k !== "lectura").map(([k, nombre]) => {
       const mias = liq.filter(x => grupos[k].includes(x));
       if (!mias.length) return {nombre, valores: null};
       let acc = 0; const valores = [0];
@@ -1394,7 +1400,7 @@ mostrarSeccion();
         ganancia: estado === "ganada" ? monto * (d - 1) : estado === "perdida" ? -monto : 0});
     }
     // banner y tabla por mercado sin el pick del modelo (solo medición; va en su fila de categoría)
-    const papelSinPick = papel.filter(x => x.categoria !== "pick_modelo");
+    const papelSinPick = papel.filter(x => x.categoria !== "pick_modelo" && x.categoria !== "lectura");
     const rr = resumen(recomendadas), rp = resumen(papelSinPick);
 
     // ---- Resumen
@@ -1424,6 +1430,8 @@ mostrarSeccion();
     if (deSalva.length) porCat.push(filaCat({t: nombresSalva, nota: explica.eleccion_salva + " · no entra en el total"}, deSalva));
     const dePick = papel.filter(x => x.categoria === "pick_modelo");
     if (dePick.length) porCat.push(filaCat({t: nombrePick, nota: explica.pick_modelo + " · no entra en el total"}, dePick));
+    const deLectura = papel.filter(x => x.categoria === "lectura");
+    if (deLectura.length) porCat.push(filaCat({t: nombreLectura, nota: explica.lectura + " · no entra en el total"}, deLectura));
     tabla($("papel-categorias"), [
       ["Categoría", f => f.k], ...colsBase,
       [{t: "Peor racha", nota: "(perdidas seguidas)"}, f => f.racha], [{t: "Recortadas", nota: "por el límite del día"}, f => f.recortadas],
@@ -1460,7 +1468,7 @@ mostrarSeccion();
       const enPeriodo = apCmp.filter(x => pasa(x, rg));
       const grupos = Object.fromEntries(QUIENES.map(([k]) => [k, enPeriodo.filter(x => x.quien === k)]));
       $("cmp-tabla").innerHTML = tablaCmp(grupos);
-      $("cmp-nota").textContent = `Modelo: las 3 formas del sistema (valor, sencilla fuerte y combinada)${hayModeloReal ? ", en papel y con dinero real" : " en papel"}. Pick del modelo: su mejor selección por partido, aunque no tenga valor (solo papel; no está en la gráfica). Tú: tus elecciones, en papel y con dinero real por separado. Acierto y rendimiento cuentan solo las calificadas. Los bancos van sin filtros.`;
+      $("cmp-nota").textContent = `Modelo: las 3 formas del sistema (valor, sencilla fuerte y combinada)${hayModeloReal ? ", en papel y con dinero real" : " en papel"}. Pick del modelo: su mejor selección por partido, aunque no tenga valor (solo papel; no está en la gráfica). Lectura: Claude lee el partido y elige el mercado (solo papel, desde el 31-oct; no está en la gráfica). En celular, desliza la tabla para ver todas las columnas. Tú: tus elecciones, en papel y con dinero real por separado. Acierto y rendimiento cuentan solo las calificadas. Los bancos van sin filtros.`;
       datosGrafCmp = seriesCmp(grupos);
       pintarPartidos();
     }

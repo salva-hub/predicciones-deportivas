@@ -31,7 +31,8 @@ DEPORTE_DEFECTO = "futbol"  # los registros sin deporte son de fútbol (NBA, NFL
 _ID_VALIDO = re.compile(r"^[A-Za-z0-9_-]+$")
 ELECCION_SALVA = "eleccion_salva"  # apuestas que eligió Salva: registro aparte (valor.ELECCION_SALVA)
 PICK_MODELO = "pick_modelo"  # mejor selección del modelo en cada partido, en papel; fuera del límite del día
-APARTE = (ELECCION_SALVA, PICK_MODELO)  # categorías fuera del total y que `parlays` nunca reemplaza
+LECTURA = "lectura"  # lectura del partido (30-oct-2026): en papel, con su propio bank; ver lectura.py
+APARTE = (ELECCION_SALVA, PICK_MODELO, LECTURA)  # categorías fuera del total y que `parlays` nunca reemplaza
 
 
 def _leer(nombre: str, defecto):
@@ -177,6 +178,16 @@ def guardar_parlays_papel(dia, nuevos: list[dict]) -> list[dict]:
     return doc["parlays"]
 
 
+def agregar_lectura_papel(dia, apuesta: dict) -> dict:
+    """Agrega una apuesta de la lectura del partido a los parlays en papel del día (nunca se reemplaza)."""
+    did = f"parlays-{dia:%Y%m%d}"
+    ruta = _ruta_item("papel", did)
+    doc = json.loads(ruta.read_text(encoding="utf-8")) if ruta.exists() else {"id": did, "fecha": str(dia), "creado": ahora().isoformat()}
+    doc.setdefault("parlays", []).append(apuesta)
+    actualizar_parlays_papel(doc)
+    return apuesta
+
+
 def apuestas_papel_todas() -> list[dict]:
     """Sencillas y parlays en papel en una sola lista, con su categoría y fecha.
     Lo guardado antes de las categorías cuenta como "valor"."""
@@ -264,7 +275,7 @@ def categorias_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -> di
 # nombres para Salva (las claves internas no cambian)
 NOMBRES_CATEGORIA = {"valor": "Cuota mejor que la justa", "sencilla_fuerte": "Sencilla fuerte (momio negativo)",
                      "combinada": "Combinada corta (+200 a +350)", ELECCION_SALVA: "Elección de Salva",
-                     PICK_MODELO: "Pick del modelo"}
+                     PICK_MODELO: "Pick del modelo", LECTURA: "Lectura del partido"}
 
 
 def _equipos(partido: str) -> tuple[str, str]:
@@ -595,6 +606,7 @@ BANKS_PAPEL = {
     "sistema": ("valor", "sencilla_fuerte", "combinada"),
     ELECCION_SALVA: (ELECCION_SALVA,),
     PICK_MODELO: (PICK_MODELO,),
+    LECTURA: (LECTURA,),
 }
 
 

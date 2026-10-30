@@ -719,7 +719,7 @@ def test_categoria_se_califica_y_resume(papel, capsys, monkeypatch):
     cli.main(["exportar", "--salida", str(R.RAIZ / "_site")])
     capsys.readouterr()
     res = json.loads((R.RAIZ / "_site" / "resumen_papel.json").read_text())
-    assert set(res) == {"valor", "sencilla_fuerte", "combinada", "eleccion_salva", "pick_modelo", "total"}
+    assert set(res) == {"valor", "sencilla_fuerte", "combinada", "eleccion_salva", "pick_modelo", "lectura", "total"}
     f = res["sencilla_fuerte"]
     assert (f["apuestas"], f["acierto"], f["ganancia"], f["roi"], f["peor_racha"]) == (1, 1.0, 500, 0.625, 0)
     assert res["valor"]["apuestas"] == 0 and res["total"]["apuestas"] == 1
@@ -1257,3 +1257,111 @@ def test_menos_conteo_cuota_guardada_con_signo_tipografico(papel, capsys):
     cli.main(["evaluar", "--id", a["id"], "--winpot", "tarjetas:menos_3.5=+120"])
     (r,) = _salida(capsys)["evaluacion"]
     assert r["categoria"] is None and "10 puntos" in r["motivo"]
+
+
+# --- Lectura del partido (30-oct-2026) ---
+
+def _sel_prob(p, mercado, seleccion):
+    return next(s for s in p["selecciones"] if s["mercado"] == mercado and s["seleccion"] == seleccion)
+
+
+def test_lectura_solo_en_papel(cli, capsys):
+    p = _pronostico(cli, capsys)
+    with pytest.raises(SystemExit) as e:
+        cli.main(["lectura", "--id", p["id"], "--texto", "x", "--pata", "ganador:1"])
+    assert "papel" in str(e.value)
+
+
+def test_lectura_reglas_de_eleccion(papel, capsys):
+    cli = papel
+    p = _pronostico(cli, capsys)
+    fav = "1" if _sel_prob(p, "ganador", "1")["prob"] >= _sel_prob(p, "ganador", "2")["prob"] else "2"
+    no_fav = "2" if fav == "1" else "1"
+    with pytest.raises(SystemExit) as e:  # ganador del no favorito
+        cli.main(["lectura", "--id", p["id"], "--texto", "x", "--pata", f"ganador:{no_fav}"])
+    assert "favorito" in str(e.value)
+    baja = min((s for s in p["selecciones"] if s["mercado"] == "goles"), key=lambda s: s["prob"])
+    with pytest.raises(SystemExit) as e:  # pata extra con menos de 60%
+        cli.main(["lectura", "--id", p["id"], "--texto", "x", "--pata", f"ganador:{fav}", "--pata", f"goles:{baja['seleccion']}"])
+    assert "60%" in str(e.value)
+    with pytest.raises(SystemExit):  # dos patas principales
+        cli.main(["lectura", "--id", p["id"], "--texto", "x", "--pata", f"ganador:{fav}", "--pata", "doble_oportunidad:1X"])
+
+
+def test_lectura_sencilla_y_bank_propio(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pronostico(cli, capsys)
+    cli.main(["lectura", "--id", p["id"], "--texto", "Local muy superior", "--pata", "ganador:1"])
+    lec = _salida(capsys)["lectura"]
+    assert lec["texto"] == "Local muy superior" and lec["despues_de_winpot"] is False
+    with pytest.raises(SystemExit):  # pata que no está en la lectura
+        cli.main(["lectura-apostar", "--pata", f"{p['id']}:goles:mas_2.5=-120"])
+    with pytest.raises(SystemExit) as e:  # sencilla peor que −200
+        cli.main(["lectura-apostar", "--pata", f"{p['id']}:ganador:1=-250"])
+    assert "−200" in str(e.value)
+    cli.main(["lectura-apostar", "--pata", f"{p['id']}:ganador:1=-150"])
+    ap = _salida(capsys)["apuesta"]
+    assert ap["categoria"] == "lectura" and ap["tipo"] == "parlay" and len(ap["patas"]) == 1
+    # momio negativo: monto para ganar 5% (alta) o 2.5% (media) del bank de la lectura
+    assert ap["monto"] in (750, 380, 200)  # −150: 750 para ganar 500, 380 para ganar 250
+    with pytest.raises(SystemExit) as e:  # una apuesta de lectura por partido
+        cli.main(["lectura-apostar", "--pata", f"{p['id']}:ganador:1=-150"])
+    assert "una por partido" in str(e.value)
+    # no toca el límite del día del sistema y va aparte en el resumen
+    assert R.apostado_papel_hoy() == 0
+    todas = R.apuestas_papel_todas()
+    assert [x["categoria"] for x in todas if x["categoria"] == "lectura"] == ["lectura"]
+    # parlays no la reemplaza
+    cli.main(["parlays"])
+    capsys.readouterr()
+    assert any(x["categoria"] == "lectura" for x in R.parlays_papel())
+
+
+def test_lectura_mismo_partido_pide_cuota_total_y_precio(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pronostico(cli, capsys)
+    fav = "1" if _sel_prob(p, "ganador", "1")["prob"] >= _sel_prob(p, "ganador", "2")["prob"] else "2"
+    alta = max((s for s in p["selecciones"] if s["mercado"] == "goles" and s["prob"] < 0.9), key=lambda s: s["prob"])
+    cli.main(["lectura", "--id", p["id"], "--texto", "x", "--pata", f"ganador:{fav}", "--pata", f"goles:{alta['seleccion']}"])
+    conj = _salida(capsys)["lectura"]["prob_conjunta"]
+    p_fav = _sel_prob(p, "ganador", fav)["prob_sin_pago_anticipado"] if "prob_sin_pago_anticipado" in _sel_prob(p, "ganador", fav) else _sel_prob(p, "ganador", fav)["prob"]
+    assert 0 < conj <= min(p_fav, alta["prob"]) + 1e-9
+    with pytest.raises(SystemExit) as e:
+        cli.main(["lectura-apostar", "--pata", f"{p['id']}:ganador:{fav}=-150", "--pata", f"{p['id']}:goles:{alta['seleccion']}=-150"])
+    assert "--cuota-total" in str(e.value)
+    with pytest.raises(SystemExit):  # fuera de +200 a +350
+        cli.main(["lectura-apostar", "--pata", f"{p['id']}:ganador:{fav}=-150", "--pata", f"{p['id']}:goles:{alta['seleccion']}=-150",
+                  "--cuota-total=+150"])
+
+
+def test_lectura_combinada_se_califica(papel, capsys, monkeypatch):
+    cli, R = papel, papel.R
+    a = _pronostico_espn(R, 1, [("ganador", "1"), ("ganador", "X"), ("ganador", "2")])
+    b = _pronostico_espn(R, 1, [("ganador", "1"), ("ganador", "X"), ("ganador", "2")])
+    for p in (a, b):
+        for s in p["selecciones"]:
+            s.update(prob={"1": 0.6, "X": 0.25, "2": 0.15}[s["seleccion"]], confianza="alta")
+        p["goles_esperados"] = [1.7, 0.8]
+        p["inicio_utc"] = (R.ahora() + timedelta(hours=2)).isoformat()
+        R.actualizar_pronostico(p)
+    for p in (a, b):
+        cli.main(["lectura", "--id", p["id"], "--texto", "Local claro", "--pata", "ganador:1"])
+        capsys.readouterr()
+    cli.main(["lectura-apostar", "--pata", f"{a['id']}:ganador:1=-125", "--pata", f"{b['id']}:ganador:1=-125"])
+    ap = _salida(capsys)["apuesta"]
+    assert ap["cuota_americana"] == "+224" and ap["mismo_partido"] is False
+    assert ap["monto"] in (500, 300, 200)
+    # se califica como cualquier parlay en papel
+    for p in (a, b):
+        p = R.buscar_pronostico(p["id"])
+        p["inicio_utc"] = (R.ahora() - timedelta(hours=3)).isoformat()
+        R.actualizar_pronostico(p)
+    monkeypatch.setattr(cli.espn, "resultado", lambda *x: {"terminado": True, "goles_local": 2, "goles_visitante": 0,
+                                                            "ventaja_max_local": 2, "ventaja_max_visitante": 0})
+    cli.main(["calificar"])
+    capsys.readouterr()
+    (x,) = [x for x in R.parlays_papel() if x["categoria"] == "lectura"]
+    assert x["estado"] == "ganada"
+    assert R.bank_papel("lectura") == 10000 + x["ganancia"]
+    assert R.bank_papel("sistema") == 10000
+    assert R.resumen_papel()["lectura"]["ganadas"] == 1
