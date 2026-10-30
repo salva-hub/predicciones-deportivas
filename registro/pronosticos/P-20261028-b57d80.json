@@ -1040,7 +1040,7 @@
       "estado": "sin_datos"
     }
   ],
-  "estado": "pendiente",
+  "estado": "calificado",
   "tiros_jugador": [
     {
       "jugador": "Floyd Samba",
