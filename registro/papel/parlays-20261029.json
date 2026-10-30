@@ -236,7 +236,7 @@
           "seleccion": "visitante_-1.5",
           "prob": 0.356,
           "confianza": "media",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 2.5705
         },
         {
@@ -247,7 +247,7 @@
           "seleccion": "mas_8.5",
           "prob": 0.619,
           "confianza": "media",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.4783
         }
       ],
@@ -259,7 +259,9 @@
       "creado": "2026-10-29T15:50:00.383627-07:00",
       "excepcion": "Elección de Salva en papel (29-oct): mismo partido; prob. conjunta 22.0% (independientes; justa +354), valor -16%. Cuota total +280 de Winpot repartida entre patas.",
       "pago_anticipado": true,
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 1399.99,
+      "liquidada": "2026-10-29T18:04:16.985177-07:00"
     }
   ]
 }
