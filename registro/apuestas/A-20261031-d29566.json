@@ -10,7 +10,7 @@
       "mercado": "doble_oportunidad",
       "seleccion": "X2",
       "cuota": 1.2747252747252746,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261031-300f16",
@@ -21,7 +21,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.65359477124183,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261031-300f16",
@@ -32,7 +32,7 @@
       "mercado": "corners",
       "seleccion": "mas_7.5",
       "cuota": 1.4219409282700421,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261031-300f16",
@@ -43,7 +43,7 @@
       "mercado": "tarjetas",
       "seleccion": "mas_3.5",
       "cuota": 1.5847953216374269,
-      "estado": "pendiente"
+      "estado": "perdida"
     }
   ],
   "cuota": 4.7501,
@@ -53,5 +53,7 @@
   "categoria": "eleccion_salva",
   "id": "A-20261031-d29566",
   "creado": "2026-10-31T12:30:43.339686-07:00",
-  "estado": "pendiente"
+  "estado": "perdida",
+  "ganancia": -300.0,
+  "liquidada": "2026-10-31T16:42:39.520726-07:00"
 }

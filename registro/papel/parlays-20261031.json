@@ -16,7 +16,7 @@
           "seleccion": "2",
           "prob": 0.509,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "perdida",
           "cuota": 1.7688
         },
         {
@@ -27,7 +27,7 @@
           "seleccion": "mas_2.5",
           "prob": 0.597,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.6034
         },
         {
@@ -38,7 +38,7 @@
           "seleccion": "si",
           "prob": 0.6,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.474
         },
         {
@@ -49,7 +49,7 @@
           "seleccion": "mas_7.5",
           "prob": 0.601,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.2689
         },
         {
@@ -60,7 +60,7 @@
           "seleccion": "mas_3.5",
           "prob": 0.484,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "perdida",
           "cuota": 1.414
         }
       ],
@@ -72,7 +72,9 @@
       "creado": "2026-10-31T12:28:31.608561-07:00",
       "excepcion": "Elección de Salva en papel (31-oct): crea tu apuesta Milan-Inter, 5 patas; prob. conjunta 5.3% (independientes, aprox.), justa +1786. Cuota total +650 de Winpot repartida entre patas.",
       "pago_anticipado": true,
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -300,
+      "liquidada": "2026-10-31T16:42:39.521739-07:00"
     }
   ]
 }
