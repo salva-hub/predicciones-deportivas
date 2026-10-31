@@ -1,0 +1,57 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261031-300f16",
+      "partido": "AC Milan vs Internazionale",
+      "liga": "serie_a",
+      "deporte": "futbol",
+      "espn_id": "401874795",
+      "mercado": "doble_oportunidad",
+      "seleccion": "X2",
+      "cuota": 1.2747252747252746,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261031-300f16",
+      "partido": "AC Milan vs Internazionale",
+      "liga": "serie_a",
+      "deporte": "futbol",
+      "espn_id": "401874795",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 1.65359477124183,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261031-300f16",
+      "partido": "AC Milan vs Internazionale",
+      "liga": "serie_a",
+      "deporte": "futbol",
+      "espn_id": "401874795",
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota": 1.4219409282700421,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261031-300f16",
+      "partido": "AC Milan vs Internazionale",
+      "liga": "serie_a",
+      "deporte": "futbol",
+      "espn_id": "401874795",
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "cuota": 1.5847953216374269,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 4.7501,
+  "cuota_americana": "+375",
+  "monto": 300.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261031-d29566",
+  "creado": "2026-10-31T12:30:43.339686-07:00",
+  "estado": "pendiente"
+}
