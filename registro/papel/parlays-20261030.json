@@ -34,6 +34,78 @@
       },
       "creado": "2026-10-30T17:35:00.490634-07:00",
       "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261030-10ec9e:corners:menos_7.5|P-20261030-d64d77:ganador:2",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261030-d64d77",
+          "partido": "Atlético de San Luis vs Atlas",
+          "liga": "liga_mx",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 2.85,
+          "prob": 0.37,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261030-10ec9e",
+          "partido": "FC Juárez vs Querétaro",
+          "liga": "liga_mx",
+          "mercado": "corners",
+          "seleccion": "menos_7.5",
+          "cuota": 5.25,
+          "prob": 0.236,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 14.9625,
+      "cuota_americana": "+1396",
+      "prob": 0.0873,
+      "monto": 110.0,
+      "recortada": false,
+      "creado": "2026-10-30T17:37:29.532995-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261030-10ec9e:ganador:1|P-20261030-d64d77:corners:menos_8.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261030-d64d77",
+          "partido": "Atlético de San Luis vs Atlas",
+          "liga": "liga_mx",
+          "mercado": "corners",
+          "seleccion": "menos_8.5",
+          "cuota": 2.55,
+          "prob": 0.404,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261030-10ec9e",
+          "partido": "FC Juárez vs Querétaro",
+          "liga": "liga_mx",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 3.1,
+          "prob": 0.341,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 7.905,
+      "cuota_americana": "+690",
+      "prob": 0.1378,
+      "monto": 110.0,
+      "recortada": false,
+      "creado": "2026-10-30T17:37:29.533025-07:00",
+      "estado": "pendiente"
     }
   ]
 }
