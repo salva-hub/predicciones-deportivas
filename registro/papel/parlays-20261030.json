@@ -19,7 +19,7 @@
           "cuota": 1.5714,
           "prob": 0.61,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 1.5714,
@@ -33,7 +33,9 @@
         "P-20261030-d64d77": "Parejo con ligera ventaja de San Luis en casa (3 G en últimos 5), sin su delantero Joao Pedro; Atlas 4o y goleador (11 goles en 5). Los últimos 5 H2H tuvieron gol de ambos en 3. Lectura: San Luis no pierde y partido con goles de los dos."
       },
       "creado": "2026-10-30T17:35:00.490634-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -440.0,
+      "liquidada": "2026-10-30T22:29:43.565960-07:00"
     },
     {
       "clave": "P-20261030-10ec9e:corners:menos_7.5|P-20261030-d64d77:ganador:2",
@@ -49,7 +51,7 @@
           "cuota": 2.85,
           "prob": 0.37,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261030-10ec9e",
@@ -60,7 +62,7 @@
           "cuota": 5.25,
           "prob": 0.236,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 14.9625,
@@ -69,7 +71,9 @@
       "monto": 110.0,
       "recortada": false,
       "creado": "2026-10-30T17:37:29.532995-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -110.0,
+      "liquidada": "2026-10-30T22:29:43.565974-07:00"
     },
     {
       "clave": "P-20261030-10ec9e:ganador:1|P-20261030-d64d77:corners:menos_8.5",
@@ -85,7 +89,7 @@
           "cuota": 2.55,
           "prob": 0.404,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261030-10ec9e",
@@ -96,7 +100,7 @@
           "cuota": 3.1,
           "prob": 0.341,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 7.905,
@@ -105,7 +109,9 @@
       "monto": 110.0,
       "recortada": false,
       "creado": "2026-10-30T17:37:29.533025-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -110.0,
+      "liquidada": "2026-10-30T22:29:43.565982-07:00"
     }
   ]
 }
