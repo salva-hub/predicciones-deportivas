@@ -1,0 +1,39 @@
+{
+  "id": "parlays-20261030",
+  "fecha": "2026-10-30",
+  "creado": "2026-10-30T17:35:00.490761-07:00",
+  "parlays": [
+    {
+      "clave": "lectura|P-20261030-d64d77:ambos_anotan:si",
+      "tipo": "parlay",
+      "categoria": "lectura",
+      "patas": [
+        {
+          "pronostico": "P-20261030-d64d77",
+          "partido": "Atlético de San Luis vs Atlas",
+          "liga": "liga_mx",
+          "deporte": "futbol",
+          "espn_id": "401876919",
+          "mercado": "ambos_anotan",
+          "seleccion": "si",
+          "cuota": 1.5714,
+          "prob": 0.61,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 1.5714,
+      "cuota_americana": "-175",
+      "prob": 0.61,
+      "ve": -0.0414,
+      "confianza": "media",
+      "mismo_partido": false,
+      "monto": 440.0,
+      "lecturas": {
+        "P-20261030-d64d77": "Parejo con ligera ventaja de San Luis en casa (3 G en últimos 5), sin su delantero Joao Pedro; Atlas 4o y goleador (11 goles en 5). Los últimos 5 H2H tuvieron gol de ambos en 3. Lectura: San Luis no pierde y partido con goles de los dos."
+      },
+      "creado": "2026-10-30T17:35:00.490634-07:00",
+      "estado": "pendiente"
+    }
+  ]
+}
