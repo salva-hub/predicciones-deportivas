@@ -1,0 +1,78 @@
+{
+  "id": "parlays-20261031",
+  "fecha": "2026-10-31",
+  "creado": "2026-10-31T12:28:31.608538-07:00",
+  "parlays": [
+    {
+      "clave": "P-20261031-300f16:ambos_anotan:si|P-20261031-300f16:corners:mas_7.5|P-20261031-300f16:ganador:2|P-20261031-300f16:goles:mas_2.5|P-20261031-300f16:tarjetas:mas_3.5",
+      "tipo": "parlay",
+      "categoria": "eleccion_salva",
+      "patas": [
+        {
+          "pronostico": "P-20261031-300f16",
+          "partido": "AC Milan vs Internazionale",
+          "liga": "serie_a",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "prob": 0.509,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.7688
+        },
+        {
+          "pronostico": "P-20261031-300f16",
+          "partido": "AC Milan vs Internazionale",
+          "liga": "serie_a",
+          "mercado": "goles",
+          "seleccion": "mas_2.5",
+          "prob": 0.597,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.6034
+        },
+        {
+          "pronostico": "P-20261031-300f16",
+          "partido": "AC Milan vs Internazionale",
+          "liga": "serie_a",
+          "mercado": "ambos_anotan",
+          "seleccion": "si",
+          "prob": 0.6,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.474
+        },
+        {
+          "pronostico": "P-20261031-300f16",
+          "partido": "AC Milan vs Internazionale",
+          "liga": "serie_a",
+          "mercado": "corners",
+          "seleccion": "mas_7.5",
+          "prob": 0.601,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.2689
+        },
+        {
+          "pronostico": "P-20261031-300f16",
+          "partido": "AC Milan vs Internazionale",
+          "liga": "serie_a",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "prob": 0.484,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.414
+        }
+      ],
+      "cuota": 7.5,
+      "cuota_americana": "+650",
+      "prob": 0.053,
+      "monto": 100,
+      "recortada": false,
+      "creado": "2026-10-31T12:28:31.608561-07:00",
+      "excepcion": "Elección de Salva en papel (31-oct): crea tu apuesta Milan-Inter, 5 patas; prob. conjunta 5.3% (independientes, aprox.), justa +1786. Cuota total +650 de Winpot repartida entre patas.",
+      "pago_anticipado": true,
+      "estado": "pendiente"
+    }
+  ]
+}
