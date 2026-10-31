@@ -1,0 +1,1053 @@
+{
+  "deporte": "futbol",
+  "liga": "liga_mx",
+  "partido": "FC Juárez vs Querétaro",
+  "local": "FC Juárez",
+  "visitante": "Querétaro",
+  "espn_id": "401876918",
+  "inicio_utc": "2026-10-31T01:00:00+00:00",
+  "inicio_sonora": "2026-10-30 18:00",
+  "estadio": "Estadio Olímpico Benito Juárez",
+  "techado": false,
+  "neutral": false,
+  "pago_anticipado": true,
+  "clima": {
+    "temperatura_c": 18.700000000000003,
+    "lluvia_mm_h": 0.0,
+    "viento_kmh": 5.85,
+    "altitud_m": 1130.0
+  },
+  "arbitro": "Marco Antonio Ortiz Nava",
+  "factor_arbitro": 1.016,
+  "pinnacle": {
+    "1": 3.07,
+    "X": 3.6,
+    "2": 2.34,
+    "mas_2.5": 1.8620689655172413,
+    "menos_2.5": 2.0300000000000002
+  },
+  "goles_esperados": [
+    1.27,
+    1.49
+  ],
+  "modelo_1x2": {
+    "1": 0.337,
+    "X": 0.283,
+    "2": 0.424
+  },
+  "marcadores_probables": [
+    [
+      "1-1",
+      0.1269959793860829
+    ],
+    [
+      "1-2",
+      0.08934608934404695
+    ],
+    [
+      "0-1",
+      0.08654078529275494
+    ]
+  ],
+  "notas": [
+    "Base: Pinnacle sin margen (modelo solo como referencia)",
+    "Goles esperados del modelo solo: 1.22 – 1.41",
+    "Pago anticipado de Winpot: el ganador local/visitante incluye la probabilidad de ir 2 goles arriba y no ganar (local +2.5%, visitante +2.4%)",
+    "Córners esperados: 10.6",
+    "Tarjetas esperadas: 5.5 (factor árbitro x1.02)",
+    "Clima ya incluido en el precio de Pinnacle: no se ajusta",
+    "Tiros a puerta de jugador de FC Juárez: 50 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador de Querétaro: 47 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador: alineación oficial de ESPN; modelo Poisson con tasa por 90, minutos y rival; confianza siempre baja; solo con valor de 10% o más"
+  ],
+  "confianza": "media",
+  "selecciones": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "prob": 0.341,
+      "cuota_justa": "+194",
+      "cuota_minima": "+203",
+      "confianza": "media",
+      "prob_sin_pago_anticipado": 0.315
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "X",
+      "prob": 0.268,
+      "cuota_justa": "+274",
+      "cuota_minima": "+285",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
+      "prob": 0.441,
+      "cuota_justa": "+127",
+      "cuota_minima": "+134",
+      "confianza": "media",
+      "prob_sin_pago_anticipado": 0.417
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "1X",
+      "prob": 0.583,
+      "cuota_justa": "-140",
+      "cuota_minima": "-130",
+      "confianza": "media"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "12",
+      "prob": 0.732,
+      "cuota_justa": "-274",
+      "cuota_minima": "-246",
+      "confianza": "media"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "X2",
+      "prob": 0.685,
+      "cuota_justa": "-217",
+      "cuota_minima": "-198",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_0.5",
+      "prob": 0.93,
+      "cuota_justa": "-1322",
+      "cuota_minima": "-926",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_0.5",
+      "prob": 0.07,
+      "cuota_justa": "+1322",
+      "cuota_minima": "+1365",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_1.5",
+      "prob": 0.771,
+      "cuota_justa": "-336",
+      "cuota_minima": "-297",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_1.5",
+      "prob": 0.229,
+      "cuota_justa": "+336",
+      "cuota_minima": "+350",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "prob": 0.523,
+      "cuota_justa": "-109",
+      "cuota_minima": "-102",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_2.5",
+      "prob": 0.477,
+      "cuota_justa": "+109",
+      "cuota_minima": "+116",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_3.5",
+      "prob": 0.301,
+      "cuota_justa": "+233",
+      "cuota_minima": "+243",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "prob": 0.699,
+      "cuota_justa": "-233",
+      "cuota_minima": "-211",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_4.5",
+      "prob": 0.147,
+      "cuota_justa": "+580",
+      "cuota_minima": "+601",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_4.5",
+      "prob": 0.853,
+      "cuota_justa": "-580",
+      "cuota_minima": "-481",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "prob": 0.566,
+      "cuota_justa": "-130",
+      "cuota_minima": "-121",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "no",
+      "prob": 0.434,
+      "cuota_justa": "+130",
+      "cuota_minima": "+138",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_0.5",
+      "prob": 0.72,
+      "cuota_justa": "-257",
+      "cuota_minima": "-231",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_0.5",
+      "prob": 0.28,
+      "cuota_justa": "+257",
+      "cuota_minima": "+268",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_0.5",
+      "prob": 0.776,
+      "cuota_justa": "-346",
+      "cuota_minima": "-305",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_0.5",
+      "prob": 0.224,
+      "cuota_justa": "+346",
+      "cuota_minima": "+360",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_1.5",
+      "prob": 0.363,
+      "cuota_justa": "+175",
+      "cuota_minima": "+184",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_1.5",
+      "prob": 0.637,
+      "cuota_justa": "-175",
+      "cuota_minima": "-162",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_1.5",
+      "prob": 0.44,
+      "cuota_justa": "+127",
+      "cuota_minima": "+134",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_1.5",
+      "prob": 0.56,
+      "cuota_justa": "-127",
+      "cuota_minima": "-118",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_2.5",
+      "prob": 0.136,
+      "cuota_justa": "+633",
+      "cuota_minima": "+656",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_2.5",
+      "prob": 0.864,
+      "cuota_justa": "-633",
+      "cuota_minima": "-519",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_2.5",
+      "prob": 0.19,
+      "cuota_justa": "+427",
+      "cuota_minima": "+443",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_2.5",
+      "prob": 0.81,
+      "cuota_justa": "-427",
+      "cuota_minima": "-368",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_1",
+      "prob": 0.264,
+      "cuota_justa": "+279",
+      "cuota_minima": "+291",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_X",
+      "prob": 0.41,
+      "cuota_justa": "+144",
+      "cuota_minima": "+152",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_2",
+      "prob": 0.327,
+      "cuota_justa": "+206",
+      "cuota_minima": "+216",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_0.5",
+      "prob": 0.712,
+      "cuota_justa": "-247",
+      "cuota_minima": "-223",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_0.5",
+      "prob": 0.288,
+      "cuota_justa": "+247",
+      "cuota_minima": "+258",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_1.5",
+      "prob": 0.354,
+      "cuota_justa": "+183",
+      "cuota_minima": "+192",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_1.5",
+      "prob": 0.646,
+      "cuota_justa": "-183",
+      "cuota_minima": "-168",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "prob": 0.139,
+      "cuota_justa": "+622",
+      "cuota_minima": "+644",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1.5",
+      "prob": 0.208,
+      "cuota_justa": "+381",
+      "cuota_minima": "+396",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1",
+      "prob": 0.139,
+      "cuota_justa": "+494",
+      "cuota_minima": "+516",
+      "confianza": "media",
+      "devolucion": 0.177
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1",
+      "prob": 0.208,
+      "cuota_justa": "+281",
+      "cuota_minima": "+295",
+      "confianza": "media",
+      "devolucion": 0.209
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+0",
+      "prob": 0.315,
+      "cuota_justa": "+132",
+      "cuota_minima": "+142",
+      "confianza": "media",
+      "devolucion": 0.268
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+0",
+      "prob": 0.417,
+      "cuota_justa": "-132",
+      "cuota_minima": "-120",
+      "confianza": "media",
+      "devolucion": 0.268
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1",
+      "prob": 0.583,
+      "cuota_justa": "-281",
+      "cuota_minima": "-245",
+      "confianza": "media",
+      "devolucion": 0.209
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1",
+      "prob": 0.685,
+      "cuota_justa": "-494",
+      "cuota_minima": "-406",
+      "confianza": "media",
+      "devolucion": 0.177
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1.5",
+      "prob": 0.792,
+      "cuota_justa": "-381",
+      "cuota_minima": "-333",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1.5",
+      "prob": 0.861,
+      "cuota_justa": "-622",
+      "cuota_minima": "-511",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "prob": 0.764,
+      "cuota_justa": "-325",
+      "cuota_minima": "-267",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_7.5",
+      "prob": 0.236,
+      "cuota_justa": "+325",
+      "cuota_minima": "+346",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "prob": 0.668,
+      "cuota_justa": "-201",
+      "cuota_minima": "-175",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_8.5",
+      "prob": 0.332,
+      "cuota_justa": "+201",
+      "cuota_minima": "+217",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_9.5",
+      "prob": 0.557,
+      "cuota_justa": "-126",
+      "cuota_minima": "-113",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_9.5",
+      "prob": 0.443,
+      "cuota_justa": "+126",
+      "cuota_minima": "+138",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_10.5",
+      "prob": 0.444,
+      "cuota_justa": "+125",
+      "cuota_minima": "+137",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_10.5",
+      "prob": 0.556,
+      "cuota_justa": "-125",
+      "cuota_minima": "-112",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_11.5",
+      "prob": 0.352,
+      "cuota_justa": "+184",
+      "cuota_minima": "+199",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_11.5",
+      "prob": 0.648,
+      "cuota_justa": "-184",
+      "cuota_minima": "-161",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_2.5",
+      "prob": 0.849,
+      "cuota_justa": "-561",
+      "cuota_minima": "-421",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_2.5",
+      "prob": 0.151,
+      "cuota_justa": "+561",
+      "cuota_minima": "+595",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "prob": 0.724,
+      "cuota_justa": "-263",
+      "cuota_minima": "-222",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_3.5",
+      "prob": 0.276,
+      "cuota_justa": "+263",
+      "cuota_minima": "+281",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_4.5",
+      "prob": 0.554,
+      "cuota_justa": "-124",
+      "cuota_minima": "-111",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_4.5",
+      "prob": 0.446,
+      "cuota_justa": "+124",
+      "cuota_minima": "+136",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_5.5",
+      "prob": 0.396,
+      "cuota_justa": "+153",
+      "cuota_minima": "+166",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_5.5",
+      "prob": 0.604,
+      "cuota_justa": "-153",
+      "cuota_minima": "-135",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_6.5",
+      "prob": 0.272,
+      "cuota_justa": "+268",
+      "cuota_minima": "+287",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_6.5",
+      "prob": 0.728,
+      "cuota_justa": "-268",
+      "cuota_minima": "-226",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "1",
+      "prob": 0.377,
+      "cuota_justa": "+165",
+      "cuota_minima": "+179",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "X",
+      "prob": 0.217,
+      "cuota_justa": "+360",
+      "cuota_minima": "+384",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "2",
+      "prob": 0.406,
+      "cuota_justa": "+147",
+      "cuota_minima": "+159",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Óscar Estupiñán:mas_0.5",
+      "prob": 0.554,
+      "cuota_justa": "-124",
+      "cuota_minima": "-101",
+      "confianza": "baja",
+      "jugador": "Óscar Estupiñán",
+      "jugador_id": "219158",
+      "equipo": "FC Juárez",
+      "posicion": "F",
+      "tiros_esperados": 0.874
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Óscar Estupiñán:mas_1.5",
+      "prob": 0.203,
+      "cuota_justa": "+392",
+      "cuota_minima": "+442",
+      "confianza": "baja",
+      "jugador": "Óscar Estupiñán",
+      "jugador_id": "219158",
+      "equipo": "FC Juárez",
+      "posicion": "F",
+      "tiros_esperados": 0.874
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Óscar Estupiñán:mas_2.5",
+      "prob": 0.054,
+      "cuota_justa": "+1745",
+      "cuota_minima": "+1930",
+      "confianza": "baja",
+      "jugador": "Óscar Estupiñán",
+      "jugador_id": "219158",
+      "equipo": "FC Juárez",
+      "posicion": "F",
+      "tiros_esperados": 0.874
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Madson:mas_0.5",
+      "prob": 0.485,
+      "cuota_justa": "+106",
+      "cuota_minima": "+127",
+      "confianza": "baja",
+      "jugador": "Madson",
+      "jugador_id": "287807",
+      "equipo": "FC Juárez",
+      "posicion": "M",
+      "tiros_esperados": 0.704
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Madson:mas_1.5",
+      "prob": 0.148,
+      "cuota_justa": "+574",
+      "cuota_minima": "+641",
+      "confianza": "baja",
+      "jugador": "Madson",
+      "jugador_id": "287807",
+      "equipo": "FC Juárez",
+      "posicion": "M",
+      "tiros_esperados": 0.704
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Guilherme Castilho:mas_0.5",
+      "prob": 0.418,
+      "cuota_justa": "+139",
+      "cuota_minima": "+164",
+      "confianza": "baja",
+      "jugador": "Guilherme Castilho",
+      "jugador_id": "270379",
+      "equipo": "FC Juárez",
+      "posicion": "M",
+      "tiros_esperados": 0.563
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Guilherme Castilho:mas_1.5",
+      "prob": 0.106,
+      "cuota_justa": "+844",
+      "cuota_minima": "+938",
+      "confianza": "baja",
+      "jugador": "Guilherme Castilho",
+      "jugador_id": "270379",
+      "equipo": "FC Juárez",
+      "posicion": "M",
+      "tiros_esperados": 0.563
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Denzell García:mas_0.5",
+      "prob": 0.277,
+      "cuota_justa": "+261",
+      "cuota_minima": "+297",
+      "confianza": "baja",
+      "jugador": "Denzell García",
+      "jugador_id": "337308",
+      "equipo": "FC Juárez",
+      "posicion": "M",
+      "tiros_esperados": 0.321
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Leonardo Silva:mas_0.5",
+      "prob": 0.269,
+      "cuota_justa": "+271",
+      "cuota_minima": "+309",
+      "confianza": "baja",
+      "jugador": "Leonardo Silva",
+      "jugador_id": "358342",
+      "equipo": "FC Juárez",
+      "posicion": "M",
+      "tiros_esperados": 0.309
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Rodrigo Dourado:mas_0.5",
+      "prob": 0.221,
+      "cuota_justa": "+352",
+      "cuota_minima": "+398",
+      "confianza": "baja",
+      "jugador": "Rodrigo Dourado",
+      "jugador_id": "170506",
+      "equipo": "FC Juárez",
+      "posicion": "M",
+      "tiros_esperados": 0.239
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Mateo Coronel:mas_0.5",
+      "prob": 0.579,
+      "cuota_justa": "-138",
+      "cuota_minima": "-111",
+      "confianza": "baja",
+      "jugador": "Mateo Coronel",
+      "jugador_id": "263219",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.942
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Mateo Coronel:mas_1.5",
+      "prob": 0.226,
+      "cuota_justa": "+343",
+      "cuota_minima": "+388",
+      "confianza": "baja",
+      "jugador": "Mateo Coronel",
+      "jugador_id": "263219",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.942
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Mateo Coronel:mas_2.5",
+      "prob": 0.064,
+      "cuota_justa": "+1452",
+      "cuota_minima": "+1608",
+      "confianza": "baja",
+      "jugador": "Mateo Coronel",
+      "jugador_id": "263219",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.942
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ali Avila:mas_0.5",
+      "prob": 0.56,
+      "cuota_justa": "-127",
+      "cuota_minima": "-103",
+      "confianza": "baja",
+      "jugador": "Ali Avila",
+      "jugador_id": "297287",
+      "equipo": "Querétaro",
+      "posicion": "F",
+      "tiros_esperados": 0.888
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ali Avila:mas_1.5",
+      "prob": 0.208,
+      "cuota_justa": "+381",
+      "cuota_minima": "+430",
+      "confianza": "baja",
+      "jugador": "Ali Avila",
+      "jugador_id": "297287",
+      "equipo": "Querétaro",
+      "posicion": "F",
+      "tiros_esperados": 0.888
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ali Avila:mas_2.5",
+      "prob": 0.056,
+      "cuota_justa": "+1675",
+      "cuota_minima": "+1853",
+      "confianza": "baja",
+      "jugador": "Ali Avila",
+      "jugador_id": "297287",
+      "equipo": "Querétaro",
+      "posicion": "F",
+      "tiros_esperados": 0.888
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Denilson Muñoz:mas_0.5",
+      "prob": 0.351,
+      "cuota_justa": "+185",
+      "cuota_minima": "+214",
+      "confianza": "baja",
+      "jugador": "Denilson Muñoz",
+      "jugador_id": "3106052",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.441
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Denilson Muñoz:mas_1.5",
+      "prob": 0.073,
+      "cuota_justa": "+1275",
+      "cuota_minima": "+1413",
+      "confianza": "baja",
+      "jugador": "Denilson Muñoz",
+      "jugador_id": "3106052",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.441
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Enzo Giménez:mas_0.5",
+      "prob": 0.307,
+      "cuota_justa": "+226",
+      "cuota_minima": "+259",
+      "confianza": "baja",
+      "jugador": "Enzo Giménez",
+      "jugador_id": "252571",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.368
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Enzo Giménez:mas_1.5",
+      "prob": 0.055,
+      "cuota_justa": "+1722",
+      "cuota_minima": "+1905",
+      "confianza": "baja",
+      "jugador": "Enzo Giménez",
+      "jugador_id": "252571",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.368
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Carlo García:mas_0.5",
+      "prob": 0.268,
+      "cuota_justa": "+273",
+      "cuota_minima": "+311",
+      "confianza": "baja",
+      "jugador": "Carlo García",
+      "jugador_id": "309109",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.308
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Bernardo Parra:mas_0.5",
+      "prob": 0.224,
+      "cuota_justa": "+347",
+      "cuota_minima": "+392",
+      "confianza": "baja",
+      "jugador": "Bernardo Parra",
+      "jugador_id": "362417",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.242
+    }
+  ],
+  "estado": "pendiente",
+  "tiros_jugador": [
+    {
+      "jugador": "Óscar Estupiñán",
+      "equipo": "FC Juárez",
+      "posicion": "F",
+      "tiros_esperados": 0.874,
+      "tasa90": 0.944,
+      "minutos_esperados": 78.0,
+      "minutos_historial": 3481
+    },
+    {
+      "jugador": "Madson",
+      "equipo": "FC Juárez",
+      "posicion": "M",
+      "tiros_esperados": 0.704,
+      "tasa90": 0.822,
+      "minutos_esperados": 72.1,
+      "minutos_historial": 1869
+    },
+    {
+      "jugador": "Guilherme Castilho",
+      "equipo": "FC Juárez",
+      "posicion": "M",
+      "tiros_esperados": 0.563,
+      "tasa90": 0.593,
+      "minutos_esperados": 80.1,
+      "minutos_historial": 2312
+    },
+    {
+      "jugador": "Denzell García",
+      "equipo": "FC Juárez",
+      "posicion": "M",
+      "tiros_esperados": 0.321,
+      "tasa90": 0.321,
+      "minutos_esperados": 84.2,
+      "minutos_historial": 4087
+    },
+    {
+      "jugador": "Leonardo Silva",
+      "equipo": "FC Juárez",
+      "posicion": "M",
+      "tiros_esperados": 0.309,
+      "tasa90": 0.306,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 487
+    },
+    {
+      "jugador": "Rodrigo Dourado",
+      "equipo": "FC Juárez",
+      "posicion": "M",
+      "tiros_esperados": 0.239,
+      "tasa90": 0.286,
+      "minutos_esperados": 70.3,
+      "minutos_historial": 552
+    },
+    {
+      "jugador": "Mateo Coronel",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.942,
+      "tasa90": 0.994,
+      "minutos_esperados": 83.9,
+      "minutos_historial": 2582
+    },
+    {
+      "jugador": "Ali Avila",
+      "equipo": "Querétaro",
+      "posicion": "F",
+      "tiros_esperados": 0.888,
+      "tasa90": 0.926,
+      "minutos_esperados": 84.9,
+      "minutos_historial": 2963
+    },
+    {
+      "jugador": "Denilson Muñoz",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.441,
+      "tasa90": 0.501,
+      "minutos_esperados": 78.0,
+      "minutos_historial": 174
+    },
+    {
+      "jugador": "Enzo Giménez",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.368,
+      "tasa90": 0.399,
+      "minutos_esperados": 81.8,
+      "minutos_historial": 1012
+    },
+    {
+      "jugador": "Carlo García",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.308,
+      "tasa90": 0.338,
+      "minutos_esperados": 80.6,
+      "minutos_historial": 2341
+    },
+    {
+      "jugador": "Bernardo Parra",
+      "equipo": "Querétaro",
+      "posicion": "M",
+      "tiros_esperados": 0.242,
+      "tasa90": 0.276,
+      "minutos_esperados": 77.7,
+      "minutos_historial": 683
+    }
+  ],
+  "id": "P-20261030-10ec9e",
+  "creado": "2026-10-30T17:19:53.126873-07:00",
+  "lectura": {
+    "texto": "Juárez último (5 pts, 3 derrotas y 2 empates en 5, 0-5 reciente) contra Querétaro 9o que pelea liguilla; Querétaro ganó 3 de los últimos 5 H2H. Lectura: Querétaro no pierde y domina con córners.",
+    "patas": [
+      {
+        "mercado": "doble_oportunidad",
+        "seleccion": "X2",
+        "prob": 0.685,
+        "confianza": "media"
+      },
+      {
+        "mercado": "corners",
+        "seleccion": "mas_7.5",
+        "prob": 0.764,
+        "confianza": "media"
+      }
+    ],
+    "prob_conjunta": 0.5233,
+    "creado": "2026-10-30T17:20:16.350753-07:00",
+    "despues_de_winpot": false
+  }
+}
