@@ -1,0 +1,1027 @@
+{
+  "deporte": "futbol",
+  "liga": "liga_mx",
+  "partido": "Puebla vs Pumas UNAM",
+  "local": "Puebla",
+  "visitante": "Pumas UNAM",
+  "espn_id": "401876917",
+  "inicio_utc": "2026-10-31T03:00:00+00:00",
+  "inicio_sonora": "2026-10-30 20:00",
+  "estadio": "Estadio Cuauhtémoc",
+  "techado": false,
+  "neutral": false,
+  "pago_anticipado": true,
+  "clima": {
+    "temperatura_c": 16.45,
+    "lluvia_mm_h": 0.0,
+    "viento_kmh": 4.6,
+    "altitud_m": 2151.0
+  },
+  "arbitro": "Oscar Mejía García",
+  "factor_arbitro": 0.931,
+  "pinnacle": {
+    "1": 3.78,
+    "X": 3.69,
+    "2": 2.01,
+    "mas_2.5": 1.819672131147541,
+    "menos_2.5": 2.06
+  },
+  "goles_esperados": [
+    1.14,
+    1.66
+  ],
+  "modelo_1x2": {
+    "1": 0.296,
+    "X": 0.271,
+    "2": 0.479
+  },
+  "marcadores_probables": [
+    [
+      "1-1",
+      0.12336791274223728
+    ],
+    [
+      "1-2",
+      0.0955473344586255
+    ],
+    [
+      "0-1",
+      0.09179266359043468
+    ]
+  ],
+  "notas": [
+    "Base: Pinnacle sin margen (modelo solo como referencia)",
+    "Goles esperados del modelo solo: 1.17 – 1.57",
+    "Pago anticipado de Winpot: el ganador local/visitante incluye la probabilidad de ir 2 goles arriba y no ganar (local +2.5%, visitante +2.2%)",
+    "Córners esperados: 10.0",
+    "Tarjetas esperadas: 3.3 (factor árbitro x0.93)",
+    "Clima ya incluido en el precio de Pinnacle: no se ajusta",
+    "Tiros a puerta de jugador de Puebla: 48 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador de Pumas UNAM: 50 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador: alineación oficial de ESPN; modelo Poisson con tasa por 90, minutos y rival; confianza siempre baja; solo con valor de 10% o más"
+  ],
+  "confianza": "media",
+  "selecciones": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "prob": 0.279,
+      "cuota_justa": "+259",
+      "cuota_minima": "+270",
+      "confianza": "media",
+      "prob_sin_pago_anticipado": 0.254
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "X",
+      "prob": 0.26,
+      "cuota_justa": "+285",
+      "cuota_minima": "+297",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
+      "prob": 0.509,
+      "cuota_justa": "-104",
+      "cuota_minima": "+103",
+      "confianza": "media",
+      "prob_sin_pago_anticipado": 0.487
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "1X",
+      "prob": 0.513,
+      "cuota_justa": "-106",
+      "cuota_minima": "+101",
+      "confianza": "media"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "12",
+      "prob": 0.74,
+      "cuota_justa": "-285",
+      "cuota_minima": "-255",
+      "confianza": "media"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "X2",
+      "prob": 0.746,
+      "cuota_justa": "-294",
+      "cuota_minima": "-263",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_0.5",
+      "prob": 0.931,
+      "cuota_justa": "-1353",
+      "cuota_minima": "-942",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_0.5",
+      "prob": 0.069,
+      "cuota_justa": "+1353",
+      "cuota_minima": "+1397",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_1.5",
+      "prob": 0.779,
+      "cuota_justa": "-352",
+      "cuota_minima": "-310",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_1.5",
+      "prob": 0.221,
+      "cuota_justa": "+352",
+      "cuota_minima": "+366",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "prob": 0.533,
+      "cuota_justa": "-114",
+      "cuota_minima": "-107",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_2.5",
+      "prob": 0.467,
+      "cuota_justa": "+114",
+      "cuota_minima": "+121",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_3.5",
+      "prob": 0.31,
+      "cuota_justa": "+223",
+      "cuota_minima": "+233",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "prob": 0.69,
+      "cuota_justa": "-223",
+      "cuota_minima": "-202",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_4.5",
+      "prob": 0.154,
+      "cuota_justa": "+551",
+      "cuota_minima": "+571",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_4.5",
+      "prob": 0.846,
+      "cuota_justa": "-551",
+      "cuota_minima": "-460",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "prob": 0.561,
+      "cuota_justa": "-128",
+      "cuota_minima": "-119",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "no",
+      "prob": 0.439,
+      "cuota_justa": "+128",
+      "cuota_minima": "+135",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_0.5",
+      "prob": 0.682,
+      "cuota_justa": "-214",
+      "cuota_minima": "-195",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_0.5",
+      "prob": 0.318,
+      "cuota_justa": "+214",
+      "cuota_minima": "+224",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_0.5",
+      "prob": 0.811,
+      "cuota_justa": "-428",
+      "cuota_minima": "-369",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_0.5",
+      "prob": 0.189,
+      "cuota_justa": "+428",
+      "cuota_minima": "+445",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_1.5",
+      "prob": 0.317,
+      "cuota_justa": "+215",
+      "cuota_minima": "+225",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_1.5",
+      "prob": 0.683,
+      "cuota_justa": "-215",
+      "cuota_minima": "-196",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_1.5",
+      "prob": 0.496,
+      "cuota_justa": "+102",
+      "cuota_minima": "+108",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_1.5",
+      "prob": 0.504,
+      "cuota_justa": "-102",
+      "cuota_minima": "+105",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_2.5",
+      "prob": 0.109,
+      "cuota_justa": "+820",
+      "cuota_minima": "+848",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_2.5",
+      "prob": 0.891,
+      "cuota_justa": "-820",
+      "cuota_minima": "-642",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_2.5",
+      "prob": 0.233,
+      "cuota_justa": "+328",
+      "cuota_minima": "+342",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_2.5",
+      "prob": 0.767,
+      "cuota_justa": "-328",
+      "cuota_minima": "-291",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_1",
+      "prob": 0.226,
+      "cuota_justa": "+342",
+      "cuota_minima": "+356",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_X",
+      "prob": 0.402,
+      "cuota_justa": "+148",
+      "cuota_minima": "+156",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_2",
+      "prob": 0.372,
+      "cuota_justa": "+169",
+      "cuota_minima": "+178",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_0.5",
+      "prob": 0.717,
+      "cuota_justa": "-254",
+      "cuota_minima": "-229",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_0.5",
+      "prob": 0.283,
+      "cuota_justa": "+254",
+      "cuota_minima": "+265",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_1.5",
+      "prob": 0.36,
+      "cuota_justa": "+178",
+      "cuota_minima": "+186",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_1.5",
+      "prob": 0.64,
+      "cuota_justa": "-178",
+      "cuota_minima": "-163",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "prob": 0.103,
+      "cuota_justa": "+872",
+      "cuota_minima": "+901",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1.5",
+      "prob": 0.264,
+      "cuota_justa": "+279",
+      "cuota_minima": "+291",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1",
+      "prob": 0.103,
+      "cuota_justa": "+725",
+      "cuota_minima": "+755",
+      "confianza": "media",
+      "devolucion": 0.151
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1",
+      "prob": 0.264,
+      "cuota_justa": "+195",
+      "cuota_minima": "+207",
+      "confianza": "media",
+      "devolucion": 0.223
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+0",
+      "prob": 0.254,
+      "cuota_justa": "+192",
+      "cuota_minima": "+204",
+      "confianza": "media",
+      "devolucion": 0.26
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+0",
+      "prob": 0.487,
+      "cuota_justa": "-192",
+      "cuota_minima": "-171",
+      "confianza": "media",
+      "devolucion": 0.26
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1",
+      "prob": 0.513,
+      "cuota_justa": "-195",
+      "cuota_minima": "-174",
+      "confianza": "media",
+      "devolucion": 0.223
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1",
+      "prob": 0.746,
+      "cuota_justa": "-725",
+      "cuota_minima": "-561",
+      "confianza": "media",
+      "devolucion": 0.151
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1.5",
+      "prob": 0.736,
+      "cuota_justa": "-279",
+      "cuota_minima": "-250",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1.5",
+      "prob": 0.897,
+      "cuota_justa": "-872",
+      "cuota_minima": "-674",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "prob": 0.741,
+      "cuota_justa": "-286",
+      "cuota_minima": "-239",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_7.5",
+      "prob": 0.259,
+      "cuota_justa": "+286",
+      "cuota_minima": "+306",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "prob": 0.64,
+      "cuota_justa": "-178",
+      "cuota_minima": "-156",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_8.5",
+      "prob": 0.36,
+      "cuota_justa": "+178",
+      "cuota_minima": "+192",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_9.5",
+      "prob": 0.527,
+      "cuota_justa": "-111",
+      "cuota_minima": "-100",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_9.5",
+      "prob": 0.473,
+      "cuota_justa": "+111",
+      "cuota_minima": "+122",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_10.5",
+      "prob": 0.413,
+      "cuota_justa": "+142",
+      "cuota_minima": "+155",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_10.5",
+      "prob": 0.587,
+      "cuota_justa": "-142",
+      "cuota_minima": "-126",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_11.5",
+      "prob": 0.323,
+      "cuota_justa": "+210",
+      "cuota_minima": "+226",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_11.5",
+      "prob": 0.677,
+      "cuota_justa": "-210",
+      "cuota_minima": "-181",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_2.5",
+      "prob": 0.673,
+      "cuota_justa": "-206",
+      "cuota_minima": "-178",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_2.5",
+      "prob": 0.327,
+      "cuota_justa": "+206",
+      "cuota_minima": "+221",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "prob": 0.492,
+      "cuota_justa": "+103",
+      "cuota_minima": "+114",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_3.5",
+      "prob": 0.508,
+      "cuota_justa": "-103",
+      "cuota_minima": "+107",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_4.5",
+      "prob": 0.304,
+      "cuota_justa": "+229",
+      "cuota_minima": "+246",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_4.5",
+      "prob": 0.696,
+      "cuota_justa": "-229",
+      "cuota_minima": "-196",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_5.5",
+      "prob": 0.174,
+      "cuota_justa": "+475",
+      "cuota_minima": "+504",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_5.5",
+      "prob": 0.826,
+      "cuota_justa": "-475",
+      "cuota_minima": "-368",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_6.5",
+      "prob": 0.095,
+      "cuota_justa": "+952",
+      "cuota_minima": "+1005",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_6.5",
+      "prob": 0.905,
+      "cuota_justa": "-952",
+      "cuota_minima": "-623",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "1",
+      "prob": 0.378,
+      "cuota_justa": "+164",
+      "cuota_minima": "+178",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "X",
+      "prob": 0.268,
+      "cuota_justa": "+273",
+      "cuota_minima": "+292",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "2",
+      "prob": 0.354,
+      "cuota_justa": "+183",
+      "cuota_minima": "+197",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Luifer Hernández:mas_0.5",
+      "prob": 0.585,
+      "cuota_justa": "-141",
+      "cuota_minima": "-113",
+      "confianza": "baja",
+      "jugador": "Luifer Hernández",
+      "jugador_id": "316225",
+      "equipo": "Puebla",
+      "posicion": "F",
+      "tiros_esperados": 0.96
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Luifer Hernández:mas_1.5",
+      "prob": 0.232,
+      "cuota_justa": "+332",
+      "cuota_minima": "+375",
+      "confianza": "baja",
+      "jugador": "Luifer Hernández",
+      "jugador_id": "316225",
+      "equipo": "Puebla",
+      "posicion": "F",
+      "tiros_esperados": 0.96
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Luifer Hernández:mas_2.5",
+      "prob": 0.067,
+      "cuota_justa": "+1386",
+      "cuota_minima": "+1535",
+      "confianza": "baja",
+      "jugador": "Luifer Hernández",
+      "jugador_id": "316225",
+      "equipo": "Puebla",
+      "posicion": "F",
+      "tiros_esperados": 0.96
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Eduardo Armenta:mas_0.5",
+      "prob": 0.484,
+      "cuota_justa": "+107",
+      "cuota_minima": "+128",
+      "confianza": "baja",
+      "jugador": "Eduardo Armenta",
+      "jugador_id": "286080",
+      "equipo": "Puebla",
+      "posicion": "M",
+      "tiros_esperados": 0.702
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Eduardo Armenta:mas_1.5",
+      "prob": 0.148,
+      "cuota_justa": "+576",
+      "cuota_minima": "+645",
+      "confianza": "baja",
+      "jugador": "Eduardo Armenta",
+      "jugador_id": "286080",
+      "equipo": "Puebla",
+      "posicion": "M",
+      "tiros_esperados": 0.702
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Omar Moreno:mas_0.5",
+      "prob": 0.443,
+      "cuota_justa": "+126",
+      "cuota_minima": "+149",
+      "confianza": "baja",
+      "jugador": "Omar Moreno",
+      "jugador_id": "357211",
+      "equipo": "Puebla",
+      "posicion": "M",
+      "tiros_esperados": 0.615
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Omar Moreno:mas_1.5",
+      "prob": 0.121,
+      "cuota_justa": "+725",
+      "cuota_minima": "+808",
+      "confianza": "baja",
+      "jugador": "Omar Moreno",
+      "jugador_id": "357211",
+      "equipo": "Puebla",
+      "posicion": "M",
+      "tiros_esperados": 0.615
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Brayan Garnica:mas_0.5",
+      "prob": 0.286,
+      "cuota_justa": "+249",
+      "cuota_minima": "+285",
+      "confianza": "baja",
+      "jugador": "Brayan Garnica",
+      "jugador_id": "227939",
+      "equipo": "Puebla",
+      "posicion": "M",
+      "tiros_esperados": 0.335
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Jose Pachuca:mas_0.5",
+      "prob": 0.268,
+      "cuota_justa": "+274",
+      "cuota_minima": "+312",
+      "confianza": "baja",
+      "jugador": "Jose Pachuca",
+      "jugador_id": "364703",
+      "equipo": "Puebla",
+      "posicion": "M",
+      "tiros_esperados": 0.307
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Alejandro Organista:mas_0.5",
+      "prob": 0.212,
+      "cuota_justa": "+372",
+      "cuota_minima": "+420",
+      "confianza": "baja",
+      "jugador": "Alejandro Organista",
+      "jugador_id": "284658",
+      "equipo": "Puebla",
+      "posicion": "M",
+      "tiros_esperados": 0.226
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Robert Morales:mas_0.5",
+      "prob": 0.514,
+      "cuota_justa": "-106",
+      "cuota_minima": "+115",
+      "confianza": "baja",
+      "jugador": "Robert Morales",
+      "jugador_id": "255942",
+      "equipo": "Pumas UNAM",
+      "posicion": "F",
+      "tiros_esperados": 0.771
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Robert Morales:mas_1.5",
+      "prob": 0.17,
+      "cuota_justa": "+489",
+      "cuota_minima": "+549",
+      "confianza": "baja",
+      "jugador": "Robert Morales",
+      "jugador_id": "255942",
+      "equipo": "Pumas UNAM",
+      "posicion": "F",
+      "tiros_esperados": 0.771
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Juninho:mas_0.5",
+      "prob": 0.476,
+      "cuota_justa": "+110",
+      "cuota_minima": "+132",
+      "confianza": "baja",
+      "jugador": "Juninho",
+      "jugador_id": "239983",
+      "equipo": "Pumas UNAM",
+      "posicion": "F",
+      "tiros_esperados": 0.684
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Juninho:mas_1.5",
+      "prob": 0.142,
+      "cuota_justa": "+603",
+      "cuota_minima": "+674",
+      "confianza": "baja",
+      "jugador": "Juninho",
+      "jugador_id": "239983",
+      "equipo": "Pumas UNAM",
+      "posicion": "F",
+      "tiros_esperados": 0.684
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "César Huerta:mas_0.5",
+      "prob": 0.459,
+      "cuota_justa": "+118",
+      "cuota_minima": "+140",
+      "confianza": "baja",
+      "jugador": "César Huerta",
+      "jugador_id": "265969",
+      "equipo": "Pumas UNAM",
+      "posicion": "M",
+      "tiros_esperados": 0.647
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "César Huerta:mas_1.5",
+      "prob": 0.131,
+      "cuota_justa": "+665",
+      "cuota_minima": "+742",
+      "confianza": "baja",
+      "jugador": "César Huerta",
+      "jugador_id": "265969",
+      "equipo": "Pumas UNAM",
+      "posicion": "M",
+      "tiros_esperados": 0.647
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Uriel Antuna:mas_0.5",
+      "prob": 0.336,
+      "cuota_justa": "+198",
+      "cuota_minima": "+228",
+      "confianza": "baja",
+      "jugador": "Uriel Antuna",
+      "jugador_id": "242715",
+      "equipo": "Pumas UNAM",
+      "posicion": "M",
+      "tiros_esperados": 0.416
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Uriel Antuna:mas_1.5",
+      "prob": 0.066,
+      "cuota_justa": "+1410",
+      "cuota_minima": "+1562",
+      "confianza": "baja",
+      "jugador": "Uriel Antuna",
+      "jugador_id": "242715",
+      "equipo": "Pumas UNAM",
+      "posicion": "M",
+      "tiros_esperados": 0.416
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Adalberto Carrasquilla:mas_0.5",
+      "prob": 0.251,
+      "cuota_justa": "+299",
+      "cuota_minima": "+339",
+      "confianza": "baja",
+      "jugador": "Adalberto Carrasquilla",
+      "jugador_id": "219508",
+      "equipo": "Pumas UNAM",
+      "posicion": "M",
+      "tiros_esperados": 0.282
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Pedro Vite:mas_0.5",
+      "prob": 0.204,
+      "cuota_justa": "+390",
+      "cuota_minima": "+440",
+      "confianza": "baja",
+      "jugador": "Pedro Vite",
+      "jugador_id": "297150",
+      "equipo": "Pumas UNAM",
+      "posicion": "M",
+      "tiros_esperados": 0.215
+    }
+  ],
+  "estado": "pendiente",
+  "tiros_jugador": [
+    {
+      "jugador": "Luifer Hernández",
+      "equipo": "Puebla",
+      "posicion": "F",
+      "tiros_esperados": 0.96,
+      "tasa90": 1.241,
+      "minutos_esperados": 60.5,
+      "minutos_historial": 362
+    },
+    {
+      "jugador": "Eduardo Armenta",
+      "equipo": "Puebla",
+      "posicion": "M",
+      "tiros_esperados": 0.702,
+      "tasa90": 0.704,
+      "minutos_esperados": 78.0,
+      "minutos_historial": 149
+    },
+    {
+      "jugador": "Omar Moreno",
+      "equipo": "Puebla",
+      "posicion": "M",
+      "tiros_esperados": 0.615,
+      "tasa90": 0.7,
+      "minutos_esperados": 68.8,
+      "minutos_historial": 410
+    },
+    {
+      "jugador": "Brayan Garnica",
+      "equipo": "Puebla",
+      "posicion": "M",
+      "tiros_esperados": 0.335,
+      "tasa90": 0.343,
+      "minutos_esperados": 76.5,
+      "minutos_historial": 1304
+    },
+    {
+      "jugador": "Jose Pachuca",
+      "equipo": "Puebla",
+      "posicion": "M",
+      "tiros_esperados": 0.307,
+      "tasa90": 0.3,
+      "minutos_esperados": 79.8,
+      "minutos_historial": 1254
+    },
+    {
+      "jugador": "Alejandro Organista",
+      "equipo": "Puebla",
+      "posicion": "M",
+      "tiros_esperados": 0.226,
+      "tasa90": 0.223,
+      "minutos_esperados": 79.1,
+      "minutos_historial": 3456
+    },
+    {
+      "jugador": "Robert Morales",
+      "equipo": "Pumas UNAM",
+      "posicion": "F",
+      "tiros_esperados": 0.771,
+      "tasa90": 0.886,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 3098
+    },
+    {
+      "jugador": "Juninho",
+      "equipo": "Pumas UNAM",
+      "posicion": "F",
+      "tiros_esperados": 0.684,
+      "tasa90": 0.929,
+      "minutos_esperados": 71.9,
+      "minutos_historial": 2351
+    },
+    {
+      "jugador": "César Huerta",
+      "equipo": "Pumas UNAM",
+      "posicion": "M",
+      "tiros_esperados": 0.647,
+      "tasa90": 0.823,
+      "minutos_esperados": 76.8,
+      "minutos_historial": 328
+    },
+    {
+      "jugador": "Uriel Antuna",
+      "equipo": "Pumas UNAM",
+      "posicion": "M",
+      "tiros_esperados": 0.416,
+      "tasa90": 0.496,
+      "minutos_esperados": 81.9,
+      "minutos_historial": 2113
+    },
+    {
+      "jugador": "Adalberto Carrasquilla",
+      "equipo": "Pumas UNAM",
+      "posicion": "M",
+      "tiros_esperados": 0.282,
+      "tasa90": 0.341,
+      "minutos_esperados": 80.7,
+      "minutos_historial": 3015
+    },
+    {
+      "jugador": "Pedro Vite",
+      "equipo": "Pumas UNAM",
+      "posicion": "M",
+      "tiros_esperados": 0.215,
+      "tasa90": 0.247,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 3601
+    }
+  ],
+  "id": "P-20261030-c113fe",
+  "creado": "2026-10-30T19:06:10.312298-07:00",
+  "lectura": {
+    "texto": "Puebla sin ganar en 5 (2 empates, 3 derrotas, 10 goles recibidos); Pumas ganó 4 de los últimos 5 H2H y anotó en 4. Pumas favorito pero visitante en altura: no pierde y anota.",
+    "patas": [
+      {
+        "mercado": "doble_oportunidad",
+        "seleccion": "X2",
+        "prob": 0.746,
+        "confianza": "media"
+      },
+      {
+        "mercado": "goles_equipo",
+        "seleccion": "visitante_mas_0.5",
+        "prob": 0.811,
+        "confianza": "media"
+      }
+    ],
+    "prob_conjunta": 0.6815,
+    "creado": "2026-10-30T19:06:19.324459-07:00",
+    "despues_de_winpot": false
+  }
+}
