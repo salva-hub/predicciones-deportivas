@@ -707,6 +707,8 @@ function grafica(el, puntos, {ref = 0, refTexto = "", vacio = "Sin datos todaví
   el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(etiqueta + ": termina en " + txtUlt)}">${s}</svg>`;
 }
 
+// un parlay ganado (también si se liquidó a mano) tiene todas sus selecciones ganadas, aunque sus patas sigan "pendiente"
+const estPata = (q, padre) => padre === "ganada" && (!q.estado || q.estado === "pendiente") ? "ganada" : q.estado;
 const ICONO = {ganada: "M3 6.5l2 2 4-5", perdida: "M3.5 3.5l5 5M8.5 3.5l-5 5", otro: "M6 3v3.5l2 1.2"};
 // en los parlays solo se muestra el momio total (el de cada pata a veces es la cuota total repartida, no la de Winpot)
 function tarjetasParlay(lista, vacio) {
@@ -719,8 +721,8 @@ function tarjetasParlay(lista, vacio) {
       <div>${(x.patas || []).map(q => {
         const t = String(q.texto || ""), i = t.indexOf(" · ");
         const partido = q.partido || (i >= 0 ? t.slice(0, i) : t), sel = i >= 0 ? t.slice(i + 3) : "";
-        const ic = q.estado === "ganada" || q.estado === "perdida" ? q.estado : "otro";
-        return `<div class="pata"><span class="ic ${ic}" role="img" aria-label="${esc(estado(q.estado))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="${ICONO[ic]}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        const eq = estPata(q, x.estado), ic = eq === "ganada" || eq === "perdida" ? eq : "otro";
+        return `<div class="pata"><span class="ic ${ic}" role="img" aria-label="${esc(estado(eq))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="${ICONO[ic]}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
           <div class="tx"><b>${esc(partido)}</b><span>${esc(sel)}</span></div></div>`;
       }).join("")}</div>
       <div class="pie"><span><span class="k">Momio </span><strong class="num">${esc(momio(x.cuota))}</strong></span>
@@ -1175,9 +1177,9 @@ mostrarSeccion();
     const est = x.estado === "pendiente" && x.requiere_revision ? "Revisar a mano" : estado(x.estado);
     const enOtro = x.patas.some(q => !partidosGrupo.has(q.partido)) || partidosGrupo.size > 1;
     const patas = x.patas.map(q => {
-      const ic = q.estado === "ganada" || q.estado === "perdida" ? q.estado : "otro";
+      const eq = estPata(q, x.estado), ic = eq === "ganada" || eq === "perdida" ? eq : "otro";
       const titulo = q.sel || q.partido;
-      return `<div class="pata"><span class="ic ${ic}" role="img" aria-label="${esc(estado(q.estado))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="${ICONO[ic]}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      return `<div class="pata"><span class="ic ${ic}" role="img" aria-label="${esc(estado(eq))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="${ICONO[ic]}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <div class="tx"><b>${esc(titulo)}</b>${enOtro && q.sel ? `<span>${esc(q.partido)}</span>` : ""}</div></div>`;
     }).join("");
     return `<div class="cmp-ap">
