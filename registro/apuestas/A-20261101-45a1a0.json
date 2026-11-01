@@ -40,6 +40,10 @@
   "cuota_total_fija": true,
   "id": "A-20261101-45a1a0",
   "creado": "2026-11-01T13:44:59.455666-07:00",
-  "estado": "pendiente",
-  "nota": "Crea tu apuesta real de Salva sin pronóstico (Winpot ID 5603208481, 01-nov 12:56, inicio 13:00 Sonora). Sin pronóstico: se liquida a mano con liquidar."
+  "estado": "ganada",
+  "nota": "Crea tu apuesta real de Salva sin pronóstico (Winpot ID 5603208481, 01-nov 12:56, inicio 13:00 Sonora). Sin pronóstico: se liquida a mano con liquidar.",
+  "cuota_real": 3.3334,
+  "ganancia": 1166.7,
+  "liquidada": "2026-11-01T15:02:35.498631-07:00",
+  "liquidada_a_mano": true
 }
