@@ -1,0 +1,79 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261031-411dfc",
+      "partido": "Monterrey vs Tijuana",
+      "liga": "liga_mx",
+      "deporte": "futbol",
+      "espn_id": "401876914",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 1.617283950617284,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261031-411dfc",
+      "partido": "Monterrey vs Tijuana",
+      "liga": "liga_mx",
+      "deporte": "futbol",
+      "espn_id": "401876914",
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "cuota": 1.3636363636363638,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261031-411dfc",
+      "partido": "Monterrey vs Tijuana",
+      "liga": "liga_mx",
+      "deporte": "futbol",
+      "espn_id": "401876914",
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "cuota": 1.4385964912280702,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261031-980397",
+      "partido": "América vs Toluca",
+      "liga": "liga_mx",
+      "deporte": "futbol",
+      "espn_id": "401876913",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 1.3205128205128205,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261031-980397",
+      "partido": "América vs Toluca",
+      "liga": "liga_mx",
+      "deporte": "futbol",
+      "espn_id": "401876913",
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "cuota": 1.3424657534246576,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261031-980397",
+      "partido": "América vs Toluca",
+      "liga": "liga_mx",
+      "deporte": "futbol",
+      "espn_id": "401876913",
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "cuota": 1.5405405405405406,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 8.6645,
+  "cuota_americana": "+766",
+  "monto": 300.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261031-f832f5",
+  "creado": "2026-10-31T19:16:34.087071-07:00",
+  "estado": "pendiente"
+}

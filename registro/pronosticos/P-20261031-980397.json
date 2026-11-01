@@ -1,0 +1,1100 @@
+{
+  "deporte": "futbol",
+  "liga": "liga_mx",
+  "partido": "América vs Toluca",
+  "local": "América",
+  "visitante": "Toluca",
+  "espn_id": "401876913",
+  "inicio_utc": "2026-11-01T03:10:00+00:00",
+  "inicio_sonora": "2026-10-31 20:10",
+  "estadio": "Estadio Banorte",
+  "techado": false,
+  "neutral": false,
+  "pago_anticipado": true,
+  "clima": {
+    "temperatura_c": 17.7,
+    "lluvia_mm_h": 0.0,
+    "viento_kmh": 11.1,
+    "altitud_m": 2233.0
+  },
+  "arbitro": "Luis Enrique Santander Aguirre",
+  "factor_arbitro": 0.869,
+  "pinnacle": {
+    "1": 2.37,
+    "2": 2.92,
+    "X": 3.76,
+    "mas_3.0": 1.9,
+    "menos_3.0": 1.99
+  },
+  "goles_esperados": [
+    1.74,
+    1.55
+  ],
+  "modelo_1x2": {
+    "1": 0.497,
+    "X": 0.243,
+    "2": 0.331
+  },
+  "marcadores_probables": [
+    [
+      "1-1",
+      0.10938541255518587
+    ],
+    [
+      "2-1",
+      0.08741425733255488
+    ],
+    [
+      "1-2",
+      0.07786535225590481
+    ]
+  ],
+  "notas": [
+    "Sin línea de goles de Pinnacle: el total sale del modelo; menos confianza en goles, ambos anotan, goles por equipo, primer tiempo y hándicap",
+    "Base: Pinnacle sin margen (modelo solo como referencia)",
+    "Goles esperados del modelo solo: 1.85 – 1.45",
+    "Pago anticipado de Winpot: el ganador local/visitante incluye la probabilidad de ir 2 goles arriba y no ganar (local +3.5%, visitante +3.7%)",
+    "Córners esperados: 10.1",
+    "Tarjetas esperadas: 3.9 (factor árbitro x0.87)",
+    "Clima ya incluido en el precio de Pinnacle: no se ajusta",
+    "Tiros a puerta de jugador de América: 50 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador de Toluca: 50 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador: alineación oficial de ESPN; modelo Poisson con tasa por 90, minutos y rival; confianza siempre baja; solo con valor de 10% o más"
+  ],
+  "confianza": "media",
+  "selecciones": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "prob": 0.447,
+      "cuota_justa": "+124",
+      "cuota_minima": "+131",
+      "confianza": "media",
+      "prob_sin_pago_anticipado": 0.412
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "X",
+      "prob": 0.256,
+      "cuota_justa": "+290",
+      "cuota_minima": "+303",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
+      "prob": 0.369,
+      "cuota_justa": "+171",
+      "cuota_minima": "+180",
+      "confianza": "media",
+      "prob_sin_pago_anticipado": 0.332
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "1X",
+      "prob": 0.668,
+      "cuota_justa": "-201",
+      "cuota_minima": "-184",
+      "confianza": "media"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "12",
+      "prob": 0.744,
+      "cuota_justa": "-290",
+      "cuota_minima": "-259",
+      "confianza": "media"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "X2",
+      "prob": 0.588,
+      "cuota_justa": "-143",
+      "cuota_minima": "-133",
+      "confianza": "media"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_0.5",
+      "prob": 0.954,
+      "cuota_justa": "-2066",
+      "cuota_minima": "-1252",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_0.5",
+      "prob": 0.046,
+      "cuota_justa": "+2066",
+      "cuota_minima": "+2132",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_1.5",
+      "prob": 0.849,
+      "cuota_justa": "-563",
+      "cuota_minima": "-469",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_1.5",
+      "prob": 0.151,
+      "cuota_justa": "+563",
+      "cuota_minima": "+583",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "prob": 0.639,
+      "cuota_justa": "-177",
+      "cuota_minima": "-163",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_2.5",
+      "prob": 0.361,
+      "cuota_justa": "+177",
+      "cuota_minima": "+185",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_3.5",
+      "prob": 0.417,
+      "cuota_justa": "+140",
+      "cuota_minima": "+147",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "prob": 0.583,
+      "cuota_justa": "-140",
+      "cuota_minima": "-130",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_4.5",
+      "prob": 0.236,
+      "cuota_justa": "+324",
+      "cuota_minima": "+338",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_4.5",
+      "prob": 0.764,
+      "cuota_justa": "-324",
+      "cuota_minima": "-287",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "prob": 0.658,
+      "cuota_justa": "-193",
+      "cuota_minima": "-177",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "no",
+      "prob": 0.342,
+      "cuota_justa": "+193",
+      "cuota_minima": "+202",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_0.5",
+      "prob": 0.824,
+      "cuota_justa": "-470",
+      "cuota_minima": "-401",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_0.5",
+      "prob": 0.176,
+      "cuota_justa": "+470",
+      "cuota_minima": "+487",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_0.5",
+      "prob": 0.788,
+      "cuota_justa": "-371",
+      "cuota_minima": "-325",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_0.5",
+      "prob": 0.212,
+      "cuota_justa": "+371",
+      "cuota_minima": "+386",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_1.5",
+      "prob": 0.519,
+      "cuota_justa": "-108",
+      "cuota_minima": "-101",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_1.5",
+      "prob": 0.481,
+      "cuota_justa": "+108",
+      "cuota_minima": "+115",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_1.5",
+      "prob": 0.459,
+      "cuota_justa": "+118",
+      "cuota_minima": "+125",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_1.5",
+      "prob": 0.541,
+      "cuota_justa": "-118",
+      "cuota_minima": "-110",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_2.5",
+      "prob": 0.253,
+      "cuota_justa": "+295",
+      "cuota_minima": "+307",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_2.5",
+      "prob": 0.747,
+      "cuota_justa": "-295",
+      "cuota_minima": "-263",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_2.5",
+      "prob": 0.204,
+      "cuota_justa": "+391",
+      "cuota_minima": "+406",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_2.5",
+      "prob": 0.796,
+      "cuota_justa": "-391",
+      "cuota_minima": "-340",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_1",
+      "prob": 0.34,
+      "cuota_justa": "+194",
+      "cuota_minima": "+203",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_X",
+      "prob": 0.37,
+      "cuota_justa": "+170",
+      "cuota_minima": "+179",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_2",
+      "prob": 0.29,
+      "cuota_justa": "+245",
+      "cuota_minima": "+256",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_0.5",
+      "prob": 0.772,
+      "cuota_justa": "-340",
+      "cuota_minima": "-299",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_0.5",
+      "prob": 0.228,
+      "cuota_justa": "+340",
+      "cuota_minima": "+353",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_1.5",
+      "prob": 0.436,
+      "cuota_justa": "+130",
+      "cuota_minima": "+137",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_1.5",
+      "prob": 0.564,
+      "cuota_justa": "-130",
+      "cuota_minima": "-121",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "prob": 0.224,
+      "cuota_justa": "+347",
+      "cuota_minima": "+361",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1.5",
+      "prob": 0.166,
+      "cuota_justa": "+504",
+      "cuota_minima": "+523",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1",
+      "prob": 0.224,
+      "cuota_justa": "+261",
+      "cuota_minima": "+275",
+      "confianza": "baja",
+      "devolucion": 0.193
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1",
+      "prob": 0.166,
+      "cuota_justa": "+401",
+      "cuota_minima": "+420",
+      "confianza": "baja",
+      "devolucion": 0.171
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+0",
+      "prob": 0.412,
+      "cuota_justa": "-124",
+      "cuota_minima": "-113",
+      "confianza": "baja",
+      "devolucion": 0.256
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+0",
+      "prob": 0.332,
+      "cuota_justa": "+124",
+      "cuota_minima": "+133",
+      "confianza": "baja",
+      "devolucion": 0.256
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1",
+      "prob": 0.664,
+      "cuota_justa": "-401",
+      "cuota_minima": "-339",
+      "confianza": "baja",
+      "devolucion": 0.171
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1",
+      "prob": 0.584,
+      "cuota_justa": "-261",
+      "cuota_minima": "-230",
+      "confianza": "baja",
+      "devolucion": 0.193
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1.5",
+      "prob": 0.834,
+      "cuota_justa": "-504",
+      "cuota_minima": "-426",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1.5",
+      "prob": 0.776,
+      "cuota_justa": "-347",
+      "cuota_minima": "-306",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "prob": 0.746,
+      "cuota_justa": "-294",
+      "cuota_minima": "-245",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_7.5",
+      "prob": 0.254,
+      "cuota_justa": "+294",
+      "cuota_minima": "+314",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "prob": 0.647,
+      "cuota_justa": "-183",
+      "cuota_minima": "-160",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_8.5",
+      "prob": 0.353,
+      "cuota_justa": "+183",
+      "cuota_minima": "+198",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_9.5",
+      "prob": 0.534,
+      "cuota_justa": "-114",
+      "cuota_minima": "-103",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_9.5",
+      "prob": 0.466,
+      "cuota_justa": "+114",
+      "cuota_minima": "+126",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_10.5",
+      "prob": 0.42,
+      "cuota_justa": "+138",
+      "cuota_minima": "+150",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_10.5",
+      "prob": 0.58,
+      "cuota_justa": "-138",
+      "cuota_minima": "-123",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_11.5",
+      "prob": 0.329,
+      "cuota_justa": "+204",
+      "cuota_minima": "+220",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_11.5",
+      "prob": 0.671,
+      "cuota_justa": "-204",
+      "cuota_minima": "-177",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_2.5",
+      "prob": 0.731,
+      "cuota_justa": "-272",
+      "cuota_minima": "-229",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_2.5",
+      "prob": 0.269,
+      "cuota_justa": "+272",
+      "cuota_minima": "+291",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "prob": 0.564,
+      "cuota_justa": "-129",
+      "cuota_minima": "-116",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_3.5",
+      "prob": 0.436,
+      "cuota_justa": "+129",
+      "cuota_minima": "+141",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_4.5",
+      "prob": 0.375,
+      "cuota_justa": "+167",
+      "cuota_minima": "+181",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_4.5",
+      "prob": 0.625,
+      "cuota_justa": "-167",
+      "cuota_minima": "-147",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_5.5",
+      "prob": 0.231,
+      "cuota_justa": "+332",
+      "cuota_minima": "+354",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_5.5",
+      "prob": 0.769,
+      "cuota_justa": "-332",
+      "cuota_minima": "-273",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_6.5",
+      "prob": 0.137,
+      "cuota_justa": "+632",
+      "cuota_minima": "+669",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_6.5",
+      "prob": 0.863,
+      "cuota_justa": "-632",
+      "cuota_minima": "-462",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "1",
+      "prob": 0.274,
+      "cuota_justa": "+265",
+      "cuota_minima": "+284",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "X",
+      "prob": 0.234,
+      "cuota_justa": "+327",
+      "cuota_minima": "+349",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "2",
+      "prob": 0.492,
+      "cuota_justa": "+103",
+      "cuota_minima": "+114",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Brian Rodríguez:mas_0.5",
+      "prob": 0.67,
+      "cuota_justa": "-203",
+      "cuota_minima": "-155",
+      "confianza": "baja",
+      "jugador": "Brian Rodríguez",
+      "jugador_id": "144325",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 1.24
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Brian Rodríguez:mas_1.5",
+      "prob": 0.324,
+      "cuota_justa": "+209",
+      "cuota_minima": "+240",
+      "confianza": "baja",
+      "jugador": "Brian Rodríguez",
+      "jugador_id": "144325",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 1.24
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Brian Rodríguez:mas_2.5",
+      "prob": 0.118,
+      "cuota_justa": "+749",
+      "cuota_minima": "+834",
+      "confianza": "baja",
+      "jugador": "Brian Rodríguez",
+      "jugador_id": "144325",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 1.24
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Henry Martín:mas_0.5",
+      "prob": 0.62,
+      "cuota_justa": "-163",
+      "cuota_minima": "-128",
+      "confianza": "baja",
+      "jugador": "Henry Martín",
+      "jugador_id": "93184",
+      "equipo": "América",
+      "posicion": "F",
+      "tiros_esperados": 1.065
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Henry Martín:mas_1.5",
+      "prob": 0.266,
+      "cuota_justa": "+276",
+      "cuota_minima": "+314",
+      "confianza": "baja",
+      "jugador": "Henry Martín",
+      "jugador_id": "93184",
+      "equipo": "América",
+      "posicion": "F",
+      "tiros_esperados": 1.065
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Henry Martín:mas_2.5",
+      "prob": 0.085,
+      "cuota_justa": "+1079",
+      "cuota_minima": "+1198",
+      "confianza": "baja",
+      "jugador": "Henry Martín",
+      "jugador_id": "93184",
+      "equipo": "América",
+      "posicion": "F",
+      "tiros_esperados": 1.065
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Carlos Álvarez:mas_0.5",
+      "prob": 0.507,
+      "cuota_justa": "-103",
+      "cuota_minima": "+117",
+      "confianza": "baja",
+      "jugador": "Carlos Álvarez",
+      "jugador_id": "3731",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 0.756
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Carlos Álvarez:mas_1.5",
+      "prob": 0.165,
+      "cuota_justa": "+506",
+      "cuota_minima": "+567",
+      "confianza": "baja",
+      "jugador": "Carlos Álvarez",
+      "jugador_id": "3731",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 0.756
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Érick Sánchez:mas_0.5",
+      "prob": 0.431,
+      "cuota_justa": "+132",
+      "cuota_minima": "+156",
+      "confianza": "baja",
+      "jugador": "Érick Sánchez",
+      "jugador_id": "129421",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 0.589
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Érick Sánchez:mas_1.5",
+      "prob": 0.113,
+      "cuota_justa": "+782",
+      "cuota_minima": "+870",
+      "confianza": "baja",
+      "jugador": "Érick Sánchez",
+      "jugador_id": "129421",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 0.589
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Isaías Violante:mas_0.5",
+      "prob": 0.422,
+      "cuota_justa": "+137",
+      "cuota_minima": "+161",
+      "confianza": "baja",
+      "jugador": "Isaías Violante",
+      "jugador_id": "308956",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 0.572
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Isaías Violante:mas_1.5",
+      "prob": 0.108,
+      "cuota_justa": "+822",
+      "cuota_minima": "+914",
+      "confianza": "baja",
+      "jugador": "Isaías Violante",
+      "jugador_id": "308956",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 0.572
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Israel Reyes:mas_0.5",
+      "prob": 0.213,
+      "cuota_justa": "+369",
+      "cuota_minima": "+416",
+      "confianza": "baja",
+      "jugador": "Israel Reyes",
+      "jugador_id": "290414",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 0.228
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Federico Viñas:mas_0.5",
+      "prob": 0.604,
+      "cuota_justa": "-153",
+      "cuota_minima": "-121",
+      "confianza": "baja",
+      "jugador": "Federico Viñas",
+      "jugador_id": "295847",
+      "equipo": "Toluca",
+      "posicion": "F",
+      "tiros_esperados": 1.016
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Federico Viñas:mas_1.5",
+      "prob": 0.25,
+      "cuota_justa": "+300",
+      "cuota_minima": "+340",
+      "confianza": "baja",
+      "jugador": "Federico Viñas",
+      "jugador_id": "295847",
+      "equipo": "Toluca",
+      "posicion": "F",
+      "tiros_esperados": 1.016
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Federico Viñas:mas_2.5",
+      "prob": 0.077,
+      "cuota_justa": "+1207",
+      "cuota_minima": "+1338",
+      "confianza": "baja",
+      "jugador": "Federico Viñas",
+      "jugador_id": "295847",
+      "equipo": "Toluca",
+      "posicion": "F",
+      "tiros_esperados": 1.016
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Helinho:mas_0.5",
+      "prob": 0.557,
+      "cuota_justa": "-126",
+      "cuota_minima": "-102",
+      "confianza": "baja",
+      "jugador": "Helinho",
+      "jugador_id": "266679",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.882
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Helinho:mas_1.5",
+      "prob": 0.206,
+      "cuota_justa": "+386",
+      "cuota_minima": "+435",
+      "confianza": "baja",
+      "jugador": "Helinho",
+      "jugador_id": "266679",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.882
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Helinho:mas_2.5",
+      "prob": 0.055,
+      "cuota_justa": "+1706",
+      "cuota_minima": "+1887",
+      "confianza": "baja",
+      "jugador": "Helinho",
+      "jugador_id": "266679",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.882
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Nicolás Castro:mas_0.5",
+      "prob": 0.526,
+      "cuota_justa": "-111",
+      "cuota_minima": "+109",
+      "confianza": "baja",
+      "jugador": "Nicolás Castro",
+      "jugador_id": "57149",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.802
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Nicolás Castro:mas_1.5",
+      "prob": 0.18,
+      "cuota_justa": "+456",
+      "cuota_minima": "+513",
+      "confianza": "baja",
+      "jugador": "Nicolás Castro",
+      "jugador_id": "57149",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.802
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Jorge Díaz:mas_0.5",
+      "prob": 0.499,
+      "cuota_justa": "+100",
+      "cuota_minima": "+121",
+      "confianza": "baja",
+      "jugador": "Jorge Díaz",
+      "jugador_id": "269177",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.737
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Jorge Díaz:mas_1.5",
+      "prob": 0.159,
+      "cuota_justa": "+529",
+      "cuota_minima": "+593",
+      "confianza": "baja",
+      "jugador": "Jorge Díaz",
+      "jugador_id": "269177",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.737
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Fernando Arce:mas_0.5",
+      "prob": 0.358,
+      "cuota_justa": "+179",
+      "cuota_minima": "+208",
+      "confianza": "baja",
+      "jugador": "Fernando Arce",
+      "jugador_id": "202164",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.454
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Fernando Arce:mas_1.5",
+      "prob": 0.076,
+      "cuota_justa": "+1218",
+      "cuota_minima": "+1350",
+      "confianza": "baja",
+      "jugador": "Fernando Arce",
+      "jugador_id": "202164",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.454
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Franco Romero:mas_0.5",
+      "prob": 0.11,
+      "cuota_justa": "+811",
+      "cuota_minima": "+903",
+      "confianza": "baja",
+      "jugador": "Franco Romero",
+      "jugador_id": "128422",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.093
+    }
+  ],
+  "estado": "pendiente",
+  "tiros_jugador": [
+    {
+      "jugador": "Brian Rodríguez",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 1.24,
+      "tasa90": 1.455,
+      "minutos_esperados": 80.6,
+      "minutos_historial": 3013
+    },
+    {
+      "jugador": "Henry Martín",
+      "equipo": "América",
+      "posicion": "F",
+      "tiros_esperados": 1.065,
+      "tasa90": 1.259,
+      "minutos_esperados": 80.0,
+      "minutos_historial": 1383
+    },
+    {
+      "jugador": "Carlos Álvarez",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 0.756,
+      "tasa90": 1.092,
+      "minutos_esperados": 65.5,
+      "minutos_historial": 290
+    },
+    {
+      "jugador": "Érick Sánchez",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 0.589,
+      "tasa90": 0.7,
+      "minutos_esperados": 79.6,
+      "minutos_historial": 2890
+    },
+    {
+      "jugador": "Isaías Violante",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 0.572,
+      "tasa90": 0.709,
+      "minutos_esperados": 76.3,
+      "minutos_historial": 1324
+    },
+    {
+      "jugador": "Israel Reyes",
+      "equipo": "América",
+      "posicion": "M",
+      "tiros_esperados": 0.228,
+      "tasa90": 0.254,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 3447
+    },
+    {
+      "jugador": "Federico Viñas",
+      "equipo": "Toluca",
+      "posicion": "F",
+      "tiros_esperados": 1.016,
+      "tasa90": 1.53,
+      "minutos_esperados": 73.3,
+      "minutos_historial": 654
+    },
+    {
+      "jugador": "Helinho",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.882,
+      "tasa90": 1.334,
+      "minutos_esperados": 72.9,
+      "minutos_historial": 1809
+    },
+    {
+      "jugador": "Nicolás Castro",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.802,
+      "tasa90": 1.088,
+      "minutos_esperados": 81.3,
+      "minutos_historial": 2899
+    },
+    {
+      "jugador": "Jorge Díaz",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.737,
+      "tasa90": 1.052,
+      "minutos_esperados": 77.2,
+      "minutos_historial": 1301
+    },
+    {
+      "jugador": "Fernando Arce",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.454,
+      "tasa90": 0.6,
+      "minutos_esperados": 83.3,
+      "minutos_historial": 820
+    },
+    {
+      "jugador": "Franco Romero",
+      "equipo": "Toluca",
+      "posicion": "M",
+      "tiros_esperados": 0.093,
+      "tasa90": 0.12,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 3642
+    }
+  ],
+  "id": "P-20261031-980397",
+  "creado": "2026-10-31T19:16:18.133326-07:00",
+  "lectura": {
+    "texto": "Partido parejo entre dos equipos de mucho gol (Pinnacle 1X2 casi a la par, total 3.0). Henry Martín y Brian Rodríguez contra Viñas y Helinho: los dos anotan.",
+    "patas": [
+      {
+        "mercado": "ambos_anotan",
+        "seleccion": "si",
+        "prob": 0.658,
+        "confianza": "baja"
+      }
+    ],
+    "prob_conjunta": 0.658,
+    "creado": "2026-10-31T19:16:32.721682-07:00",
+    "despues_de_winpot": false
+  }
+}
