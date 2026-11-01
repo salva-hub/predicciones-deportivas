@@ -1,0 +1,68 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261101-e47197",
+      "partido": "New England vs Inter Miami",
+      "liga": "mls",
+      "deporte": "futbol",
+      "espn_id": "761932",
+      "mercado": "doble_oportunidad",
+      "seleccion": "X2",
+      "cuota": 1.3571428571428572,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261101-e47197",
+      "partido": "New England vs Inter Miami",
+      "liga": "mls",
+      "deporte": "futbol",
+      "espn_id": "761932",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 1.3571428571428572,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261101-e47197",
+      "partido": "New England vs Inter Miami",
+      "liga": "mls",
+      "deporte": "futbol",
+      "espn_id": "761932",
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota": 1.3571428571428572,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261101-aeb5c6",
+      "partido": "Santos vs Necaxa",
+      "liga": "liga_mx",
+      "deporte": "futbol",
+      "espn_id": "401876912",
+      "mercado": "ganador",
+      "seleccion": "1",
+      "cuota": 55.0,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261101-aeb5c6",
+      "partido": "Santos vs Necaxa",
+      "liga": "liga_mx",
+      "deporte": "futbol",
+      "espn_id": "401876912",
+      "mercado": "goles",
+      "seleccion": "menos_4.5",
+      "cuota": 55.0,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 7561.3976,
+  "cuota_americana": "+756040",
+  "monto": 300.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261101-ab7623",
+  "creado": "2026-11-01T16:10:28.592550-07:00",
+  "estado": "pendiente"
+}
