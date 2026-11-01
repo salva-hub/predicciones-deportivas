@@ -1,0 +1,627 @@
+{
+  "deporte": "futbol",
+  "liga": "liga_mx",
+  "partido": "Monterrey vs Tijuana",
+  "local": "Monterrey",
+  "visitante": "Tijuana",
+  "espn_id": "401876914",
+  "inicio_utc": "2026-11-01T01:05:00+00:00",
+  "inicio_sonora": "2026-10-31 18:05",
+  "estadio": "Estadio BBVA",
+  "techado": false,
+  "neutral": false,
+  "pago_anticipado": true,
+  "clima": {
+    "temperatura_c": 24.45,
+    "lluvia_mm_h": 0.0,
+    "viento_kmh": 6.85,
+    "altitud_m": 500.0
+  },
+  "arbitro": "Jorge Abraham Camacho Peregrina",
+  "factor_arbitro": 0.893,
+  "pinnacle": {
+    "1": 1.63,
+    "2": 5.49,
+    "X": 4.21,
+    "mas_2.75": 1.93,
+    "menos_2.75": 1.96
+  },
+  "goles_esperados": [
+    1.95,
+    0.95
+  ],
+  "modelo_1x2": {
+    "1": 0.494,
+    "X": 0.261,
+    "2": 0.298
+  },
+  "marcadores_probables": [
+    [
+      "1-1",
+      0.11081720512659082
+    ],
+    [
+      "2-0",
+      0.10421951171843326
+    ],
+    [
+      "2-1",
+      0.09941025403605222
+    ]
+  ],
+  "notas": [
+    "Sin línea de goles de Pinnacle: el total sale del modelo; menos confianza en goles, ambos anotan, goles por equipo, primer tiempo y hándicap",
+    "Base: Pinnacle sin margen (modelo solo como referencia)",
+    "Goles esperados del modelo solo: 1.67 – 1.22",
+    "Pago anticipado de Winpot: el ganador local/visitante incluye la probabilidad de ir 2 goles arriba y no ganar (local +1.9%, visitante +2.3%)",
+    "Córners esperados: 9.9",
+    "Tarjetas esperadas: 4.2 (factor árbitro x0.89)",
+    "Modelo y Pinnacle discrepan mucho en 1x2: baja la confianza de los mercados relacionados",
+    "Clima ya incluido en el precio de Pinnacle: no se ajusta",
+    "Tiros a puerta de jugador: ESPN aún no publica la alineación oficial; no se calculan (se calculan en el pronóstico definitivo, con alineaciones)"
+  ],
+  "confianza": "media",
+  "selecciones": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "prob": 0.621,
+      "cuota_justa": "-164",
+      "cuota_minima": "-152",
+      "confianza": "baja",
+      "prob_sin_pago_anticipado": 0.603
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "X",
+      "prob": 0.226,
+      "cuota_justa": "+343",
+      "cuota_minima": "+357",
+      "confianza": "media"
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
+      "prob": 0.195,
+      "cuota_justa": "+413",
+      "cuota_minima": "+429",
+      "confianza": "baja",
+      "prob_sin_pago_anticipado": 0.171
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_0.5",
+      "prob": 0.936,
+      "cuota_justa": "-1471",
+      "cuota_minima": "-999",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_0.5",
+      "prob": 0.064,
+      "cuota_justa": "+1471",
+      "cuota_minima": "+1518",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_1.5",
+      "prob": 0.796,
+      "cuota_justa": "-389",
+      "cuota_minima": "-339",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_1.5",
+      "prob": 0.204,
+      "cuota_justa": "+389",
+      "cuota_minima": "+404",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "prob": 0.556,
+      "cuota_justa": "-125",
+      "cuota_minima": "-117",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_2.5",
+      "prob": 0.444,
+      "cuota_justa": "+125",
+      "cuota_minima": "+132",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_3.5",
+      "prob": 0.332,
+      "cuota_justa": "+201",
+      "cuota_minima": "+211",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "prob": 0.668,
+      "cuota_justa": "-201",
+      "cuota_minima": "-184",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_4.5",
+      "prob": 0.169,
+      "cuota_justa": "+490",
+      "cuota_minima": "+509",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_4.5",
+      "prob": 0.831,
+      "cuota_justa": "-490",
+      "cuota_minima": "-416",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "prob": 0.537,
+      "cuota_justa": "-116",
+      "cuota_minima": "-108",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "no",
+      "prob": 0.463,
+      "cuota_justa": "+116",
+      "cuota_minima": "+123",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_0.5",
+      "prob": 0.858,
+      "cuota_justa": "-605",
+      "cuota_minima": "-499",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_0.5",
+      "prob": 0.142,
+      "cuota_justa": "+605",
+      "cuota_minima": "+627",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_0.5",
+      "prob": 0.615,
+      "cuota_justa": "-160",
+      "cuota_minima": "-148",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_0.5",
+      "prob": 0.385,
+      "cuota_justa": "+160",
+      "cuota_minima": "+168",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_1.5",
+      "prob": 0.581,
+      "cuota_justa": "-139",
+      "cuota_minima": "-129",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_1.5",
+      "prob": 0.419,
+      "cuota_justa": "+139",
+      "cuota_minima": "+146",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_1.5",
+      "prob": 0.247,
+      "cuota_justa": "+304",
+      "cuota_minima": "+317",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_1.5",
+      "prob": 0.753,
+      "cuota_justa": "-304",
+      "cuota_minima": "-271",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_2.5",
+      "prob": 0.311,
+      "cuota_justa": "+222",
+      "cuota_minima": "+232",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_2.5",
+      "prob": 0.689,
+      "cuota_justa": "-222",
+      "cuota_minima": "-202",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_2.5",
+      "prob": 0.072,
+      "cuota_justa": "+1289",
+      "cuota_minima": "+1331",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_2.5",
+      "prob": 0.928,
+      "cuota_justa": "-1289",
+      "cuota_minima": "-909",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_1",
+      "prob": 0.446,
+      "cuota_justa": "+124",
+      "cuota_minima": "+132",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_X",
+      "prob": 0.382,
+      "cuota_justa": "+162",
+      "cuota_minima": "+170",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_2",
+      "prob": 0.172,
+      "cuota_justa": "+482",
+      "cuota_minima": "+500",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_0.5",
+      "prob": 0.73,
+      "cuota_justa": "-270",
+      "cuota_minima": "-242",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_0.5",
+      "prob": 0.27,
+      "cuota_justa": "+270",
+      "cuota_minima": "+282",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_1.5",
+      "prob": 0.376,
+      "cuota_justa": "+166",
+      "cuota_minima": "+174",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_1.5",
+      "prob": 0.624,
+      "cuota_justa": "-166",
+      "cuota_minima": "-153",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "prob": 0.365,
+      "cuota_justa": "+174",
+      "cuota_minima": "+183",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1.5",
+      "prob": 0.06,
+      "cuota_justa": "+1567",
+      "cuota_minima": "+1617",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1",
+      "prob": 0.365,
+      "cuota_justa": "+110",
+      "cuota_minima": "+119",
+      "confianza": "baja",
+      "devolucion": 0.233
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1",
+      "prob": 0.06,
+      "cuota_justa": "+1385",
+      "cuota_minima": "+1435",
+      "confianza": "baja",
+      "devolucion": 0.109
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+0",
+      "prob": 0.603,
+      "cuota_justa": "-352",
+      "cuota_minima": "-299",
+      "confianza": "baja",
+      "devolucion": 0.226
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+0",
+      "prob": 0.171,
+      "cuota_justa": "+352",
+      "cuota_minima": "+370",
+      "confianza": "baja",
+      "devolucion": 0.226
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1",
+      "prob": 0.831,
+      "cuota_justa": "-1385",
+      "cuota_minima": "-923",
+      "confianza": "baja",
+      "devolucion": 0.109
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1",
+      "prob": 0.402,
+      "cuota_justa": "-110",
+      "cuota_minima": "-101",
+      "confianza": "baja",
+      "devolucion": 0.233
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1.5",
+      "prob": 0.94,
+      "cuota_justa": "-1567",
+      "cuota_minima": "-1044",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1.5",
+      "prob": 0.635,
+      "cuota_justa": "-174",
+      "cuota_minima": "-161",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "prob": 0.738,
+      "cuota_justa": "-282",
+      "cuota_minima": "-236",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_7.5",
+      "prob": 0.262,
+      "cuota_justa": "+282",
+      "cuota_minima": "+302",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "prob": 0.637,
+      "cuota_justa": "-176",
+      "cuota_minima": "-154",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_8.5",
+      "prob": 0.363,
+      "cuota_justa": "+176",
+      "cuota_minima": "+190",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_9.5",
+      "prob": 0.524,
+      "cuota_justa": "-110",
+      "cuota_minima": "+101",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_9.5",
+      "prob": 0.476,
+      "cuota_justa": "+110",
+      "cuota_minima": "+121",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_10.5",
+      "prob": 0.41,
+      "cuota_justa": "+144",
+      "cuota_minima": "+157",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_10.5",
+      "prob": 0.59,
+      "cuota_justa": "-144",
+      "cuota_minima": "-128",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_11.5",
+      "prob": 0.32,
+      "cuota_justa": "+213",
+      "cuota_minima": "+229",
+      "confianza": "media"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_11.5",
+      "prob": 0.68,
+      "cuota_justa": "-213",
+      "cuota_minima": "-184",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_2.5",
+      "prob": 0.763,
+      "cuota_justa": "-321",
+      "cuota_minima": "-265",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_2.5",
+      "prob": 0.237,
+      "cuota_justa": "+321",
+      "cuota_minima": "+343",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "prob": 0.604,
+      "cuota_justa": "-153",
+      "cuota_minima": "-135",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_3.5",
+      "prob": 0.396,
+      "cuota_justa": "+153",
+      "cuota_minima": "+166",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_4.5",
+      "prob": 0.417,
+      "cuota_justa": "+140",
+      "cuota_minima": "+152",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_4.5",
+      "prob": 0.583,
+      "cuota_justa": "-140",
+      "cuota_minima": "-124",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_5.5",
+      "prob": 0.268,
+      "cuota_justa": "+273",
+      "cuota_minima": "+293",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_5.5",
+      "prob": 0.732,
+      "cuota_justa": "-273",
+      "cuota_minima": "-230",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_6.5",
+      "prob": 0.165,
+      "cuota_justa": "+507",
+      "cuota_minima": "+538",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_6.5",
+      "prob": 0.835,
+      "cuota_justa": "-507",
+      "cuota_minima": "-388",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "1",
+      "prob": 0.333,
+      "cuota_justa": "+200",
+      "cuota_minima": "+216",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "X",
+      "prob": 0.239,
+      "cuota_justa": "+318",
+      "cuota_minima": "+339",
+      "confianza": "media"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "2",
+      "prob": 0.428,
+      "cuota_justa": "+134",
+      "cuota_minima": "+146",
+      "confianza": "media"
+    }
+  ],
+  "estado": "pendiente",
+  "id": "P-20261031-411dfc",
+  "creado": "2026-10-31T17:12:01.144941-07:00",
+  "lectura": {
+    "texto": "Monterrey claro favorito en casa (Pinnacle ~60%) ante Tijuana; ataque local mucho más fuerte. Lectura: gana Monterrey.",
+    "patas": [
+      {
+        "mercado": "ganador",
+        "seleccion": "1",
+        "prob": 0.621,
+        "confianza": "baja"
+      }
+    ],
+    "prob_conjunta": 0.621,
+    "creado": "2026-10-31T17:12:10.445773-07:00",
+    "despues_de_winpot": false
+  }
+}
