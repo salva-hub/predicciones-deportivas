@@ -10,7 +10,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.617283950617284,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261031-411dfc",
@@ -21,7 +21,7 @@
       "mercado": "corners",
       "seleccion": "mas_8.5",
       "cuota": 1.3636363636363638,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261031-411dfc",
@@ -32,7 +32,7 @@
       "mercado": "tarjetas",
       "seleccion": "mas_3.5",
       "cuota": 1.4385964912280702,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261031-980397",
@@ -43,7 +43,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.3205128205128205,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261031-980397",
@@ -54,7 +54,7 @@
       "mercado": "corners",
       "seleccion": "mas_8.5",
       "cuota": 1.3424657534246576,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261031-980397",
@@ -65,7 +65,7 @@
       "mercado": "tarjetas",
       "seleccion": "mas_3.5",
       "cuota": 1.5405405405405406,
-      "estado": "pendiente"
+      "estado": "ganada"
     }
   ],
   "cuota": 8.6645,
@@ -75,5 +75,7 @@
   "categoria": "eleccion_salva",
   "id": "A-20261031-f832f5",
   "creado": "2026-10-31T19:16:34.087071-07:00",
-  "estado": "pendiente"
+  "estado": "ganada",
+  "ganancia": 2299.35,
+  "liquidada": "2026-10-31T22:54:49.254664-07:00"
 }
