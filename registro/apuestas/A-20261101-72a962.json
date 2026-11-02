@@ -1,0 +1,68 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261101-a57dd9",
+      "partido": "Cruz Azul vs León",
+      "liga": "liga_mx",
+      "deporte": "futbol",
+      "espn_id": "401876911",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 50.0,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261101-a57dd9",
+      "partido": "Cruz Azul vs León",
+      "liga": "liga_mx",
+      "deporte": "futbol",
+      "espn_id": "401876911",
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "cuota": 50.0,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261101-e47197",
+      "partido": "New England vs Inter Miami",
+      "liga": "mls",
+      "deporte": "futbol",
+      "espn_id": "761932",
+      "mercado": "doble_oportunidad",
+      "seleccion": "X2",
+      "cuota": 1.3571428571428572,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261101-e47197",
+      "partido": "New England vs Inter Miami",
+      "liga": "mls",
+      "deporte": "futbol",
+      "espn_id": "761932",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 1.3571428571428572,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261101-e47197",
+      "partido": "New England vs Inter Miami",
+      "liga": "mls",
+      "deporte": "futbol",
+      "espn_id": "761932",
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota": 1.3571428571428572,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 6249.0889,
+  "cuota_americana": "+624809",
+  "monto": 366.75,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261101-72a962",
+  "creado": "2026-11-01T17:44:57.066418-07:00",
+  "estado": "pendiente"
+}
