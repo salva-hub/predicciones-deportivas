@@ -1,0 +1,49 @@
+name: Despertador de calificación
+# GitHub se salta muchas corridas programadas (el 2-nov-2026 corrieron 3 de ~40), así que el
+# cron de "Calificar y publicar dashboard" no basta. Este flujo arranca cuando se guarda un
+# pronóstico en main, espera a que su partido se pueda calificar (inicio + 2.5 h) y lanza la
+# calificación; si siguen pendientes, reintenta cada 30 min. El repo es público: los minutos
+# de Actions no cuestan.
+on:
+  push:
+    branches: [main]
+    paths: ["registro/pronosticos/**"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: write
+concurrency:
+  group: despertador
+  cancel-in-progress: true   # un pronóstico nuevo reemplaza la espera anterior (recalcula con todos)
+jobs:
+  esperar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+      - name: Esperar y lanzar la calificación
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          fin=$((SECONDS + 5 * 3600))   # menos que el tope de 6 h de un job
+          reintento=1800
+          while true; do
+            git pull -q --ff-only origin main || true
+            espera=$(python3 .github/scripts/hay_pendientes.py --espera)
+            if [ -z "$espera" ]; then
+              echo "Nada pendiente de las últimas 12 h: termina el despertador"
+              exit 0
+            fi
+            if [ "$espera" -eq 0 ]; then
+              echo "Hay partidos por calificar: se lanza la calificación"
+              gh workflow run calificar.yml --ref main
+              espera=$reintento
+            fi
+            if [ $((SECONDS + espera)) -gt $fin ]; then
+              echo "La espera pasa del tope del job: se lanza otro despertador"
+              gh workflow run despertador.yml --ref main
+              exit 0
+            fi
+            echo "Esperando $((espera / 60)) min"
+            sleep "$espera"
+          done
