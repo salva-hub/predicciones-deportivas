@@ -611,8 +611,8 @@ def _propuestas_mismo_partido(candidatas: list, ids: dict) -> list[dict]:
         filas = []
         for n in V.COMBINADA_PATAS:
             for combo in itertools.combinations(sels, n):
-                if len({x.mercado for x in combo}) < n:
-                    continue  # dos líneas del mismo mercado se pisan entre sí
+                if len({x.mercado for x in combo}) < n or _mismo_partido_valido([x.mercado for x in combo]):
+                    continue  # dos líneas del mismo mercado se pisan entre sí, o no se puede calcular la conjunta
                 try:
                     prob = LE.prob_conjunta(p, [(x.mercado, x.seleccion) for x in combo])
                 except LE.ReglaLectura:
@@ -763,6 +763,28 @@ def cmd_lectura_apostar(a) -> None:
                "cuota_justa": C.formato_americano(1 / prob)})
 
 
+# en un crea tu apuesta, la probabilidad conjunta solo se calcula bien con mercados de goles (matriz de marcadores)
+# más, como mucho, una línea de córners y una de tarjetas (independientes). Primer tiempo y tarjetas 1X2 no.
+MERCADOS_NO_COMBINABLES = ("primer_tiempo", "tarjetas_1x2")
+
+
+def _mismo_partido_valido(mercados: list[str]) -> str | None:
+    """Motivo por el que esas patas del mismo partido no se pueden combinar, o None."""
+    raros = [m for m in mercados if m in MERCADOS_NO_COMBINABLES]
+    if raros:
+        return f"{raros[0]} no se combina con otras patas del mismo partido (no se puede calcular la probabilidad conjunta)"
+    for m in ("corners", "tarjetas"):
+        if mercados.count(m) > 1:
+            return f"dos líneas de {m} del mismo partido se pisan entre sí"
+    return None
+
+
+def _revisar_mismo_partido(partido: str, mercados: list[str]) -> None:
+    motivo = _mismo_partido_valido(mercados)
+    if motivo:
+        sys.exit(f"{partido}: {motivo}")
+
+
 def cmd_combinada(a) -> None:
     """Registra en papel una combinada del sistema nuevo armada a mano, sobre todo el "crea tu apuesta"
     (varias patas del mismo partido; Salva, 1-nov-2026: sin freno de precio). Reglas: 2 o 3 patas, cada
@@ -791,9 +813,16 @@ def cmd_combinada(a) -> None:
         if not V.sirve_para_combinada_prob(s):
             sys.exit(f"{p['partido']}: {mercado} {sel} no sirve como pata: "
                      f"{V.motivo_sin_categoria(s) or 'línea con devolución'}")
+        # regla temporal (29-oct-2026) de los "menos" de córners/tarjetas, igual que en evaluar
+        otro = p.get("cuotas_winpot", {}).get(f"{mercado}:mas_{sel[len('menos_'):]}") if sel.startswith("menos_") else None
+        contrario = C.americana_a_decimal(float(str(otro).replace("\u2212", "-"))) if otro else None
+        if V.discrepa_menos(mercado, sel, fila["prob"], dec, contrario):
+            sys.exit(f"{p['partido']}: {mercado} {sel}: {V.MOTIVO_DISCREPANCIA}")
         if (mercado, sel) in por_pid.get(pid, (None, []))[1]:
             sys.exit(f"{p['partido']}: {mercado} {sel} está repetida")
         por_pid.setdefault(pid, (p, []))[1].append((mercado, sel))
+        if len(por_pid[pid][1]) > 1:
+            _revisar_mismo_partido(p["partido"], [m for m, _ in por_pid[pid][1]])
         patas.append({"pronostico": pid, "partido": p["partido"], "liga": p.get("liga"),
                       "deporte": p.get("deporte") or R.DEPORTE_DEFECTO, "espn_id": p.get("espn_id"),
                       "mercado": mercado, "seleccion": sel, "cuota": round(dec, 4), "prob": fila["prob"],

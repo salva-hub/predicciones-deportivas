@@ -1509,3 +1509,26 @@ def test_parlays_proponen_crea_tu_apuesta(papel, capsys):
     assert prop["partido"] == "A vs B" and len(prop["patas"]) == 3 and "cli combinada" in prop["siguiente"]
     # solo se proponen: no se guardan sin el momio de Winpot
     assert not [x for x in R.parlays_papel() if x["categoria"] == "combinada_prob"]
+
+
+def test_combinada_respeta_regla_de_los_menos_y_mercados_combinables(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pron_goles(R)
+    q = R.buscar_pronostico(p["id"])
+    q["selecciones"] += [
+        {"mercado": "tarjetas", "seleccion": "menos_5.5", "prob": 0.78, "confianza": "alta", "cuota_minima": "-100"},
+        {"mercado": "primer_tiempo", "seleccion": "pt_mas_0.5", "prob": 0.70, "confianza": "alta", "cuota_minima": "-100"},
+        {"mercado": "corners", "seleccion": "mas_7.5", "prob": 0.75, "confianza": "alta", "cuota_minima": "-100"}]
+    q["cuotas_winpot"] = {"tarjetas:mas_5.5": "-160"}
+    R.actualizar_pronostico(q)
+    # Winpot sin margen ~56% en el "menos" contra 78% del modelo: no entra (regla del 29-oct)
+    with pytest.raises(SystemExit, match="10 puntos"):
+        cli.main(["combinada", "--pata", f"{p['id']}:tarjetas:menos_5.5=+110", "--pata", f"{p['id']}:goles:mas_2.5=-150",
+                  "--cuota-total=+250"])
+    with pytest.raises(SystemExit, match="primer_tiempo"):
+        cli.main(["combinada", "--pata", f"{p['id']}:primer_tiempo:pt_mas_0.5=-200", "--pata", f"{p['id']}:goles:mas_2.5=-150",
+                  "--cuota-total=+250"])
+    with pytest.raises(SystemExit, match="se pisan"):
+        cli.main(["combinada", "--pata", f"{p['id']}:corners:mas_7.5=-200", "--pata", f"{p['id']}:corners:mas_8.5=-180",
+                  "--cuota-total=+250"])
+    assert not R.parlays_papel()

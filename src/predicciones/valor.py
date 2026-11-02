@@ -75,7 +75,7 @@ CATEGORIAS_REGISTRO = CATEGORIAS + CATEGORIAS_VIEJO + (ELECCION_SALVA, PICK_MODE
 TOLERANCIA_ATRACTIVA = 0.04       # Winpot puede pagar hasta 4% menos que la cuota justa (decimal)
 PROB_MIN_FUERTE = 0.60
 CUOTA_MIN_FUERTE = 1.5             # −200: con momio peor no va como sencilla fuerte (aprobado por Salva)
-MOTIVO_MOMIO_FUERTE = "momio peor que −200: no va como sencilla fuerte (sí puede ir en combinada)"
+MOTIVO_MOMIO_FUERTE = "momio peor que −200: no va como sencilla (sí puede ir en combinada)"
 PROB_MIN_PATA_COMBINADA = 0.55
 CONFIANZAS_CATEGORIA = ("alta", "media")  # sencilla fuerte y combinada: nunca con confianza baja
 COMBINADA_CUOTA_MIN = 3.0          # +200
@@ -232,13 +232,6 @@ def es_sencilla_prob(s: Seleccion) -> bool:
     return (s.cuota_ofrecida is not None and s.mercado not in MERCADOS_JUGADOR
             and s.prob >= PROB_MIN_SENCILLA - 1e-9 and s.confianza in CONFIANZAS_CATEGORIA
             and dentro_de_tolerancia(s) and s.cuota_ofrecida >= CUOTA_MIN_FUERTE - 1e-9)
-
-
-def prob_salvo_momio(s: Seleccion) -> bool:
-    """Cumpliría sencilla del sistema nuevo, pero el momio de Winpot es peor que −200."""
-    return (s.cuota_ofrecida is not None and s.mercado not in MERCADOS_JUGADOR
-            and s.prob >= PROB_MIN_SENCILLA - 1e-9 and s.confianza in CONFIANZAS_CATEGORIA
-            and dentro_de_tolerancia(s) and not es_sencilla_prob(s))
 
 
 def motivo_sin_categoria(s: Seleccion) -> str | None:

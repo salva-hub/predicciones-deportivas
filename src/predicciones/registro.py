@@ -179,7 +179,10 @@ def guardar_parlays_papel(dia, nuevos: list[dict]) -> list[dict]:
     ruta = _ruta_item("papel", did)
     doc = json.loads(ruta.read_text(encoding="utf-8")) if ruta.exists() else {"id": did, "fecha": str(dia), "creado": ahora().isoformat()}
     calificados = [x for x in doc.get("parlays", []) if not _se_reemplaza(x)]
-    claves = {x["clave"] for x in calificados}
+    # tampoco se repite lo ya guardado en el archivo de otro día (p. ej. una combinada registrada a mano hoy
+    # para partidos de mañana)
+    claves = {x["clave"] for x in calificados} | {x.get("clave") for o in archivos_parlays_papel() if o.get("id") != did
+                                                for x in o.get("parlays", [])}
     doc["parlays"] = calificados + [x for x in nuevos if x["clave"] not in claves]
     actualizar_parlays_papel(doc)
     return doc["parlays"]

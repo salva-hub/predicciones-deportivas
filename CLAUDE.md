@@ -346,7 +346,7 @@ Un parlay idéntico a uno de valor no se repite como combinada. Los máximos cue
 **Banks en papel (solo hasta el 26-nov-2026; después hay un solo bank con dinero real):** cada uno empieza con
 10,000 MXN y suma solo lo suyo: **sistema** (desde el 2-nov: sencilla y combinada probables), **sistema viejo** (valor,
 sencilla fuerte, combinada), **elección de Salva**, **pick del modelo** y **lectura**. Los montos (5%, 3%…), el límite del día y la pausa del 50% usan solo el bank del sistema en papel
-(`bank_papel("sistema")`); la elección de Salva y el pick no usan ni recortan ese límite. `cli bank` muestra `banks_papel` (y `bank_real`); los depósitos y retiros se suman a los tres. La ganancia "de hoy" y el corte de mes en papel usan el día en que se evaluó la apuesta.
+(`bank_papel("sistema")`); la elección de Salva y el pick no usan ni recortan ese límite. `cli bank` muestra `banks_papel` (y `bank_real`); los depósitos y retiros se suman a todos. La ganancia "de hoy" y el corte de mes en papel usan el día en que se evaluó la apuesta.
 
 **Aparte: Elección de Salva** (`eleccion_salva`): apuestas que Salva elige por su cuenta (en papel o reales,
 `apostar ... --categoria eleccion_salva`). No es una categoría del sistema: va en su propia fila del dashboard (después del total, que es solo de las 3 categorías),
