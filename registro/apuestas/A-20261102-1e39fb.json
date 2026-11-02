@@ -64,5 +64,8 @@
   "categoria": "eleccion_salva",
   "id": "A-20261102-1e39fb",
   "creado": "2026-11-02T12:26:04.201197-07:00",
-  "estado": "pendiente"
+  "estado": "perdida",
+  "ganancia": -300.0,
+  "liquidada": "2026-11-02T15:16:08.907296-07:00",
+  "liquidada_a_mano": true
 }
