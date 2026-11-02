@@ -73,7 +73,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ganador",
@@ -85,7 +86,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ganador",
@@ -98,7 +100,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "2/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "doble_oportunidad",
@@ -110,7 +113,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "8/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "doble_oportunidad",
@@ -122,7 +126,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "doble_oportunidad",
@@ -134,7 +139,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -146,7 +152,8 @@
       "ultimos10": {
         "local": "10/10",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -158,7 +165,8 @@
       "ultimos10": {
         "local": "0/10",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -170,7 +178,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -182,7 +191,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -194,7 +204,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -206,7 +217,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -218,7 +230,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -230,7 +243,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -242,7 +256,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "0/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -254,7 +269,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "10/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "ambos_anotan",
@@ -266,7 +282,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ambos_anotan",
@@ -278,7 +295,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -290,7 +308,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -302,7 +321,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -314,7 +334,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -326,7 +347,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -338,7 +360,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -350,7 +373,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -362,7 +386,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -374,7 +399,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -386,7 +412,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -398,7 +425,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -410,7 +438,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "0/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -422,7 +451,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "10/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -430,7 +460,8 @@
       "prob": 0.355,
       "cuota_justa": "+182",
       "cuota_minima": "+191",
-      "confianza": "alta"
+      "confianza": "alta",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -438,7 +469,8 @@
       "prob": 0.404,
       "cuota_justa": "+148",
       "cuota_minima": "+156",
-      "confianza": "alta"
+      "confianza": "alta",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -446,7 +478,8 @@
       "prob": 0.242,
       "cuota_justa": "+314",
       "cuota_minima": "+326",
-      "confianza": "alta"
+      "confianza": "alta",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -454,7 +487,8 @@
       "prob": 0.719,
       "cuota_justa": "-255",
       "cuota_minima": "-230",
-      "confianza": "alta"
+      "confianza": "alta",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -462,7 +496,8 @@
       "prob": 0.281,
       "cuota_justa": "+255",
       "cuota_minima": "+267",
-      "confianza": "alta"
+      "confianza": "alta",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -470,7 +505,8 @@
       "prob": 0.362,
       "cuota_justa": "+176",
       "cuota_minima": "+185",
-      "confianza": "alta"
+      "confianza": "alta",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -478,7 +514,8 @@
       "prob": 0.638,
       "cuota_justa": "-176",
       "cuota_minima": "-162",
-      "confianza": "alta"
+      "confianza": "alta",
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -490,7 +527,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -502,7 +540,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -515,7 +554,8 @@
       "ultimos10": {
         "local": "3/9",
         "visitante": "3/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -528,7 +568,8 @@
       "ultimos10": {
         "local": "3/9",
         "visitante": "1/9"
-      }
+      },
+      "estado": "devuelta"
     },
     {
       "mercado": "handicap",
@@ -541,7 +582,8 @@
       "ultimos10": {
         "local": "4/8",
         "visitante": "4/6"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -554,7 +596,8 @@
       "ultimos10": {
         "local": "4/8",
         "visitante": "2/6"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -567,7 +610,8 @@
       "ultimos10": {
         "local": "6/9",
         "visitante": "8/9"
-      }
+      },
+      "estado": "devuelta"
     },
     {
       "mercado": "handicap",
@@ -580,7 +624,8 @@
       "ultimos10": {
         "local": "6/9",
         "visitante": "6/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -592,7 +637,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -604,7 +650,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -616,7 +663,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -628,7 +676,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -640,7 +689,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -652,7 +702,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -664,7 +715,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -676,7 +728,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -688,7 +741,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -700,7 +754,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -712,7 +767,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -724,7 +780,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -736,7 +793,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -748,7 +806,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -760,7 +819,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -772,7 +832,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -784,7 +845,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -796,7 +858,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -808,7 +871,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "2/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -820,7 +884,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "8/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -832,7 +897,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "1/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -844,7 +910,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "9/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -852,7 +919,8 @@
       "prob": 0.216,
       "cuota_justa": "+363",
       "cuota_minima": "+387",
-      "confianza": "alta"
+      "confianza": "alta",
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -860,7 +928,8 @@
       "prob": 0.188,
       "cuota_justa": "+433",
       "cuota_minima": "+460",
-      "confianza": "alta"
+      "confianza": "alta",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -868,7 +937,8 @@
       "prob": 0.596,
       "cuota_justa": "-148",
       "cuota_minima": "-131",
-      "confianza": "alta"
+      "confianza": "alta",
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -881,7 +951,8 @@
       "jugador_id": "319431",
       "equipo": "Newcastle United",
       "posicion": "F",
-      "tiros_esperados": 0.927
+      "tiros_esperados": 0.927,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -894,7 +965,8 @@
       "jugador_id": "319431",
       "equipo": "Newcastle United",
       "posicion": "F",
-      "tiros_esperados": 0.927
+      "tiros_esperados": 0.927,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -907,7 +979,8 @@
       "jugador_id": "319431",
       "equipo": "Newcastle United",
       "posicion": "F",
-      "tiros_esperados": 0.927
+      "tiros_esperados": 0.927,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -920,7 +993,8 @@
       "jugador_id": "243386",
       "equipo": "Newcastle United",
       "posicion": "M",
-      "tiros_esperados": 0.81
+      "tiros_esperados": 0.81,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -933,7 +1007,8 @@
       "jugador_id": "243386",
       "equipo": "Newcastle United",
       "posicion": "M",
-      "tiros_esperados": 0.81
+      "tiros_esperados": 0.81,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -946,7 +1021,8 @@
       "jugador_id": "202232",
       "equipo": "Newcastle United",
       "posicion": "M",
-      "tiros_esperados": 0.431
+      "tiros_esperados": 0.431,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -959,7 +1035,8 @@
       "jugador_id": "202232",
       "equipo": "Newcastle United",
       "posicion": "M",
-      "tiros_esperados": 0.431
+      "tiros_esperados": 0.431,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -972,7 +1049,8 @@
       "jugador_id": "259517",
       "equipo": "Newcastle United",
       "posicion": "M",
-      "tiros_esperados": 0.43
+      "tiros_esperados": 0.43,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -985,7 +1063,8 @@
       "jugador_id": "259517",
       "equipo": "Newcastle United",
       "posicion": "M",
-      "tiros_esperados": 0.43
+      "tiros_esperados": 0.43,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -998,7 +1077,8 @@
       "jugador_id": "296622",
       "equipo": "Newcastle United",
       "posicion": "M",
-      "tiros_esperados": 0.345
+      "tiros_esperados": 0.345,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1011,7 +1091,8 @@
       "jugador_id": "323986",
       "equipo": "Newcastle United",
       "posicion": "M",
-      "tiros_esperados": 0.181
+      "tiros_esperados": 0.181,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1024,7 +1105,8 @@
       "jugador_id": "301166",
       "equipo": "Everton",
       "posicion": "F",
-      "tiros_esperados": 0.793
+      "tiros_esperados": 0.793,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1037,7 +1119,8 @@
       "jugador_id": "301166",
       "equipo": "Everton",
       "posicion": "F",
-      "tiros_esperados": 0.793
+      "tiros_esperados": 0.793,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1050,7 +1133,8 @@
       "jugador_id": "252389",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.517
+      "tiros_esperados": 0.517,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1063,7 +1147,8 @@
       "jugador_id": "252389",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.517
+      "tiros_esperados": 0.517,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1076,7 +1161,8 @@
       "jugador_id": "368864",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.482
+      "tiros_esperados": 0.482,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1089,7 +1175,8 @@
       "jugador_id": "368864",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.482
+      "tiros_esperados": 0.482,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1102,7 +1189,8 @@
       "jugador_id": "276220",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.346
+      "tiros_esperados": 0.346,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1115,7 +1203,8 @@
       "jugador_id": "378458",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.3
+      "tiros_esperados": 0.3,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1128,10 +1217,11 @@
       "jugador_id": "311963",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.226
+      "tiros_esperados": 0.226,
+      "estado": "perdida"
     }
   ],
-  "estado": "pendiente",
+  "estado": "calificado",
   "respaldo": {
     "forma_local": {
       "racha": "PGPPG",
@@ -1841,10 +1931,11 @@
       "prob": 0.299,
       "confianza": "alta",
       "evaluado": "2026-11-02T12:21:16.357064-07:00",
-      "estado": "pendiente",
+      "estado": "ganada",
       "categoria": "valor",
       "recortada": false,
-      "monto": 160.0
+      "monto": 160.0,
+      "ganancia": 400.0
     },
     {
       "mercado": "goles",
@@ -1856,10 +1947,11 @@
       "prob": 0.465,
       "confianza": "alta",
       "evaluado": "2026-11-02T12:21:16.357012-07:00",
-      "estado": "pendiente",
+      "estado": "ganada",
       "categoria": "valor",
       "recortada": false,
-      "monto": 260.0
+      "monto": 260.0,
+      "ganancia": 338.0
     },
     {
       "mercado": "goles",
@@ -1871,10 +1963,11 @@
       "prob": 0.688,
       "confianza": "alta",
       "evaluado": "2026-11-02T12:21:16.356838-07:00",
-      "estado": "pendiente",
+      "estado": "ganada",
       "categoria": "sencilla_prob",
       "recortada": false,
-      "monto": 950.0
+      "monto": 950.0,
+      "ganancia": 502.64
     },
     {
       "mercado": "goles",
@@ -1886,10 +1979,11 @@
       "prob": 0.688,
       "confianza": "alta",
       "evaluado": "2026-11-02T12:21:16.356838-07:00",
-      "estado": "pendiente",
+      "estado": "ganada",
       "categoria": "valor",
       "recortada": false,
-      "monto": 160.0
+      "monto": 160.0,
+      "ganancia": 84.66
     },
     {
       "mercado": "ambos_anotan",
@@ -1901,10 +1995,11 @@
       "prob": 0.426,
       "confianza": "alta",
       "evaluado": "2026-11-02T12:21:16.357025-07:00",
-      "estado": "pendiente",
+      "estado": "ganada",
       "categoria": "valor",
       "recortada": false,
-      "monto": 260.0
+      "monto": 260.0,
+      "ganancia": 400.4
     },
     {
       "mercado": "tarjetas_1x2",
@@ -1916,10 +2011,11 @@
       "prob": 0.596,
       "confianza": "alta",
       "evaluado": "2026-11-02T12:21:16.356958-07:00",
-      "estado": "pendiente",
+      "estado": "perdida",
       "categoria": "valor",
       "recortada": false,
-      "monto": 160.0
+      "monto": 160.0,
+      "ganancia": -160.0
     },
     {
       "mercado": "tarjetas",
@@ -1933,7 +2029,268 @@
       "prob": 0.389,
       "confianza": "alta",
       "evaluado": "2026-11-02T12:21:16.357148-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -300.0
     }
-  ]
+  ],
+  "resultado": {
+    "goles_local": 0,
+    "goles_visitante": 1,
+    "goles_local_pt": 0,
+    "goles_visitante_pt": 0,
+    "corners_local": 4.0,
+    "corners_visitante": 5.0,
+    "tarjetas_local": 5.0,
+    "tarjetas_visitante": 2.0,
+    "amarillas_local": 2.0,
+    "amarillas_visitante": 2.0,
+    "rojas_local": 1.0,
+    "rojas_visitante": 0.0,
+    "segundas_amarillas_local": 1,
+    "segundas_amarillas_visitante": 0,
+    "ventaja_max_local": 0,
+    "ventaja_max_visitante": 1,
+    "tiros_jugadores": {
+      "319267": {
+        "nombre": "Lukás Hornícek",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "198138": {
+        "nombre": "Dan Burn",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "179233": {
+        "nombre": "Fabian Schär",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "106139": {
+        "nombre": "Lewis Hall",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "308979": {
+        "nombre": "Amar Dedic",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "259517": {
+        "nombre": "Joe Willock",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "323986": {
+        "nombre": "Nico González",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "202232": {
+        "nombre": "Joelinton",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "319431": {
+        "nombre": "William Osula",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "243386": {
+        "nombre": "Harvey Barnes",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "296622": {
+        "nombre": "Anthony Elanga",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "396630": {
+        "nombre": "Aladji Bamba",
+        "equipo": "Newcastle United",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "303444": {
+        "nombre": "Malick Thiaw",
+        "equipo": "Newcastle United",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "161715": {
+        "nombre": "Nick Pope",
+        "equipo": "Newcastle United",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "359108": {
+        "nombre": "Bazoumana Touré",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "274633": {
+        "nombre": "Sven Botman",
+        "equipo": "Newcastle United",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "384372": {
+        "nombre": "Sean Steur",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "286090": {
+        "nombre": "Jacob Ramsey",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "224077": {
+        "nombre": "Yoane Wissa",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 2.0
+      },
+      "172836": {
+        "nombre": "Jacob Murphy",
+        "equipo": "Newcastle United",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "159443": {
+        "nombre": "Jordan Pickford",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "286965": {
+        "nombre": "Jarrad Branthwaite",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "155226": {
+        "nombre": "James Tarkowski",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "262594": {
+        "nombre": "Vitaliy Mykolenko",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "283586": {
+        "nombre": "Jake O'Brien",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "252389": {
+        "nombre": "Kiernan Dewsbury-Hall",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "276220": {
+        "nombre": "James Garner",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "378458": {
+        "nombre": "Harrison Armstrong",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "301166": {
+        "nombre": "Thierno Barry",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "368864": {
+        "nombre": "Tyrique George",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "311963": {
+        "nombre": "Merlin Röhl",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "4946": {
+        "nombre": "Michael Keane",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "340640": {
+        "nombre": "Tyler Dibling",
+        "equipo": "Everton",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "291307": {
+        "nombre": "Brennan Johnson",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "367559": {
+        "nombre": "Braiden Graham",
+        "equipo": "Everton",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "302162": {
+        "nombre": "Charly Alcaraz",
+        "equipo": "Everton",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "214402": {
+        "nombre": "Ainsley Maitland-Niles",
+        "equipo": "Everton",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "282978": {
+        "nombre": "Hayden Hackney",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "178077": {
+        "nombre": "Christian Nørgaard",
+        "equipo": "Everton",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "7441": {
+        "nombre": "Mark Travers",
+        "equipo": "Everton",
+        "participo": false,
+        "tiros_puerta": 0.0
+      }
+    }
+  }
 }
