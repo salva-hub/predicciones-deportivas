@@ -43,7 +43,7 @@
       "mercado": "ganador",
       "seleccion": "1",
       "cuota": 55.0,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261101-aeb5c6",
@@ -54,7 +54,7 @@
       "mercado": "goles",
       "seleccion": "menos_4.5",
       "cuota": 55.0,
-      "estado": "pendiente"
+      "estado": "ganada"
     }
   ],
   "cuota": 7561.3976,
