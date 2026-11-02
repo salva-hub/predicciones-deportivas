@@ -32,7 +32,14 @@ _ID_VALIDO = re.compile(r"^[A-Za-z0-9_-]+$")
 ELECCION_SALVA = "eleccion_salva"  # apuestas que eligió Salva: registro aparte (valor.ELECCION_SALVA)
 PICK_MODELO = "pick_modelo"  # mejor selección del modelo en cada partido, en papel; fuera del límite del día
 LECTURA = "lectura"  # lectura del partido (30-oct-2026): en papel, con su propio bank; ver lectura.py
+# sistema viejo (valor, sencilla fuerte, combinada; hasta el 1-nov-2026). Desde el 2-nov solo "valor"
+# sigue en papel, con su propio bank, para compararlo con el sistema nuevo por probabilidad
+SISTEMA_VIEJO = "sistema_viejo"
+CATEGORIAS_VIEJO = ("valor", "sencilla_fuerte", "combinada")
+CATEGORIAS_SISTEMA = ("sencilla_prob", "combinada_prob")  # sistema nuevo por probabilidad (2-nov-2026)
 APARTE = (ELECCION_SALVA, PICK_MODELO, LECTURA)  # categorías fuera del total y que `parlays` nunca reemplaza
+# categorías que no usan el límite del día ni el máximo del sistema nuevo
+FUERA_DEL_LIMITE = APARTE + CATEGORIAS_VIEJO
 
 
 def _leer(nombre: str, defecto):
@@ -160,7 +167,7 @@ def partido_iniciado(p: dict | None) -> bool:
 def _se_reemplaza(x: dict) -> bool:
     """Parlay en papel pendiente que `parlays` vuelve a armar. Los de Salva y el pick del modelo nunca se reemplazan,
     ni los que ya tienen una pata de un partido empezado (la apuesta ya está hecha)."""
-    if x.get("estado") != "pendiente" or x.get("categoria") in APARTE:
+    if x.get("estado") != "pendiente" or x.get("categoria") in APARTE or x.get("fija"):
         return False
     return not any(partido_iniciado(buscar_pronostico(q.get("pronostico"))) for q in x.get("patas", []) if q.get("pronostico"))
 
@@ -172,7 +179,10 @@ def guardar_parlays_papel(dia, nuevos: list[dict]) -> list[dict]:
     ruta = _ruta_item("papel", did)
     doc = json.loads(ruta.read_text(encoding="utf-8")) if ruta.exists() else {"id": did, "fecha": str(dia), "creado": ahora().isoformat()}
     calificados = [x for x in doc.get("parlays", []) if not _se_reemplaza(x)]
-    claves = {x["clave"] for x in calificados}
+    # tampoco se repite lo ya guardado en el archivo de otro día (p. ej. una combinada registrada a mano hoy
+    # para partidos de mañana)
+    claves = {x["clave"] for x in calificados} | {x.get("clave") for o in archivos_parlays_papel() if o.get("id") != did
+                                                for x in o.get("parlays", [])}
     doc["parlays"] = calificados + [x for x in nuevos if x["clave"] not in claves]
     actualizar_parlays_papel(doc)
     return doc["parlays"]
@@ -224,12 +234,13 @@ def _peor_racha(estados: list[str]) -> int:
 
 def resumen_papel() -> dict:
     """Resultados de la prueba en papel por categoría (para comparar el 26-nov-2026).
-    El total es solo de las 3 categorías del sistema; la elección de Salva y el pick del modelo van aparte."""
+    "total" es el sistema nuevo por probabilidad (2-nov-2026); "total_viejo" el sistema viejo (valor,
+    sencilla fuerte y combinada). La elección de Salva, el pick del modelo y la lectura van aparte."""
     todas = apuestas_papel_todas()
-    sistema = ("valor", "sencilla_fuerte", "combinada")
     out = {}
-    for cat in (*sistema, "total", *APARTE):
-        grupo = [x for x in todas if x["categoria"] in (sistema if cat == "total" else (cat,))]
+    grupos = {"total": CATEGORIAS_SISTEMA, "total_viejo": CATEGORIAS_VIEJO}
+    for cat in (*CATEGORIAS_SISTEMA, "total", *CATEGORIAS_VIEJO, "total_viejo", *APARTE):
+        grupo = [x for x in todas if x["categoria"] in grupos.get(cat, (cat,))]
         liq = [x for x in grupo if x.get("estado") in LIQUIDADAS]
         ganadas = sum(x["estado"] == "ganada" for x in liq)
         decididas = sum(x["estado"] != "devuelta" for x in liq)
@@ -273,7 +284,9 @@ def categorias_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -> di
 
 
 # nombres para Salva (las claves internas no cambian)
-NOMBRES_CATEGORIA = {"valor": "Cuota mejor que la justa", "sencilla_fuerte": "Sencilla fuerte (momio negativo)",
+NOMBRES_CATEGORIA = {"sencilla_prob": "Sencilla probable (60% o más)",
+                     "combinada_prob": "Combinada probable (+200 a +350)",
+                     "valor": "Cuota mejor que la justa", "sencilla_fuerte": "Sencilla fuerte (momio negativo)",
                      "combinada": "Combinada corta (+200 a +350)", ELECCION_SALVA: "Elección de Salva",
                      PICK_MODELO: "Pick del modelo", LECTURA: "Lectura del partido"}
 
@@ -396,7 +409,7 @@ def _apuestas_por_pronostico() -> dict[str, list[dict]]:
             agregar(p["id"], "papel", "sencilla", x)
     for par, origen in [(a, "real") for a in apuestas()] + [(x, "papel") for x in parlays_papel()]:
         patas = par.get("patas", [])
-        tipo = "sencilla" if len(patas) == 1 else ("combinada" if par.get("categoria") == "combinada" else "parlay")
+        tipo = "sencilla" if len(patas) == 1 else ("combinada" if par.get("categoria") in ("combinada", "combinada_prob") else "parlay")
         for pid in dict.fromkeys(q.get("pronostico") for q in patas if q.get("pronostico")):
             agregar(pid, origen, tipo, par)
     return out
@@ -589,12 +602,12 @@ def apostado_papel_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -
     total = sum(
         x.get("monto", 0.0) for p in pronosticos() if p.get("id") != excluir
         for x in p.get("apuestas_papel", [])
-        if x.get("categoria") not in APARTE and _fecha_sonora(x["evaluado"]).date() == hoy
+        if x.get("categoria") not in FUERA_DEL_LIMITE and _fecha_sonora(x["evaluado"]).date() == hoy
     )
     omitir = f"parlays-{reemplazar_parlays_de:%Y%m%d}" if reemplazar_parlays_de else None
     for doc in archivos_parlays_papel():
         for x in doc.get("parlays", []):
-            if (doc.get("id") == omitir and _se_reemplaza(x)) or x.get("categoria") in APARTE:
+            if (doc.get("id") == omitir and _se_reemplaza(x)) or x.get("categoria") in FUERA_DEL_LIMITE:
                 continue
             if _fecha_sonora(x["creado"]).date() == hoy:
                 total += x.get("monto", 0.0)
@@ -603,7 +616,8 @@ def apostado_papel_hoy(excluir: str | None = None, reemplazar_parlays_de=None) -
 
 # Banks en papel (solo durante la prueba): cada uno empieza con `bank_inicial` y suma solo lo suyo.
 BANKS_PAPEL = {
-    "sistema": ("valor", "sencilla_fuerte", "combinada"),
+    "sistema": CATEGORIAS_SISTEMA,       # sistema nuevo por probabilidad: empieza en 10,000 el 2-nov-2026
+    SISTEMA_VIEJO: CATEGORIAS_VIEJO,     # sistema viejo: sigue con lo que ganó o perdió hasta hoy
     ELECCION_SALVA: (ELECCION_SALVA,),
     PICK_MODELO: (PICK_MODELO,),
     LECTURA: (LECTURA,),

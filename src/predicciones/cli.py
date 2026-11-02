@@ -28,6 +28,7 @@ from . import bank as B
 from . import cuotas as C
 from . import lectura as LE
 from . import registro as R
+from . import respaldo as RS
 from . import valor as V
 from .ajustes import Ajustes, parsear, por_clima
 from .calificar import DEVUELVE, GANA, PIERDE, SIN_DATOS, calificar, estado_parlay, ganancia
@@ -262,6 +263,11 @@ def cmd_pronostico(a) -> None:
         "selecciones": p.tabla() + filas_tiros_jugador(p.partido, tiros),
         "estado": "pendiente",
     }
+    # forma de los últimos 5, historial directo y últimos 10 por selección: solo para mostrar (Salva, 1 y 2-nov-2026)
+    try:
+        registro["respaldo"] = RS.respaldo(hist, registro["local"], registro["visitante"], registro["selecciones"])
+    except Exception as e:  # noqa: BLE001 - el respaldo es informativo: nunca detiene el pronóstico
+        _aviso("sin respaldo de últimos partidos", e)
     if tiros:
         registro["tiros_jugador"] = [{k: t[k] for k in ("jugador", "equipo", "posicion", "tiros_esperados", "tasa90",
                                                          "minutos_esperados", "minutos_historial")} for t in tiros]
@@ -334,7 +340,7 @@ def cmd_evaluar(a) -> None:
         # (la elección de Salva y el pick del modelo tienen su propio bank y no usan el límite)
         hoy = R.ahora().date()
         propio = sum(x.get("monto", 0.0) for x in conservar
-                     if x.get("categoria") not in R.APARTE and R._fecha_sonora(x["evaluado"]).date() == hoy)
+                     if x.get("categoria") not in R.FUERA_DEL_LIMITE and R._fecha_sonora(x["evaluado"]).date() == hoy)
         disponible = max(0.0, disponible - R.apostado_papel_hoy(excluir=p["id"]) - propio)
     sin_limite = papel and not B.LIMITE_EN_PAPEL
     if sin_limite:
@@ -348,17 +354,16 @@ def cmd_evaluar(a) -> None:
             if R._fecha_sonora(x["evaluado"]).date() == hoy:
                 c = x.get("categoria") or V.VALOR
                 cuenta[c] = cuenta.get(c, 0) + 1
-    filas = []  # (mercado, seleccion, Seleccion | None, categoria)
+    filas = []  # (mercado, seleccion, Seleccion | None, fila, categoria del sistema nuevo, "valor" del sistema viejo)
     for mercado, seleccion, dec in cuotas:
         fila = next((s for s in p["selecciones"] if s["mercado"] == mercado and s["seleccion"] == seleccion), None)
         if not fila:
-            filas.append((mercado, seleccion, None, None, None))
+            filas.append((mercado, seleccion, None, None, None, None))
             continue
         s = V.Seleccion(p["partido"], mercado, seleccion, fila["prob"], fila.get("devolucion", 0.0), fila["confianza"], dec)
-        filas.append((mercado, seleccion, s, fila, V.categoria_sencilla(s)))
-    # con dinero real y la categoría fuerte sin aprobar, una selección con valor es "valor"
-    if not papel and V.FUERTE not in B.CATEGORIAS_DINERO_REAL:
-        filas = [(*f[:4], V.VALOR) if f[4] == V.FUERTE and V.tiene_valor(f[2]) else f for f in filas]
+        # sistema nuevo (2-nov-2026): por probabilidad; sistema viejo: solo "valor", y solo en papel
+        filas.append((mercado, seleccion, s, fila, V.categoria_prob(s),
+                      V.VALOR if papel and V.tiene_valor(s) else None))
     # regla temporal (29-oct-2026): un "menos" de córners/tarjetas con Winpot muy en contra
     # del modelo no entra en ninguna categoría ni en parlays o combinadas
     dec_sel = {(m, s_): d for m, s_, d in cuotas}
@@ -373,20 +378,20 @@ def cmd_evaluar(a) -> None:
 
     discrepan = {i for i, f in enumerate(filas) if f[2] is not None and f[1].startswith("menos_")
                  and V.discrepa_menos(f[0], f[1], f[2].prob, f[2].cuota_ofrecida, _contrario(f[0], f[1]))}
-    filas = [(*f[:4], None) if i in discrepan else f for i, f in enumerate(filas)]
-    # sencilla fuerte: como mucho MAX_POR_DIA al día; si hay varias, la de mayor probabilidad.
-    # Sin cupo, si tiene valor pasa a la categoría valor
-    fuertes = sorted((i for i, f in enumerate(filas) if f[4] == V.FUERTE), key=lambda i: -filas[i][2].prob)
-    libres = max(0, V.max_por_dia(V.FUERTE, papel) - cuenta.get(V.FUERTE, 0))
-    sin_cupo = set(fuertes[libres:])
+    filas = [(*f[:4], None, None) if i in discrepan else f for i, f in enumerate(filas)]
+    # con dinero real, como mucho MAX_POR_DIA sencillas del sistema al día (la de mayor probabilidad primero)
+    nuevas_sencillas = sorted((i for i, f in enumerate(filas) if f[4] == V.SENCILLA_PROB), key=lambda i: -filas[i][2].prob)
+    libres = max(0, V.max_por_dia(V.SENCILLA_PROB, papel) - cuenta.get(V.SENCILLA_PROB, 0))
+    sin_cupo = set(nuevas_sencillas[libres:])
     for i in sin_cupo:
-        filas[i] = (*filas[i][:4], V.VALOR if V.tiene_valor(filas[i][2]) else None)
-    # prioridad para el límite del día: fuerte y valor juntas, primero la de mayor valor esperado
-    orden = sorted(range(len(filas)), key=lambda i: (filas[i][4] is None, -(filas[i][2].ve() if filas[i][2] else 0)))
+        filas[i] = (*filas[i][:4], None, filas[i][5])
+    bank_viejo = R.bank_papel(R.SISTEMA_VIEJO) if papel else 0.0
+    # prioridad para el límite del día: la más probable primero
+    orden = sorted(range(len(filas)), key=lambda i: (filas[i][4] is None, -(filas[i][2].prob if filas[i][2] else 0)))
     resultado: list[dict | None] = [None] * len(filas)
     en_papel = []
     for i in orden:
-        mercado, seleccion, s, fila, cat = filas[i]
+        mercado, seleccion, s, fila, cat, vieja = filas[i]
         if s is None:
             resultado[i] = {"mercado": mercado, "seleccion": seleccion, "error": "no está en el pronóstico (o no se ofrece por reglas)"}
             continue
@@ -394,27 +399,25 @@ def cmd_evaluar(a) -> None:
         motivo = None
         if i in discrepan:
             motivo = V.MOTIVO_DISCREPANCIA
-        elif i in sin_cupo and cat is None:
-            motivo = "ya hay una sencilla fuerte hoy (máximo 1 por día)"
-        elif cat is None and V.fuerte_salvo_momio(s):
-            motivo = V.MOTIVO_MOMIO_FUERTE
-        if cat == V.VALOR:
-            pedido = B.monto(bank_hoy, B.porcentaje_sencilla(ve, s.confianza, s.ve_minimo))
-        elif cat == V.FUERTE:
-            pedido = B.monto_sencilla_fuerte(bank_hoy, s.confianza, dec)
-        else:
-            pedido = 0.0
+        elif i in sin_cupo:
+            motivo = "ya hay una sencilla del sistema hoy (máximo 1 por día)"
+        elif cat is None:
+            motivo = V.motivo_sin_categoria(s)
+        pedido = B.monto_sencilla_prob(bank_hoy, s.confianza, dec, ve, s.ve_minimo) if cat else 0.0
         # cada sencilla, como mucho lo que queda del límite del día
         monto = min(pedido, B.monto(disponible, 1.0))
         fila_res = {
             "mercado": mercado, "seleccion": seleccion,
             "cuota_winpot": C.formato_americano(dec), "cuota_minima": fila["cuota_minima"],
+            "cuota_justa": C.formato_americano(s.cuota_justa()),
             "prob": fila["prob"], "ve": round(ve, 4), "confianza": s.confianza,
             "categoria": cat, "con_valor": V.tiene_valor(s),
             "apostar": cat is not None and monto > 0, "monto_sencilla": monto,
             "sirve_para_parlay": ve >= V.ve_min_parlay_pata(mercado),
-            "sirve_para_combinada": V.sirve_para_combinada(s),
+            "sirve_para_combinada": V.sirve_para_combinada_prob(s),
         }
+        if fila.get("ultimos10"):
+            fila_res["ultimos10"] = fila["ultimos10"]
         if i in discrepan:
             fila_res.update(sirve_para_parlay=False, sirve_para_combinada=False)
         if dev:
@@ -437,15 +440,19 @@ def cmd_evaluar(a) -> None:
         elif papel:
             pasa = fila_res["apostar"]
             fila_res.update(apostar=False, monto_sencilla=0, apostar_papel=pasa, monto_papel=monto if pasa else 0)
+            base = {"mercado": mercado, "seleccion": seleccion, "con_valor": fila_res["con_valor"],
+                    "cuota": round(dec, 4), "cuota_americana": C.formato_americano(dec), "ve": round(ve, 4),
+                    "prob": fila["prob"], "confianza": s.confianza, "evaluado": R.ahora().isoformat(),
+                    "estado": "pendiente"}
             if pasa:
                 fila_res["motivo"] = "prueba en papel"
-                en_papel.append((i, {
-                    "mercado": mercado, "seleccion": seleccion, "categoria": cat,
-                    "con_valor": fila_res["con_valor"], "recortada": monto < pedido, "cuota": round(dec, 4),
-                    "cuota_americana": C.formato_americano(dec), "monto": monto, "ve": round(ve, 4),
-                    "prob": fila["prob"], "confianza": s.confianza, "evaluado": R.ahora().isoformat(),
-                    "estado": "pendiente",
-                }))
+                en_papel.append((i, {**base, "categoria": cat, "recortada": monto < pedido, "monto": monto}))
+            if vieja:
+                # sistema viejo (valor): en papel aparte, con su propio bank y sus montos de siempre
+                monto_v = B.monto(bank_viejo, B.porcentaje_sencilla(ve, s.confianza, s.ve_minimo))
+                if monto_v > 0:
+                    fila_res["sistema_viejo"] = {"categoria": V.VALOR, "monto_papel": monto_v}
+                    en_papel.append((i, {**base, "categoria": V.VALOR, "recortada": False, "monto": monto_v}))
         elif fila_res["apostar"] and cat not in B.CATEGORIAS_DINERO_REAL:
             fila_res.update(apostar=False, monto_sencilla=0, monto_si_se_aprueba=monto,
                             motivo=B.MENSAJE_CATEGORIA_PENDIENTE)
@@ -529,20 +536,24 @@ def cmd_parlays(a) -> None:
         disponible = max(0.0, disponible - R.apostado_papel_hoy(reemplazar_parlays_de=dia))
     if papel and not B.LIMITE_EN_PAPEL:
         disponible = B.SIN_LIMITE
-    # 1) parlays de valor; 2) combinadas cortas (sin repetir un parlay de valor idéntico)
-    valor = V.armar_parlays(cand_valor, max_patas=a.max_patas)
+    # sistema nuevo: combinadas por probabilidad (partidos distintos) con el bank del sistema.
+    # Sistema viejo (solo en papel): parlays de valor con su propio bank.
     cuenta = R.categorias_hoy(reemplazar_parlays_de=dia if papel else None)
-    cupo = max(0, V.max_por_dia(V.COMBINADA, papel) - cuenta.get(V.COMBINADA, 0))
-    combinadas = V.armar_combinadas(cand_comb, top=cupo, excluir={V.clave_patas(x) for x in valor}) if cupo else []
-    lista = [(x, V.VALOR, B.monto(bank_hoy, B.porcentaje_parlay(x.confianza))) for x in valor]
-    lista += [(x, V.COMBINADA, B.monto(bank_hoy, B.porcentaje_combinada(x.confianza))) for x in combinadas]
+    cupo = max(0, V.max_por_dia(V.COMBINADA_PROB, papel) - cuenta.get(V.COMBINADA_PROB, 0))
+    combinadas = V.armar_combinadas(cand_comb, top=cupo, filtro=V.sirve_para_combinada_prob) if cupo else []
+    lista = [(x, V.COMBINADA_PROB, B.monto(bank_hoy, B.porcentaje_combinada(x.confianza))) for x in combinadas]
+    valor = V.armar_parlays(cand_valor, max_patas=a.max_patas) if papel else []
+    bank_viejo = R.bank_papel(R.SISTEMA_VIEJO) if papel else 0.0
+    viejos = [(x, V.VALOR, B.monto(bank_viejo, B.porcentaje_parlay(x.confianza))) for x in valor]
     # dinero real: las categorías aún no aprobadas se muestran pero no usan el límite
     cuenta_limite = [papel or cat in B.CATEGORIAS_DINERO_REAL for _, cat, _ in lista]
     recortados = iter(B.ajustar_al_limite([m for (_, _, m), c in zip(lista, cuenta_limite) if c], disponible))
     out, guardar = [], []
-    for (par, cat, pedido), c in zip(lista, cuenta_limite):
+    for (par, cat, pedido), c in [*zip(lista, cuenta_limite), *((v, True) for v in viejos)]:
         d = {"categoria": cat, **par.resumen()}
-        d["monto"] = next(recortados) if c else 0
+        d["monto"] = (next(recortados) if c else 0) if cat != V.VALOR else pedido
+        if cat == V.VALOR:
+            d["sistema_viejo"] = True
         if 0 < d["monto"] < pedido:
             d["recortada"] = True
         if papel:
@@ -554,7 +565,9 @@ def cmd_parlays(a) -> None:
                     patas.append({"pronostico": pr["id"], "partido": x.partido, "liga": pr.get("liga"),
                                   "mercado": x.mercado, "seleccion": x.seleccion, "cuota": x.cuota_ofrecida,
                                   "prob": x.prob, "confianza": x.confianza, "estado": "pendiente"})
-                guardar.append({"clave": "|".join(sorted(f"{q['pronostico']}:{q['mercado']}:{q['seleccion']}" for q in patas)),
+                clave = "|".join(sorted(f"{q['pronostico']}:{q['mercado']}:{q['seleccion']}" for q in patas))
+                # la misma combinación puede estar en los dos sistemas: la clave del nuevo lleva prefijo
+                guardar.append({"clave": ("prob|" + clave) if cat == V.COMBINADA_PROB else clave,
                                 "tipo": "parlay", "categoria": cat, "patas": patas, "cuota": round(par.cuota, 4),
                                 "cuota_americana": C.formato_americano(par.cuota), "prob": round(par.prob, 4),
                                 "monto": d["monto_papel"], "recortada": d["monto_papel"] < pedido,
@@ -566,11 +579,58 @@ def cmd_parlays(a) -> None:
         elif d["monto"] <= 0:
             d["motivo"] = "límite del día alcanzado"
         out.append(d)
+    propuestas = _propuestas_mismo_partido(cand_comb, ids)
     if papel:
         R.guardar_parlays_papel(dia, guardar)
-        _imprimir({"aviso": B.MENSAJE_PAPEL, "parlays_papel": out or "Sin parlays ni combinadas para ese día"})
+        _imprimir({"aviso": B.MENSAJE_PAPEL, "parlays_papel": out or "Sin parlays ni combinadas para ese día",
+                   **({"propuestas_mismo_partido": propuestas} if propuestas else {})})
+        return
+    if propuestas:
+        _imprimir({"parlays": out or "Sin parlays ni combinadas para ese día", "propuestas_mismo_partido": propuestas})
         return
     _imprimir(out or "Sin parlays ni combinadas para ese día")
+
+
+# "crea tu apuesta" de Winpot: paga cerca de 80% del producto de las patas (77-82% medido el 30-oct-2026)
+FACTOR_CREA_TU_APUESTA = 0.80
+PROPUESTAS_POR_PARTIDO = 3
+
+
+def _propuestas_mismo_partido(candidatas: list, ids: dict) -> list[dict]:
+    """Combinadas del sistema nuevo con 2 o 3 patas del mismo partido (Salva, 1-nov-2026: sin freno de
+    precio). Winpot da un momio total distinto del producto, así que solo se proponen: se pide a Salva el
+    momio del "crea tu apuesta" y se registran con `cli combinada --cuota-total`."""
+    import itertools
+    por_partido: dict[str, list] = {}
+    for s in candidatas:
+        if V.sirve_para_combinada_prob(s):
+            por_partido.setdefault(ids[id(s)]["id"], []).append(s)
+    out = []
+    for pid, sels in por_partido.items():
+        p = ids[id(sels[0])]
+        filas = []
+        for n in V.COMBINADA_PATAS:
+            for combo in itertools.combinations(sels, n):
+                if len({x.mercado for x in combo}) < n or _mismo_partido_valido([x.mercado for x in combo]):
+                    continue  # dos líneas del mismo mercado se pisan entre sí, o no se puede calcular la conjunta
+                try:
+                    prob = LE.prob_conjunta(p, [(x.mercado, x.seleccion) for x in combo])
+                except LE.ReglaLectura:
+                    continue
+                estimada = C.cuota_parlay(x.cuota_ofrecida for x in combo) * FACTOR_CREA_TU_APUESTA
+                if not (V.COMBINADA_CUOTA_MIN * 0.9 <= estimada <= V.COMBINADA_CUOTA_MAX * 1.1):
+                    continue
+                filas.append((n, -prob, combo, prob, estimada))
+        filas.sort(key=lambda f: (f[0], f[1]))
+        for n, _, combo, prob, estimada in filas[:PROPUESTAS_POR_PARTIDO]:
+            out.append({"partido": p["partido"], "pronostico": pid,
+                        "patas": [f"{x.mercado}:{x.seleccion} ({C.formato_americano(x.cuota_ofrecida)})" for x in combo],
+                        "prob_conjunta": round(prob, 4), "cuota_justa": C.formato_americano(1 / prob),
+                        "cuota_estimada_winpot": C.formato_americano(estimada),
+                        "siguiente": "Pide a Salva el momio del crea tu apuesta y registra con: cli combinada "
+                                     + " ".join(f'--pata "{pid}:{x.mercado}:{x.seleccion}={C.formato_americano(x.cuota_ofrecida)}"'
+                                                for x in combo) + " --cuota-total=<momio>"})
+    return out
 
 
 def cmd_apostar(a) -> None:
@@ -700,6 +760,106 @@ def cmd_lectura_apostar(a) -> None:
     }
     R.agregar_lectura_papel(R.ahora().date(), ap)
     _imprimir({"aviso": B.MENSAJE_PAPEL, "bank_lectura": bank, "apuesta": ap,
+               "cuota_justa": C.formato_americano(1 / prob)})
+
+
+# en un crea tu apuesta, la probabilidad conjunta solo se calcula bien con mercados de goles (matriz de marcadores)
+# más, como mucho, una línea de córners y una de tarjetas (independientes). Primer tiempo y tarjetas 1X2 no.
+MERCADOS_NO_COMBINABLES = ("primer_tiempo", "tarjetas_1x2")
+
+
+def _mismo_partido_valido(mercados: list[str]) -> str | None:
+    """Motivo por el que esas patas del mismo partido no se pueden combinar, o None."""
+    raros = [m for m in mercados if m in MERCADOS_NO_COMBINABLES]
+    if raros:
+        return f"{raros[0]} no se combina con otras patas del mismo partido (no se puede calcular la probabilidad conjunta)"
+    for m in ("corners", "tarjetas"):
+        if mercados.count(m) > 1:
+            return f"dos líneas de {m} del mismo partido se pisan entre sí"
+    return None
+
+
+def _revisar_mismo_partido(partido: str, mercados: list[str]) -> None:
+    motivo = _mismo_partido_valido(mercados)
+    if motivo:
+        sys.exit(f"{partido}: {motivo}")
+
+
+def cmd_combinada(a) -> None:
+    """Registra en papel una combinada del sistema nuevo armada a mano, sobre todo el "crea tu apuesta"
+    (varias patas del mismo partido; Salva, 1-nov-2026: sin freno de precio). Reglas: 2 o 3 patas, cada
+    una con 60% o más, confianza alta o media y Winpot como mucho 4% por debajo de su cuota justa; momio
+    total de Winpot de +200 a +350. Monto: 5% del bank del sistema (todas alta) o 3% (alguna media)."""
+    if not B.en_prueba_papel(R.ahora().date()):
+        sys.exit("Con dinero real, registra la apuesta con `apostar --categoria combinada_prob`.")
+    if R.en_pausa_papel():
+        sys.exit(MENSAJE_PAUSA)
+    if not 2 <= len(a.pata) <= max(V.COMBINADA_PATAS):
+        sys.exit("Una combinada lleva 2 o 3 patas")
+    patas, por_pid = [], {}
+    for texto in a.pata:
+        pid, resto = texto.split(":", 1)
+        mercado, sel, dec = _parsear_cuota(resto)
+        p = R.buscar_pronostico(pid)
+        if not p:
+            sys.exit(f"No existe el pronóstico {pid}")
+        sel = _resolver_jugador(mercado, sel, p.get("selecciones", []))
+        if R.partido_iniciado(p):
+            sys.exit(f"{p['partido']}: el partido ya empezó, no cuenta en papel")
+        fila = next((s for s in p["selecciones"] if s["mercado"] == mercado and s["seleccion"] == sel), None)
+        if not fila:
+            sys.exit(f"{p['partido']}: {mercado} {sel} no está en el pronóstico")
+        s = V.Seleccion(p["partido"], mercado, sel, fila["prob"], fila.get("devolucion", 0.0), fila["confianza"], dec)
+        if not V.sirve_para_combinada_prob(s):
+            sys.exit(f"{p['partido']}: {mercado} {sel} no sirve como pata: "
+                     f"{V.motivo_sin_categoria(s) or 'línea con devolución'}")
+        # regla temporal (29-oct-2026) de los "menos" de córners/tarjetas, igual que en evaluar
+        otro = p.get("cuotas_winpot", {}).get(f"{mercado}:mas_{sel[len('menos_'):]}") if sel.startswith("menos_") else None
+        contrario = C.americana_a_decimal(float(str(otro).replace("\u2212", "-"))) if otro else None
+        if V.discrepa_menos(mercado, sel, fila["prob"], dec, contrario):
+            sys.exit(f"{p['partido']}: {mercado} {sel}: {V.MOTIVO_DISCREPANCIA}")
+        if (mercado, sel) in por_pid.get(pid, (None, []))[1]:
+            sys.exit(f"{p['partido']}: {mercado} {sel} está repetida")
+        por_pid.setdefault(pid, (p, []))[1].append((mercado, sel))
+        if len(por_pid[pid][1]) > 1:
+            _revisar_mismo_partido(p["partido"], [m for m, _ in por_pid[pid][1]])
+        patas.append({"pronostico": pid, "partido": p["partido"], "liga": p.get("liga"),
+                      "deporte": p.get("deporte") or R.DEPORTE_DEFECTO, "espn_id": p.get("espn_id"),
+                      "mercado": mercado, "seleccion": sel, "cuota": round(dec, 4), "prob": fila["prob"],
+                      "confianza": fila["confianza"], "estado": "pendiente"})
+    mismo_partido = any(len(v[1]) > 1 for v in por_pid.values())
+    if mismo_partido and not a.cuota_total:
+        sys.exit("Varias patas del mismo partido: pasa --cuota-total con el momio de Winpot del crea tu apuesta")
+    if a.cuota_total and not mismo_partido:
+        sys.exit("--cuota-total es solo para el crea tu apuesta (varias patas del mismo partido)")
+    cuota = _cuota_real(a.cuota_total) if a.cuota_total else C.cuota_parlay(q["cuota"] for q in patas)
+    if not (V.COMBINADA_CUOTA_MIN - 1e-9 <= cuota <= V.COMBINADA_CUOTA_MAX + 1e-9):
+        sys.exit(f"Momio total {C.formato_americano(cuota)}: fuera de +200 a +350")
+    try:
+        prob = 1.0
+        for p, lista in por_pid.values():
+            prob *= LE.prob_conjunta(p, lista)
+    except LE.ReglaLectura as e:
+        sys.exit(str(e))
+    clave = "prob|" + "|".join(sorted(f"{q['pronostico']}:{q['mercado']}:{q['seleccion']}" for q in patas))
+    if any(x.get("clave") == clave for x in R.parlays_papel()):
+        sys.exit("Esa combinada ya está registrada en papel")
+    conf = LE.confianza_minima([q["confianza"] for q in patas])
+    bank = R.bank_papel("sistema")
+    monto = B.monto(bank, B.porcentaje_combinada(conf))
+    ap = {
+        "clave": clave, "tipo": "parlay", "categoria": V.COMBINADA_PROB, "patas": patas,
+        "cuota": round(cuota, 4), "cuota_americana": C.formato_americano(cuota),
+        "prob": round(prob, 4), "ve": round(prob * cuota - 1, 4), "confianza": conf,
+        "mismo_partido": mismo_partido, "monto": monto,
+        # registrada a mano: `parlays` no la reemplaza al rearmar las del día
+        "fija": True,
+        # el crea tu apuesta se liquida con el momio total de Winpot (no con el producto de las patas)
+        **({"cuota_total_fija": True} if mismo_partido else {}),
+        "creado": R.ahora().isoformat(), "estado": "pendiente",
+    }
+    R.agregar_lectura_papel(R.ahora().date(), ap)
+    _imprimir({"aviso": B.MENSAJE_PAPEL, "bank_sistema": bank, "apuesta": ap,
                "cuota_justa": C.formato_americano(1 / prob)})
 
 
@@ -1006,6 +1166,11 @@ def main(argv=None) -> None:
     s.add_argument("--pata", action="append", required=True, help="ID_PRONOSTICO:mercado:seleccion=cuota")
     s.add_argument("--cuota-total", help="momio total de Winpot (obligatorio si hay patas del mismo partido)")
     s.set_defaults(f=cmd_lectura_apostar)
+
+    s = sub.add_parser("combinada", help="registra en papel una combinada del sistema nuevo (crea tu apuesta incluido)")
+    s.add_argument("--pata", action="append", required=True, help='"<id>:goles:mas_2.5=-130" (una por pata)')
+    s.add_argument("--cuota-total", help="momio total de Winpot del crea tu apuesta (varias patas del mismo partido)")
+    s.set_defaults(f=cmd_combinada)
 
     s = sub.add_parser("movimiento")
     s.add_argument("--tipo", required=True, choices=["retiro", "deposito"])

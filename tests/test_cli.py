@@ -17,6 +17,8 @@ def cli(tmp_path, monkeypatch, liga_sintetica):
     importlib.reload(cli)
     # por defecto, fuera de la prueba en papel (dinero real); las pruebas del papel la activan
     monkeypatch.setattr(cli.B, "PRUEBA_PAPEL_HASTA", date(2000, 1, 1))
+    # con dinero real, las pruebas suponen el sistema nuevo ya aprobado (hoy no hay ninguna categoría aprobada)
+    monkeypatch.setattr(cli.B, "CATEGORIAS_DINERO_REAL", {"sencilla_prob", "combinada_prob"})
     (tmp_path / "datos" / "historial").mkdir(parents=True)
     liga_sintetica.assign(espn_id=range(len(liga_sintetica))).to_csv(tmp_path / "datos" / "historial" / "premier.csv", index=False)
     return cli
@@ -101,7 +103,7 @@ def test_pausa_bloquea_recomendaciones(cli, capsys):
     assert "PAUSA" in capsys.readouterr().out
 
 
-def _evaluado(R, partido, mercado, seleccion, cuota, devolucion=0.0):
+def _evaluado(R, partido, mercado, seleccion, cuota, devolucion=0.0, combinada=False):
     sel = {"mercado": mercado, "seleccion": seleccion, "prob": 0.62, "confianza": "alta"}
     if devolucion:
         sel["devolucion"] = devolucion
@@ -109,19 +111,19 @@ def _evaluado(R, partido, mercado, seleccion, cuota, devolucion=0.0):
         "partido": partido, "liga": "premier", "inicio_sonora": f"{R.ahora().date()} 12:00",
         "selecciones": [sel],
         "evaluacion": [{"mercado": mercado, "seleccion": seleccion, "prob": 0.62, "confianza": "alta",
-                        "cuota_winpot": cuota, "sirve_para_parlay": True}],
+                        "cuota_winpot": cuota, "sirve_para_parlay": True, "sirve_para_combinada": combinada}],
     })
 
 
 def test_parlays_respetan_devolucion(cli, capsys):
     R = cli.R
-    _evaluado(R, "A vs B", "goles", "mas_2.5", "+100")
-    _evaluado(R, "C vs D", "ganador", "1", "+100")
-    _evaluado(R, "E vs F", "handicap", "local_-1", "+100", devolucion=0.2)
+    _evaluado(R, "A vs B", "goles", "mas_2.5", "+100", combinada=True)
+    _evaluado(R, "C vs D", "ganador", "1", "+100", combinada=True)
+    _evaluado(R, "E vs F", "handicap", "local_-1", "+100", devolucion=0.2, combinada=True)
     cli.main(["parlays"])
     out = _salida(capsys)
     assert out and all("E vs F" not in pata for par in out for pata in par["patas"])
-    assert out[0]["monto"] == 300
+    assert out[0]["categoria"] == "combinada_prob" and out[0]["monto"] == 500  # 5% con confianza alta
 
 
 def _pronostico_espn(R, horas, selecciones):
@@ -222,9 +224,12 @@ def test_papel_no_recomienda_dinero_y_guarda(papel, capsys):
     bueno, malo = ev["evaluacion"]
     assert bueno["apostar"] is False and bueno["monto_sencilla"] == 0
     assert bueno["apostar_papel"] is True and bueno["monto_papel"] in (200, 300, 500)
+    assert bueno["categoria"] == "sencilla_prob" and bueno["sistema_viejo"]["categoria"] == "valor"
     assert malo["apostar_papel"] is False
     guardado = R.buscar_pronostico(p["id"])
-    assert [(x["mercado"], x["seleccion"]) for x in _sin_pick(guardado)] == [("goles", "mas_2.5")]
+    # la misma selección entra en el sistema nuevo y en el viejo (cada uno con su bank)
+    assert [(x["mercado"], x["seleccion"], x["categoria"]) for x in _sin_pick(guardado)] == \
+        [("goles", "mas_2.5", "sencilla_prob"), ("goles", "mas_2.5", "valor")]
     assert guardado["apuestas_papel"][0]["cuota_americana"] == "+400"
 
 
@@ -295,8 +300,9 @@ def test_limite_del_dia_cubre_varias_selecciones(cli, capsys):
               "--winpot", "goles:mas_3.5=+900", "--winpot", "ambos_anotan:si=+400"])
     ev = _salida(capsys)
     aprobadas = [r["monto_sencilla"] for r in ev["evaluacion"] if r.get("apostar")]
-    assert len(aprobadas) >= 3
-    assert sum(aprobadas) <= 1000  # 10% de 10,000
+    # con dinero real: como mucho 1 sencilla del sistema al día, dentro del límite
+    assert len(aprobadas) == 1 and sum(aprobadas) <= 1000  # 10% de 10,000
+    assert any("máximo 1" in (r.get("motivo") or "") for r in ev["evaluacion"])
 
 
 def test_papel_limite_del_dia_y_bank(papel_con_limite, capsys):
@@ -315,7 +321,7 @@ def test_papel_limite_del_dia_y_bank(papel_con_limite, capsys):
     # volver a evaluar no duplica: reemplaza las pendientes
     cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400"])
     capsys.readouterr()
-    sel = [(x["mercado"], x["seleccion"]) for x in _sin_pick(cli.R.buscar_pronostico(p["id"]))]
+    sel = [(x["mercado"], x["seleccion"], x["categoria"]) for x in _sin_pick(cli.R.buscar_pronostico(p["id"]))]
     assert len(sel) == len(set(sel))
 
 
@@ -325,7 +331,8 @@ def test_papel_reevaluar_no_pisa_calificadas_ni_agrega_tras_resultado(papel, cap
     cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400"])
     capsys.readouterr()
     q = R.buscar_pronostico(p["id"])
-    _sin_pick(q)[0].update(estado="ganada", ganancia=999)
+    for x in _sin_pick(q):  # la sencilla del sistema nuevo y la de valor del viejo
+        x.update(estado="ganada", ganancia=999)
     q.update(estado="calificado", resultado={"goles_local": 0, "goles_visitante": 0})
     R.actualizar_pronostico(q)
     cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400", "--winpot", "ambos_anotan:no=+400"])
@@ -392,13 +399,17 @@ def test_papel_parlays_limite_cuenta_todo_lo_de_hoy(papel_con_limite, capsys):
     from datetime import date as _d
     R = papel.R
     # parlay en papel guardado hoy para otro día de partido: cuenta en el límite de hoy
-    R.guardar_parlays_papel(_d(2030, 1, 1), [{"clave": "x", "tipo": "parlay", "patas": [], "cuota": 3.0,
-                                              "monto": 900, "creado": R.ahora().isoformat(), "estado": "pendiente"}])
-    _evaluado(R, "A vs B", "goles", "mas_2.5", "+100")
-    _evaluado(R, "C vs D", "ganador", "1", "+100")
+    R.guardar_parlays_papel(_d(2030, 1, 1), [{"clave": "x", "tipo": "parlay", "categoria": "combinada_prob", "patas": [],
+                                              "cuota": 3.0, "monto": 900, "creado": R.ahora().isoformat(),
+                                              "estado": "pendiente"}])
+    _evaluado(R, "A vs B", "goles", "mas_2.5", "+100", combinada=True)
+    _evaluado(R, "C vs D", "ganador", "1", "+100", combinada=True)
     papel.main(["parlays"])
-    out = _salida(capsys)
-    assert out["parlays_papel"][0]["monto_papel"] == 100  # 1000 - 900
+    out = _salida(capsys)["parlays_papel"]
+    comb = [x for x in out if x["categoria"] == "combinada_prob"]
+    assert comb[0]["monto_papel"] == 100  # 1000 - 900
+    # el parlay de valor del sistema viejo no usa el límite del sistema nuevo
+    assert [x["monto_papel"] for x in out if x["categoria"] == "valor"] == [300]
 
 
 def test_parlays_varios_pronosticos_del_mismo_partido(papel, capsys):
@@ -609,18 +620,18 @@ def _pron_cat(R, partido, sels, espn_id=None):
     })
 
 
-def test_papel_sencilla_fuerte_monto_y_maximo_por_dia(papel_con_limite, capsys):
+def test_papel_sencilla_prob_monto_y_maximo_por_dia(papel_con_limite, capsys):
     papel = papel_con_limite
     R = papel.R
     a = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta")])
     b = _pron_cat(R, "C vs D", [("ganador", "1", 0.62, "media")])
     papel.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-160"])
     (r,) = _salida(capsys)["evaluacion"]
-    assert r["categoria"] == "sencilla_fuerte" and r["apostar"] is False
+    assert r["categoria"] == "sencilla_prob" and r["apostar"] is False
     assert r["apostar_papel"] is True and r["monto_papel"] == 800  # para ganar 500 a -160
     (x,) = _sin_pick(R.buscar_pronostico(a["id"]))
-    assert x["categoria"] == "sencilla_fuerte" and x["monto"] == 800
-    # la segunda del día ya no entra (máximo 1)
+    assert x["categoria"] == "sencilla_prob" and x["monto"] == 800
+    # la segunda del día ya no entra (máximo 1 con el límite activado)
     papel.main(["evaluar", "--id", b["id"], "--winpot", "ganador:1=-170"])
     (r,) = _salida(capsys)["evaluacion"]
     assert r["apostar_papel"] is False and "máximo 1" in r["motivo"]
@@ -630,10 +641,10 @@ def test_papel_sencilla_fuerte_monto_y_maximo_por_dia(papel_con_limite, capsys):
     assert r["apostar_papel"] is True
     papel.main(["bank"])
     b_ = _salida(capsys)
-    assert b_["usadas_hoy"]["sencilla_fuerte"] == 1 and b_["disponible_hoy"] == 200
+    assert b_["usadas_hoy"]["sencilla_prob"] == 1 and b_["disponible_hoy"] == 200
 
 
-def test_papel_momio_peor_que_menos_200_no_es_fuerte(papel, capsys):
+def test_papel_momio_peor_que_menos_200_no_es_sencilla(papel, capsys):
     R = papel.R
     a = _pron_cat(R, "A vs B", [("goles", "menos_3.5", 0.789, "media")])
     papel.main(["evaluar", "--id", a["id"], "--winpot", "goles:menos_3.5=-434"])
@@ -641,46 +652,64 @@ def test_papel_momio_peor_que_menos_200_no_es_fuerte(papel, capsys):
     assert r["categoria"] is None and r["apostar_papel"] is False
     assert r["sirve_para_combinada"] is True and "peor que −200" in r["motivo"]
     assert not _sin_pick(R.buscar_pronostico(a["id"]))
-    # no gasta el cupo del día: una fuerte a -150 sí entra
     b = _pron_cat(R, "C vs D", [("ganador", "1", 0.62, "alta")])
     papel.main(["evaluar", "--id", b["id"], "--winpot", "ganador:1=-150"])
     (r,) = _salida(capsys)["evaluacion"]
-    assert r["categoria"] == "sencilla_fuerte" and r["monto_papel"] == 750  # para ganar 500 a -150
+    assert r["categoria"] == "sencilla_prob" and r["monto_papel"] == 750  # para ganar 500 a -150
 
 
-def test_fuerte_gana_sobre_valor_y_sin_cupo_pasa_a_valor(papel_con_limite, capsys):
+def test_sistema_nuevo_no_apuesta_lo_improbable(papel, capsys):
+    """Salva (1-nov-2026): menos de 60% no entra al sistema nuevo aunque Winpot pague de más; va al viejo."""
+    R = papel.R
+    a = _pron_cat(R, "A vs B", [("ganador", "2", 0.35, "alta"), ("goles", "mas_2.5", 0.66, "alta")])
+    papel.main(["evaluar", "--id", a["id"], "--winpot", "ganador:2=+400", "--winpot", "goles:mas_2.5=-200"])
+    lejos, cerca = _salida(capsys)["evaluacion"]
+    assert lejos["categoria"] is None and "menos de 60%" in lejos["motivo"]
+    assert lejos["sistema_viejo"]["categoria"] == "valor" and not lejos["sirve_para_combinada"]
+    # 66% a -200: justa -194; Winpot paga 3% menos -> dentro de la tolerancia de 4%
+    assert cerca["categoria"] == "sencilla_prob" and cerca["con_valor"] is False and "sistema_viejo" not in cerca
+    # 62% a -190 (justa -163; Winpot paga 5% menos): fuera
+    b = _pron_cat(R, "C vs D", [("goles", "mas_2.5", 0.62, "alta")])
+    papel.main(["evaluar", "--id", b["id"], "--winpot", "goles:mas_2.5=-190"])
+    (r,) = _salida(capsys)["evaluacion"]
+    assert r["categoria"] is None and "4% por debajo" in r["motivo"]
+
+
+def test_maximo_de_sencillas_y_valor_va_al_sistema_viejo(papel_con_limite, capsys):
     papel = papel_con_limite
     R = papel.R
     a = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta"), ("goles", "mas_2.5", 0.64, "alta")])
     papel.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-120", "--winpot", "goles:mas_2.5=-120"])
     r1, r2 = _salida(capsys)["evaluacion"]
-    # la de mayor probabilidad se lleva el cupo de fuerte (para ganar 500); la otra queda como valor
-    assert (r2["categoria"], r2["con_valor"], r2["monto_papel"]) == ("sencilla_fuerte", True, 600)
-    assert r1["categoria"] == "valor" and r1["monto_papel"] == 400 and r1["recortada"] is True  # 1,000 − 600
-    assert "recortada" not in r2
-    x = {y["mercado"]: y for y in _sin_pick(R.buscar_pronostico(a["id"]))}
-    assert x["goles"]["categoria"] == "sencilla_fuerte" and x["goles"]["con_valor"] is True
+    # la de mayor probabilidad se lleva el cupo (para ganar 500); la otra no entra al sistema nuevo
+    assert (r2["categoria"], r2["con_valor"], r2["monto_papel"]) == ("sencilla_prob", True, 600)
+    assert r1["categoria"] is None and "máximo 1" in r1["motivo"]
+    # las dos tienen valor: van al sistema viejo con su propio bank (5%: valor de al menos el doble del mínimo)
+    assert r1["sistema_viejo"]["monto_papel"] == 500 and r2["sistema_viejo"]["monto_papel"] == 500
+    x = [(y["mercado"], y["categoria"]) for y in _sin_pick(R.buscar_pronostico(a["id"]))]
+    assert sorted(x) == [("ganador", "valor"), ("goles", "sencilla_prob"), ("goles", "valor")]
 
 
 def test_papel_combinadas_maximo_y_limite_entre_categorias(papel_con_limite, capsys):
     papel = papel_con_limite
     R = papel.R
-    pr = [_pron_cat(R, f"E{i} vs F{i}", [("goles", "mas_1.5", 0.56, "alta")]) for i in range(6)]
+    # 70% a -210: no va como sencilla (peor que −200) pero sirve para combinada; 3 patas = +222
+    pr = [_pron_cat(R, f"E{i} vs F{i}", [("goles", "mas_1.5", 0.70, "alta")]) for i in range(7)]
     for p in pr:
-        papel.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_1.5=-130"])
+        papel.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_1.5=-210"])
         (r,) = _salida(capsys)["evaluacion"]
         assert r["categoria"] is None and r["sirve_para_combinada"] is True
     papel.main(["parlays"])
     out = _salida(capsys)["parlays_papel"]
-    comb = [x for x in out if x["categoria"] == "combinada"]
-    assert len(comb) == 2 and all(len(x["patas"]) == 2 for x in comb)
+    comb = [x for x in out if x["categoria"] == "combinada_prob"]
+    assert len(comb) == 2 and all(len(x["patas"]) == 3 for x in comb)
     assert [x["monto_papel"] for x in comb] == [500, 500]
     patas = [p for x in comb for p in x["patas"]]
     assert len(patas) == len(set(patas))
     # correrlo otra vez no duplica
     papel.main(["parlays"])
     capsys.readouterr()
-    assert len(R.parlays_papel()) == 2 and all(x["categoria"] == "combinada" for x in R.parlays_papel())
+    assert len([x for x in R.parlays_papel() if x["categoria"] == "combinada_prob"]) == 2
 
 
 def test_limite_del_dia_entre_categorias(papel_con_limite, capsys):
@@ -689,18 +718,18 @@ def test_limite_del_dia_entre_categorias(papel_con_limite, capsys):
     f = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta")])
     papel.main(["evaluar", "--id", f["id"], "--winpot", "ganador:1=-160"])  # 800 en papel
     capsys.readouterr()
-    for i in range(4):
-        p = _pron_cat(R, f"E{i} vs F{i}", [("goles", "mas_1.5", 0.56, "alta")])
-        papel.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_1.5=-130"])
+    for i in range(6):
+        p = _pron_cat(R, f"E{i} vs F{i}", [("goles", "mas_1.5", 0.70, "alta")])
+        papel.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_1.5=-210"])
         capsys.readouterr()
     papel.main(["parlays"])
-    out = _salida(capsys)["parlays_papel"]
+    out = [x for x in _salida(capsys)["parlays_papel"] if x["categoria"] == "combinada_prob"]
     assert [x["monto_papel"] for x in out] == [200, 0]  # quedan 200 de 1,000; la segunda no se hace
     assert out[0]["recortada"] is True
-    (par,) = R.parlays_papel()
+    (par,) = [x for x in R.parlays_papel() if x["categoria"] == "combinada_prob"]
     assert par["recortada"] is True
-    assert R.resumen_papel()["combinada"]["recortadas"] == 1
-    assert R.apostado_papel_hoy() == 1000
+    assert R.resumen_papel()["combinada_prob"]["recortadas"] == 1
+    assert R.apostado_papel_hoy() == 1000  # el sistema viejo (valor) no cuenta en el límite
 
 
 def test_categoria_se_califica_y_resume(papel, capsys, monkeypatch):
@@ -715,31 +744,33 @@ def test_categoria_se_califica_y_resume(papel, capsys, monkeypatch):
     cli.main(["calificar"])
     capsys.readouterr()
     (x,) = _sin_pick(R.buscar_pronostico(a["id"]))
-    assert (x["categoria"], x["estado"], x["ganancia"]) == ("sencilla_fuerte", "ganada", 500)
+    assert (x["categoria"], x["estado"], x["ganancia"]) == ("sencilla_prob", "ganada", 500)
     cli.main(["exportar", "--salida", str(R.RAIZ / "_site")])
     capsys.readouterr()
     res = json.loads((R.RAIZ / "_site" / "resumen_papel.json").read_text())
-    assert set(res) == {"valor", "sencilla_fuerte", "combinada", "eleccion_salva", "pick_modelo", "lectura", "total"}
-    f = res["sencilla_fuerte"]
+    assert set(res) == {"sencilla_prob", "combinada_prob", "total", "valor", "sencilla_fuerte", "combinada",
+                        "total_viejo", "eleccion_salva", "pick_modelo", "lectura"}
+    f = res["sencilla_prob"]
     assert (f["apuestas"], f["acierto"], f["ganancia"], f["roi"], f["peor_racha"]) == (1, 1.0, 500, 0.625, 0)
-    assert res["valor"]["apuestas"] == 0 and res["total"]["apuestas"] == 1
+    assert res["valor"]["apuestas"] == 0 and res["total"]["apuestas"] == 1 and res["total_viejo"]["apuestas"] == 0
 
 
 def test_peor_racha(cli):
     assert cli.R._peor_racha(["perdida", "perdida", "devuelta", "perdida", "ganada", "perdida"]) == 3
 
 
-def test_real_solo_valor_se_recomienda(cli, capsys):
+def test_real_sin_categorias_aprobadas(cli, capsys, monkeypatch):
+    """Tras la prueba en papel no se apuesta dinero real hasta que Salva apruebe una categoría."""
+    monkeypatch.setattr(cli.B, "CATEGORIAS_DINERO_REAL", set())
     R = cli.R
     a = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta"), ("goles", "mas_2.5", 0.55, "alta")])
     cli.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-160", "--winpot", "goles:mas_2.5=+110"])
-    fuerte, valor = _salida(capsys)["evaluacion"]
-    assert fuerte["categoria"] == "sencilla_fuerte" and fuerte["apostar"] is False
-    assert fuerte["motivo"] == "categoría pendiente de aprobación tras la prueba en papel"
-    assert fuerte["monto_si_se_aprueba"] > 0
-    assert valor["categoria"] == "valor" and valor["apostar"] is True and valor["monto_sencilla"] == 500
-    cli.main(["apostar", "--pata", f"{a['id']}:goles:mas_2.5=+110", "--monto", "500", "--categoria", "valor"])
-    assert _salida(capsys)["categoria"] == "valor"
+    prob, baja = _salida(capsys)["evaluacion"]
+    assert prob["categoria"] == "sencilla_prob" and prob["apostar"] is False
+    assert prob["motivo"] == "categoría pendiente de aprobación tras la prueba en papel"
+    assert prob["monto_si_se_aprueba"] > 0
+    # 55% no entra aunque tenga valor; el sistema viejo es solo de papel
+    assert baja["categoria"] is None and baja["apostar"] is False and "sistema_viejo" not in baja
 
 
 def test_pausa_bloquea_categorias(cli, capsys):
@@ -753,19 +784,13 @@ def test_pausa_bloquea_categorias(cli, capsys):
     assert r["apostar"] is False and r["sirve_para_combinada"] is False and r["motivo"] == "pausa"
 
 
-def test_real_fuerte_con_valor_cuenta_como_valor(cli, capsys, monkeypatch):
+def test_real_una_sencilla_por_dia(cli, capsys):
     R = cli.R
     a = _pron_cat(R, "A vs B", [("ganador", "1", 0.62, "alta"), ("goles", "mas_2.5", 0.64, "alta")])
     cli.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-120", "--winpot", "goles:mas_2.5=-120"])
     r1, r2 = _salida(capsys)["evaluacion"]
-    # fuerte no está aprobada con dinero real: con valor -> valor, y no gasta el cupo de fuerte
-    assert all(r["categoria"] == "valor" and r["apostar"] is True and r["con_valor"] for r in (r1, r2))
-    # si Salva aprueba la categoría, sí se usa (una por día, para ganar 500)
-    monkeypatch.setattr(cli.B, "CATEGORIAS_DINERO_REAL", {"valor", "sencilla_fuerte"})
-    cli.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-120", "--winpot", "goles:mas_2.5=-120"])
-    r1, r2 = _salida(capsys)["evaluacion"]
-    assert (r2["categoria"], r2["apostar"], r2["monto_sencilla"]) == ("sencilla_fuerte", True, 600)
-    assert r1["categoria"] == "valor" and r1["monto_sencilla"] == 400 and r1["recortada"] is True
+    assert (r2["categoria"], r2["apostar"], r2["monto_sencilla"]) == ("sencilla_prob", True, 600)
+    assert r1["categoria"] is None and r1["apostar"] is False and "máximo 1" in r1["motivo"]
 
 
 def test_texto_seleccion(cli):
@@ -785,8 +810,8 @@ def test_texto_seleccion(cli):
 
 def test_exportar_parlays_legibles(papel, capsys, monkeypatch):
     cli, R = papel, papel.R
-    a = _pron_cat(R, "Sevilla vs Osasuna", [("goles", "mas_2.5", 0.56, "alta")])
-    b = _pron_cat(R, "Roma vs Lazio", [("ganador", "1", 0.56, "media")])
+    a = _pron_cat(R, "Sevilla vs Osasuna", [("goles", "mas_2.5", 0.62, "alta")])
+    b = _pron_cat(R, "Roma vs Lazio", [("ganador", "1", 0.62, "media")])
     for p, w in ((a, "goles:mas_2.5=-130"), (b, "ganador:1=-130")):
         cli.main(["evaluar", "--id", p["id"], "--winpot", w])
     cli.main(["parlays"])
@@ -804,8 +829,8 @@ def test_exportar_parlays_legibles(papel, capsys, monkeypatch):
     capsys.readouterr()
     datos = json.loads((R.RAIZ / "_site" / "parlays.json").read_text())
     assert {x["origen"] for x in datos} == {"papel", "real"}
-    comb = next(x for x in datos if x["origen"] == "papel")
-    assert comb["categoria"] == "Combinada corta (+200 a +350)" and comb["monto"] == 300 and comb["cuota"] == "+213"
+    comb = next(x for x in datos if x["origen"] == "papel" and x["categoria"] == "Combinada probable (+200 a +350)")
+    assert comb["monto"] == 300 and comb["cuota"] == "+213"
     assert [q["texto"] for q in comb["patas"]] == ["Sevilla vs Osasuna · Más de 2.5 goles", "Roma vs Lazio · Gana Roma"]
     assert [q["cuota"] for q in comb["patas"]] == ["-130", "-130"]
     assert [q["estado"] for q in comb["patas"]] == ["ganada", "perdida"]
@@ -816,8 +841,9 @@ def test_exportar_parlays_legibles(papel, capsys, monkeypatch):
     # cada pronóstico lleva sus apuestas con el momio total que paga la apuesta
     pron = {x["partido"]: x for x in json.loads((R.RAIZ / "_site" / "pronosticos.json").read_text())}
     ap = pron["Sevilla vs Osasuna"]["apuestas"]
-    assert {(x["origen"], x["tipo"], x["momio"], x["estado"]) for x in ap if x["categoria"] != "Pick del modelo"} == \
-        {("papel", "combinada", "+213", "perdida"), ("real", "parlay", "+450", "perdida")}
+    assert {(x["origen"], x["tipo"], x["momio"], x["estado"]) for x in ap
+            if x["categoria"] in ("Combinada probable (+200 a +350)", "Cuota mejor que la justa") and x["tipo"] != "sencilla"} == \
+        {("papel", "combinada", "+213", "perdida"), ("papel", "parlay", "+213", "perdida"), ("real", "parlay", "+450", "perdida")}
     # nunca cuotas decimales
     texto = json.dumps(datos)
     assert '"cuota": 1.' not in texto and '"cuota": 2.' not in texto
@@ -826,13 +852,16 @@ def test_exportar_parlays_legibles(papel, capsys, monkeypatch):
 def test_exportar_campos_de_filtro(papel_con_limite, capsys):
     papel = papel_con_limite
     cli, R = papel, papel.R
-    a = _pron_cat(R, "Sevilla vs Osasuna", [("goles", "mas_2.5", 0.56, "alta"), ("ganador", "1", 0.62, "alta")])
+    a = _pron_cat(R, "Sevilla vs Osasuna", [("goles", "mas_2.5", 0.70, "alta"), ("ganador", "1", 0.62, "alta")])
     viejo = R.buscar_pronostico(a["id"])
     viejo["liga"] = "laliga"  # registro viejo, sin deporte
     R.actualizar_pronostico(viejo)
-    b = _pron_cat(R, "Roma vs Lazio", [("ganador", "1", 0.56, "media")])
-    cli.main(["evaluar", "--id", a["id"], "--winpot", "goles:mas_2.5=-130", "--winpot", "ganador:1=-160"])
-    cli.main(["evaluar", "--id", b["id"], "--winpot", "ganador:1=-130"])
+    b = _pron_cat(R, "Roma vs Lazio", [("ganador", "1", 0.70, "media")])
+    # 70% a -210: peor que −200, solo sirve para combinada (dos patas: +118, tres hacen falta para +200)
+    c = _pron_cat(R, "Milan vs Inter", [("ganador", "1", 0.70, "alta")])
+    cli.main(["evaluar", "--id", a["id"], "--winpot", "goles:mas_2.5=-210", "--winpot", "ganador:1=-160"])
+    cli.main(["evaluar", "--id", b["id"], "--winpot", "ganador:1=-210"])
+    cli.main(["evaluar", "--id", c["id"], "--winpot", "ganador:1=-210"])
     cli.main(["parlays"])
     cli.main(["apostar", "--forzar", "--monto", "100", "--pata", f"{b['id']}:ganador:1=-130"])
     cli.main(["exportar", "--salida", str(R.RAIZ / "_site")])
@@ -847,10 +876,10 @@ def test_exportar_campos_de_filtro(papel_con_limite, capsys):
     pr = {x["partido"]: x for x in leer("pronosticos.json")}
     assert pr["Sevilla vs Osasuna"]["liga"] == "laliga" and pr["Roma vs Lazio"]["liga"] == "premier"
     papel_ = leer("apuestas_papel.json")
-    fuerte = next(x for x in papel_ if x["categoria"] == "sencilla_fuerte")
+    fuerte = next(x for x in papel_ if x["categoria"] == "sencilla_prob")
     assert (fuerte["liga"], fuerte["ligas"], fuerte["cuota"], fuerte["texto"]) == \
         ("laliga", ["laliga"], "-160", "Sevilla vs Osasuna · Gana Sevilla")
-    comb = next(x for x in papel_ if x["categoria"] == "combinada")
+    comb = next(x for x in papel_ if x["categoria"] == "combinada_prob")
     assert comb["liga"] == "varias" and comb["ligas"] == ["laliga", "premier"] and comb["recortada"] is True
     assert leer("parlays.json")[0]["ligas"] == ["laliga", "premier"]
     (real,) = leer("apuestas.json")
@@ -981,8 +1010,8 @@ def test_pick_modelo_fuera_del_limite_del_dia(papel_con_limite, capsys):
     cli.main(["bank"])
     assert _salida(capsys)["disponible_hoy"] == 1000
     # una apuesta de valor del mismo día no se recorta por los picks
-    b = _pron_cat(R, "C vs D", [("goles", "mas_2.5", 0.5, "alta")])
-    cli.main(["evaluar", "--id", b["id"], "--winpot", "goles:mas_2.5=+150"])
+    b = _pron_cat(R, "C vs D", [("goles", "mas_2.5", 0.62, "alta")])
+    cli.main(["evaluar", "--id", b["id"], "--winpot", "goles:mas_2.5=+100"])
     out = _salida(capsys)
     assert out["disponible_hoy"] == 1000
     (r,) = out["evaluacion"]
@@ -1081,9 +1110,12 @@ def test_banks_en_papel_separados(papel, capsys):
          "monto": 300, "creado": ahora, "estado": "ganada", "ganancia": 900},
         {"clave": "pick", "tipo": "parlay", "categoria": "pick_modelo", "patas": [], "cuota": 2.0,
          "monto": 300, "creado": ahora, "estado": "perdida", "ganancia": -300},
-        {"clave": "sis", "tipo": "parlay", "categoria": "combinada", "patas": [], "cuota": 3.0,
-         "monto": 500, "creado": ahora, "estado": "ganada", "ganancia": 1000}])
+        {"clave": "sis", "tipo": "parlay", "categoria": "combinada_prob", "patas": [], "cuota": 3.0,
+         "monto": 500, "creado": ahora, "estado": "ganada", "ganancia": 1000},
+        {"clave": "viejo", "tipo": "parlay", "categoria": "combinada", "patas": [], "cuota": 3.0,
+         "monto": 500, "creado": ahora, "estado": "perdida", "ganancia": -500}])
     assert R.bank_papel("sistema") == 11000
+    assert R.bank_papel("sistema_viejo") == 9500
     assert R.bank_papel("eleccion_salva") == 10900
     assert R.bank_papel("pick_modelo") == 9700
     assert R.ganancia_papel_hoy("sistema") == 1000
@@ -1091,6 +1123,7 @@ def test_banks_en_papel_separados(papel, capsys):
     cli.main(["bank"])
     b = _salida(capsys)
     assert b["bank_actual"] == 11000 and b["banks_papel"]["pick_modelo"] == 9700
+    assert b["banks_papel"]["sistema_viejo"] == 9500
 
 
 def test_pausa_papel_y_apuesta_sin_categoria(papel, capsys):
@@ -1099,7 +1132,12 @@ def test_pausa_papel_y_apuesta_sin_categoria(papel, capsys):
     ahora = R.ahora().isoformat()
     R.guardar_parlays_papel(R.ahora().date(), [
         {"clave": "v", "tipo": "parlay", "patas": [], "cuota": 2.0, "monto": 6000, "creado": ahora,
-         "estado": "perdida", "ganancia": -6000}])  # sin categoria = valor
+         "estado": "perdida", "ganancia": -6000}])  # sin categoria = valor (sistema viejo)
+    assert R.bank_papel("sistema_viejo") == 4000 and R.bank_papel("sistema") == 10000
+    assert not R.en_pausa_papel()  # la pausa es del sistema nuevo
+    R.guardar_parlays_papel(R.ahora().date(), [
+        {"clave": "n", "tipo": "parlay", "categoria": "combinada_prob", "patas": [], "cuota": 2.0, "monto": 6000,
+         "creado": ahora, "estado": "perdida", "ganancia": -6000}])
     assert R.bank_papel("sistema") == 4000
     assert R.en_pausa_papel()
     cli.main(["bank"])
@@ -1107,16 +1145,15 @@ def test_pausa_papel_y_apuesta_sin_categoria(papel, capsys):
 
 
 def test_papel_sin_limite_del_dia(papel, capsys):
-    """Salva (28-oct-2026): en papel cada apuesta con valor lleva su monto completo, sin límite del día."""
+    """Salva (28-oct-2026): en papel cada apuesta lleva su monto completo, sin límite del día."""
     cli = papel
-    p = _pronostico(cli, capsys)
-    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=+400", "--winpot", "goles:mas_1.5=+400",
-              "--winpot", "goles:mas_3.5=+900", "--winpot", "ambos_anotan:si=+400"])
-    ev = _salida(capsys)
-    montos = [r["monto_papel"] for r in ev["evaluacion"] if r.get("apostar_papel")]
-    assert ev["disponible_hoy"] is None
-    assert sum(montos) > 1000 and all(m > 0 for m in montos)
-    assert not any(r.get("recortada") for r in ev["evaluacion"])
+    R = cli.R
+    for i in range(3):  # 3 × 800 = 2,400, más que el límite de 1,000
+        a = _pron_cat(R, f"A{i} vs B{i}", [("ganador", "1", 0.62, "alta")])
+        cli.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-160"])
+        ev = _salida(capsys)
+        (r,) = ev["evaluacion"]
+        assert ev["disponible_hoy"] is None and r["monto_papel"] == 800 and not r.get("recortada")
     cli.main(["bank"])
     b = _salida(capsys)
     assert b["disponible_hoy"] is None and b["limite_en_papel"] is False
@@ -1129,35 +1166,35 @@ def test_papel_sin_maximo_de_sencillas_fuertes(papel, capsys):
     b = _pron_cat(R, "C vs D", [("ganador", "1", 0.62, "media")])
     papel.main(["evaluar", "--id", a["id"], "--winpot", "ganador:1=-160"])
     (r,) = _salida(capsys)["evaluacion"]
-    assert r["categoria"] == "sencilla_fuerte" and r["apostar_papel"] is True
+    assert r["categoria"] == "sencilla_prob" and r["apostar_papel"] is True
     papel.main(["evaluar", "--id", b["id"], "--winpot", "ganador:1=-170"])
     (r,) = _salida(capsys)["evaluacion"]
-    assert r["categoria"] == "sencilla_fuerte" and r["apostar_papel"] is True and r["monto_papel"] > 0
+    assert r["categoria"] == "sencilla_prob" and r["apostar_papel"] is True and r["monto_papel"] > 0
     papel.main(["bank"])
     b_ = _salida(capsys)
-    assert b_["usadas_hoy"]["sencilla_fuerte"] == 2 and b_["max_por_dia"] is None
+    assert b_["usadas_hoy"]["sencilla_prob"] == 2 and b_["max_por_dia"] is None
 
 
 def test_dinero_real_conserva_limite_y_maximos(cli, capsys):
     """Fuera de la prueba en papel siguen el límite del día y los máximos."""
     from predicciones import valor as V
-    assert V.max_por_dia(V.FUERTE, papel=False) == 1 and V.max_por_dia(V.COMBINADA, papel=False) == 2
-    assert V.max_por_dia(V.FUERTE, papel=True) == V.SIN_MAXIMO
+    assert V.max_por_dia(V.SENCILLA_PROB, papel=False) == 1 and V.max_por_dia(V.COMBINADA_PROB, papel=False) == 2
+    assert V.max_por_dia(V.SENCILLA_PROB, papel=True) == V.SIN_MAXIMO
     cli.main(["bank"])
     b = _salida(capsys)
     assert b["prueba_papel"] is False and isinstance(b["disponible_hoy"], (int, float))
-    assert b["max_por_dia"] == {"sencilla_fuerte": 1, "combinada": 2}
+    assert b["max_por_dia"]["sencilla_prob"] == 1 and b["max_por_dia"]["combinada_prob"] == 2
 
 
 def test_papel_combinadas_sin_maximo_ni_limite(papel, capsys):
     """En papel salen todas las combinadas posibles, cada una con su monto completo."""
     R = papel.R
-    pr = [_pron_cat(R, f"E{i} vs F{i}", [("goles", "mas_1.5", 0.56, "alta")]) for i in range(6)]
+    pr = [_pron_cat(R, f"E{i} vs F{i}", [("goles", "mas_1.5", 0.70, "alta")]) for i in range(9)]
     for p in pr:
-        papel.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_1.5=-130"])
+        papel.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_1.5=-210"])
         capsys.readouterr()
     papel.main(["parlays"])
-    comb = [x for x in _salida(capsys)["parlays_papel"] if x["categoria"] == "combinada"]
+    comb = [x for x in _salida(capsys)["parlays_papel"] if x["categoria"] == "combinada_prob"]
     assert len(comb) == 3 and all(x["monto_papel"] == 500 for x in comb)
     assert not any(x.get("recortada") for x in comb)
 
@@ -1180,7 +1217,7 @@ def test_parlays_no_usan_partidos_empezados_ni_reemplazan_los_ya_en_juego(papel,
     """28-oct-2026: `parlays` metía patas de partidos ya jugados y borraba parlays con patas ya en juego."""
     from datetime import timedelta
     R = papel.R
-    pr = [_pron_cat(R, f"E{i} vs F{i}", [("goles", "mas_1.5", 0.56, "alta")]) for i in range(4)]
+    pr = [_pron_cat(R, f"E{i} vs F{i}", [("goles", "mas_1.5", 0.62, "alta")]) for i in range(4)]
     for p in pr:
         papel.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_1.5=-130"])
         capsys.readouterr()
@@ -1222,9 +1259,11 @@ def test_menos_conteo_con_winpot_muy_en_contra_no_entra(papel, capsys):
     assert not r["sirve_para_parlay"] and not r["sirve_para_combinada"]
     # tarjetas menos 4.5 (era sencilla fuerte): 58.6% vs 70.9% -> fuera
     assert ev[("tarjetas", "menos_4.5")]["categoria"] is None
-    # tarjetas menos 3.5: 45.5% vs 52.5% (7 puntos) -> sigue como valor
-    assert ev[("tarjetas", "menos_3.5")]["categoria"] == "valor" and ev[("tarjetas", "menos_3.5")]["apostar_papel"]
-    assert [(x["mercado"], x["seleccion"]) for x in _sin_pick(R.buscar_pronostico(a["id"]))] == [("tarjetas", "menos_3.5")]
+    # tarjetas menos 3.5: 45.5% vs 52.5% (7 puntos) -> sigue como valor en el sistema viejo (no llega a 60%)
+    r = ev[("tarjetas", "menos_3.5")]
+    assert r["categoria"] is None and r["sistema_viejo"]["categoria"] == "valor"
+    assert [(x["mercado"], x["seleccion"], x["categoria"]) for x in _sin_pick(R.buscar_pronostico(a["id"]))] == \
+        [("tarjetas", "menos_3.5", "valor")]
 
 
 def test_menos_conteo_usa_cuota_del_mas_ya_guardada(papel, capsys):
@@ -1404,3 +1443,92 @@ def test_lectura_cuota_total_solo_mismo_partido(papel, capsys):
     with pytest.raises(SystemExit) as e:
         cli.main(["lectura-apostar", "--pata", f"{p['id']}:ganador:1=-150", "--cuota-total=+300"])
     assert "crea tu apuesta" in str(e.value)
+
+
+# ------------------------------------------- sistema nuevo: combinadas del mismo partido (2-nov-2026)
+
+def _pron_goles(R, partido="A vs B"):
+    """Pronóstico con goles esperados (para la probabilidad conjunta del crea tu apuesta)."""
+    return R.agregar_pronostico({
+        "partido": partido, "liga": "premier", "inicio_sonora": f"{R.ahora().date()} 12:00",
+        "goles_esperados": [1.9, 1.3],
+        "selecciones": [
+            {"mercado": "goles", "seleccion": "mas_2.5", "prob": 0.64, "confianza": "alta", "cuota_minima": "-100"},
+            {"mercado": "ambos_anotan", "seleccion": "si", "prob": 0.62, "confianza": "alta", "cuota_minima": "-100"},
+            {"mercado": "corners", "seleccion": "mas_8.5", "prob": 0.66, "confianza": "media", "cuota_minima": "-100"},
+            {"mercado": "goles", "seleccion": "mas_3.5", "prob": 0.40, "confianza": "alta", "cuota_minima": "-100"}],
+        "estado": "pendiente",
+    })
+
+
+def test_combinada_crea_tu_apuesta(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pron_goles(R)
+    patas = ["--pata", f"{p['id']}:goles:mas_2.5=-160", "--pata", f"{p['id']}:ambos_anotan:si=-150",
+             "--pata", f"{p['id']}:corners:mas_8.5=-180"]
+    # sin el momio del crea tu apuesta no se registra
+    with pytest.raises(SystemExit, match="cuota-total"):
+        cli.main(["combinada", *patas])
+    # fuera de +200 a +350
+    with pytest.raises(SystemExit, match="fuera de"):
+        cli.main(["combinada", *patas, "--cuota-total=+180"])
+    # sin freno de precio (Salva, 1-nov-2026): entra aunque Winpot pague menos que lo justo
+    cli.main(["combinada", *patas, "--cuota-total=+210"])
+    ap = _salida(capsys)["apuesta"]
+    assert ap["categoria"] == "combinada_prob" and ap["mismo_partido"] and ap["cuota_total_fija"] and ap["fija"]
+    assert ap["monto"] == 300  # una pata con confianza media: 3%
+    assert 0 < ap["prob"] < 0.64
+    # no se repite, y `parlays` no la reemplaza
+    with pytest.raises(SystemExit, match="ya está registrada"):
+        cli.main(["combinada", *patas, "--cuota-total=+210"])
+    cli.main(["parlays"])
+    capsys.readouterr()
+    assert [x["clave"] for x in R.parlays_papel()] == [ap["clave"]]
+
+
+def test_combinada_rechaza_patas_improbables_o_caras(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pron_goles(R)
+    with pytest.raises(SystemExit, match="menos de 60%"):
+        cli.main(["combinada", "--pata", f"{p['id']}:goles:mas_3.5=+150", "--pata", f"{p['id']}:ambos_anotan:si=-150",
+                  "--cuota-total=+250"])
+    with pytest.raises(SystemExit, match="4% por debajo"):  # justa -178; -230 es demasiado
+        cli.main(["combinada", "--pata", f"{p['id']}:goles:mas_2.5=-230", "--pata", f"{p['id']}:ambos_anotan:si=-150",
+                  "--cuota-total=+250"])
+
+
+def test_parlays_proponen_crea_tu_apuesta(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pron_goles(R)
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=-150", "--winpot", "ambos_anotan:si=-140",
+              "--winpot", "corners:mas_8.5=-170"])
+    capsys.readouterr()
+    cli.main(["parlays"])
+    out = _salida(capsys)
+    (prop, *_) = out["propuestas_mismo_partido"]
+    assert prop["partido"] == "A vs B" and len(prop["patas"]) == 3 and "cli combinada" in prop["siguiente"]
+    # solo se proponen: no se guardan sin el momio de Winpot
+    assert not [x for x in R.parlays_papel() if x["categoria"] == "combinada_prob"]
+
+
+def test_combinada_respeta_regla_de_los_menos_y_mercados_combinables(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pron_goles(R)
+    q = R.buscar_pronostico(p["id"])
+    q["selecciones"] += [
+        {"mercado": "tarjetas", "seleccion": "menos_5.5", "prob": 0.78, "confianza": "alta", "cuota_minima": "-100"},
+        {"mercado": "primer_tiempo", "seleccion": "pt_mas_0.5", "prob": 0.70, "confianza": "alta", "cuota_minima": "-100"},
+        {"mercado": "corners", "seleccion": "mas_7.5", "prob": 0.75, "confianza": "alta", "cuota_minima": "-100"}]
+    q["cuotas_winpot"] = {"tarjetas:mas_5.5": "-160"}
+    R.actualizar_pronostico(q)
+    # Winpot sin margen ~56% en el "menos" contra 78% del modelo: no entra (regla del 29-oct)
+    with pytest.raises(SystemExit, match="10 puntos"):
+        cli.main(["combinada", "--pata", f"{p['id']}:tarjetas:menos_5.5=+110", "--pata", f"{p['id']}:goles:mas_2.5=-150",
+                  "--cuota-total=+250"])
+    with pytest.raises(SystemExit, match="primer_tiempo"):
+        cli.main(["combinada", "--pata", f"{p['id']}:primer_tiempo:pt_mas_0.5=-200", "--pata", f"{p['id']}:goles:mas_2.5=-150",
+                  "--cuota-total=+250"])
+    with pytest.raises(SystemExit, match="se pisan"):
+        cli.main(["combinada", "--pata", f"{p['id']}:corners:mas_7.5=-200", "--pata", f"{p['id']}:corners:mas_8.5=-180",
+                  "--cuota-total=+250"])
+    assert not R.parlays_papel()

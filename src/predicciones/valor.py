@@ -28,6 +28,18 @@ separado en la prueba en papel y se comparan el 26-nov-2026):
 Una sencilla que cumple "sencilla_fuerte" cuenta como fuerte aunque tenga valor
 (se marca con_valor); "valor" cubre el resto. Un parlay que cumple las reglas de
 valor cuenta como parlay de valor, no como combinada.
+
+SISTEMA NUEVO POR PROBABILIDAD (Salva, 1 y 2-nov-2026). Salva: "por buscar valor vas en contra de
+estadísticas y probabilidades". En papel, "valor" iba 9 de 26 (−2,231) apostando a lo improbable, y
+sencilla fuerte (≥60%) 8 de 12. El modelo está calibrado (lo de 60-70% pasó 67%). Desde el 2-nov:
+- "sencilla_prob": probabilidad >= 60%, confianza alta o media, Winpot como mucho 4% por debajo
+  de la cuota justa y momio −200 o mejor. Monto: para ganar 5% (alta) o 2.5% (media).
+- "combinada_prob": 2 o 3 patas, cada una >= 60%, confianza alta o media y dentro de tolerancia;
+  cuota total de Winpot de +200 a +350. Pueden ser del mismo partido ("crea tu apuesta", con el
+  momio total de Winpot y sin freno de precio, elección de Salva). Monto: 5% alta / 3% media.
+- El momio ya no decide qué apostar: solo frena si Winpot paga muy por debajo del precio justo.
+- El sistema viejo (valor, sencilla fuerte, combinada) queda en papel con su propio bank
+  ("sistema_viejo"); desde el 2-nov solo sigue registrando "valor" (sencillas y parlays).
 """
 from __future__ import annotations
 
@@ -47,7 +59,10 @@ ORDEN_CONFIANZA = ["baja", "media", "alta"]
 
 # categorías de apuesta
 VALOR, FUERTE, COMBINADA = "valor", "sencilla_fuerte", "combinada"
-CATEGORIAS = (VALOR, FUERTE, COMBINADA)
+CATEGORIAS_VIEJO = (VALOR, FUERTE, COMBINADA)  # sistema viejo (hasta el 1-nov; "valor" sigue en papel)
+# sistema nuevo por probabilidad (2-nov-2026)
+SENCILLA_PROB, COMBINADA_PROB = "sencilla_prob", "combinada_prob"
+CATEGORIAS = (SENCILLA_PROB, COMBINADA_PROB)
 # apuestas que Salva elige por su cuenta: se registran aparte, sin máximo por día (su monto sí cuenta
 # para el límite del día) y el sistema nunca las genera
 ELECCION_SALVA = "eleccion_salva"
@@ -56,17 +71,19 @@ ELECCION_SALVA = "eleccion_salva"
 # límite del día (ni lo usa ni lo recortan): nunca le quita lugar a las demás apuestas
 PICK_MODELO = "pick_modelo"
 MONTO_PICK_MODELO = 300.0  # MXN
-CATEGORIAS_REGISTRO = CATEGORIAS + (ELECCION_SALVA, PICK_MODELO)
+CATEGORIAS_REGISTRO = CATEGORIAS + CATEGORIAS_VIEJO + (ELECCION_SALVA, PICK_MODELO)
 TOLERANCIA_ATRACTIVA = 0.04       # Winpot puede pagar hasta 4% menos que la cuota justa (decimal)
 PROB_MIN_FUERTE = 0.60
 CUOTA_MIN_FUERTE = 1.5             # −200: con momio peor no va como sencilla fuerte (aprobado por Salva)
-MOTIVO_MOMIO_FUERTE = "momio peor que −200: no va como sencilla fuerte (sí puede ir en combinada)"
+MOTIVO_MOMIO_FUERTE = "momio peor que −200: no va como sencilla (sí puede ir en combinada)"
 PROB_MIN_PATA_COMBINADA = 0.55
 CONFIANZAS_CATEGORIA = ("alta", "media")  # sencilla fuerte y combinada: nunca con confianza baja
 COMBINADA_CUOTA_MIN = 3.0          # +200
 COMBINADA_CUOTA_MAX = 4.5          # +350
 COMBINADA_PATAS = (2, 3)
-MAX_POR_DIA = {FUERTE: 1, COMBINADA: 2}  # por día de Sonora (día en que se evalúa)
+PROB_MIN_SENCILLA = 0.60          # sistema nuevo (Salva, 1-nov-2026)
+PROB_MIN_PATA = 0.60              # cada pata de combinada del sistema nuevo (Salva, 1-nov-2026)
+MAX_POR_DIA = {FUERTE: 1, COMBINADA: 2, SENCILLA_PROB: 1, COMBINADA_PROB: 2}  # por día de Sonora (día en que se evalúa)
 SIN_MAXIMO = 10**6
 
 
@@ -209,6 +226,42 @@ def sirve_para_combinada(s: Seleccion) -> bool:
             and (dentro_de_tolerancia(s) or tiene_valor(s)))
 
 
+def es_sencilla_prob(s: Seleccion) -> bool:
+    """Sistema nuevo: >= 60%, confianza alta o media, dentro de tolerancia y momio −200 o mejor.
+    Sin tiros de jugador (su confianza es siempre baja)."""
+    return (s.cuota_ofrecida is not None and s.mercado not in MERCADOS_JUGADOR
+            and s.prob >= PROB_MIN_SENCILLA - 1e-9 and s.confianza in CONFIANZAS_CATEGORIA
+            and dentro_de_tolerancia(s) and s.cuota_ofrecida >= CUOTA_MIN_FUERTE - 1e-9)
+
+
+def motivo_sin_categoria(s: Seleccion) -> str | None:
+    """Por qué una selección no entra como sencilla del sistema nuevo (texto para Salva)."""
+    if s.cuota_ofrecida is None or es_sencilla_prob(s):
+        return None
+    if s.mercado in MERCADOS_JUGADOR:
+        return "tiros de jugador: confianza siempre baja, no entra en el sistema nuevo"
+    if s.prob < PROB_MIN_SENCILLA - 1e-9:
+        return f"probabilidad {s.prob:.0%}: menos de {PROB_MIN_SENCILLA:.0%}"
+    if s.confianza not in CONFIANZAS_CATEGORIA:
+        return "confianza baja"
+    if not dentro_de_tolerancia(s):
+        return (f"Winpot paga más de 4% por debajo del precio justo "
+                f"({C.formato_americano(s.cuota_ofrecida)} contra {C.formato_americano(s.cuota_justa())})")
+    return MOTIVO_MOMIO_FUERTE
+
+
+def categoria_prob(s: Seleccion) -> str | None:
+    """Categoría de una sencilla en el sistema nuevo: 'sencilla_prob' o None."""
+    return SENCILLA_PROB if es_sencilla_prob(s) else None
+
+
+def sirve_para_combinada_prob(s: Seleccion) -> bool:
+    """Pata de combinada del sistema nuevo: >= 60%, confianza alta o media, dentro de tolerancia, sin devolución."""
+    return (s.cuota_ofrecida is not None and s.prob_devolucion == 0 and s.mercado not in MERCADOS_JUGADOR
+            and s.prob >= PROB_MIN_PATA - 1e-9 and s.confianza in CONFIANZAS_CATEGORIA
+            and dentro_de_tolerancia(s))
+
+
 @dataclass
 class Parlay:
     patas: list[Seleccion]
@@ -278,14 +331,14 @@ def armar_parlays(candidatas: list[Seleccion], max_patas: int = 4, top: int = 5)
 
 
 def armar_combinadas(candidatas: list[Seleccion], top: int = MAX_POR_DIA[COMBINADA],
-                     excluir: set[frozenset] | None = None) -> list[Parlay]:
+                     excluir: set[frozenset] | None = None, filtro=None) -> list[Parlay]:
     """Combinadas cortas: 2 o 3 patas de partidos distintos, cuota total +200 a +350.
 
     Orden: primero las de 2 patas, luego la de mayor probabilidad conjunta. Ninguna
     pata se repite entre las elegidas. `excluir`: juegos de patas ya elegidos como
     parlay de valor (no se cuentan dos veces).
     """
-    patas = [s for s in candidatas if sirve_para_combinada(s)]
+    patas = [s for s in candidatas if (filtro or sirve_para_combinada)(s)]
     excluir = excluir or set()
     out: list[Parlay] = []
     for n in COMBINADA_PATAS:
