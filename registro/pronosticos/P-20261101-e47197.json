@@ -62,7 +62,8 @@
       "cuota_justa": "+192",
       "cuota_minima": "+201",
       "confianza": "baja",
-      "prob_sin_pago_anticipado": 0.297
+      "prob_sin_pago_anticipado": 0.297,
+      "estado": "perdida"
     },
     {
       "mercado": "ganador",
@@ -70,7 +71,8 @@
       "prob": 0.231,
       "cuota_justa": "+334",
       "cuota_minima": "+347",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "ganador",
@@ -79,7 +81,8 @@
       "cuota_justa": "-106",
       "cuota_minima": "+101",
       "confianza": "baja",
-      "prob_sin_pago_anticipado": 0.473
+      "prob_sin_pago_anticipado": 0.473,
+      "estado": "ganada"
     },
     {
       "mercado": "doble_oportunidad",
@@ -87,7 +90,8 @@
       "prob": 0.527,
       "cuota_justa": "-111",
       "cuota_minima": "-104",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "doble_oportunidad",
@@ -95,7 +99,8 @@
       "prob": 0.769,
       "cuota_justa": "-334",
       "cuota_minima": "-295",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "doble_oportunidad",
@@ -103,7 +108,8 @@
       "prob": 0.703,
       "cuota_justa": "-237",
       "cuota_minima": "-215",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -111,7 +117,8 @@
       "prob": 0.97,
       "cuota_justa": "-3272",
       "cuota_minima": "-1626",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -119,7 +126,8 @@
       "prob": 0.03,
       "cuota_justa": "+3272",
       "cuota_minima": "+3374",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -127,7 +135,8 @@
       "prob": 0.886,
       "cuota_justa": "-777",
       "cuota_minima": "-615",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -135,7 +144,8 @@
       "prob": 0.114,
       "cuota_justa": "+777",
       "cuota_minima": "+804",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -143,7 +153,8 @@
       "prob": 0.711,
       "cuota_justa": "-245",
       "cuota_minima": "-222",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -151,7 +162,8 @@
       "prob": 0.289,
       "cuota_justa": "+245",
       "cuota_minima": "+256",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -159,7 +171,8 @@
       "prob": 0.501,
       "cuota_justa": "-100",
       "cuota_minima": "+106",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -167,7 +180,8 @@
       "prob": 0.499,
       "cuota_justa": "+100",
       "cuota_minima": "+107",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -175,7 +189,8 @@
       "prob": 0.308,
       "cuota_justa": "+224",
       "cuota_minima": "+235",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -183,7 +198,8 @@
       "prob": 0.692,
       "cuota_justa": "-224",
       "cuota_minima": "-204",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "ambos_anotan",
@@ -191,7 +207,8 @@
       "prob": 0.704,
       "cuota_justa": "-237",
       "cuota_minima": "-215",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "ambos_anotan",
@@ -199,7 +216,8 @@
       "prob": 0.296,
       "cuota_justa": "+237",
       "cuota_minima": "+248",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -207,7 +225,8 @@
       "prob": 0.801,
       "cuota_justa": "-403",
       "cuota_minima": "-350",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -215,7 +234,8 @@
       "prob": 0.199,
       "cuota_justa": "+403",
       "cuota_minima": "+419",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -223,7 +243,8 @@
       "prob": 0.873,
       "cuota_justa": "-685",
       "cuota_minima": "-554",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -231,7 +252,8 @@
       "prob": 0.127,
       "cuota_justa": "+685",
       "cuota_minima": "+709",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -239,7 +261,8 @@
       "prob": 0.48,
       "cuota_justa": "+108",
       "cuota_minima": "+115",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -247,7 +270,8 @@
       "prob": 0.52,
       "cuota_justa": "-108",
       "cuota_minima": "-101",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -255,7 +279,8 @@
       "prob": 0.61,
       "cuota_justa": "-156",
       "cuota_minima": "-145",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -263,7 +288,8 @@
       "prob": 0.39,
       "cuota_justa": "+156",
       "cuota_minima": "+165",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -271,7 +297,8 @@
       "prob": 0.221,
       "cuota_justa": "+353",
       "cuota_minima": "+367",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -279,7 +306,8 @@
       "prob": 0.779,
       "cuota_justa": "-353",
       "cuota_minima": "-310",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -287,7 +315,8 @@
       "prob": 0.34,
       "cuota_justa": "+194",
       "cuota_minima": "+204",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -295,7 +324,8 @@
       "prob": 0.66,
       "cuota_justa": "-194",
       "cuota_minima": "-178",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -303,7 +333,8 @@
       "prob": 0.272,
       "cuota_justa": "+268",
       "cuota_minima": "+279",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -311,7 +342,8 @@
       "prob": 0.344,
       "cuota_justa": "+191",
       "cuota_minima": "+200",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -319,7 +351,8 @@
       "prob": 0.385,
       "cuota_justa": "+160",
       "cuota_minima": "+168",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -327,7 +360,8 @@
       "prob": 0.809,
       "cuota_justa": "-423",
       "cuota_minima": "-365",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -335,7 +369,8 @@
       "prob": 0.191,
       "cuota_justa": "+423",
       "cuota_minima": "+439",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -343,7 +378,8 @@
       "prob": 0.492,
       "cuota_justa": "+103",
       "cuota_minima": "+110",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -351,7 +387,8 @@
       "prob": 0.508,
       "cuota_justa": "-103",
       "cuota_minima": "+103",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -359,7 +396,8 @@
       "prob": 0.146,
       "cuota_justa": "+584",
       "cuota_minima": "+605",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -367,7 +405,8 @@
       "prob": 0.279,
       "cuota_justa": "+258",
       "cuota_minima": "+269",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -376,7 +415,8 @@
       "cuota_justa": "+478",
       "cuota_minima": "+499",
       "confianza": "baja",
-      "devolucion": 0.155
+      "devolucion": 0.155,
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -385,7 +425,8 @@
       "cuota_justa": "+187",
       "cuota_minima": "+198",
       "confianza": "baja",
-      "devolucion": 0.199
+      "devolucion": 0.199,
+      "estado": "devuelta"
     },
     {
       "mercado": "handicap",
@@ -394,7 +435,8 @@
       "cuota_justa": "+159",
       "cuota_minima": "+170",
       "confianza": "baja",
-      "devolucion": 0.231
+      "devolucion": 0.231,
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -403,7 +445,8 @@
       "cuota_justa": "-159",
       "cuota_minima": "-144",
       "confianza": "baja",
-      "devolucion": 0.231
+      "devolucion": 0.231,
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -412,7 +455,8 @@
       "cuota_justa": "-187",
       "cuota_minima": "-168",
       "confianza": "baja",
-      "devolucion": 0.199
+      "devolucion": 0.199,
+      "estado": "devuelta"
     },
     {
       "mercado": "handicap",
@@ -421,7 +465,8 @@
       "cuota_justa": "-478",
       "cuota_minima": "-396",
       "confianza": "baja",
-      "devolucion": 0.155
+      "devolucion": 0.155,
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -429,7 +474,8 @@
       "prob": 0.721,
       "cuota_justa": "-258",
       "cuota_minima": "-232",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -437,7 +483,8 @@
       "prob": 0.854,
       "cuota_justa": "-584",
       "cuota_minima": "-484",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -445,7 +492,8 @@
       "prob": 0.699,
       "cuota_justa": "-232",
       "cuota_minima": "-198",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -453,7 +501,8 @@
       "prob": 0.301,
       "cuota_justa": "+232",
       "cuota_minima": "+249",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -461,7 +510,8 @@
       "prob": 0.595,
       "cuota_justa": "-147",
       "cuota_minima": "-130",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -469,7 +519,8 @@
       "prob": 0.405,
       "cuota_justa": "+147",
       "cuota_minima": "+160",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -477,7 +528,8 @@
       "prob": 0.489,
       "cuota_justa": "+104",
       "cuota_minima": "+115",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -485,7 +537,8 @@
       "prob": 0.511,
       "cuota_justa": "-104",
       "cuota_minima": "+106",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -493,7 +546,8 @@
       "prob": 0.385,
       "cuota_justa": "+160",
       "cuota_minima": "+173",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -501,7 +555,8 @@
       "prob": 0.615,
       "cuota_justa": "-160",
       "cuota_minima": "-141",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -509,7 +564,8 @@
       "prob": 0.287,
       "cuota_justa": "+248",
       "cuota_minima": "+266",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -517,7 +573,8 @@
       "prob": 0.713,
       "cuota_justa": "-248",
       "cuota_minima": "-211",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -525,7 +582,8 @@
       "prob": 0.757,
       "cuota_justa": "-312",
       "cuota_minima": "-258",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -533,7 +591,8 @@
       "prob": 0.243,
       "cuota_justa": "+312",
       "cuota_minima": "+333",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -541,7 +600,8 @@
       "prob": 0.564,
       "cuota_justa": "-130",
       "cuota_minima": "-116",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -549,7 +609,8 @@
       "prob": 0.436,
       "cuota_justa": "+130",
       "cuota_minima": "+142",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -557,7 +618,8 @@
       "prob": 0.372,
       "cuota_justa": "+169",
       "cuota_minima": "+183",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -565,7 +627,8 @@
       "prob": 0.628,
       "cuota_justa": "-169",
       "cuota_minima": "-148",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -573,7 +636,8 @@
       "prob": 0.218,
       "cuota_justa": "+359",
       "cuota_minima": "+382",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -581,7 +645,8 @@
       "prob": 0.782,
       "cuota_justa": "-359",
       "cuota_minima": "-291",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -589,7 +654,8 @@
       "prob": 0.117,
       "cuota_justa": "+755",
       "cuota_minima": "+798",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -597,7 +663,8 @@
       "prob": 0.883,
       "cuota_justa": "-755",
       "cuota_minima": "-528",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -605,7 +672,8 @@
       "prob": 0.272,
       "cuota_justa": "+268",
       "cuota_minima": "+286",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -613,7 +681,8 @@
       "prob": 0.23,
       "cuota_justa": "+336",
       "cuota_minima": "+358",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -621,10 +690,29 @@
       "prob": 0.498,
       "cuota_justa": "+101",
       "cuota_minima": "+111",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     }
   ],
-  "estado": "pendiente",
+  "estado": "calificado",
   "id": "P-20261101-e47197",
-  "creado": "2026-11-01T16:09:55.887717-07:00"
+  "creado": "2026-11-01T16:09:55.887717-07:00",
+  "resultado": {
+    "goles_local": 1,
+    "goles_visitante": 2,
+    "goles_local_pt": 0,
+    "goles_visitante_pt": 0,
+    "corners_local": 7.0,
+    "corners_visitante": 1.0,
+    "tarjetas_local": 1.0,
+    "tarjetas_visitante": 3.0,
+    "amarillas_local": 1.0,
+    "amarillas_visitante": 3.0,
+    "rojas_local": 0.0,
+    "rojas_visitante": 0.0,
+    "segundas_amarillas_local": 0,
+    "segundas_amarillas_visitante": 0,
+    "ventaja_max_local": 1,
+    "ventaja_max_visitante": 1
+  }
 }
