@@ -1,0 +1,68 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261102-a3e3b4",
+      "partido": "Deportivo vs Osasuna",
+      "liga": "laliga",
+      "deporte": "futbol",
+      "espn_id": "401882824",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 65.0,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261102-a3e3b4",
+      "partido": "Deportivo vs Osasuna",
+      "liga": "laliga",
+      "deporte": "futbol",
+      "espn_id": "401882824",
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "cuota": 65.0,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261102-890c60",
+      "partido": "Newcastle vs Everton",
+      "liga": "premier",
+      "deporte": "futbol",
+      "espn_id": "401878762",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 1.425531914893617,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261102-890c60",
+      "partido": "Newcastle vs Everton",
+      "liga": "premier",
+      "deporte": "futbol",
+      "espn_id": "401878762",
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "cuota": 1.425531914893617,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261102-890c60",
+      "partido": "Newcastle vs Everton",
+      "liga": "premier",
+      "deporte": "futbol",
+      "espn_id": "401878762",
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "cuota": 1.425531914893617,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 12239.3273,
+  "cuota_americana": "+1223833",
+  "monto": 300.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261102-1e39fb",
+  "creado": "2026-11-02T12:26:04.201197-07:00",
+  "estado": "pendiente"
+}
