@@ -297,8 +297,10 @@ def test_evaluar_tiros_jugador(con_alineacion, capsys):
               "--winpot", f"tiros_jugador:Gol:mas_0.5={baja}", "--winpot", "tiros_jugador:Nadie:mas_0.5=+300"])
     ev = _salida(capsys)["evaluacion"]
     assert ev[0]["seleccion"] == "Ángel Pérez:mas_0.5"
-    assert ev[0]["apostar"] is True and ev[0]["categoria"] == "valor" and ev[0]["confianza"] == "baja"
-    assert ev[0]["monto_sencilla"] == 200  # 2% del bank con confianza baja
+    # sistema nuevo (2-nov-2026): los tiros de jugador (confianza siempre baja) no entran; con valor solo van
+    # al sistema viejo, que es solo de papel
+    assert ev[0]["apostar"] is False and ev[0]["categoria"] is None and ev[0]["confianza"] == "baja"
+    assert "tiros de jugador" in ev[0]["motivo"] and ev[0]["sirve_para_parlay"] is True
     assert ev[1]["seleccion"] == "Juan Gol:mas_0.5" and ev[1]["apostar"] is False and ev[1]["sirve_para_parlay"] is False
     assert "error" in ev[2]
 
@@ -314,7 +316,7 @@ def test_papel_tiros_jugador_se_califica_y_anula(con_alineacion, capsys, monkeyp
         cuotas += ["--winpot", f"tiros_jugador:{sel}={cli.C.formato_americano(justa * 1.3)}"]
     cli.main(["evaluar", "--id", p["id"], *cuotas])
     ev = _salida(capsys)["evaluacion"]
-    assert all(x["apostar_papel"] for x in ev)
+    assert all(x["sistema_viejo"]["monto_papel"] == 200 for x in ev)  # valor del sistema viejo: 2% (confianza baja)
     # el partido terminó: Ángel Pérez tiró 1 a puerta y Medio Uno no jugó (devuelta)
     R = cli.R
     guardado = R.buscar_pronostico(p["id"])
