@@ -187,7 +187,7 @@ acierto real y Brier; y por rango de probabilidad (0-10% … 90-100%). Usa las m
 (pago anticipado incluido); devueltas y sin datos no cuentan. Como se guardan los dos lados de cada línea, de cada
 pronóstico y línea (1X2, más/menos 2.5, hándicap, etc.) solo cuenta el lado que el modelo vio más probable.
 
-## Reglas de valor (revisadas el 26-oct-2026 tras el backtest)
+## Reglas de valor (revisadas el 26-oct-2026 tras el backtest; desde el 2-nov-2026 son del sistema viejo, ver "Sistema por probabilidad")
 
 - **Base: Pinnacle sin margen.** Ganador y doble oportunidad salen directo del 1X2 de Pinnacle sin margen. Para
   los demás mercados de goles (totales, ambos anotan, goles por equipo, hándicap, primer tiempo) el programa busca
