@@ -926,7 +926,7 @@ mostrarSeccion();
     $("f-liga").innerHTML = '<option value="">Todas</option>' + [...ligas].sort((a, b) => liga(a).localeCompare(liga(b))).map(l => `<option value="${esc(l)}">${esc(liga(l))}</option>`).join("");
     $("f-liga").value = "";
   }
-  const per = {tipo: "mes", ref: HOY};
+  const per = {tipo: EN_PAPEL ? "todo" : "mes", ref: HOY};
   function rango() {
     const tipo = per.tipo, v = per.ref || HOY;
     if (tipo === "dia") return [v, v];
