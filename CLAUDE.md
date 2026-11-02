@@ -177,7 +177,10 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
   El estado aplica a la apuesta completa (en un parlay, al parlay entero); `--cuota-real` es la cuota total que pagó Winpot.
 - Luego guarda el registro como en el paso 8.
 
-GitHub Actions califica todo automáticamente cada 30 minutos (empieza 2.5 h después del inicio del partido) y actualiza el dashboard. Si faltan datos de un partido
+GitHub Actions califica todo automáticamente cada 30 minutos (empieza 2.5 h después del inicio del partido) y actualiza el dashboard. GitHub se salta muchas
+corridas programadas, por eso al guardar un pronóstico en main arranca el **despertador** (`despertador.yml`): espera a
+inicio + 2.5 h, lanza la calificación y reintenta cada 30 min durante 12 h. Si aun así no se calificó, lánzala a mano
+(workflow "Calificar y publicar dashboard", Run workflow). Si faltan datos de un partido
 (córners, tarjetas), lo vuelve a intentar en cada corrida durante 48 h; las patas sin datos quedan pendientes.
 El dashboard filtra por deporte, liga y periodo (día, semana, mes o año, en hora de Sonora; por defecto el mes actual)
 y muestra cada parlay con sus patas, cuotas y estados. Cada pronóstico guarda `deporte` (hoy siempre `futbol`;
