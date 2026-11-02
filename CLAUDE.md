@@ -129,16 +129,25 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    **Justificación:** 3 a 6 viñetas con lo que movió el pronóstico (forma y fuerza, bajas, árbitro, clima, altitud, contexto),
    cada una con su fuente y cuánto ajustó.
 
-   **Qué apostar:** las selecciones cuya cuota mínima es alcanzable, en orden de valor. Pide a Salva la cuota de Winpot de esas
-   selecciones (o que confirme si Winpot paga la mínima o más). **Pide también la cuota de Winpot de las 3 o 4 selecciones
-   más probables del partido** (aunque no tengan valor): sirven para sencillas fuertes y para armar combinadas.
+   **Respaldo** (lo calcula `pronostico` en `respaldo`; solo se muestra, no mueve nada): racha de los últimos 5 de cada
+   equipo (G/E/P y puntos), historial directo (últimos 5 duelos en 4 años) y, en la tabla, cuántas veces se cumplió cada
+   selección en los últimos 10 de cada equipo (`ultimos10`, p. ej. "local 8/10 · visitante 7/10").
+
+   **Qué apostar (sistema por probabilidad, desde el 2-nov-2026):** las selecciones con **60% o más** y confianza alta o
+   media, de la más probable a la menos. Pide a Salva la cuota de Winpot de esas selecciones (todas las de 60% o más que
+   tengan sentido juntas, para sencillas y combinadas). La cuota de Winpot solo frena si paga más de 4% por debajo del
+   precio justo. Pide también las del sistema viejo (selecciones cuya cuota mínima es alcanzable) para seguir midiéndolo.
    Incluye las patas de la **lectura del partido** (ver "Aparte: Lectura del partido"), guardada antes de pedir cuotas.
 
 7. **Cuando Salva da las cuotas de Winpot:**
    `python -m predicciones.cli evaluar --id <id> --winpot "goles:mas_2.5=-130" --winpot "tarjetas:mas_4.5=-133"`
-   Recomienda solo lo que salga con `apostar: true`, con el monto calculado. Cada fila trae su `categoria`
-   (`valor`, `sencilla_fuerte` o vacía) y `sirve_para_combinada`. Para la jornada, arma parlays de valor y
-   combinadas con `python -m predicciones.cli parlays --fecha hoy` (cada uno trae su `categoria`).
+   Recomienda solo lo que salga con `apostar: true` (en papel, `apostar_papel: true`), con el monto calculado. Cada fila
+   trae su `categoria` del sistema nuevo (`sencilla_prob` o vacía, con `motivo`), `sirve_para_combinada` y, si tiene valor,
+   `sistema_viejo` (lo que apostó el sistema viejo en papel). Para la jornada:
+   `python -m predicciones.cli parlays --fecha hoy` arma las combinadas de partidos distintos (`combinada_prob`) y los
+   parlays de valor del sistema viejo, y lista `propuestas_mismo_partido` ("crea tu apuesta"): pide a Salva el momio
+   total de Winpot y regístralas con `python -m predicciones.cli combinada --pata "<id>:goles:mas_2.5=-150" --pata ...
+   --cuota-total=+230`.
    Dile a Salva en qué categoría va cada apuesta y muéstrale el `pick_modelo` del partido (selección, momio y si tiene valor). Si Salva apuesta, registra con `apostar ... --categoria <categoría>`.
    Con dinero real respeta el `disponible_hoy` de `python -m predicciones.cli bank` (`evaluar` y `parlays` también lo
    respetan entre varias selecciones). **En la prueba en papel no hay límite del día ni máximo por día de sencillas
@@ -149,8 +158,8 @@ Ejemplos de pedido: "dame el pronóstico de Real Madrid vs Barcelona de hoy", "p
    GitHub Actions lo califica. `parlays` los lista como `parlays_papel`. Dile a Salva: "Prueba en papel hasta
    26-nov-2026: no apostar dinero", y muéstrale la selección y el monto que se habría apostado.
    `apostar` se niega en ese periodo; usa `--forzar` solo si Salva dice que ya apostó dinero real.
-   **Después del 26-nov-2026** solo la categoría `valor` sale con `apostar: true` (lista `CATEGORIAS_DINERO_REAL`
-   en `bank.py`); las otras dicen "categoría pendiente de aprobación tras la prueba en papel" hasta que Salva las apruebe.
+   **Después del 26-nov-2026** ninguna categoría sale con `apostar: true` (lista `CATEGORIAS_DINERO_REAL` vacía en
+   `bank.py`): dicen "categoría pendiente de aprobación tras la prueba en papel" hasta que Salva las apruebe al revisar el papel.
 
 8. **Guarda el registro en GitHub** (Salva lo autorizó):
    `git add registro/ && git commit -m "Pronóstico: <partido>" && git pull --rebase origin main && git push origin HEAD:main`.
@@ -287,7 +296,31 @@ pronóstico y línea (1X2, más/menos 2.5, hándicap, etc.) solo cuenta el lado 
   suma al sustituto directo e incluye prórroga. Jugador que no participa: apuesta anulada (devuelta); si el mercado
   dice "alineación inicial" y no es titular, también se anula. Si entra de cambio, cuenta lo que haga.
 
-### Tres categorías de apuesta (aprobadas por Salva el 26-oct-2026)
+### Sistema por probabilidad (Salva, 1 y 2-nov-2026): el sistema actual
+
+Salva: "por buscar valor vas en contra de estadísticas y probabilidades". En papel, valor iba 9 de 26 (−2,231; apostaba a
+selecciones de 44% en promedio, como "menos" de córners a +400) y sencilla fuerte (60% o más) 8 de 12. El modelo está
+calibrado (lo de 60-70% pasó 67%; 70-80%, 79%): el error era elegir lo improbable porque "pagaba bien". Desde el 2-nov:
+
+1. **Sencilla probable** (`sencilla_prob`): probabilidad **≥ 60%**, confianza alta o media, Winpot como mucho **4% por
+   debajo** del precio justo y momio **−200 o mejor** (lo de 67% o más casi siempre va en combinadas). Monto: para ganar
+   5% del bank (alta) o 2.5% (media); con momio positivo, 5% (alta y valor del doble del mínimo) o 3%. Sin tiros de jugador.
+2. **Combinada probable** (`combinada_prob`): 2 o 3 patas, cada una ≥ 60%, confianza alta o media y dentro de
+   tolerancia; momio total de Winpot de **+200 a +350**. Pueden ser de partidos distintos (`parlays` las arma solas) o del
+   **mismo partido** ("crea tu apuesta", `cli combinada --cuota-total`; Salva eligió **sin freno de precio**, aunque
+   Winpot paga ~80% del producto de las patas). Monto: 5% si todas son de confianza alta, 3% si alguna es media.
+3. Últimos 10, racha y historial directo: **solo se muestran** (Salva). La prueba del 29-oct (17,447 partidos) mostró que
+   no mejoran el precio de Pinnacle.
+4. Con dinero real: máximo 1 sencilla y 2 combinadas al día y límite del día (en papel, sin límite ni máximo).
+5. Bank en papel propio: **sistema** = `sencilla_prob` + `combinada_prob`, empieza en 10,000 el 2-nov. Montos y pausa
+   del 50% usan este bank.
+6. La regla temporal de los "menos" de córners/tarjetas (más de 10 puntos contra Winpot) sigue en los dos sistemas.
+
+**Sistema viejo (solo papel, para comparar el 26-nov):** bank `sistema_viejo` = valor + sencilla fuerte + combinada (sigue
+con lo que llevaba, ~5,542 el 1-nov). Desde el 2-nov solo registra **valor** (sencillas y parlays, reglas de abajo) con
+sus montos de siempre sobre su propio bank, fuera del límite del día. Una selección puede entrar en los dos sistemas.
+
+### Tres categorías de apuesta del sistema viejo (aprobadas por Salva el 26-oct-2026; reemplazadas el 2-nov-2026)
 
 Las tres se registran en papel por separado y **el 26-nov-2026 se comparan con Salva** (dashboard: "Prueba en papel
 por categoría": apuestas, acierto, ganancia, ROI y peor racha). "Precio justo" = la cuota justa de la probabilidad final.
@@ -310,9 +343,9 @@ Con dinero real, mientras sencilla fuerte no esté en `CATEGORIAS_DINERO_REAL`, 
 Una apuesta cuyo monto bajó por el límite del día queda marcada `recortada: true` (el resumen cuenta cuántas por categoría).
 Un parlay idéntico a uno de valor no se repite como combinada. Los máximos cuentan por día de Sonora en que se evalúa.
 
-**Tres banks en papel (solo hasta el 26-nov-2026; después hay un solo bank con dinero real):** cada uno empieza con
-10,000 MXN y suma solo lo suyo: **sistema** (valor, sencilla fuerte, combinada), **elección de Salva** y **pick del
-modelo**. Los montos (5%, 3%…), el límite del día y la pausa del 50% usan solo el bank del sistema en papel
+**Banks en papel (solo hasta el 26-nov-2026; después hay un solo bank con dinero real):** cada uno empieza con
+10,000 MXN y suma solo lo suyo: **sistema** (desde el 2-nov: sencilla y combinada probables), **sistema viejo** (valor,
+sencilla fuerte, combinada), **elección de Salva**, **pick del modelo** y **lectura**. Los montos (5%, 3%…), el límite del día y la pausa del 50% usan solo el bank del sistema en papel
 (`bank_papel("sistema")`); la elección de Salva y el pick no usan ni recortan ese límite. `cli bank` muestra `banks_papel` (y `bank_real`); los depósitos y retiros se suman a los tres. La ganancia "de hoy" y el corte de mes en papel usan el día en que se evaluó la apuesta.
 
 **Aparte: Elección de Salva** (`eleccion_salva`): apuestas que Salva elige por su cuenta (en papel o reales,

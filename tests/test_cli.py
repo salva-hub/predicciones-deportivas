@@ -1443,3 +1443,69 @@ def test_lectura_cuota_total_solo_mismo_partido(papel, capsys):
     with pytest.raises(SystemExit) as e:
         cli.main(["lectura-apostar", "--pata", f"{p['id']}:ganador:1=-150", "--cuota-total=+300"])
     assert "crea tu apuesta" in str(e.value)
+
+
+# ------------------------------------------- sistema nuevo: combinadas del mismo partido (2-nov-2026)
+
+def _pron_goles(R, partido="A vs B"):
+    """Pronóstico con goles esperados (para la probabilidad conjunta del crea tu apuesta)."""
+    return R.agregar_pronostico({
+        "partido": partido, "liga": "premier", "inicio_sonora": f"{R.ahora().date()} 12:00",
+        "goles_esperados": [1.9, 1.3],
+        "selecciones": [
+            {"mercado": "goles", "seleccion": "mas_2.5", "prob": 0.64, "confianza": "alta", "cuota_minima": "-100"},
+            {"mercado": "ambos_anotan", "seleccion": "si", "prob": 0.62, "confianza": "alta", "cuota_minima": "-100"},
+            {"mercado": "corners", "seleccion": "mas_8.5", "prob": 0.66, "confianza": "media", "cuota_minima": "-100"},
+            {"mercado": "goles", "seleccion": "mas_3.5", "prob": 0.40, "confianza": "alta", "cuota_minima": "-100"}],
+        "estado": "pendiente",
+    })
+
+
+def test_combinada_crea_tu_apuesta(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pron_goles(R)
+    patas = ["--pata", f"{p['id']}:goles:mas_2.5=-160", "--pata", f"{p['id']}:ambos_anotan:si=-150",
+             "--pata", f"{p['id']}:corners:mas_8.5=-180"]
+    # sin el momio del crea tu apuesta no se registra
+    with pytest.raises(SystemExit, match="cuota-total"):
+        cli.main(["combinada", *patas])
+    # fuera de +200 a +350
+    with pytest.raises(SystemExit, match="fuera de"):
+        cli.main(["combinada", *patas, "--cuota-total=+180"])
+    # sin freno de precio (Salva, 1-nov-2026): entra aunque Winpot pague menos que lo justo
+    cli.main(["combinada", *patas, "--cuota-total=+210"])
+    ap = _salida(capsys)["apuesta"]
+    assert ap["categoria"] == "combinada_prob" and ap["mismo_partido"] and ap["cuota_total_fija"] and ap["fija"]
+    assert ap["monto"] == 300  # una pata con confianza media: 3%
+    assert 0 < ap["prob"] < 0.64
+    # no se repite, y `parlays` no la reemplaza
+    with pytest.raises(SystemExit, match="ya está registrada"):
+        cli.main(["combinada", *patas, "--cuota-total=+210"])
+    cli.main(["parlays"])
+    capsys.readouterr()
+    assert [x["clave"] for x in R.parlays_papel()] == [ap["clave"]]
+
+
+def test_combinada_rechaza_patas_improbables_o_caras(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pron_goles(R)
+    with pytest.raises(SystemExit, match="menos de 60%"):
+        cli.main(["combinada", "--pata", f"{p['id']}:goles:mas_3.5=+150", "--pata", f"{p['id']}:ambos_anotan:si=-150",
+                  "--cuota-total=+250"])
+    with pytest.raises(SystemExit, match="4% por debajo"):  # justa -178; -230 es demasiado
+        cli.main(["combinada", "--pata", f"{p['id']}:goles:mas_2.5=-230", "--pata", f"{p['id']}:ambos_anotan:si=-150",
+                  "--cuota-total=+250"])
+
+
+def test_parlays_proponen_crea_tu_apuesta(papel, capsys):
+    cli, R = papel, papel.R
+    p = _pron_goles(R)
+    cli.main(["evaluar", "--id", p["id"], "--winpot", "goles:mas_2.5=-150", "--winpot", "ambos_anotan:si=-140",
+              "--winpot", "corners:mas_8.5=-170"])
+    capsys.readouterr()
+    cli.main(["parlays"])
+    out = _salida(capsys)
+    (prop, *_) = out["propuestas_mismo_partido"]
+    assert prop["partido"] == "A vs B" and len(prop["patas"]) == 3 and "cli combinada" in prop["siguiente"]
+    # solo se proponen: no se guardan sin el momio de Winpot
+    assert not [x for x in R.parlays_papel() if x["categoria"] == "combinada_prob"]

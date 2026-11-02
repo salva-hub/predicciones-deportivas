@@ -28,6 +28,7 @@ from . import bank as B
 from . import cuotas as C
 from . import lectura as LE
 from . import registro as R
+from . import respaldo as RS
 from . import valor as V
 from .ajustes import Ajustes, parsear, por_clima
 from .calificar import DEVUELVE, GANA, PIERDE, SIN_DATOS, calificar, estado_parlay, ganancia
@@ -262,6 +263,11 @@ def cmd_pronostico(a) -> None:
         "selecciones": p.tabla() + filas_tiros_jugador(p.partido, tiros),
         "estado": "pendiente",
     }
+    # forma de los últimos 5, historial directo y últimos 10 por selección: solo para mostrar (Salva, 1 y 2-nov-2026)
+    try:
+        registro["respaldo"] = RS.respaldo(hist, registro["local"], registro["visitante"], registro["selecciones"])
+    except Exception as e:  # noqa: BLE001 - el respaldo es informativo: nunca detiene el pronóstico
+        _aviso("sin respaldo de últimos partidos", e)
     if tiros:
         registro["tiros_jugador"] = [{k: t[k] for k in ("jugador", "equipo", "posicion", "tiros_esperados", "tasa90",
                                                          "minutos_esperados", "minutos_historial")} for t in tiros]
