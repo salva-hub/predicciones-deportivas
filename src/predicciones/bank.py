@@ -33,7 +33,9 @@ PRUEBA_PAPEL_HASTA = date(2026, 11, 26)  # inclusive, fecha de Sonora
 MENSAJE_PAPEL = "Prueba en papel hasta 26-nov-2026: no apostar dinero"
 # categorías que pueden recomendarse con dinero real (las demás esperan a que Salva
 # las apruebe al revisar la prueba en papel)
-CATEGORIAS_DINERO_REAL = {"valor"}
+# Salva (1-nov-2026) cambió el enfoque de valor a probabilidad: ninguna categoría va con dinero real
+# hasta revisar la prueba en papel con él (el 26-nov-2026)
+CATEGORIAS_DINERO_REAL: set[str] = set()
 # Salva (28-oct-2026): en la prueba en papel no hay límite del día; cada apuesta con su monto
 # normal, para tener datos con cantidades. Con dinero real el límite sigue.
 LIMITE_EN_PAPEL = False
@@ -107,6 +109,19 @@ def monto_sencilla_fuerte(bank: float, confianza: str, cuota_decimal: float, r: 
         return 0.0
     pasos = math.ceil(objetivo / (cuota_decimal - 1) / r.redondeo - 1e-6)
     return float(pasos * r.redondeo)
+
+
+def monto_sencilla_prob(bank: float, confianza: str, cuota_decimal: float, ve: float, ve_minimo: float,
+                        r: ReglasBank = REGLAS) -> float:
+    """Sencilla del sistema nuevo (2-nov-2026), con los montos de siempre (Salva eligió "los de hoy"):
+    momio negativo -> para ganar 5% (alta) o 2.5% (media); momio positivo (rara vez con 60% o más)
+    -> 5% con alta y valor de al menos el doble del mínimo, si no 3%. Confianza baja: 0."""
+    if confianza not in ("alta", "media"):
+        return 0.0
+    if cuota_decimal < 2.0:
+        return monto_sencilla_fuerte(bank, confianza, cuota_decimal, r)
+    pct = r.sencilla_max if confianza == "alta" and ve >= 2 * ve_minimo else r.sencilla_media
+    return monto(bank, pct, r)
 
 
 def porcentaje_combinada(confianza: str, r: ReglasBank = REGLAS) -> float:
