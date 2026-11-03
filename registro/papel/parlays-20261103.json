@@ -17,7 +17,7 @@
           "cuota": 3.2,
           "prob": 0.359,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261103-563ce0",
@@ -28,7 +28,7 @@
           "cuota": 2.05,
           "prob": 0.542,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 6.56,
@@ -37,7 +37,9 @@
       "monto": 110.0,
       "recortada": false,
       "creado": "2026-11-03T10:05:16.255508-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -110.0,
+      "liquidada": "2026-11-03T13:15:40.113118-07:00"
     },
     {
       "clave": "P-20261103-07b5ba:corners:menos_8.5|P-20261103-563ce0:tarjetas:mas_4.5",
@@ -53,7 +55,7 @@
           "cuota": 2.65,
           "prob": 0.433,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261103-563ce0",
@@ -64,7 +66,7 @@
           "cuota": 1.8333333333333335,
           "prob": 0.588,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 4.8583,
@@ -73,7 +75,9 @@
       "monto": 110.0,
       "recortada": false,
       "creado": "2026-11-03T10:05:16.255561-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -110.0,
+      "liquidada": "2026-11-03T13:15:40.113141-07:00"
     },
     {
       "clave": "P-20261103-07b5ba:ganador:1|P-20261103-563ce0:corners:menos_9.5",
@@ -89,7 +93,7 @@
           "cuota": 2.05,
           "prob": 0.506,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261103-563ce0",
@@ -100,7 +104,7 @@
           "cuota": 1.625,
           "prob": 0.652,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 3.3312,
@@ -109,7 +113,9 @@
       "monto": 110.0,
       "recortada": false,
       "creado": "2026-11-03T10:05:16.255588-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 256.44,
+      "liquidada": "2026-11-03T13:15:40.113160-07:00"
     },
     {
       "clave": "P-20261103-07b5ba:tarjetas:menos_4.5|P-20261103-563ce0:tarjetas:mas_3.5",
@@ -125,7 +131,7 @@
           "cuota": 1.5988023952095807,
           "prob": 0.642,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261103-563ce0",
@@ -136,7 +142,7 @@
           "cuota": 1.4,
           "prob": 0.753,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 2.2383,
@@ -145,7 +151,9 @@
       "monto": 110.0,
       "recortada": false,
       "creado": "2026-11-03T10:05:16.255610-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -110.0,
+      "liquidada": "2026-11-03T13:15:40.113174-07:00"
     },
     {
       "clave": "P-20261103-07b5ba:ambos_anotan:si|P-20261103-07b5ba:doble_oportunidad:1X|P-20261103-07b5ba:tarjetas:menos_4.5|P-20261103-563ce0:ambos_anotan:si|P-20261103-563ce0:ganador:2",
@@ -160,7 +168,7 @@
           "seleccion": "1X",
           "prob": 0.69,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.426043
         },
         {
@@ -171,7 +179,7 @@
           "seleccion": "si",
           "prob": 0.722,
           "confianza": "media",
-          "estado": "pendiente",
+          "estado": "perdida",
           "cuota": 1.426043
         },
         {
@@ -182,7 +190,7 @@
           "seleccion": "menos_4.5",
           "prob": 0.642,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "perdida",
           "cuota": 1.426043
         },
         {
@@ -193,7 +201,7 @@
           "seleccion": "2",
           "prob": 0.491,
           "confianza": "media",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.870829
         },
         {
@@ -204,7 +212,7 @@
           "seleccion": "si",
           "prob": 0.586,
           "confianza": "baja",
-          "estado": "pendiente",
+          "estado": "perdida",
           "cuota": 1.870829
         }
       ],
@@ -216,7 +224,9 @@
       "creado": "2026-11-03T10:20:52.895096-07:00",
       "excepcion": "Elección de Salva en papel (3-nov): parlay de 2 crea tu apuesta, Gala-Stuttgart +190 (1X + ambos sí + menos 4.5 tarjetas) y Shakhtar-Sporting +250 (Sporting PA + ambos sí). Cuota total +915 de Winpot repartida entre patas; prob. aprox. independientes.",
       "pago_anticipado": true,
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -300,
+      "liquidada": "2026-11-03T13:15:40.113189-07:00"
     },
     {
       "clave": "prob|P-20261103-564cbf:ganador:1|P-20261103-c36bd9:goles:mas_2.5|P-20261103-d0a16c:ganador:2",
