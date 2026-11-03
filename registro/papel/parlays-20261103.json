@@ -146,6 +146,77 @@
       "recortada": false,
       "creado": "2026-11-03T10:05:16.255610-07:00",
       "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261103-07b5ba:ambos_anotan:si|P-20261103-07b5ba:doble_oportunidad:1X|P-20261103-07b5ba:tarjetas:menos_4.5|P-20261103-563ce0:ambos_anotan:si|P-20261103-563ce0:ganador:2",
+      "tipo": "parlay",
+      "categoria": "eleccion_salva",
+      "patas": [
+        {
+          "pronostico": "P-20261103-07b5ba",
+          "partido": "Galatasaray vs VfB Stuttgart",
+          "liga": "champions",
+          "mercado": "doble_oportunidad",
+          "seleccion": "1X",
+          "prob": 0.69,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.426043
+        },
+        {
+          "pronostico": "P-20261103-07b5ba",
+          "partido": "Galatasaray vs VfB Stuttgart",
+          "liga": "champions",
+          "mercado": "ambos_anotan",
+          "seleccion": "si",
+          "prob": 0.722,
+          "confianza": "media",
+          "estado": "pendiente",
+          "cuota": 1.426043
+        },
+        {
+          "pronostico": "P-20261103-07b5ba",
+          "partido": "Galatasaray vs VfB Stuttgart",
+          "liga": "champions",
+          "mercado": "tarjetas",
+          "seleccion": "menos_4.5",
+          "prob": 0.642,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.426043
+        },
+        {
+          "pronostico": "P-20261103-563ce0",
+          "partido": "Shakhtar Donetsk vs Sporting CP",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "prob": 0.491,
+          "confianza": "media",
+          "estado": "pendiente",
+          "cuota": 1.870829
+        },
+        {
+          "pronostico": "P-20261103-563ce0",
+          "partido": "Shakhtar Donetsk vs Sporting CP",
+          "liga": "champions",
+          "mercado": "ambos_anotan",
+          "seleccion": "si",
+          "prob": 0.586,
+          "confianza": "baja",
+          "estado": "pendiente",
+          "cuota": 1.870829
+        }
+      ],
+      "cuota": 10.15,
+      "cuota_americana": "+915",
+      "prob": 0.092,
+      "monto": 300,
+      "recortada": false,
+      "creado": "2026-11-03T10:20:52.895096-07:00",
+      "excepcion": "Elección de Salva en papel (3-nov): parlay de 2 crea tu apuesta, Gala-Stuttgart +190 (1X + ambos sí + menos 4.5 tarjetas) y Shakhtar-Sporting +250 (Sporting PA + ambos sí). Cuota total +915 de Winpot repartida entre patas; prob. aprox. independientes.",
+      "pago_anticipado": true,
+      "estado": "pendiente"
     }
   ]
 }
