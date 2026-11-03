@@ -242,7 +242,7 @@
           "cuota": 1.2857142857142856,
           "prob": 0.787,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261103-c36bd9",
@@ -253,7 +253,7 @@
           "cuota": 1.4784688995215312,
           "prob": 0.655,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261103-d0a16c",
@@ -264,7 +264,7 @@
           "cuota": 1.7751937984496124,
           "prob": 0.607,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 3.3744,
@@ -273,7 +273,9 @@
       "monto": 310.0,
       "recortada": false,
       "creado": "2026-11-03T12:39:38.753243-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 736.08,
+      "liquidada": "2026-11-03T15:30:28.680822-07:00"
     },
     {
       "clave": "P-20261103-c9fce7:ganador:1|P-20261103-d0a16c:ganador:2",
@@ -289,7 +291,7 @@
           "cuota": 3.33,
           "prob": 0.345,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261103-d0a16c",
@@ -300,7 +302,7 @@
           "cuota": 1.7751937984496124,
           "prob": 0.607,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 5.9114,
@@ -309,7 +311,9 @@
       "monto": 170.0,
       "recortada": false,
       "creado": "2026-11-03T12:39:38.753278-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -170.0,
+      "liquidada": "2026-11-03T15:30:28.680839-07:00"
     },
     {
       "clave": "P-20261103-c36bd9:ganador:2|P-20261103-d0a16c:ganador:1",
@@ -325,7 +329,7 @@
           "cuota": 3.0,
           "prob": 0.352,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261103-d0a16c",
@@ -336,7 +340,7 @@
           "cuota": 4.2,
           "prob": 0.245,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 12.6,
@@ -345,7 +349,9 @@
       "monto": 170.0,
       "recortada": false,
       "creado": "2026-11-03T12:39:38.753295-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -170.0,
+      "liquidada": "2026-11-03T15:30:28.680849-07:00"
     },
     {
       "clave": "P-20261103-564cbf:ganador:2|P-20261103-c36bd9:ganador:1",
@@ -361,7 +367,7 @@
           "cuota": 8.5,
           "prob": 0.139,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261103-c36bd9",
@@ -372,7 +378,7 @@
           "cuota": 2.08,
           "prob": 0.496,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 17.68,
@@ -381,7 +387,9 @@
       "monto": 110.0,
       "recortada": false,
       "creado": "2026-11-03T12:39:38.753310-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -110.0,
+      "liquidada": "2026-11-03T15:30:28.680857-07:00"
     },
     {
       "clave": "lectura|P-20261103-d0a16c:ganador:2",
@@ -399,7 +407,7 @@
           "cuota": 1.7752,
           "prob": 0.607,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 1.7752,
@@ -413,7 +421,9 @@
         "P-20261103-d0a16c": "PSG superior aun sin Dembélé ni Kvaratskhelia; Villarreal concede mucho en Champions (8 en 3). PSG gana con más de 2.5 goles."
       },
       "creado": "2026-11-03T12:39:46.520322-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 480.62,
+      "liquidada": "2026-11-03T15:30:28.680866-07:00"
     }
   ]
 }
