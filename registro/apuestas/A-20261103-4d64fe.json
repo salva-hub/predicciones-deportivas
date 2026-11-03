@@ -1,0 +1,46 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261103-564cbf",
+      "partido": "Barcelona vs Aston Villa",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915387",
+      "mercado": "ganador",
+      "seleccion": "1",
+      "cuota": 1.621963,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261103-12fcb4",
+      "partido": "Feyenoord Rotterdam vs Internazionale",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915307",
+      "mercado": "ganador",
+      "seleccion": "2",
+      "cuota": 1.621963,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261103-d0a16c",
+      "partido": "Villarreal vs Paris Saint-Germain",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915309",
+      "mercado": "ganador",
+      "seleccion": "2",
+      "cuota": 1.621963,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 4.267,
+  "cuota_americana": "+327",
+  "monto": 300.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261103-4d64fe",
+  "creado": "2026-11-03T13:55:28.896664-07:00",
+  "estado": "pendiente"
+}
