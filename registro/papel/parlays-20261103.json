@@ -217,6 +217,193 @@
       "excepcion": "Elección de Salva en papel (3-nov): parlay de 2 crea tu apuesta, Gala-Stuttgart +190 (1X + ambos sí + menos 4.5 tarjetas) y Shakhtar-Sporting +250 (Sporting PA + ambos sí). Cuota total +915 de Winpot repartida entre patas; prob. aprox. independientes.",
       "pago_anticipado": true,
       "estado": "pendiente"
+    },
+    {
+      "clave": "prob|P-20261103-564cbf:ganador:1|P-20261103-c36bd9:goles:mas_2.5|P-20261103-d0a16c:ganador:2",
+      "tipo": "parlay",
+      "categoria": "combinada_prob",
+      "patas": [
+        {
+          "pronostico": "P-20261103-564cbf",
+          "partido": "Barcelona vs Aston Villa",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.2857142857142856,
+          "prob": 0.787,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261103-c36bd9",
+          "partido": "Manchester United vs AS Roma",
+          "liga": "champions",
+          "mercado": "goles",
+          "seleccion": "mas_2.5",
+          "cuota": 1.4784688995215312,
+          "prob": 0.655,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261103-d0a16c",
+          "partido": "Villarreal vs Paris Saint-Germain",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.7751937984496124,
+          "prob": 0.607,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.3744,
+      "cuota_americana": "+237",
+      "prob": 0.3129,
+      "monto": 310.0,
+      "recortada": false,
+      "creado": "2026-11-03T12:39:38.753243-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261103-c9fce7:ganador:1|P-20261103-d0a16c:ganador:2",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261103-c9fce7",
+          "partido": "Atlético Madrid vs Bayern Munich",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 3.33,
+          "prob": 0.345,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261103-d0a16c",
+          "partido": "Villarreal vs Paris Saint-Germain",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.7751937984496124,
+          "prob": 0.607,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 5.9114,
+      "cuota_americana": "+491",
+      "prob": 0.2094,
+      "monto": 170.0,
+      "recortada": false,
+      "creado": "2026-11-03T12:39:38.753278-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261103-c36bd9:ganador:2|P-20261103-d0a16c:ganador:1",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261103-c36bd9",
+          "partido": "Manchester United vs AS Roma",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 3.0,
+          "prob": 0.352,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261103-d0a16c",
+          "partido": "Villarreal vs Paris Saint-Germain",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 4.2,
+          "prob": 0.245,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 12.6,
+      "cuota_americana": "+1160",
+      "prob": 0.0862,
+      "monto": 170.0,
+      "recortada": false,
+      "creado": "2026-11-03T12:39:38.753295-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261103-564cbf:ganador:2|P-20261103-c36bd9:ganador:1",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261103-564cbf",
+          "partido": "Barcelona vs Aston Villa",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 8.5,
+          "prob": 0.139,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261103-c36bd9",
+          "partido": "Manchester United vs AS Roma",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 2.08,
+          "prob": 0.496,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 17.68,
+      "cuota_americana": "+1668",
+      "prob": 0.0689,
+      "monto": 110.0,
+      "recortada": false,
+      "creado": "2026-11-03T12:39:38.753310-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "lectura|P-20261103-d0a16c:ganador:2",
+      "tipo": "parlay",
+      "categoria": "lectura",
+      "patas": [
+        {
+          "pronostico": "P-20261103-d0a16c",
+          "partido": "Villarreal vs Paris Saint-Germain",
+          "liga": "champions",
+          "deporte": "futbol",
+          "espn_id": "401915309",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.7752,
+          "prob": 0.607,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 1.7752,
+      "cuota_americana": "-129",
+      "prob": 0.607,
+      "ve": 0.0775,
+      "confianza": "alta",
+      "mismo_partido": false,
+      "monto": 620.0,
+      "lecturas": {
+        "P-20261103-d0a16c": "PSG superior aun sin Dembélé ni Kvaratskhelia; Villarreal concede mucho en Champions (8 en 3). PSG gana con más de 2.5 goles."
+      },
+      "creado": "2026-11-03T12:39:46.520322-07:00",
+      "estado": "pendiente"
     }
   ]
 }
