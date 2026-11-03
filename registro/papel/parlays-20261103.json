@@ -1,0 +1,151 @@
+{
+  "id": "parlays-20261103",
+  "fecha": "2026-11-03",
+  "creado": "2026-11-03T10:05:16.255999-07:00",
+  "parlays": [
+    {
+      "clave": "P-20261103-07b5ba:ganador:2|P-20261103-563ce0:corners:menos_8.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261103-07b5ba",
+          "partido": "Galatasaray vs VfB Stuttgart",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 3.2,
+          "prob": 0.359,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261103-563ce0",
+          "partido": "Shakhtar Donetsk vs Sporting CP",
+          "liga": "champions",
+          "mercado": "corners",
+          "seleccion": "menos_8.5",
+          "cuota": 2.05,
+          "prob": 0.542,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 6.56,
+      "cuota_americana": "+556",
+      "prob": 0.1946,
+      "monto": 110.0,
+      "recortada": false,
+      "creado": "2026-11-03T10:05:16.255508-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261103-07b5ba:corners:menos_8.5|P-20261103-563ce0:tarjetas:mas_4.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261103-07b5ba",
+          "partido": "Galatasaray vs VfB Stuttgart",
+          "liga": "champions",
+          "mercado": "corners",
+          "seleccion": "menos_8.5",
+          "cuota": 2.65,
+          "prob": 0.433,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261103-563ce0",
+          "partido": "Shakhtar Donetsk vs Sporting CP",
+          "liga": "champions",
+          "mercado": "tarjetas",
+          "seleccion": "mas_4.5",
+          "cuota": 1.8333333333333335,
+          "prob": 0.588,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 4.8583,
+      "cuota_americana": "+386",
+      "prob": 0.2546,
+      "monto": 110.0,
+      "recortada": false,
+      "creado": "2026-11-03T10:05:16.255561-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261103-07b5ba:ganador:1|P-20261103-563ce0:corners:menos_9.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261103-07b5ba",
+          "partido": "Galatasaray vs VfB Stuttgart",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 2.05,
+          "prob": 0.506,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261103-563ce0",
+          "partido": "Shakhtar Donetsk vs Sporting CP",
+          "liga": "champions",
+          "mercado": "corners",
+          "seleccion": "menos_9.5",
+          "cuota": 1.625,
+          "prob": 0.652,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.3312,
+      "cuota_americana": "+233",
+      "prob": 0.3299,
+      "monto": 110.0,
+      "recortada": false,
+      "creado": "2026-11-03T10:05:16.255588-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261103-07b5ba:tarjetas:menos_4.5|P-20261103-563ce0:tarjetas:mas_3.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261103-07b5ba",
+          "partido": "Galatasaray vs VfB Stuttgart",
+          "liga": "champions",
+          "mercado": "tarjetas",
+          "seleccion": "menos_4.5",
+          "cuota": 1.5988023952095807,
+          "prob": 0.642,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261103-563ce0",
+          "partido": "Shakhtar Donetsk vs Sporting CP",
+          "liga": "champions",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "cuota": 1.4,
+          "prob": 0.753,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 2.2383,
+      "cuota_americana": "+124",
+      "prob": 0.4834,
+      "monto": 110.0,
+      "recortada": false,
+      "creado": "2026-11-03T10:05:16.255610-07:00",
+      "estado": "pendiente"
+    }
+  ]
+}
