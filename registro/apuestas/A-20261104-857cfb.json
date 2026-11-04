@@ -1,0 +1,69 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261104-79bfdd",
+      "partido": "Fenerbahce vs Liverpool",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915382",
+      "mercado": "ganador",
+      "seleccion": "2",
+      "cuota": 1.553616,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261104-79bfdd",
+      "partido": "Fenerbahce vs Liverpool",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915382",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 1.553616,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261104-79bfdd",
+      "partido": "Fenerbahce vs Liverpool",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915382",
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "cuota": 1.553616,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261104-d28d94",
+      "partido": "AEK Athens vs Real Madrid",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915383",
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "cuota": 1.489966,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261104-d28d94",
+      "partido": "AEK Athens vs Real Madrid",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915383",
+      "mercado": "tarjetas",
+      "seleccion": "mas_2.5",
+      "cuota": 1.489966,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 8.333625,
+  "cuota_americana": "+733",
+  "monto": 400.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261104-857cfb",
+  "creado": "2026-11-04T10:35:35.985383-07:00",
+  "estado": "pendiente",
+  "nota": "Real de Salva, Winpot ID 5614792259: parlay de 2 crea tu apuesta (Fener-Liverpool +275, AEK-Madrid +122). Cuotas por pata escaladas."
+}
