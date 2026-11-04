@@ -10,7 +10,7 @@
       "mercado": "ganador",
       "seleccion": "2",
       "cuota": 1.587401,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261104-8a9947",
@@ -21,7 +21,7 @@
       "mercado": "corners",
       "seleccion": "mas_7.5",
       "cuota": 1.587401,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261104-8a9947",
@@ -32,7 +32,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.587401,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261104-56f198",
@@ -43,7 +43,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.333333,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261104-50d645",
@@ -54,7 +54,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.346482,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261104-50d645",
@@ -65,7 +65,7 @@
       "mercado": "corners",
       "seleccion": "mas_7.5",
       "cuota": 1.346482,
-      "estado": "pendiente"
+      "estado": "ganada"
     }
   ],
   "cuota": 9.69753,
@@ -75,6 +75,8 @@
   "categoria": "eleccion_salva",
   "id": "A-20261104-993db0",
   "creado": "2026-11-04T12:48:39.772766-07:00",
-  "estado": "pendiente",
-  "nota": "Real de Salva: parlay de 3 (Lens-Como BB +300; PSV-Brujas ambos sí −300; Viking-Sabah BB −123). Cuotas por pata escaladas."
+  "estado": "ganada",
+  "nota": "Real de Salva: parlay de 3 (Lens-Como BB +300; PSV-Brujas ambos sí −300; Viking-Sabah BB −123). Cuotas por pata escaladas.",
+  "ganancia": 2600.82,
+  "liquidada": "2026-11-04T15:30:30.369822-07:00"
 }

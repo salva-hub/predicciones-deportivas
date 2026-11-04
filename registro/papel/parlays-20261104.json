@@ -134,7 +134,7 @@
           "cuota": 1.4761904761904763,
           "prob": 0.674,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261104-56f198",
@@ -145,7 +145,7 @@
           "cuota": 1.3333333333333333,
           "prob": 0.729,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261104-e8a9da",
@@ -156,7 +156,7 @@
           "cuota": 1.5813953488372094,
           "prob": 0.658,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 3.1126,
@@ -165,7 +165,9 @@
       "monto": 350.0,
       "recortada": false,
       "creado": "2026-11-04T12:34:59.654684-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 739.41,
+      "liquidada": "2026-11-04T15:30:30.370964-07:00"
     },
     {
       "clave": "P-20261104-e8a9da:ganador:2|P-20261104-f1c93d:ganador:2",
@@ -181,7 +183,7 @@
           "cuota": 1.3076923076923077,
           "prob": 0.783,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261104-e8a9da",
@@ -192,7 +194,7 @@
           "cuota": 1.5813953488372094,
           "prob": 0.658,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 2.068,
@@ -201,7 +203,9 @@
       "monto": 90.0,
       "recortada": false,
       "creado": "2026-11-04T12:34:59.654723-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 96.12,
+      "liquidada": "2026-11-04T15:30:30.370980-07:00"
     },
     {
       "clave": "lectura|P-20261104-e8a9da:ganador:2|P-20261104-f1b0ac:ganador:1|P-20261104-f1c93d:ganador:2",
@@ -219,7 +223,7 @@
           "cuota": 1.3077,
           "prob": 0.783,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261104-e8a9da",
@@ -232,7 +236,7 @@
           "cuota": 1.5814,
           "prob": 0.658,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261104-f1b0ac",
@@ -245,7 +249,7 @@
           "cuota": 1.6135,
           "prob": 0.613,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 3.3367,
@@ -261,7 +265,9 @@
         "P-20261104-f1b0ac": "Dortmund en casa, invicto en 4 de 5; Betis 3 de 3 en Champions y anota fuera. Dortmund favorito y partido con goles."
       },
       "creado": "2026-11-04T12:35:14.226373-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 701.01,
+      "liquidada": "2026-11-04T15:30:30.370992-07:00"
     }
   ]
 }

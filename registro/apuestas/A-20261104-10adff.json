@@ -10,7 +10,7 @@
       "mercado": "handicap",
       "seleccion": "visitante_-1.5",
       "cuota": 1.892857,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261104-f1b0ac",
@@ -21,7 +21,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.48324,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261104-f1b0ac",
@@ -32,7 +32,7 @@
       "mercado": "corners",
       "seleccion": "mas_8.5",
       "cuota": 1.48324,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261104-e8a9da",
@@ -43,7 +43,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.299868,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261104-e8a9da",
@@ -54,7 +54,7 @@
       "mercado": "corners",
       "seleccion": "mas_7.5",
       "cuota": 1.299868,
-      "estado": "pendiente"
+      "estado": "ganada"
     }
   ],
   "cuota": 7.07422,
@@ -64,6 +64,8 @@
   "categoria": "eleccion_salva",
   "id": "A-20261104-10adff",
   "creado": "2026-11-04T12:48:38.742389-07:00",
-  "estado": "pendiente",
-  "nota": "Real de Salva, Winpot ID 5615798981: parlay de 3 (Arsenal −1.5 −112; Dortmund-Betis BB +120; Leipzig-City BB −145). Cuotas por pata escaladas."
+  "estado": "perdida",
+  "nota": "Real de Salva, Winpot ID 5615798981: parlay de 3 (Arsenal −1.5 −112; Dortmund-Betis BB +120; Leipzig-City BB −145). Cuotas por pata escaladas.",
+  "ganancia": -500.0,
+  "liquidada": "2026-11-04T15:30:30.369433-07:00"
 }
