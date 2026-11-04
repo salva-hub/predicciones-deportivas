@@ -34,6 +34,87 @@
       },
       "creado": "2026-11-04T10:31:51.756012-07:00",
       "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261104-79bfdd:ambos_anotan:si|P-20261104-79bfdd:corners:mas_8.5|P-20261104-79bfdd:ganador:2|P-20261104-d28d94:handicap:visitante_-1.5|P-20261104-d28d94:tarjetas:mas_2.5",
+      "tipo": "parlay",
+      "categoria": "eleccion_salva",
+      "patas": [
+        {
+          "pronostico": "P-20261104-79bfdd",
+          "partido": "Fenerbahce vs Liverpool",
+          "liga": "champions",
+          "deporte": "futbol",
+          "espn_id": "401915382",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "prob": 0.641,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.510758
+        },
+        {
+          "pronostico": "P-20261104-79bfdd",
+          "partido": "Fenerbahce vs Liverpool",
+          "liga": "champions",
+          "deporte": "futbol",
+          "espn_id": "401915382",
+          "mercado": "ambos_anotan",
+          "seleccion": "si",
+          "prob": 0.623,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.510758
+        },
+        {
+          "pronostico": "P-20261104-79bfdd",
+          "partido": "Fenerbahce vs Liverpool",
+          "liga": "champions",
+          "deporte": "futbol",
+          "espn_id": "401915382",
+          "mercado": "corners",
+          "seleccion": "mas_8.5",
+          "prob": 0.631,
+          "confianza": "alta",
+          "estado": "pendiente",
+          "cuota": 1.510758
+        },
+        {
+          "pronostico": "P-20261104-d28d94",
+          "partido": "AEK Athens vs Real Madrid",
+          "liga": "champions",
+          "deporte": "futbol",
+          "espn_id": "401915383",
+          "mercado": "handicap",
+          "seleccion": "visitante_-1.5",
+          "prob": 0.624,
+          "confianza": "media",
+          "estado": "pendiente",
+          "cuota": 1.510758
+        },
+        {
+          "pronostico": "P-20261104-d28d94",
+          "partido": "AEK Athens vs Real Madrid",
+          "liga": "champions",
+          "deporte": "futbol",
+          "espn_id": "401915383",
+          "mercado": "tarjetas",
+          "seleccion": "mas_2.5",
+          "prob": 0.704,
+          "confianza": "media",
+          "estado": "pendiente",
+          "cuota": 1.510758
+        }
+      ],
+      "cuota": 7.87,
+      "cuota_americana": "+687",
+      "prob": 0.095,
+      "monto": 300,
+      "recortada": false,
+      "creado": "2026-11-04T10:35:24.417025-07:00",
+      "excepcion": "Elección de Salva en papel (4-nov): parlay de 2 crea tu apuesta, Fener-Liverpool (Liverpool gana + ambos sí + más 8.5 córners) y AEK-Madrid (Madrid −1.5 + más 2.5 tarjetas), +687 de Winpot repartida entre patas; prob. conjunta de la matriz de goles por partido (córners y tarjetas independientes).",
+      "pago_anticipado": true,
+      "estado": "pendiente"
     }
   ]
 }
