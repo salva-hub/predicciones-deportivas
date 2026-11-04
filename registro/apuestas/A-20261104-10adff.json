@@ -1,0 +1,69 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261104-f1c93d",
+      "partido": "Slavia Prague vs Arsenal",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915381",
+      "mercado": "handicap",
+      "seleccion": "visitante_-1.5",
+      "cuota": 1.892857,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261104-f1b0ac",
+      "partido": "Borussia Dortmund vs Real Betis",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915304",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 1.48324,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261104-f1b0ac",
+      "partido": "Borussia Dortmund vs Real Betis",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915304",
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "cuota": 1.48324,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261104-e8a9da",
+      "partido": "RB Leipzig vs Manchester City",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915306",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 1.299868,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261104-e8a9da",
+      "partido": "RB Leipzig vs Manchester City",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915306",
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota": 1.299868,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 7.07422,
+  "cuota_americana": "+607",
+  "monto": 500.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261104-10adff",
+  "creado": "2026-11-04T12:48:38.742389-07:00",
+  "estado": "pendiente",
+  "nota": "Real de Salva, Winpot ID 5615798981: parlay de 3 (Arsenal −1.5 −112; Dortmund-Betis BB +120; Leipzig-City BB −145). Cuotas por pata escaladas."
+}
