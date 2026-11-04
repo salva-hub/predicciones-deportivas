@@ -115,6 +115,149 @@
       "excepcion": "Elección de Salva en papel (4-nov): parlay de 2 crea tu apuesta, Fener-Liverpool (Liverpool gana + ambos sí + más 8.5 córners) y AEK-Madrid (Madrid −1.5 + más 2.5 tarjetas), +687 de Winpot repartida entre patas; prob. conjunta de la matriz de goles por partido (córners y tarjetas independientes).",
       "pago_anticipado": true,
       "estado": "pendiente"
+    },
+    {
+      "clave": "prob|P-20261104-56f198:goles:mas_2.5|P-20261104-e8a9da:ganador:2|P-20261104-f1c93d:goles_equipo:visitante_mas_1.5",
+      "tipo": "parlay",
+      "categoria": "combinada_prob",
+      "patas": [
+        {
+          "pronostico": "P-20261104-f1c93d",
+          "partido": "Slavia Prague vs Arsenal",
+          "liga": "champions",
+          "mercado": "goles_equipo",
+          "seleccion": "visitante_mas_1.5",
+          "cuota": 1.4761904761904763,
+          "prob": 0.674,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261104-56f198",
+          "partido": "PSV Eindhoven vs Club Brugge",
+          "liga": "champions",
+          "mercado": "goles",
+          "seleccion": "mas_2.5",
+          "cuota": 1.3333333333333333,
+          "prob": 0.729,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261104-e8a9da",
+          "partido": "RB Leipzig vs Manchester City",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.5813953488372094,
+          "prob": 0.658,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.1126,
+      "cuota_americana": "+211",
+      "prob": 0.3233,
+      "monto": 350.0,
+      "recortada": false,
+      "creado": "2026-11-04T12:34:59.654684-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261104-e8a9da:ganador:2|P-20261104-f1c93d:ganador:2",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261104-f1c93d",
+          "partido": "Slavia Prague vs Arsenal",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.3076923076923077,
+          "prob": 0.783,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261104-e8a9da",
+          "partido": "RB Leipzig vs Manchester City",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.5813953488372094,
+          "prob": 0.658,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 2.068,
+      "cuota_americana": "+107",
+      "prob": 0.5152,
+      "monto": 90.0,
+      "recortada": false,
+      "creado": "2026-11-04T12:34:59.654723-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "lectura|P-20261104-e8a9da:ganador:2|P-20261104-f1b0ac:ganador:1|P-20261104-f1c93d:ganador:2",
+      "tipo": "parlay",
+      "categoria": "lectura",
+      "patas": [
+        {
+          "pronostico": "P-20261104-f1c93d",
+          "partido": "Slavia Prague vs Arsenal",
+          "liga": "champions",
+          "deporte": "futbol",
+          "espn_id": "401915381",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.3077,
+          "prob": 0.783,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261104-e8a9da",
+          "partido": "RB Leipzig vs Manchester City",
+          "liga": "champions",
+          "deporte": "futbol",
+          "espn_id": "401915306",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.5814,
+          "prob": 0.658,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261104-f1b0ac",
+          "partido": "Borussia Dortmund vs Real Betis",
+          "liga": "champions",
+          "deporte": "futbol",
+          "espn_id": "401915304",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.6135,
+          "prob": 0.613,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.3367,
+      "cuota_americana": "+234",
+      "prob": 0.3158,
+      "ve": 0.0538,
+      "confianza": "media",
+      "mismo_partido": false,
+      "monto": 300.0,
+      "lecturas": {
+        "P-20261104-f1c93d": "Arsenal GGEGG con 2 goles en contra en 5; Slavia no gana en 5 (PPPPE) y anota poco. Arsenal muy superior y sólido atrás: gana y Slavia no anota los dos.",
+        "P-20261104-e8a9da": "City favorito pero irregular (PGGPP) y Leipzig anota en casa; sus duelos suelen tener goles. Gana City en partido abierto, anotan ambos.",
+        "P-20261104-f1b0ac": "Dortmund en casa, invicto en 4 de 5; Betis 3 de 3 en Champions y anota fuera. Dortmund favorito y partido con goles."
+      },
+      "creado": "2026-11-04T12:35:14.226373-07:00",
+      "estado": "pendiente"
     }
   ]
 }
