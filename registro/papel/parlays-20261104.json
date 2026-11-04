@@ -1,0 +1,39 @@
+{
+  "id": "parlays-20261104",
+  "fecha": "2026-11-04",
+  "creado": "2026-11-04T10:31:50.601246-07:00",
+  "parlays": [
+    {
+      "clave": "lectura|P-20261104-79bfdd:ganador:2",
+      "tipo": "parlay",
+      "categoria": "lectura",
+      "patas": [
+        {
+          "pronostico": "P-20261104-79bfdd",
+          "partido": "Fenerbahce vs Liverpool",
+          "liga": "champions",
+          "deporte": "futbol",
+          "espn_id": "401915382",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.5814,
+          "prob": 0.641,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 1.5814,
+      "cuota_americana": "-172",
+      "prob": 0.641,
+      "ve": 0.0137,
+      "confianza": "alta",
+      "mismo_partido": false,
+      "monto": 870.0,
+      "lecturas": {
+        "P-20261104-79bfdd": "Liverpool 3 de 3 en Champions y 4 de 5 en su racha; Fenerbahçe sin ganar en Champions pero anotó en casa (3 en 2). Liverpool favorito en partido abierto: gana y anotan ambos."
+      },
+      "creado": "2026-11-04T10:31:51.756012-07:00",
+      "estado": "pendiente"
+    }
+  ]
+}
