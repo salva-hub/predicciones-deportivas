@@ -10,7 +10,7 @@
       "mercado": "ganador",
       "seleccion": "2",
       "cuota": 1.553616,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261104-79bfdd",
@@ -21,7 +21,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.553616,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261104-79bfdd",
@@ -32,7 +32,7 @@
       "mercado": "tarjetas",
       "seleccion": "mas_3.5",
       "cuota": 1.553616,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261104-d28d94",
@@ -43,7 +43,7 @@
       "mercado": "corners",
       "seleccion": "mas_8.5",
       "cuota": 1.489966,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261104-d28d94",
@@ -54,7 +54,7 @@
       "mercado": "tarjetas",
       "seleccion": "mas_2.5",
       "cuota": 1.489966,
-      "estado": "pendiente"
+      "estado": "ganada"
     }
   ],
   "cuota": 8.333625,
@@ -64,6 +64,8 @@
   "categoria": "eleccion_salva",
   "id": "A-20261104-857cfb",
   "creado": "2026-11-04T10:35:35.985383-07:00",
-  "estado": "pendiente",
-  "nota": "Real de Salva, Winpot ID 5614792259: parlay de 2 crea tu apuesta (Fener-Liverpool +275, AEK-Madrid +122). Cuotas por pata escaladas."
+  "estado": "perdida",
+  "nota": "Real de Salva, Winpot ID 5614792259: parlay de 2 crea tu apuesta (Fener-Liverpool +275, AEK-Madrid +122). Cuotas por pata escaladas.",
+  "ganancia": -400.0,
+  "liquidada": "2026-11-04T13:15:26.675274-07:00"
 }

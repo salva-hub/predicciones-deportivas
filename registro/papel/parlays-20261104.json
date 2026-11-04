@@ -19,7 +19,7 @@
           "cuota": 1.5814,
           "prob": 0.641,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 1.5814,
@@ -33,7 +33,9 @@
         "P-20261104-79bfdd": "Liverpool 3 de 3 en Champions y 4 de 5 en su racha; Fenerbahçe sin ganar en Champions pero anotó en casa (3 en 2). Liverpool favorito en partido abierto: gana y anotan ambos."
       },
       "creado": "2026-11-04T10:31:51.756012-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -870.0,
+      "liquidada": "2026-11-04T13:15:26.676247-07:00"
     },
     {
       "clave": "P-20261104-79bfdd:ambos_anotan:si|P-20261104-79bfdd:corners:mas_8.5|P-20261104-79bfdd:ganador:2|P-20261104-d28d94:handicap:visitante_-1.5|P-20261104-d28d94:tarjetas:mas_2.5",
@@ -50,7 +52,7 @@
           "seleccion": "2",
           "prob": 0.641,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "perdida",
           "cuota": 1.510758
         },
         {
@@ -63,7 +65,7 @@
           "seleccion": "si",
           "prob": 0.623,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.510758
         },
         {
@@ -76,7 +78,7 @@
           "seleccion": "mas_8.5",
           "prob": 0.631,
           "confianza": "alta",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.510758
         },
         {
@@ -89,7 +91,7 @@
           "seleccion": "visitante_-1.5",
           "prob": 0.624,
           "confianza": "media",
-          "estado": "pendiente",
+          "estado": "perdida",
           "cuota": 1.510758
         },
         {
@@ -102,7 +104,7 @@
           "seleccion": "mas_2.5",
           "prob": 0.704,
           "confianza": "media",
-          "estado": "pendiente",
+          "estado": "ganada",
           "cuota": 1.510758
         }
       ],
@@ -114,7 +116,9 @@
       "creado": "2026-11-04T10:35:24.417025-07:00",
       "excepcion": "Elección de Salva en papel (4-nov): parlay de 2 crea tu apuesta, Fener-Liverpool (Liverpool gana + ambos sí + más 8.5 córners) y AEK-Madrid (Madrid −1.5 + más 2.5 tarjetas), +687 de Winpot repartida entre patas; prob. conjunta de la matriz de goles por partido (córners y tarjetas independientes).",
       "pago_anticipado": true,
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -300,
+      "liquidada": "2026-11-04T13:15:26.676271-07:00"
     },
     {
       "clave": "prob|P-20261104-56f198:goles:mas_2.5|P-20261104-e8a9da:ganador:2|P-20261104-f1c93d:goles_equipo:visitante_mas_1.5",
