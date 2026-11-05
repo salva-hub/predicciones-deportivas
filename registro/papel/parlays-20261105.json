@@ -239,6 +239,196 @@
       },
       "creado": "2026-11-05T10:31:20.473897-07:00",
       "estado": "pendiente"
+    },
+    {
+      "clave": "prob|P-20261105-2e537b:corners:mas_8.5|P-20261105-6e5bae:ganador:1|P-20261105-74027b:goles:menos_3.5",
+      "tipo": "parlay",
+      "categoria": "combinada_prob",
+      "patas": [
+        {
+          "pronostico": "P-20261105-74027b",
+          "partido": "Sunderland vs Dinamo Zagreb",
+          "liga": "europa_league",
+          "mercado": "goles",
+          "seleccion": "menos_3.5",
+          "cuota": 1.5,
+          "prob": 0.652,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-2e537b",
+          "partido": "AZ Alkmaar vs Juventus",
+          "liga": "europa_league",
+          "mercado": "corners",
+          "seleccion": "mas_8.5",
+          "cuota": 1.5,
+          "prob": 0.656,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-6e5bae",
+          "partido": "Bayer Leverkusen vs Marseille",
+          "liga": "europa_league",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.3636363636363638,
+          "prob": 0.738,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.0682,
+      "cuota_americana": "+207",
+      "prob": 0.3157,
+      "monto": 320.0,
+      "recortada": false,
+      "creado": "2026-11-05T12:22:56.976440-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "prob|P-20261105-2e537b:doble_oportunidad:X2|P-20261105-6e5bae:tarjetas:mas_3.5|P-20261105-74027b:ganador:1",
+      "tipo": "parlay",
+      "categoria": "combinada_prob",
+      "patas": [
+        {
+          "pronostico": "P-20261105-74027b",
+          "partido": "Sunderland vs Dinamo Zagreb",
+          "liga": "europa_league",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.5714285714285714,
+          "prob": 0.639,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-2e537b",
+          "partido": "AZ Alkmaar vs Juventus",
+          "liga": "europa_league",
+          "mercado": "doble_oportunidad",
+          "seleccion": "X2",
+          "cuota": 1.3745318352059925,
+          "prob": 0.709,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-6e5bae",
+          "partido": "Bayer Leverkusen vs Marseille",
+          "liga": "europa_league",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "cuota": 1.6993006993006992,
+          "prob": 0.604,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.6705,
+      "cuota_americana": "+267",
+      "prob": 0.2736,
+      "monto": 320.0,
+      "recortada": false,
+      "creado": "2026-11-05T12:22:56.976475-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261105-2e537b:ganador:2|P-20261105-6e5bae:corners:menos_7.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261105-2e537b",
+          "partido": "AZ Alkmaar vs Juventus",
+          "liga": "europa_league",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 2.33,
+          "prob": 0.466,
+          "confianza": "baja",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-6e5bae",
+          "partido": "Bayer Leverkusen vs Marseille",
+          "liga": "europa_league",
+          "mercado": "corners",
+          "seleccion": "menos_7.5",
+          "cuota": 3.33,
+          "prob": 0.331,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 7.7589,
+      "cuota_americana": "+676",
+      "prob": 0.1542,
+      "monto": 100.0,
+      "recortada": false,
+      "creado": "2026-11-05T12:22:56.976493-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "lectura|P-20261105-2e537b:corners:mas_8.5|P-20261105-6e5bae:ganador:1|P-20261105-74027b:ganador:1",
+      "tipo": "parlay",
+      "categoria": "lectura",
+      "patas": [
+        {
+          "pronostico": "P-20261105-6e5bae",
+          "partido": "Bayer Leverkusen vs Marseille",
+          "liga": "europa_league",
+          "deporte": "futbol",
+          "espn_id": "401915533",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.3636,
+          "prob": 0.738,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-74027b",
+          "partido": "Sunderland vs Dinamo Zagreb",
+          "liga": "europa_league",
+          "deporte": "futbol",
+          "espn_id": "401915523",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.5714,
+          "prob": 0.639,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-2e537b",
+          "partido": "AZ Alkmaar vs Juventus",
+          "liga": "europa_league",
+          "deporte": "futbol",
+          "espn_id": "401915529",
+          "mercado": "corners",
+          "seleccion": "mas_8.5",
+          "cuota": 1.5,
+          "prob": 0.656,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.2141,
+      "cuota_americana": "+221",
+      "prob": 0.3094,
+      "ve": -0.0057,
+      "confianza": "media",
+      "mismo_partido": false,
+      "monto": 290.0,
+      "lecturas": {
+        "P-20261105-6e5bae": "Leverkusen muy superior en casa; Marsella irregular. Leverkusen gana con goles.",
+        "P-20261105-74027b": "Sunderland favorito en casa ante un Dinamo en mala racha (1 victoria en 5); partido controlado, sin goleada.",
+        "P-20261105-2e537b": "Juventus con más nivel pero dudas (Pinnacle bajó su favoritismo con la alineación); AZ ataca por bandas y genera córners."
+      },
+      "creado": "2026-11-05T12:23:02.507389-07:00",
+      "estado": "pendiente"
     }
   ]
 }

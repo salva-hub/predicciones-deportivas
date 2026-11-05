@@ -1306,5 +1306,247 @@
     "prob_conjunta": 0.3757,
     "creado": "2026-11-05T12:13:25.047264-07:00",
     "despues_de_winpot": false
-  }
+  },
+  "evaluacion": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "cuota_winpot": "-175",
+      "cuota_minima": "-163",
+      "cuota_justa": "-177",
+      "prob": 0.639,
+      "ve": 0.0041,
+      "confianza": "alta",
+      "categoria": "sencilla_prob",
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": true,
+      "ultimos10": {
+        "local": "2/10",
+        "visitante": "6/10"
+      },
+      "apostar_papel": true,
+      "monto_papel": 950.0,
+      "motivo": "prueba en papel"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "cuota_winpot": "-200",
+      "cuota_minima": "-172",
+      "cuota_justa": "-187",
+      "prob": 0.652,
+      "ve": -0.022,
+      "confianza": "media",
+      "categoria": "sencilla_prob",
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": true,
+      "ultimos10": {
+        "local": "8/10",
+        "visitante": "5/10"
+      },
+      "apostar_papel": true,
+      "monto_papel": 540.0,
+      "motivo": "prueba en papel"
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_1.5",
+      "cuota_winpot": "-180",
+      "cuota_minima": "-139",
+      "cuota_justa": "-150",
+      "prob": 0.6,
+      "ve": -0.0667,
+      "confianza": "media",
+      "categoria": null,
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "2/10",
+        "visitante": "6/10"
+      },
+      "motivo": "Winpot paga más de 4% por debajo del precio justo (-180 contra -150)",
+      "apostar_papel": false,
+      "monto_papel": 0
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_0.5",
+      "cuota_winpot": "-200",
+      "cuota_minima": "-148",
+      "cuota_justa": "-160",
+      "prob": 0.616,
+      "ve": -0.076,
+      "confianza": "alta",
+      "categoria": null,
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "8/10",
+        "visitante": "6/10"
+      },
+      "motivo": "Winpot paga más de 4% por debajo del precio justo (-200 contra -160)",
+      "apostar_papel": false,
+      "monto_papel": 0
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "cuota_winpot": "-200",
+      "cuota_minima": "-130",
+      "cuota_justa": "-147",
+      "prob": 0.595,
+      "ve": -0.1075,
+      "confianza": "alta",
+      "categoria": null,
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "6/10",
+        "visitante": "4/10"
+      },
+      "motivo": "probabilidad 60%: menos de 60%",
+      "apostar_papel": false,
+      "monto_papel": 0
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_8.5",
+      "cuota_winpot": "+140",
+      "cuota_minima": "+160",
+      "cuota_justa": "+147",
+      "prob": 0.405,
+      "ve": -0.028,
+      "confianza": "alta",
+      "categoria": null,
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "4/10",
+        "visitante": "6/10"
+      },
+      "motivo": "probabilidad 40%: menos de 60%",
+      "apostar_papel": false,
+      "monto_papel": 0
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_2.5",
+      "cuota_winpot": "-275",
+      "cuota_minima": "-187",
+      "cuota_justa": "-217",
+      "prob": 0.685,
+      "ve": -0.0659,
+      "confianza": "alta",
+      "categoria": null,
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "8/10",
+        "visitante": "7/10"
+      },
+      "motivo": "Winpot paga más de 4% por debajo del precio justo (-275 contra -217)",
+      "apostar_papel": false,
+      "monto_papel": 0
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_2.5",
+      "cuota_winpot": "+166",
+      "cuota_minima": "+234",
+      "cuota_justa": "+217",
+      "prob": 0.315,
+      "ve": -0.1621,
+      "confianza": "alta",
+      "categoria": null,
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "2/10",
+        "visitante": "3/10"
+      },
+      "motivo": "probabilidad 32%: menos de 60%",
+      "apostar_papel": false,
+      "monto_papel": 0
+    }
+  ],
+  "cuotas_winpot": {
+    "ganador:1": "-175",
+    "goles:menos_3.5": "-200",
+    "goles_equipo:local_mas_1.5": "-180",
+    "goles_equipo:visitante_mas_0.5": "-200",
+    "corners:mas_8.5": "-200",
+    "corners:menos_8.5": "+140",
+    "tarjetas:mas_2.5": "-275",
+    "tarjetas:menos_2.5": "+166"
+  },
+  "apuestas_papel": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "con_valor": false,
+      "cuota": 1.5714,
+      "cuota_americana": "-175",
+      "ve": 0.0041,
+      "prob": 0.639,
+      "confianza": "alta",
+      "evaluado": "2026-11-05T12:22:54.261055-07:00",
+      "estado": "pendiente",
+      "categoria": "sencilla_prob",
+      "recortada": false,
+      "monto": 950.0
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "con_valor": false,
+      "cuota": 1.5,
+      "cuota_americana": "-200",
+      "ve": -0.022,
+      "prob": 0.652,
+      "confianza": "media",
+      "evaluado": "2026-11-05T12:22:54.261017-07:00",
+      "estado": "pendiente",
+      "categoria": "sencilla_prob",
+      "recortada": false,
+      "monto": 540.0
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "categoria": "pick_modelo",
+      "con_valor": false,
+      "cuota": 1.5714,
+      "cuota_americana": "-175",
+      "monto": 300.0,
+      "ve": 0.0041,
+      "prob": 0.639,
+      "confianza": "alta",
+      "evaluado": "2026-11-05T12:22:54.261160-07:00",
+      "estado": "pendiente"
+    }
+  ]
 }
