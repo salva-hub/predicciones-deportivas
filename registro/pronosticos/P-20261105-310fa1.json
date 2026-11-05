@@ -70,7 +70,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "3/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "ganador",
@@ -82,7 +83,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "0/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ganador",
@@ -95,7 +97,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "2/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -107,7 +110,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "5/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -119,7 +123,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "0/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -131,7 +136,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "3/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -143,7 +149,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "2/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -155,7 +162,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "2/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -167,7 +175,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "3/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -179,7 +188,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -191,7 +201,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -203,7 +214,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -215,7 +227,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "ambos_anotan",
@@ -227,7 +240,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "ambos_anotan",
@@ -239,7 +253,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -251,7 +266,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -263,7 +279,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "2/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -275,7 +292,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "3/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -287,7 +305,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "2/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -299,7 +318,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "2/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -311,7 +331,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -323,7 +344,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -335,7 +357,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -347,7 +370,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -359,7 +383,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -371,7 +396,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -383,7 +409,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -391,7 +418,8 @@
       "prob": 0.428,
       "cuota_justa": "+134",
       "cuota_minima": "+141",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -399,7 +427,8 @@
       "prob": 0.372,
       "cuota_justa": "+169",
       "cuota_minima": "+177",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -407,7 +436,8 @@
       "prob": 0.2,
       "cuota_justa": "+401",
       "cuota_minima": "+416",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -415,7 +445,8 @@
       "prob": 0.752,
       "cuota_justa": "-304",
       "cuota_minima": "-271",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -423,7 +454,8 @@
       "prob": 0.248,
       "cuota_justa": "+304",
       "cuota_minima": "+317",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -431,7 +463,8 @@
       "prob": 0.407,
       "cuota_justa": "+146",
       "cuota_minima": "+154",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -439,7 +472,8 @@
       "prob": 0.593,
       "cuota_justa": "-146",
       "cuota_minima": "-135",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -451,7 +485,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "2/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -463,7 +498,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -476,7 +512,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "2/4"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -489,7 +526,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "1/4"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -502,7 +540,8 @@
       "ultimos10": {
         "local": "1/2",
         "visitante": "3/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -515,7 +554,8 @@
       "ultimos10": {
         "local": "1/2",
         "visitante": "2/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -528,7 +568,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/4"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -541,7 +582,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "2/4"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -553,7 +595,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -565,7 +608,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -577,7 +621,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -589,7 +634,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -601,7 +647,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -613,7 +660,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -625,7 +673,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -637,7 +686,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -649,7 +699,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -661,7 +712,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -673,7 +725,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -685,7 +738,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -697,7 +751,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -709,7 +764,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -721,7 +777,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "3/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -733,7 +790,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "2/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -745,7 +803,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "3/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -757,7 +816,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "2/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -769,7 +829,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "1/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -781,7 +842,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "4/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -793,7 +855,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "0/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -805,7 +868,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "5/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -813,7 +877,8 @@
       "prob": 0.476,
       "cuota_justa": "+110",
       "cuota_minima": "+121",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -821,7 +886,8 @@
       "prob": 0.259,
       "cuota_justa": "+286",
       "cuota_minima": "+306",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -829,7 +895,8 @@
       "prob": 0.264,
       "cuota_justa": "+278",
       "cuota_minima": "+298",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -842,7 +909,8 @@
       "jugador_id": "116893",
       "equipo": "NEC Nijmegen",
       "posicion": "F",
-      "tiros_esperados": 1.127
+      "tiros_esperados": 1.127,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -855,7 +923,8 @@
       "jugador_id": "116893",
       "equipo": "NEC Nijmegen",
       "posicion": "F",
-      "tiros_esperados": 1.127
+      "tiros_esperados": 1.127,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -868,7 +937,8 @@
       "jugador_id": "116893",
       "equipo": "NEC Nijmegen",
       "posicion": "F",
-      "tiros_esperados": 1.127
+      "tiros_esperados": 1.127,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -881,7 +951,8 @@
       "jugador_id": "122954",
       "equipo": "NEC Nijmegen",
       "posicion": "F",
-      "tiros_esperados": 1.002
+      "tiros_esperados": 1.002,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -894,7 +965,8 @@
       "jugador_id": "122954",
       "equipo": "NEC Nijmegen",
       "posicion": "F",
-      "tiros_esperados": 1.002
+      "tiros_esperados": 1.002,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -907,7 +979,8 @@
       "jugador_id": "122954",
       "equipo": "NEC Nijmegen",
       "posicion": "F",
-      "tiros_esperados": 1.002
+      "tiros_esperados": 1.002,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -920,7 +993,8 @@
       "jugador_id": "380942",
       "equipo": "NEC Nijmegen",
       "posicion": "M",
-      "tiros_esperados": 0.922
+      "tiros_esperados": 0.922,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -933,7 +1007,8 @@
       "jugador_id": "380942",
       "equipo": "NEC Nijmegen",
       "posicion": "M",
-      "tiros_esperados": 0.922
+      "tiros_esperados": 0.922,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -946,7 +1021,8 @@
       "jugador_id": "380942",
       "equipo": "NEC Nijmegen",
       "posicion": "M",
-      "tiros_esperados": 0.922
+      "tiros_esperados": 0.922,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -959,7 +1035,8 @@
       "jugador_id": "340685",
       "equipo": "NEC Nijmegen",
       "posicion": "F",
-      "tiros_esperados": 0.86
+      "tiros_esperados": 0.86,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -972,7 +1049,8 @@
       "jugador_id": "340685",
       "equipo": "NEC Nijmegen",
       "posicion": "F",
-      "tiros_esperados": 0.86
+      "tiros_esperados": 0.86,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -985,7 +1063,8 @@
       "jugador_id": "340685",
       "equipo": "NEC Nijmegen",
       "posicion": "F",
-      "tiros_esperados": 0.86
+      "tiros_esperados": 0.86,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -998,7 +1077,8 @@
       "jugador_id": "227441",
       "equipo": "NEC Nijmegen",
       "posicion": "M",
-      "tiros_esperados": 0.612
+      "tiros_esperados": 0.612,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1011,7 +1091,8 @@
       "jugador_id": "227441",
       "equipo": "NEC Nijmegen",
       "posicion": "M",
-      "tiros_esperados": 0.612
+      "tiros_esperados": 0.612,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1024,7 +1105,8 @@
       "jugador_id": "372851",
       "equipo": "NEC Nijmegen",
       "posicion": "M",
-      "tiros_esperados": 0.543
+      "tiros_esperados": 0.543,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1037,7 +1119,8 @@
       "jugador_id": "372851",
       "equipo": "NEC Nijmegen",
       "posicion": "M",
-      "tiros_esperados": 0.543
+      "tiros_esperados": 0.543,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1050,7 +1133,8 @@
       "jugador_id": "366131",
       "equipo": "Omonia Nicosia",
       "posicion": "M",
-      "tiros_esperados": 0.897
+      "tiros_esperados": 0.897,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1063,7 +1147,8 @@
       "jugador_id": "366131",
       "equipo": "Omonia Nicosia",
       "posicion": "M",
-      "tiros_esperados": 0.897
+      "tiros_esperados": 0.897,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1076,7 +1161,8 @@
       "jugador_id": "366131",
       "equipo": "Omonia Nicosia",
       "posicion": "M",
-      "tiros_esperados": 0.897
+      "tiros_esperados": 0.897,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1089,7 +1175,8 @@
       "jugador_id": "366462",
       "equipo": "Omonia Nicosia",
       "posicion": "M",
-      "tiros_esperados": 0.681
+      "tiros_esperados": 0.681,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1102,7 +1189,8 @@
       "jugador_id": "366462",
       "equipo": "Omonia Nicosia",
       "posicion": "M",
-      "tiros_esperados": 0.681
+      "tiros_esperados": 0.681,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1115,7 +1203,8 @@
       "jugador_id": "199675",
       "equipo": "Omonia Nicosia",
       "posicion": "M",
-      "tiros_esperados": 0.641
+      "tiros_esperados": 0.641,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1128,7 +1217,8 @@
       "jugador_id": "199675",
       "equipo": "Omonia Nicosia",
       "posicion": "M",
-      "tiros_esperados": 0.641
+      "tiros_esperados": 0.641,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1141,7 +1231,8 @@
       "jugador_id": "181007",
       "equipo": "Omonia Nicosia",
       "posicion": "F",
-      "tiros_esperados": 0.576
+      "tiros_esperados": 0.576,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1154,7 +1245,8 @@
       "jugador_id": "181007",
       "equipo": "Omonia Nicosia",
       "posicion": "F",
-      "tiros_esperados": 0.576
+      "tiros_esperados": 0.576,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1167,7 +1259,8 @@
       "jugador_id": "275269",
       "equipo": "Omonia Nicosia",
       "posicion": "M",
-      "tiros_esperados": 0.56
+      "tiros_esperados": 0.56,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1180,7 +1273,8 @@
       "jugador_id": "275269",
       "equipo": "Omonia Nicosia",
       "posicion": "M",
-      "tiros_esperados": 0.56
+      "tiros_esperados": 0.56,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1193,7 +1287,8 @@
       "jugador_id": "205279",
       "equipo": "Omonia Nicosia",
       "posicion": "M",
-      "tiros_esperados": 0.554
+      "tiros_esperados": 0.554,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1206,10 +1301,11 @@
       "jugador_id": "205279",
       "equipo": "Omonia Nicosia",
       "posicion": "M",
-      "tiros_esperados": 0.554
+      "tiros_esperados": 0.554,
+      "estado": "perdida"
     }
   ],
-  "estado": "pendiente",
+  "estado": "calificado",
   "respaldo": {
     "forma_local": {
       "racha": "PEG",
@@ -1340,5 +1436,271 @@
     }
   ],
   "id": "P-20261105-310fa1",
-  "creado": "2026-11-05T10:01:13.497708-07:00"
+  "creado": "2026-11-05T10:01:13.497708-07:00",
+  "resultado": {
+    "goles_local": 3,
+    "goles_visitante": 1,
+    "goles_local_pt": 0,
+    "goles_visitante_pt": 1,
+    "corners_local": 5.0,
+    "corners_visitante": 2.0,
+    "tarjetas_local": 1.0,
+    "tarjetas_visitante": 0.0,
+    "amarillas_local": 1.0,
+    "amarillas_visitante": 0.0,
+    "rojas_local": 0.0,
+    "rojas_visitante": 0.0,
+    "segundas_amarillas_local": 0,
+    "segundas_amarillas_visitante": 0,
+    "ventaja_max_local": 2,
+    "ventaja_max_visitante": 1,
+    "tiros_jugadores": {
+      "122575": {
+        "nombre": "Dusan Tadic",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "372034": {
+        "nombre": "Almugera Kabar",
+        "equipo": "NEC Nijmegen",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "309090": {
+        "nombre": "Nikolas Polster",
+        "equipo": "NEC Nijmegen",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "335203": {
+        "nombre": "Deveron Fonville",
+        "equipo": "NEC Nijmegen",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "285471": {
+        "nombre": "Willum Thór Willumsson",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "250529": {
+        "nombre": "Kaj Sierhuis",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "409658": {
+        "nombre": "Yassin Moslih",
+        "equipo": "NEC Nijmegen",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "392584": {
+        "nombre": "Joep Geneste",
+        "equipo": "NEC Nijmegen",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "239999": {
+        "nombre": "Philippe Sandler",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "363412": {
+        "nombre": "Kevin Kers",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "292223": {
+        "nombre": "Gonzalo Crettaz",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "233894": {
+        "nombre": "Perr Schuurs",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "306806": {
+        "nombre": "Ahmetcan Kaplan",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "364642": {
+        "nombre": "Gabi Brás",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "276579": {
+        "nombre": "Darko Nejasmic",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "227441": {
+        "nombre": "Jamiro Monteiro",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "340685": {
+        "nombre": "Noé Lebreton",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "380942": {
+        "nombre": "Ayodele Thomas",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "372851": {
+        "nombre": "Clement Bischoff",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "122954": {
+        "nombre": "Bryan Linssen",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 3.0
+      },
+      "116893": {
+        "nombre": "Tjaronn Chery",
+        "equipo": "NEC Nijmegen",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "134909": {
+        "nombre": "Thomas Kaminski",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "204701": {
+        "nombre": "Lubomir Satka",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "274954": {
+        "nombre": "Senou Coulibaly",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "241032": {
+        "nombre": "Jean-Kévin Duverne",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "235500": {
+        "nombre": "Mihlali Mayambela",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "205279": {
+        "nombre": "Florin Tanase",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "275269": {
+        "nombre": "Mateo Maric",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "366462": {
+        "nombre": "Panagiotis Andreou",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "181007": {
+        "nombre": "Loïs Diony",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "366131": {
+        "nombre": "Jaden Montnor",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "199675": {
+        "nombre": "Ewandro",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "365315": {
+        "nombre": "Angelos Neophytou",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "192453": {
+        "nombre": "Stefan Simic",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "3095852": {
+        "nombre": "Panagiotis Christoforou",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "162424": {
+        "nombre": "Muamer Tankovic",
+        "equipo": "Omonia Nicosia",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "5323356": {
+        "nombre": "Athos Kounounis",
+        "equipo": "Omonia Nicosia",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "165085": {
+        "nombre": "Fabiano",
+        "equipo": "Omonia Nicosia",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "408050": {
+        "nombre": "Christos Konstantinidis",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "388489": {
+        "nombre": "Pantelis Michael",
+        "equipo": "Omonia Nicosia",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "218528": {
+        "nombre": "Luuk Brouwers",
+        "equipo": "Omonia Nicosia",
+        "participo": true,
+        "tiros_puerta": 0.0
+      }
+    }
+  }
 }

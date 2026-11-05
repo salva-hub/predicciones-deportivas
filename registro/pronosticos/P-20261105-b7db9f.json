@@ -69,7 +69,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ganador",
@@ -81,7 +82,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "5/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ganador",
@@ -94,7 +96,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "2/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "doble_oportunidad",
@@ -106,7 +109,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "8/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "doble_oportunidad",
@@ -118,7 +122,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "5/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "doble_oportunidad",
@@ -130,7 +135,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -142,7 +148,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -154,7 +161,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -166,7 +174,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "6/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -178,7 +187,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "4/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -190,7 +200,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "5/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -202,7 +213,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "5/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -214,7 +226,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -226,7 +239,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -238,7 +252,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "0/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -250,7 +265,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "10/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "ambos_anotan",
@@ -262,7 +278,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "5/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ambos_anotan",
@@ -274,7 +291,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "5/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -286,7 +304,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "6/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -298,7 +317,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "4/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -310,7 +330,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -322,7 +343,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -334,7 +356,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -346,7 +369,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -358,7 +382,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "2/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -370,7 +395,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "8/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -382,7 +408,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -394,7 +421,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -406,7 +434,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "0/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -418,7 +447,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "10/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -426,7 +456,8 @@
       "prob": 0.275,
       "cuota_justa": "+263",
       "cuota_minima": "+275",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -434,7 +465,8 @@
       "prob": 0.376,
       "cuota_justa": "+166",
       "cuota_minima": "+175",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -442,7 +474,8 @@
       "prob": 0.349,
       "cuota_justa": "+186",
       "cuota_minima": "+196",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -450,7 +483,8 @@
       "prob": 0.763,
       "cuota_justa": "-322",
       "cuota_minima": "-285",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -458,7 +492,8 @@
       "prob": 0.237,
       "cuota_justa": "+322",
       "cuota_minima": "+335",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -466,7 +501,8 @@
       "prob": 0.421,
       "cuota_justa": "+137",
       "cuota_minima": "+145",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -474,7 +510,8 @@
       "prob": 0.579,
       "cuota_justa": "-137",
       "cuota_minima": "-128",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -486,7 +523,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -498,7 +536,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "0/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -511,7 +550,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "1/8"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -524,7 +564,8 @@
       "ultimos10": {
         "local": "1/2",
         "visitante": "0/8"
-      }
+      },
+      "estado": "devuelta"
     },
     {
       "mercado": "handicap",
@@ -537,7 +578,8 @@
       "ultimos10": {
         "local": "0/2",
         "visitante": "3/5"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -550,7 +592,8 @@
       "ultimos10": {
         "local": "2/2",
         "visitante": "2/5"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -563,7 +606,8 @@
       "ultimos10": {
         "local": "1/2",
         "visitante": "8/8"
-      }
+      },
+      "estado": "devuelta"
     },
     {
       "mercado": "handicap",
@@ -576,7 +620,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "7/8"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -588,7 +633,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "10/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -600,7 +646,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -612,7 +659,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -624,7 +672,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -636,7 +685,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -648,7 +698,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -660,7 +711,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "6/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -672,7 +724,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "4/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -684,7 +737,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -696,7 +750,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -708,7 +763,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -720,7 +776,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -732,7 +789,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -744,7 +802,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -756,7 +815,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -768,7 +828,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -780,7 +841,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "5/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -792,7 +854,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "5/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -804,7 +867,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "4/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -816,7 +880,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "6/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -828,7 +893,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -840,7 +906,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -848,7 +915,8 @@
       "prob": 0.288,
       "cuota_justa": "+247",
       "cuota_minima": "+265",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -856,7 +924,8 @@
       "prob": 0.22,
       "cuota_justa": "+354",
       "cuota_minima": "+377",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -864,7 +933,8 @@
       "prob": 0.492,
       "cuota_justa": "+103",
       "cuota_minima": "+114",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -877,7 +947,8 @@
       "jugador_id": "134827",
       "equipo": "Lillestrom",
       "posicion": "F",
-      "tiros_esperados": 0.789
+      "tiros_esperados": 0.789,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -890,7 +961,8 @@
       "jugador_id": "134827",
       "equipo": "Lillestrom",
       "posicion": "F",
-      "tiros_esperados": 0.789
+      "tiros_esperados": 0.789,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -903,7 +975,8 @@
       "jugador_id": "223137",
       "equipo": "Lillestrom",
       "posicion": "F",
-      "tiros_esperados": 0.681
+      "tiros_esperados": 0.681,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -916,7 +989,8 @@
       "jugador_id": "223137",
       "equipo": "Lillestrom",
       "posicion": "F",
-      "tiros_esperados": 0.681
+      "tiros_esperados": 0.681,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -929,7 +1003,8 @@
       "jugador_id": "255219",
       "equipo": "Lillestrom",
       "posicion": "F",
-      "tiros_esperados": 0.571
+      "tiros_esperados": 0.571,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -942,7 +1017,8 @@
       "jugador_id": "255219",
       "equipo": "Lillestrom",
       "posicion": "F",
-      "tiros_esperados": 0.571
+      "tiros_esperados": 0.571,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -955,7 +1031,8 @@
       "jugador_id": "284210",
       "equipo": "Lillestrom",
       "posicion": "M",
-      "tiros_esperados": 0.543
+      "tiros_esperados": 0.543,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -968,7 +1045,8 @@
       "jugador_id": "284210",
       "equipo": "Lillestrom",
       "posicion": "M",
-      "tiros_esperados": 0.543
+      "tiros_esperados": 0.543,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -981,7 +1059,8 @@
       "jugador_id": "363001",
       "equipo": "Lillestrom",
       "posicion": "M",
-      "tiros_esperados": 0.541
+      "tiros_esperados": 0.541,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -994,7 +1073,8 @@
       "jugador_id": "363001",
       "equipo": "Lillestrom",
       "posicion": "M",
-      "tiros_esperados": 0.541
+      "tiros_esperados": 0.541,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1007,7 +1087,8 @@
       "jugador_id": "357025",
       "equipo": "Lillestrom",
       "posicion": "M",
-      "tiros_esperados": 0.413
+      "tiros_esperados": 0.413,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1020,7 +1101,8 @@
       "jugador_id": "357025",
       "equipo": "Lillestrom",
       "posicion": "M",
-      "tiros_esperados": 0.413
+      "tiros_esperados": 0.413,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1033,7 +1115,8 @@
       "jugador_id": "387861",
       "equipo": "Viktoria Plzen",
       "posicion": "F",
-      "tiros_esperados": 0.703
+      "tiros_esperados": 0.703,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1046,7 +1129,8 @@
       "jugador_id": "387861",
       "equipo": "Viktoria Plzen",
       "posicion": "F",
-      "tiros_esperados": 0.703
+      "tiros_esperados": 0.703,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1059,7 +1143,8 @@
       "jugador_id": "303726",
       "equipo": "Viktoria Plzen",
       "posicion": "M",
-      "tiros_esperados": 0.622
+      "tiros_esperados": 0.622,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1072,7 +1157,8 @@
       "jugador_id": "303726",
       "equipo": "Viktoria Plzen",
       "posicion": "M",
-      "tiros_esperados": 0.622
+      "tiros_esperados": 0.622,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1085,7 +1171,8 @@
       "jugador_id": "338199",
       "equipo": "Viktoria Plzen",
       "posicion": "F",
-      "tiros_esperados": 0.443
+      "tiros_esperados": 0.443,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1098,7 +1185,8 @@
       "jugador_id": "338199",
       "equipo": "Viktoria Plzen",
       "posicion": "F",
-      "tiros_esperados": 0.443
+      "tiros_esperados": 0.443,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1111,7 +1199,8 @@
       "jugador_id": "309111",
       "equipo": "Viktoria Plzen",
       "posicion": "M",
-      "tiros_esperados": 0.37
+      "tiros_esperados": 0.37,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1124,7 +1213,8 @@
       "jugador_id": "309111",
       "equipo": "Viktoria Plzen",
       "posicion": "M",
-      "tiros_esperados": 0.37
+      "tiros_esperados": 0.37,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1137,7 +1227,8 @@
       "jugador_id": "345320",
       "equipo": "Viktoria Plzen",
       "posicion": "M",
-      "tiros_esperados": 0.275
+      "tiros_esperados": 0.275,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1150,10 +1241,11 @@
       "jugador_id": "387865",
       "equipo": "Viktoria Plzen",
       "posicion": "M",
-      "tiros_esperados": 0.202
+      "tiros_esperados": 0.202,
+      "estado": "ganada"
     }
   ],
-  "estado": "pendiente",
+  "estado": "calificado",
   "respaldo": {
     "forma_local": {
       "racha": "PEP",
@@ -1284,5 +1376,301 @@
     }
   ],
   "id": "P-20261105-b7db9f",
-  "creado": "2026-11-05T10:01:26.587134-07:00"
+  "creado": "2026-11-05T10:01:26.587134-07:00",
+  "resultado": {
+    "goles_local": 0,
+    "goles_visitante": 1,
+    "goles_local_pt": 0,
+    "goles_visitante_pt": 1,
+    "corners_local": 3.0,
+    "corners_visitante": 6.0,
+    "tarjetas_local": 2.0,
+    "tarjetas_visitante": 4.0,
+    "amarillas_local": 2.0,
+    "amarillas_visitante": 4.0,
+    "rojas_local": 0.0,
+    "rojas_visitante": 0.0,
+    "segundas_amarillas_local": 0,
+    "segundas_amarillas_visitante": 0,
+    "ventaja_max_local": 0,
+    "ventaja_max_visitante": 1,
+    "tiros_jugadores": {
+      "235504": {
+        "nombre": "Pontus Dahlberg",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "368078": {
+        "nombre": "Stian Kristiansen",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "133099": {
+        "nombre": "Ruben Gabrielsen",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "358392": {
+        "nombre": "Yaw Paintsil",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "267062": {
+        "nombre": "Lars Ranger",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "357025": {
+        "nombre": "Filip Ottosson",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "363001": {
+        "nombre": "Gustav Nyheim",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 2.0
+      },
+      "284210": {
+        "nombre": "Ylldren Ibrahimaj",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "134827": {
+        "nombre": "Fredrik Gulbrandsen",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "223137": {
+        "nombre": "Eric Kitolano",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "255219": {
+        "nombre": "Vá",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "3108858": {
+        "nombre": "Seun Akanji",
+        "equipo": "Lillestrom",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "416559": {
+        "nombre": "Linus Alperud",
+        "equipo": "Lillestrom",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "221124": {
+        "nombre": "Thomas Lehne Olsen",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "3131055": {
+        "nombre": "Lazar Babic",
+        "equipo": "Lillestrom",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "308547": {
+        "nombre": "Sturla Ottesen",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "304140": {
+        "nombre": "Frederik Elkaer",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "333776": {
+        "nombre": "Henrik Melland",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "312881": {
+        "nombre": "Gustav Nordh",
+        "equipo": "Lillestrom",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "363494": {
+        "nombre": "Camil Jebara",
+        "equipo": "Lillestrom",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "271767": {
+        "nombre": "Sander Moen Foss",
+        "equipo": "Lillestrom",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "234973": {
+        "nombre": "Stefan Hagerup",
+        "equipo": "Lillestrom",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "236589": {
+        "nombre": "Kevin Martin Krygard",
+        "equipo": "Lillestrom",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "387869": {
+        "nombre": "Florian Wiegele",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "320391": {
+        "nombre": "Sampson Dweh",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "360381": {
+        "nombre": "Filip Prebsl",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "405942": {
+        "nombre": "Tobiás Paliscák",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "303726": {
+        "nombre": "Lukás Cerv",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 3.0
+      },
+      "169214": {
+        "nombre": "Patrik Hrosovský",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "345320": {
+        "nombre": "Merchas Doski",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "309111": {
+        "nombre": "Adam Gabriel",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 2.0
+      },
+      "387861": {
+        "nombre": "Prince Adu",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "338199": {
+        "nombre": "Amar Memic",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 2.0
+      },
+      "387865": {
+        "nombre": "Alexandr Sojka",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "394701": {
+        "nombre": "Stefan Pirgic",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "362666": {
+        "nombre": "Salim Lawal",
+        "equipo": "Viktoria Plzen",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "342725": {
+        "nombre": "Dominik Tapaj",
+        "equipo": "Viktoria Plzen",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "310027": {
+        "nombre": "Denis Visinský",
+        "equipo": "Viktoria Plzen",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "3098533": {
+        "nombre": "Mohamed Toure",
+        "equipo": "Viktoria Plzen",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "370742": {
+        "nombre": "Christophe Kabongo",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "191176": {
+        "nombre": "Denis Vavro",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "304489": {
+        "nombre": "Cheick Souare",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "3098951": {
+        "nombre": "Baboucarr Faal",
+        "equipo": "Viktoria Plzen",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "290630": {
+        "nombre": "Tomás Ladra",
+        "equipo": "Viktoria Plzen",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "148624": {
+        "nombre": "Matej Vydra",
+        "equipo": "Viktoria Plzen",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "391012": {
+        "nombre": "Karel Spácil",
+        "equipo": "Viktoria Plzen",
+        "participo": false,
+        "tiros_puerta": 0.0
+      }
+    }
+  }
 }
