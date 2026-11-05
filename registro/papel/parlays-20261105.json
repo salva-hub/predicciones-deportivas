@@ -1,0 +1,244 @@
+{
+  "id": "parlays-20261105",
+  "fecha": "2026-11-05",
+  "creado": "2026-11-05T10:31:15.013352-07:00",
+  "parlays": [
+    {
+      "clave": "prob|P-20261105-34a568:ganador:1|P-20261105-53d340:doble_oportunidad:1X|P-20261105-54ee36:ganador:1",
+      "tipo": "parlay",
+      "categoria": "combinada_prob",
+      "patas": [
+        {
+          "pronostico": "P-20261105-54ee36",
+          "partido": "Real Sociedad vs Lyon",
+          "liga": "europa_league",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.6896551724137931,
+          "prob": 0.602,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-34a568",
+          "partido": "AC Milan vs Ferencvaros",
+          "liga": "europa_league",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.4273504273504274,
+          "prob": 0.717,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-53d340",
+          "partido": "Crystal Palace vs TSG Hoffenheim",
+          "liga": "europa_league",
+          "mercado": "doble_oportunidad",
+          "seleccion": "1X",
+          "cuota": 1.2666666666666666,
+          "prob": 0.762,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.0549,
+      "cuota_americana": "+205",
+      "prob": 0.3289,
+      "monto": 320.0,
+      "recortada": false,
+      "creado": "2026-11-05T10:31:15.009936-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "prob|P-20261105-34a568:goles:mas_2.5|P-20261105-53d340:goles:mas_2.5|P-20261105-54ee36:goles_equipo:local_mas_1.5",
+      "tipo": "parlay",
+      "categoria": "combinada_prob",
+      "patas": [
+        {
+          "pronostico": "P-20261105-54ee36",
+          "partido": "Real Sociedad vs Lyon",
+          "liga": "europa_league",
+          "mercado": "goles_equipo",
+          "seleccion": "local_mas_1.5",
+          "cuota": 1.5555555555555556,
+          "prob": 0.622,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-34a568",
+          "partido": "AC Milan vs Ferencvaros",
+          "liga": "europa_league",
+          "mercado": "goles",
+          "seleccion": "mas_2.5",
+          "cuota": 1.5181347150259068,
+          "prob": 0.664,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-53d340",
+          "partido": "Crystal Palace vs TSG Hoffenheim",
+          "liga": "europa_league",
+          "mercado": "goles",
+          "seleccion": "mas_2.5",
+          "cuota": 1.5,
+          "prob": 0.645,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.5423,
+      "cuota_americana": "+254",
+      "prob": 0.2664,
+      "monto": 320.0,
+      "recortada": false,
+      "creado": "2026-11-05T10:31:15.009974-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "prob|P-20261105-34a568:goles_equipo:visitante_mas_0.5|P-20261105-53d340:tarjetas:menos_4.5|P-20261105-54ee36:tarjetas:mas_3.5",
+      "tipo": "parlay",
+      "categoria": "combinada_prob",
+      "patas": [
+        {
+          "pronostico": "P-20261105-54ee36",
+          "partido": "Real Sociedad vs Lyon",
+          "liga": "europa_league",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "cuota": 1.5988023952095807,
+          "prob": 0.62,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-34a568",
+          "partido": "AC Milan vs Ferencvaros",
+          "liga": "europa_league",
+          "mercado": "goles_equipo",
+          "seleccion": "visitante_mas_0.5",
+          "cuota": 1.5555555555555556,
+          "prob": 0.62,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-53d340",
+          "partido": "Crystal Palace vs TSG Hoffenheim",
+          "liga": "europa_league",
+          "mercado": "tarjetas",
+          "seleccion": "menos_4.5",
+          "cuota": 1.5988023952095807,
+          "prob": 0.606,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.9763,
+      "cuota_americana": "+298",
+      "prob": 0.2329,
+      "monto": 320.0,
+      "recortada": false,
+      "creado": "2026-11-05T10:31:15.010028-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261105-34a568:ganador:1|P-20261105-53d340:ganador:1",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261105-34a568",
+          "partido": "AC Milan vs Ferencvaros",
+          "liga": "europa_league",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.4273504273504274,
+          "prob": 0.717,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-53d340",
+          "partido": "Crystal Palace vs TSG Hoffenheim",
+          "liga": "europa_league",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.9090909090909092,
+          "prob": 0.561,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 2.7249,
+      "cuota_americana": "+172",
+      "prob": 0.4022,
+      "monto": 100.0,
+      "recortada": false,
+      "creado": "2026-11-05T10:31:15.010053-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "lectura|P-20261105-34a568:ganador:1|P-20261105-53d340:ambos_anotan:si|P-20261105-54ee36:ganador:1",
+      "tipo": "parlay",
+      "categoria": "lectura",
+      "patas": [
+        {
+          "pronostico": "P-20261105-54ee36",
+          "partido": "Real Sociedad vs Lyon",
+          "liga": "europa_league",
+          "deporte": "futbol",
+          "espn_id": "401915537",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.6897,
+          "prob": 0.602,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-34a568",
+          "partido": "AC Milan vs Ferencvaros",
+          "liga": "europa_league",
+          "deporte": "futbol",
+          "espn_id": "401915534",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.4274,
+          "prob": 0.717,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261105-53d340",
+          "partido": "Crystal Palace vs TSG Hoffenheim",
+          "liga": "europa_league",
+          "deporte": "futbol",
+          "espn_id": "401915526",
+          "mercado": "ambos_anotan",
+          "seleccion": "si",
+          "cuota": 1.4762,
+          "prob": 0.64,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.5604,
+      "cuota_americana": "+256",
+      "prob": 0.2762,
+      "ve": -0.0165,
+      "confianza": "media",
+      "mismo_partido": false,
+      "monto": 290.0,
+      "lecturas": {
+        "P-20261105-54ee36": "Real Sociedad favorita en casa y en racha (3 victorias en 5); Lyon irregular fuera. Partido abierto con muchos córners esperados (10.9).",
+        "P-20261105-34a568": "Milan muy superior en San Siro ante un Ferencvaros en buena racha pero de menor nivel; Milan debería ganar con varios goles.",
+        "P-20261105-53d340": "Palace sin ganar en 5 pero favorito en casa; Hoffenheim llega con 3 victorias en 5. Dudas con el favorito: 1X y ambos anotan, partido de ida y vuelta."
+      },
+      "creado": "2026-11-05T10:31:20.473897-07:00",
+      "estado": "pendiente"
+    }
+  ]
+}
