@@ -1,0 +1,80 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261105-6e5bae",
+      "partido": "Bayer Leverkusen vs Marseille",
+      "liga": "europa_league",
+      "deporte": "futbol",
+      "espn_id": "401915533",
+      "mercado": "ganador",
+      "seleccion": "1",
+      "cuota": 1.3225806451612903,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261105-6e5bae",
+      "partido": "Bayer Leverkusen vs Marseille",
+      "liga": "europa_league",
+      "deporte": "futbol",
+      "espn_id": "401915533",
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota": 1.3225806451612903,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261105-74027b",
+      "partido": "Sunderland vs Dinamo Zagreb",
+      "liga": "europa_league",
+      "deporte": "futbol",
+      "espn_id": "401915523",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 1.5025125628140703,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261105-74027b",
+      "partido": "Sunderland vs Dinamo Zagreb",
+      "liga": "europa_league",
+      "deporte": "futbol",
+      "espn_id": "401915523",
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota": 1.5025125628140703,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261105-2e537b",
+      "partido": "AZ Alkmaar vs Juventus",
+      "liga": "europa_league",
+      "deporte": "futbol",
+      "espn_id": "401915529",
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota": 1.4716981132075473,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261105-2e537b",
+      "partido": "AZ Alkmaar vs Juventus",
+      "liga": "europa_league",
+      "deporte": "futbol",
+      "espn_id": "401915529",
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota": 1.4716981132075473,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 8.53,
+  "cuota_americana": "+753",
+  "monto": 300.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261105-68403c",
+  "creado": "2026-11-05T12:33:48.392374-07:00",
+  "estado": "pendiente",
+  "nota": "Real de Salva: parlay de 3 crea tu apuesta (Leverkusen gana + más 7.5 córners −134; Sunderland-Dinamo ambos + más 7.5 córners +125; AZ-Juve ambos + más 7.5 córners +116). Paga 2,559.41. Cuotas por pata escaladas; total fijado al de Winpot."
+}
