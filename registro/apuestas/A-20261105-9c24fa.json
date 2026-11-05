@@ -10,7 +10,7 @@
       "mercado": "doble_oportunidad",
       "seleccion": "X2",
       "cuota": 1.5494505494505495,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261105-d6e621",
@@ -21,7 +21,7 @@
       "mercado": "tarjetas",
       "seleccion": "mas_3.5",
       "cuota": 1.5494505494505495,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261105-2e537b",
@@ -32,7 +32,7 @@
       "mercado": "tarjetas",
       "seleccion": "mas_3.5",
       "cuota": 1.5988023952095807,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261105-6e5bae",
@@ -43,7 +43,7 @@
       "mercado": "tarjetas",
       "seleccion": "mas_3.5",
       "cuota": 1.6993006993006992,
-      "estado": "pendiente"
+      "estado": "ganada"
     }
   ],
   "cuota": 6.5226,
@@ -53,6 +53,8 @@
   "categoria": "eleccion_salva",
   "id": "A-20261105-9c24fa",
   "creado": "2026-11-05T12:33:49.462223-07:00",
-  "estado": "pendiente",
-  "nota": "Real de Salva, Winpot ID 5620868381: parlay de 3 (Celtic-Besiktas BB X2 + más 3.5 tarjetas +140; AZ-Juve más 3.5 tarjetas −167; Leverkusen-Marsella más 3.5 tarjetas −143). Paga 1,958.40. Cuotas por pata escaladas."
+  "estado": "perdida",
+  "nota": "Real de Salva, Winpot ID 5620868381: parlay de 3 (Celtic-Besiktas BB X2 + más 3.5 tarjetas +140; AZ-Juve más 3.5 tarjetas −167; Leverkusen-Marsella más 3.5 tarjetas −143). Paga 1,958.40. Cuotas por pata escaladas.",
+  "ganancia": -300.0,
+  "liquidada": "2026-11-05T15:30:28.925889-07:00"
 }

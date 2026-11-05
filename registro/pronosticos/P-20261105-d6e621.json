@@ -75,7 +75,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "ganador",
@@ -87,7 +88,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ganador",
@@ -100,7 +102,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "doble_oportunidad",
@@ -112,7 +115,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "doble_oportunidad",
@@ -124,7 +128,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "doble_oportunidad",
@@ -136,7 +141,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -148,7 +154,8 @@
       "ultimos10": {
         "local": "10/10",
         "visitante": "10/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -160,7 +167,8 @@
       "ultimos10": {
         "local": "0/10",
         "visitante": "0/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -172,7 +180,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "8/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -184,7 +193,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "2/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -196,7 +206,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "8/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -208,7 +219,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "2/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -220,7 +232,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -232,7 +245,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -244,7 +258,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -256,7 +271,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ambos_anotan",
@@ -268,7 +284,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "8/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "ambos_anotan",
@@ -280,7 +297,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "2/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -292,7 +310,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -304,7 +323,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -316,7 +336,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -328,7 +349,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -340,7 +362,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -352,7 +375,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -364,7 +388,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -376,7 +401,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -388,7 +414,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "2/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -400,7 +427,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "8/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -412,7 +440,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -424,7 +453,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -432,7 +462,8 @@
       "prob": 0.293,
       "cuota_justa": "+241",
       "cuota_minima": "+252",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -440,7 +471,8 @@
       "prob": 0.369,
       "cuota_justa": "+171",
       "cuota_minima": "+179",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -448,7 +480,8 @@
       "prob": 0.337,
       "cuota_justa": "+196",
       "cuota_minima": "+206",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -456,7 +489,8 @@
       "prob": 0.773,
       "cuota_justa": "-341",
       "cuota_minima": "-301",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -464,7 +498,8 @@
       "prob": 0.227,
       "cuota_justa": "+341",
       "cuota_minima": "+355",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -472,7 +507,8 @@
       "prob": 0.437,
       "cuota_justa": "+129",
       "cuota_minima": "+136",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -480,7 +516,8 @@
       "prob": 0.563,
       "cuota_justa": "-129",
       "cuota_minima": "-120",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -492,7 +529,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "2/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -504,7 +542,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "2/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -517,7 +556,8 @@
       "ultimos10": {
         "local": "2/9",
         "visitante": "2/8"
-      }
+      },
+      "estado": "devuelta"
     },
     {
       "mercado": "handicap",
@@ -530,7 +570,8 @@
       "ultimos10": {
         "local": "5/9",
         "visitante": "2/7"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -543,7 +584,8 @@
       "ultimos10": {
         "local": "3/9",
         "visitante": "4/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -556,7 +598,8 @@
       "ultimos10": {
         "local": "6/9",
         "visitante": "5/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -569,7 +612,8 @@
       "ultimos10": {
         "local": "4/9",
         "visitante": "5/7"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -582,7 +626,8 @@
       "ultimos10": {
         "local": "7/9",
         "visitante": "6/8"
-      }
+      },
+      "estado": "devuelta"
     },
     {
       "mercado": "handicap",
@@ -594,7 +639,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "8/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -606,7 +652,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "8/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -618,7 +665,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -630,7 +678,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -642,7 +691,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -654,7 +704,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -666,7 +717,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -678,7 +730,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -690,7 +743,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -702,7 +756,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -714,7 +769,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -726,7 +782,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -738,7 +795,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "10/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -750,7 +808,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "0/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -762,7 +821,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -774,7 +834,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -786,7 +847,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -798,7 +860,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -810,7 +873,8 @@
       "ultimos10": {
         "local": "0/10",
         "visitante": "2/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -822,7 +886,8 @@
       "ultimos10": {
         "local": "10/10",
         "visitante": "8/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -834,7 +899,8 @@
       "ultimos10": {
         "local": "0/10",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -846,7 +912,8 @@
       "ultimos10": {
         "local": "10/10",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -854,7 +921,8 @@
       "prob": 0.279,
       "cuota_justa": "+259",
       "cuota_minima": "+277",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -862,7 +930,8 @@
       "prob": 0.221,
       "cuota_justa": "+352",
       "cuota_minima": "+375",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -870,7 +939,8 @@
       "prob": 0.5,
       "cuota_justa": "+100",
       "cuota_minima": "+111",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -883,7 +953,8 @@
       "jugador_id": "274522",
       "equipo": "Celtic",
       "posicion": "M",
-      "tiros_esperados": 0.95
+      "tiros_esperados": 0.95,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -896,7 +967,8 @@
       "jugador_id": "274522",
       "equipo": "Celtic",
       "posicion": "M",
-      "tiros_esperados": 0.95
+      "tiros_esperados": 0.95,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -909,7 +981,8 @@
       "jugador_id": "274522",
       "equipo": "Celtic",
       "posicion": "M",
-      "tiros_esperados": 0.95
+      "tiros_esperados": 0.95,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -922,7 +995,8 @@
       "jugador_id": "272624",
       "equipo": "Celtic",
       "posicion": "F",
-      "tiros_esperados": 0.627
+      "tiros_esperados": 0.627,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -935,7 +1009,8 @@
       "jugador_id": "272624",
       "equipo": "Celtic",
       "posicion": "F",
-      "tiros_esperados": 0.627
+      "tiros_esperados": 0.627,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -948,7 +1023,8 @@
       "jugador_id": "367926",
       "equipo": "Celtic",
       "posicion": "M",
-      "tiros_esperados": 0.616
+      "tiros_esperados": 0.616,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -961,7 +1037,8 @@
       "jugador_id": "367926",
       "equipo": "Celtic",
       "posicion": "M",
-      "tiros_esperados": 0.616
+      "tiros_esperados": 0.616,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -974,7 +1051,8 @@
       "jugador_id": "238878",
       "equipo": "Celtic",
       "posicion": "M",
-      "tiros_esperados": 0.487
+      "tiros_esperados": 0.487,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -987,7 +1065,8 @@
       "jugador_id": "238878",
       "equipo": "Celtic",
       "posicion": "M",
-      "tiros_esperados": 0.487
+      "tiros_esperados": 0.487,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1000,7 +1079,8 @@
       "jugador_id": "141303",
       "equipo": "Celtic",
       "posicion": "M",
-      "tiros_esperados": 0.476
+      "tiros_esperados": 0.476,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1013,7 +1093,8 @@
       "jugador_id": "141303",
       "equipo": "Celtic",
       "posicion": "M",
-      "tiros_esperados": 0.476
+      "tiros_esperados": 0.476,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1026,7 +1107,8 @@
       "jugador_id": "303702",
       "equipo": "Celtic",
       "posicion": "M",
-      "tiros_esperados": 0.428
+      "tiros_esperados": 0.428,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1039,7 +1121,8 @@
       "jugador_id": "303702",
       "equipo": "Celtic",
       "posicion": "M",
-      "tiros_esperados": 0.428
+      "tiros_esperados": 0.428,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1052,7 +1135,8 @@
       "jugador_id": "302434",
       "equipo": "Besiktas",
       "posicion": "F",
-      "tiros_esperados": 0.776
+      "tiros_esperados": 0.776,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1065,7 +1149,8 @@
       "jugador_id": "302434",
       "equipo": "Besiktas",
       "posicion": "F",
-      "tiros_esperados": 0.776
+      "tiros_esperados": 0.776,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1078,7 +1163,8 @@
       "jugador_id": "318534",
       "equipo": "Besiktas",
       "posicion": "M",
-      "tiros_esperados": 0.66
+      "tiros_esperados": 0.66,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1091,7 +1177,8 @@
       "jugador_id": "318534",
       "equipo": "Besiktas",
       "posicion": "M",
-      "tiros_esperados": 0.66
+      "tiros_esperados": 0.66,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1104,7 +1191,8 @@
       "jugador_id": "319985",
       "equipo": "Besiktas",
       "posicion": "M",
-      "tiros_esperados": 0.617
+      "tiros_esperados": 0.617,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1117,7 +1205,8 @@
       "jugador_id": "319985",
       "equipo": "Besiktas",
       "posicion": "M",
-      "tiros_esperados": 0.617
+      "tiros_esperados": 0.617,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1130,7 +1219,8 @@
       "jugador_id": "217476",
       "equipo": "Besiktas",
       "posicion": "M",
-      "tiros_esperados": 0.577
+      "tiros_esperados": 0.577,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1143,7 +1233,8 @@
       "jugador_id": "217476",
       "equipo": "Besiktas",
       "posicion": "M",
-      "tiros_esperados": 0.577
+      "tiros_esperados": 0.577,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1156,7 +1247,8 @@
       "jugador_id": "225563",
       "equipo": "Besiktas",
       "posicion": "M",
-      "tiros_esperados": 0.375
+      "tiros_esperados": 0.375,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1169,7 +1261,8 @@
       "jugador_id": "225563",
       "equipo": "Besiktas",
       "posicion": "M",
-      "tiros_esperados": 0.375
+      "tiros_esperados": 0.375,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1182,7 +1275,8 @@
       "jugador_id": "174980",
       "equipo": "Besiktas",
       "posicion": "M",
-      "tiros_esperados": 0.359
+      "tiros_esperados": 0.359,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1195,10 +1289,11 @@
       "jugador_id": "174980",
       "equipo": "Besiktas",
       "posicion": "M",
-      "tiros_esperados": 0.359
+      "tiros_esperados": 0.359,
+      "estado": "perdida"
     }
   ],
-  "estado": "pendiente",
+  "estado": "calificado",
   "respaldo": {
     "forma_local": {
       "racha": "PGPPP",
@@ -1329,5 +1424,301 @@
     }
   ],
   "id": "P-20261105-d6e621",
-  "creado": "2026-11-05T12:12:19.294511-07:00"
+  "creado": "2026-11-05T12:12:19.294511-07:00",
+  "resultado": {
+    "goles_local": 3,
+    "goles_visitante": 2,
+    "goles_local_pt": 0,
+    "goles_visitante_pt": 0,
+    "corners_local": 5.0,
+    "corners_visitante": 7.0,
+    "tarjetas_local": 1.0,
+    "tarjetas_visitante": 2.0,
+    "amarillas_local": 1.0,
+    "amarillas_visitante": 2.0,
+    "rojas_local": 0.0,
+    "rojas_visitante": 0.0,
+    "segundas_amarillas_local": 0,
+    "segundas_amarillas_visitante": 0,
+    "ventaja_max_local": 1,
+    "ventaja_max_visitante": 1,
+    "tiros_jugadores": {
+      "162338": {
+        "nombre": "Sam Johnstone",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "288959": {
+        "nombre": "Liam Scales",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "219273": {
+        "nombre": "Cameron Carter-Vickers",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "214794": {
+        "nombre": "Kieran Tierney",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "238878": {
+        "nombre": "Jordan Lotomba",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "274522": {
+        "nombre": "Benjamin Nygren",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "367926": {
+        "nombre": "Mika Baur",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "84049": {
+        "nombre": "Callum McGregor",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "272624": {
+        "nombre": "Kasper Høgh",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "303702": {
+        "nombre": "Sebastian Tounekti",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "141303": {
+        "nombre": "James Forrest",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "367591": {
+        "nombre": "Camilo Durán",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 2.0
+      },
+      "227283": {
+        "nombre": "Ross Doohan",
+        "equipo": "Celtic",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "365343": {
+        "nombre": "Callum Osmand",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "307098": {
+        "nombre": "Viljami Sinisalo",
+        "equipo": "Celtic",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "291504": {
+        "nombre": "Dane Murray",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "224305": {
+        "nombre": "Anthony Ralston",
+        "equipo": "Celtic",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "387200": {
+        "nombre": "Colby Donovan",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "297751": {
+        "nombre": "Oliver Sørensen",
+        "equipo": "Celtic",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "276440": {
+        "nombre": "Haissem Hassan",
+        "equipo": "Celtic",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "145392": {
+        "nombre": "Alex Oxlade-Chamberlain",
+        "equipo": "Celtic",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "387202": {
+        "nombre": "Sean Mcardle",
+        "equipo": "Celtic",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "259208": {
+        "nombre": "Luke McCowan",
+        "equipo": "Celtic",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "205750": {
+        "nombre": "Alexander Nübel",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "280711": {
+        "nombre": "Emir Han Topcu",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "308449": {
+        "nombre": "Emmanuel Agbadou",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "345243": {
+        "nombre": "Kassoum Ouattara",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "216420": {
+        "nombre": "Amir Murillo",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "174980": {
+        "nombre": "Leandro Trossard",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "225563": {
+        "nombre": "Salih Özcan",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "319985": {
+        "nombre": "Junior Olaitan",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 2.0
+      },
+      "302434": {
+        "nombre": "Oh Hyeon-Gyu",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "318534": {
+        "nombre": "Ernest Poku",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "217476": {
+        "nombre": "Václav Cerný",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "372033": {
+        "nombre": "Taylan Bulut",
+        "equipo": "Besiktas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "345212": {
+        "nombre": "Semih Kiliçsoy",
+        "equipo": "Besiktas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "283930": {
+        "nombre": "Kartal Kayra Yilmaz",
+        "equipo": "Besiktas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "283691": {
+        "nombre": "Ridvan Yilmaz",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "235677": {
+        "nombre": "Dusan Vlahovic",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "384290": {
+        "nombre": "Ilhan Fakili",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "278790": {
+        "nombre": "Dogan Alemdar",
+        "equipo": "Besiktas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "272700": {
+        "nombre": "Orkun Kökçü",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "346213": {
+        "nombre": "Yasin Ozcan",
+        "equipo": "Besiktas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "416475": {
+        "nombre": "Ahmet Bircan",
+        "equipo": "Besiktas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "187638": {
+        "nombre": "Wilfred Ndidi",
+        "equipo": "Besiktas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "283682": {
+        "nombre": "Tiago Djaló",
+        "equipo": "Besiktas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      }
+    }
+  }
 }

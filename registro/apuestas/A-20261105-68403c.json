@@ -10,7 +10,7 @@
       "mercado": "ganador",
       "seleccion": "1",
       "cuota": 1.3225806451612903,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261105-6e5bae",
@@ -21,7 +21,7 @@
       "mercado": "corners",
       "seleccion": "mas_7.5",
       "cuota": 1.3225806451612903,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261105-74027b",
@@ -32,7 +32,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.5025125628140703,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261105-74027b",
@@ -43,7 +43,7 @@
       "mercado": "corners",
       "seleccion": "mas_7.5",
       "cuota": 1.5025125628140703,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261105-2e537b",
@@ -54,7 +54,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.4716981132075473,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261105-2e537b",
@@ -65,7 +65,7 @@
       "mercado": "corners",
       "seleccion": "mas_7.5",
       "cuota": 1.4716981132075473,
-      "estado": "pendiente"
+      "estado": "perdida"
     }
   ],
   "cuota": 8.53,
@@ -75,6 +75,8 @@
   "categoria": "eleccion_salva",
   "id": "A-20261105-68403c",
   "creado": "2026-11-05T12:33:48.392374-07:00",
-  "estado": "pendiente",
-  "nota": "Real de Salva: parlay de 3 crea tu apuesta (Leverkusen gana + más 7.5 córners −134; Sunderland-Dinamo ambos + más 7.5 córners +125; AZ-Juve ambos + más 7.5 córners +116). Paga 2,559.41. Cuotas por pata escaladas; total fijado al de Winpot."
+  "estado": "perdida",
+  "nota": "Real de Salva: parlay de 3 crea tu apuesta (Leverkusen gana + más 7.5 córners −134; Sunderland-Dinamo ambos + más 7.5 córners +125; AZ-Juve ambos + más 7.5 córners +116). Paga 2,559.41. Cuotas por pata escaladas; total fijado al de Winpot.",
+  "ganancia": -300.0,
+  "liquidada": "2026-11-05T15:30:28.925654-07:00"
 }

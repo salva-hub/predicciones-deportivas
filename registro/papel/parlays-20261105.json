@@ -264,7 +264,7 @@
           "cuota": 1.5,
           "prob": 0.652,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261105-2e537b",
@@ -275,7 +275,7 @@
           "cuota": 1.5,
           "prob": 0.656,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261105-6e5bae",
@@ -286,7 +286,7 @@
           "cuota": 1.3636363636363638,
           "prob": 0.738,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 3.0682,
@@ -295,7 +295,9 @@
       "monto": 320.0,
       "recortada": false,
       "creado": "2026-11-05T12:22:56.976440-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -320.0,
+      "liquidada": "2026-11-05T15:30:28.926775-07:00"
     },
     {
       "clave": "prob|P-20261105-2e537b:doble_oportunidad:X2|P-20261105-6e5bae:tarjetas:mas_3.5|P-20261105-74027b:ganador:1",
@@ -311,7 +313,7 @@
           "cuota": 1.5714285714285714,
           "prob": 0.639,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261105-2e537b",
@@ -322,7 +324,7 @@
           "cuota": 1.3745318352059925,
           "prob": 0.709,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261105-6e5bae",
@@ -333,7 +335,7 @@
           "cuota": 1.6993006993006992,
           "prob": 0.604,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 3.6705,
@@ -342,7 +344,9 @@
       "monto": 320.0,
       "recortada": false,
       "creado": "2026-11-05T12:22:56.976475-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -320.0,
+      "liquidada": "2026-11-05T15:30:28.926792-07:00"
     },
     {
       "clave": "P-20261105-2e537b:ganador:2|P-20261105-6e5bae:corners:menos_7.5",
@@ -358,7 +362,7 @@
           "cuota": 2.33,
           "prob": 0.466,
           "confianza": "baja",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261105-6e5bae",
@@ -369,7 +373,7 @@
           "cuota": 3.33,
           "prob": 0.331,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 7.7589,
@@ -378,7 +382,9 @@
       "monto": 100.0,
       "recortada": false,
       "creado": "2026-11-05T12:22:56.976493-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -100.0,
+      "liquidada": "2026-11-05T15:30:28.926799-07:00"
     },
     {
       "clave": "lectura|P-20261105-2e537b:corners:mas_8.5|P-20261105-6e5bae:ganador:1|P-20261105-74027b:ganador:1",
@@ -396,7 +402,7 @@
           "cuota": 1.3636,
           "prob": 0.738,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261105-74027b",
@@ -409,7 +415,7 @@
           "cuota": 1.5714,
           "prob": 0.639,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261105-2e537b",
@@ -422,7 +428,7 @@
           "cuota": 1.5,
           "prob": 0.656,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 3.2141,
@@ -438,7 +444,9 @@
         "P-20261105-2e537b": "Juventus con más nivel pero dudas (Pinnacle bajó su favoritismo con la alineación); AZ ataca por bandas y genera córners."
       },
       "creado": "2026-11-05T12:23:02.507389-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -290.0,
+      "liquidada": "2026-11-05T15:30:28.926806-07:00"
     }
   ]
 }

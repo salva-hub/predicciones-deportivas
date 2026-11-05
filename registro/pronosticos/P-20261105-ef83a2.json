@@ -70,7 +70,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "2/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ganador",
@@ -82,7 +83,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ganador",
@@ -95,7 +97,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "1/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "doble_oportunidad",
@@ -107,7 +110,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "2/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "doble_oportunidad",
@@ -119,7 +123,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "doble_oportunidad",
@@ -131,7 +136,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "1/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -143,7 +149,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -155,7 +162,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -167,7 +175,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -179,7 +188,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -191,7 +201,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "1/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -203,7 +214,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "2/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -215,7 +227,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -227,7 +240,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -239,7 +253,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -251,7 +266,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "ambos_anotan",
@@ -263,7 +279,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "1/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ambos_anotan",
@@ -275,7 +292,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "2/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -287,7 +305,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "2/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -299,7 +318,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "1/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -311,7 +331,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "2/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -323,7 +344,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "1/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -335,7 +357,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "2/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -347,7 +370,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "1/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -359,7 +383,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "1/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -371,7 +396,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "2/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -383,7 +409,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -395,7 +422,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -407,7 +435,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -419,7 +448,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -427,7 +457,8 @@
       "prob": 0.348,
       "cuota_justa": "+187",
       "cuota_minima": "+196",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -435,7 +466,8 @@
       "prob": 0.405,
       "cuota_justa": "+147",
       "cuota_minima": "+155",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -443,7 +475,8 @@
       "prob": 0.247,
       "cuota_justa": "+305",
       "cuota_minima": "+318",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -451,7 +484,8 @@
       "prob": 0.717,
       "cuota_justa": "-254",
       "cuota_minima": "-229",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -459,7 +493,8 @@
       "prob": 0.283,
       "cuota_justa": "+254",
       "cuota_minima": "+265",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -467,7 +502,8 @@
       "prob": 0.36,
       "cuota_justa": "+178",
       "cuota_minima": "+186",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -475,7 +511,8 @@
       "prob": 0.64,
       "cuota_justa": "-178",
       "cuota_minima": "-163",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -487,7 +524,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "1/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -499,7 +537,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "1/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -512,7 +551,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "1/2"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -525,7 +565,8 @@
       "ultimos10": {
         "local": "1/2",
         "visitante": "1/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -538,7 +579,8 @@
       "ultimos10": {
         "local": "0/2",
         "visitante": "2/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -551,7 +593,8 @@
       "ultimos10": {
         "local": "2/2",
         "visitante": "1/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -564,7 +607,8 @@
       "ultimos10": {
         "local": "1/2",
         "visitante": "2/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -577,7 +621,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "1/2"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -589,7 +634,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "2/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -601,7 +647,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "2/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -613,7 +660,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -625,7 +673,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -637,7 +686,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -649,7 +699,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -661,7 +712,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -673,7 +725,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -685,7 +738,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -697,7 +751,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -709,7 +764,8 @@
       "ultimos10": {
         "local": "0/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -721,7 +777,8 @@
       "ultimos10": {
         "local": "3/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -733,7 +790,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -745,7 +803,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -757,7 +816,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -769,7 +829,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -781,7 +842,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "2/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -793,7 +855,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "1/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -805,7 +868,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -817,7 +881,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -829,7 +894,8 @@
       "ultimos10": {
         "local": "1/3",
         "visitante": "0/3"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -841,7 +907,8 @@
       "ultimos10": {
         "local": "2/3",
         "visitante": "3/3"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -849,7 +916,8 @@
       "prob": 0.458,
       "cuota_justa": "+118",
       "cuota_minima": "+130",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -857,7 +925,8 @@
       "prob": 0.231,
       "cuota_justa": "+333",
       "cuota_minima": "+355",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -865,7 +934,8 @@
       "prob": 0.311,
       "cuota_justa": "+221",
       "cuota_minima": "+238",
-      "confianza": "baja"
+      "confianza": "baja",
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -878,7 +948,8 @@
       "jugador_id": "177355",
       "equipo": "Hapoel Be'er",
       "posicion": "F",
-      "tiros_esperados": 1.092
+      "tiros_esperados": 1.092,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -891,7 +962,8 @@
       "jugador_id": "177355",
       "equipo": "Hapoel Be'er",
       "posicion": "F",
-      "tiros_esperados": 1.092
+      "tiros_esperados": 1.092,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -904,7 +976,8 @@
       "jugador_id": "177355",
       "equipo": "Hapoel Be'er",
       "posicion": "F",
-      "tiros_esperados": 1.092
+      "tiros_esperados": 1.092,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -917,7 +990,8 @@
       "jugador_id": "312660",
       "equipo": "Hapoel Be'er",
       "posicion": "F",
-      "tiros_esperados": 0.818
+      "tiros_esperados": 0.818,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -930,7 +1004,8 @@
       "jugador_id": "312660",
       "equipo": "Hapoel Be'er",
       "posicion": "F",
-      "tiros_esperados": 0.818
+      "tiros_esperados": 0.818,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -943,7 +1018,8 @@
       "jugador_id": "363454",
       "equipo": "Hapoel Be'er",
       "posicion": "F",
-      "tiros_esperados": 0.806
+      "tiros_esperados": 0.806,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -956,7 +1032,8 @@
       "jugador_id": "363454",
       "equipo": "Hapoel Be'er",
       "posicion": "F",
-      "tiros_esperados": 0.806
+      "tiros_esperados": 0.806,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -969,7 +1046,8 @@
       "jugador_id": "324191",
       "equipo": "Hapoel Be'er",
       "posicion": "M",
-      "tiros_esperados": 0.76
+      "tiros_esperados": 0.76,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -982,7 +1060,8 @@
       "jugador_id": "324191",
       "equipo": "Hapoel Be'er",
       "posicion": "M",
-      "tiros_esperados": 0.76
+      "tiros_esperados": 0.76,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -995,7 +1074,8 @@
       "jugador_id": "365734",
       "equipo": "Hapoel Be'er",
       "posicion": "M",
-      "tiros_esperados": 0.467
+      "tiros_esperados": 0.467,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1008,7 +1088,8 @@
       "jugador_id": "365734",
       "equipo": "Hapoel Be'er",
       "posicion": "M",
-      "tiros_esperados": 0.467
+      "tiros_esperados": 0.467,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1021,7 +1102,8 @@
       "jugador_id": "385090",
       "equipo": "Hapoel Be'er",
       "posicion": "M",
-      "tiros_esperados": 0.294
+      "tiros_esperados": 0.294,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1034,7 +1116,8 @@
       "jugador_id": "183154",
       "equipo": "OFI Crete",
       "posicion": "F",
-      "tiros_esperados": 0.648
+      "tiros_esperados": 0.648,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1047,7 +1130,8 @@
       "jugador_id": "183154",
       "equipo": "OFI Crete",
       "posicion": "F",
-      "tiros_esperados": 0.648
+      "tiros_esperados": 0.648,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1060,7 +1144,8 @@
       "jugador_id": "310785",
       "equipo": "OFI Crete",
       "posicion": "F",
-      "tiros_esperados": 0.588
+      "tiros_esperados": 0.588,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1073,7 +1158,8 @@
       "jugador_id": "310785",
       "equipo": "OFI Crete",
       "posicion": "F",
-      "tiros_esperados": 0.588
+      "tiros_esperados": 0.588,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1086,7 +1172,8 @@
       "jugador_id": "208027",
       "equipo": "OFI Crete",
       "posicion": "F",
-      "tiros_esperados": 0.426
+      "tiros_esperados": 0.426,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1099,7 +1186,8 @@
       "jugador_id": "208027",
       "equipo": "OFI Crete",
       "posicion": "F",
-      "tiros_esperados": 0.426
+      "tiros_esperados": 0.426,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1112,7 +1200,8 @@
       "jugador_id": "187897",
       "equipo": "OFI Crete",
       "posicion": "M",
-      "tiros_esperados": 0.155
+      "tiros_esperados": 0.155,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1125,7 +1214,8 @@
       "jugador_id": "204769",
       "equipo": "OFI Crete",
       "posicion": "M",
-      "tiros_esperados": 0.054
+      "tiros_esperados": 0.054,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1138,10 +1228,11 @@
       "jugador_id": "312967",
       "equipo": "OFI Crete",
       "posicion": "M",
-      "tiros_esperados": 0.053
+      "tiros_esperados": 0.053,
+      "estado": "perdida"
     }
   ],
-  "estado": "pendiente",
+  "estado": "calificado",
   "respaldo": {
     "forma_local": {
       "racha": "EPP",
@@ -1272,5 +1363,295 @@
     }
   ],
   "id": "P-20261105-ef83a2",
-  "creado": "2026-11-05T12:12:28.078689-07:00"
+  "creado": "2026-11-05T12:12:28.078689-07:00",
+  "resultado": {
+    "goles_local": 0,
+    "goles_visitante": 2,
+    "goles_local_pt": 0,
+    "goles_visitante_pt": 1,
+    "corners_local": 4.0,
+    "corners_visitante": 2.0,
+    "tarjetas_local": 3.0,
+    "tarjetas_visitante": 1.0,
+    "amarillas_local": 3.0,
+    "amarillas_visitante": 1.0,
+    "rojas_local": 0.0,
+    "rojas_visitante": 0.0,
+    "segundas_amarillas_local": 0,
+    "segundas_amarillas_visitante": 0,
+    "ventaja_max_local": 0,
+    "ventaja_max_visitante": 2,
+    "tiros_jugadores": {
+      "193721": {
+        "nombre": "Ofir Marciano",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "308784": {
+        "nombre": "Idan Nachmias",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "274394": {
+        "nombre": "Djibril Diop",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "264447": {
+        "nombre": "Matan Baltaksa",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "324228": {
+        "nombre": "Guy Mizrahi",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "385090": {
+        "nombre": "Niv Yehoshua",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "365734": {
+        "nombre": "Zahi Ahmed",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "324191": {
+        "nombre": "Forson Amankwah",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "177355": {
+        "nombre": "Adrián Ugarriza",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "312660": {
+        "nombre": "Yonas Malede",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "363454": {
+        "nombre": "Mohamad Abu Rumi",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "179527": {
+        "nombre": "Ofir Davidadze",
+        "equipo": "Hapoel Be'er",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "316757": {
+        "nombre": "Mohammad Knaan",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 2.0
+      },
+      "303125": {
+        "nombre": "Pedro Amador",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "229655": {
+        "nombre": "Javon East",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "3097934": {
+        "nombre": "Itay Rotman",
+        "equipo": "Hapoel Be'er",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "352322": {
+        "nombre": "Amir Ganah",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "366476": {
+        "nombre": "Jonathan Shani",
+        "equipo": "Hapoel Be'er",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "272185": {
+        "nombre": "Igor Zlatanovic",
+        "equipo": "Hapoel Be'er",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "318256": {
+        "nombre": "João Victor",
+        "equipo": "Hapoel Be'er",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "165422": {
+        "nombre": "Miguel Vítor",
+        "equipo": "Hapoel Be'er",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "268810": {
+        "nombre": "Marco Wolff",
+        "equipo": "Hapoel Be'er",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "369489": {
+        "nombre": "Klidman Lilo",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "226179": {
+        "nombre": "Dimitris Nikolaou",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "316646": {
+        "nombre": "Kresimir Krizmanic",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "219762": {
+        "nombre": "Achilleas Poungouras",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "241991": {
+        "nombre": "Thanasis Androutsos",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "187897": {
+        "nombre": "Andreas Bouchalakis",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "312967": {
+        "nombre": "Nicolaos Athanasiou",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "204769": {
+        "nombre": "Lorenzo Dickmann",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "208027": {
+        "nombre": "Kenan Kodro",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "310785": {
+        "nombre": "Thiago Thomas Nuss",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "183154": {
+        "nombre": "Taxiarchis Fountas",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "262563": {
+        "nombre": "Giorgos Kanellopoulos",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "210822": {
+        "nombre": "Aaron Leya Iseka",
+        "equipo": "OFI Crete",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "261078": {
+        "nombre": "Christos Shelis",
+        "equipo": "OFI Crete",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "409602": {
+        "nombre": "Thanasis Sitmalidis",
+        "equipo": "OFI Crete",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "387672": {
+        "nombre": "Konstantinos Kostoulas",
+        "equipo": "OFI Crete",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "229392": {
+        "nombre": "Aitor Cantalapiedra",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "409600": {
+        "nombre": "Pavlos Kainourgiakis",
+        "equipo": "OFI Crete",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "374225": {
+        "nombre": "Manouel Kalafatis",
+        "equipo": "OFI Crete",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "348126": {
+        "nombre": "Giannis Theodosoulakis",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "278919": {
+        "nombre": "Panagiotis Katsikas",
+        "equipo": "OFI Crete",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "243191": {
+        "nombre": "Zisis Karachalios",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "231338": {
+        "nombre": "Borja González",
+        "equipo": "OFI Crete",
+        "participo": true,
+        "tiros_puerta": 0.0
+      }
+    }
+  }
 }
