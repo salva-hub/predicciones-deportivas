@@ -1,0 +1,1344 @@
+{
+  "deporte": "futbol",
+  "liga": "europa_league",
+  "partido": "NEC Nijmegen vs Omonia Nicosia",
+  "local": "NEC Nijmegen",
+  "visitante": "Omonia Nicosia",
+  "espn_id": "401915535",
+  "inicio_utc": "2026-11-05T17:45:00+00:00",
+  "inicio_sonora": "2026-11-05 10:45",
+  "estadio": "Goffertstadion",
+  "techado": false,
+  "neutral": false,
+  "pago_anticipado": true,
+  "clima": null,
+  "arbitro": "Goga Kikacheishvili",
+  "factor_arbitro": 0.929,
+  "pinnacle": {
+    "1": 1.72992700729927,
+    "X": 4.24,
+    "2": 4.54,
+    "mas_2.5": 1.62111801242236,
+    "menos_2.5": 2.37
+  },
+  "goles_esperados": [
+    1.98,
+    1.13
+  ],
+  "modelo_1x2": {
+    "1": 0.405,
+    "X": 0.211,
+    "2": 0.484
+  },
+  "marcadores_probables": [
+    [
+      "1-1",
+      0.10386747331204077
+    ],
+    [
+      "2-1",
+      0.0988290507630784
+    ],
+    [
+      "2-0",
+      0.08774030134129956
+    ]
+  ],
+  "notas": [
+    "NEC Nijmegen: pocos partidos recientes (2.7 ponderados)",
+    "Omonia Nicosia: pocos partidos recientes (2.7 ponderados)",
+    "Base: Pinnacle sin margen (modelo solo como referencia)",
+    "Goles esperados del modelo solo: 1.85 – 2.06",
+    "Pago anticipado de Winpot: el ganador local/visitante incluye la probabilidad de ir 2 goles arriba y no ganar (local +2.4%, visitante +2.9%)",
+    "Córners esperados: 8.2",
+    "Tarjetas esperadas: 3.1 (factor árbitro x0.93)",
+    "Modelo y Pinnacle discrepan mucho en 1x2, goles_2.5: baja la confianza de los mercados relacionados",
+    "Tiros a puerta de jugador de NEC Nijmegen: 3 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador de Omonia Nicosia: 3 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador: alineación oficial de ESPN; modelo Poisson con tasa por 90, minutos y rival; confianza siempre baja; solo con valor de 10% o más"
+  ],
+  "confianza": "baja",
+  "selecciones": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "prob": 0.591,
+      "cuota_justa": "-145",
+      "cuota_minima": "-134",
+      "confianza": "baja",
+      "prob_sin_pago_anticipado": 0.567,
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "3/5"
+      }
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "X",
+      "prob": 0.224,
+      "cuota_justa": "+346",
+      "cuota_minima": "+360",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "0/5"
+      }
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
+      "prob": 0.238,
+      "cuota_justa": "+320",
+      "cuota_minima": "+333",
+      "confianza": "baja",
+      "prob_sin_pago_anticipado": 0.209,
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "2/5"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_0.5",
+      "prob": 0.951,
+      "cuota_justa": "-1950",
+      "cuota_minima": "-1207",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "3/3",
+        "visitante": "5/5"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_0.5",
+      "prob": 0.049,
+      "cuota_justa": "+1950",
+      "cuota_minima": "+2012",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "0/3",
+        "visitante": "0/5"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_1.5",
+      "prob": 0.819,
+      "cuota_justa": "-454",
+      "cuota_minima": "-389",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "3/3",
+        "visitante": "3/5"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_1.5",
+      "prob": 0.181,
+      "cuota_justa": "+454",
+      "cuota_minima": "+471",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "0/3",
+        "visitante": "2/5"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "prob": 0.599,
+      "cuota_justa": "-150",
+      "cuota_minima": "-139",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "2/5"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_2.5",
+      "prob": 0.401,
+      "cuota_justa": "+150",
+      "cuota_minima": "+158",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "3/5"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_3.5",
+      "prob": 0.376,
+      "cuota_justa": "+166",
+      "cuota_minima": "+175",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "prob": 0.624,
+      "cuota_justa": "-166",
+      "cuota_minima": "-153",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_4.5",
+      "prob": 0.202,
+      "cuota_justa": "+395",
+      "cuota_minima": "+410",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_4.5",
+      "prob": 0.798,
+      "cuota_justa": "-395",
+      "cuota_minima": "-343",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "prob": 0.586,
+      "cuota_justa": "-142",
+      "cuota_minima": "-131",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "no",
+      "prob": 0.414,
+      "cuota_justa": "+142",
+      "cuota_minima": "+149",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_0.5",
+      "prob": 0.861,
+      "cuota_justa": "-621",
+      "cuota_minima": "-510",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "3/5"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_0.5",
+      "prob": 0.139,
+      "cuota_justa": "+621",
+      "cuota_minima": "+643",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "2/5"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_0.5",
+      "prob": 0.676,
+      "cuota_justa": "-208",
+      "cuota_minima": "-190",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "3/3",
+        "visitante": "3/5"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_0.5",
+      "prob": 0.324,
+      "cuota_justa": "+208",
+      "cuota_minima": "+218",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "0/3",
+        "visitante": "2/5"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_1.5",
+      "prob": 0.587,
+      "cuota_justa": "-142",
+      "cuota_minima": "-132",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "2/5"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_1.5",
+      "prob": 0.413,
+      "cuota_justa": "+142",
+      "cuota_minima": "+150",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "3/5"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_1.5",
+      "prob": 0.311,
+      "cuota_justa": "+222",
+      "cuota_minima": "+232",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_1.5",
+      "prob": 0.689,
+      "cuota_justa": "-222",
+      "cuota_minima": "-202",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_2.5",
+      "prob": 0.317,
+      "cuota_justa": "+216",
+      "cuota_minima": "+226",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_2.5",
+      "prob": 0.683,
+      "cuota_justa": "-216",
+      "cuota_minima": "-197",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_2.5",
+      "prob": 0.105,
+      "cuota_justa": "+853",
+      "cuota_minima": "+882",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_2.5",
+      "prob": 0.895,
+      "cuota_justa": "-853",
+      "cuota_minima": "-663",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_1",
+      "prob": 0.428,
+      "cuota_justa": "+134",
+      "cuota_minima": "+141",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_X",
+      "prob": 0.372,
+      "cuota_justa": "+169",
+      "cuota_minima": "+177",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_2",
+      "prob": 0.2,
+      "cuota_justa": "+401",
+      "cuota_minima": "+416",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_0.5",
+      "prob": 0.752,
+      "cuota_justa": "-304",
+      "cuota_minima": "-271",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_0.5",
+      "prob": 0.248,
+      "cuota_justa": "+304",
+      "cuota_minima": "+317",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_1.5",
+      "prob": 0.407,
+      "cuota_justa": "+146",
+      "cuota_minima": "+154",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_1.5",
+      "prob": 0.593,
+      "cuota_justa": "-146",
+      "cuota_minima": "-135",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "prob": 0.339,
+      "cuota_justa": "+195",
+      "cuota_minima": "+204",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "2/5"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1.5",
+      "prob": 0.08,
+      "cuota_justa": "+1142",
+      "cuota_minima": "+1180",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1",
+      "prob": 0.339,
+      "cuota_justa": "+128",
+      "cuota_minima": "+137",
+      "confianza": "baja",
+      "devolucion": 0.228,
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "2/4"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1",
+      "prob": 0.08,
+      "cuota_justa": "+983",
+      "cuota_minima": "+1021",
+      "confianza": "baja",
+      "devolucion": 0.128,
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "1/4"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+0",
+      "prob": 0.567,
+      "cuota_justa": "-272",
+      "cuota_minima": "-237",
+      "confianza": "baja",
+      "devolucion": 0.224,
+      "ultimos10": {
+        "local": "1/2",
+        "visitante": "3/5"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+0",
+      "prob": 0.209,
+      "cuota_justa": "+272",
+      "cuota_minima": "+286",
+      "confianza": "baja",
+      "devolucion": 0.224,
+      "ultimos10": {
+        "local": "1/2",
+        "visitante": "2/5"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1",
+      "prob": 0.791,
+      "cuota_justa": "-983",
+      "cuota_minima": "-715",
+      "confianza": "baja",
+      "devolucion": 0.128,
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "3/4"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1",
+      "prob": 0.433,
+      "cuota_justa": "-128",
+      "cuota_minima": "-117",
+      "confianza": "baja",
+      "devolucion": 0.228,
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "2/4"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1.5",
+      "prob": 0.92,
+      "cuota_justa": "-1142",
+      "cuota_minima": "-832",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1.5",
+      "prob": 0.661,
+      "cuota_justa": "-195",
+      "cuota_minima": "-179",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "3/5"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "prob": 0.639,
+      "cuota_justa": "-177",
+      "cuota_minima": "-155",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "0/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_7.5",
+      "prob": 0.361,
+      "cuota_justa": "+177",
+      "cuota_minima": "+191",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "3/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "prob": 0.518,
+      "cuota_justa": "-107",
+      "cuota_minima": "+103",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "0/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_8.5",
+      "prob": 0.482,
+      "cuota_justa": "+107",
+      "cuota_minima": "+118",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "3/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_9.5",
+      "prob": 0.408,
+      "cuota_justa": "+145",
+      "cuota_minima": "+158",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "0/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_9.5",
+      "prob": 0.592,
+      "cuota_justa": "-145",
+      "cuota_minima": "-129",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "3/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_10.5",
+      "prob": 0.298,
+      "cuota_justa": "+235",
+      "cuota_minima": "+253",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "0/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_10.5",
+      "prob": 0.702,
+      "cuota_justa": "-235",
+      "cuota_minima": "-201",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "3/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_11.5",
+      "prob": 0.212,
+      "cuota_justa": "+371",
+      "cuota_minima": "+395",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "0/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_11.5",
+      "prob": 0.788,
+      "cuota_justa": "-371",
+      "cuota_minima": "-300",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "3/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_2.5",
+      "prob": 0.627,
+      "cuota_justa": "-168",
+      "cuota_minima": "-148",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "1/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_2.5",
+      "prob": 0.373,
+      "cuota_justa": "+168",
+      "cuota_minima": "+182",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "2/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "prob": 0.411,
+      "cuota_justa": "+143",
+      "cuota_minima": "+156",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "0/3",
+        "visitante": "3/5"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_3.5",
+      "prob": 0.589,
+      "cuota_justa": "-143",
+      "cuota_minima": "-127",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "3/3",
+        "visitante": "2/5"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_4.5",
+      "prob": 0.238,
+      "cuota_justa": "+320",
+      "cuota_minima": "+341",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "0/3",
+        "visitante": "3/5"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_4.5",
+      "prob": 0.762,
+      "cuota_justa": "-320",
+      "cuota_minima": "-264",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "3/3",
+        "visitante": "2/5"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_5.5",
+      "prob": 0.124,
+      "cuota_justa": "+706",
+      "cuota_minima": "+746",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "0/3",
+        "visitante": "1/5"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_5.5",
+      "prob": 0.876,
+      "cuota_justa": "-706",
+      "cuota_minima": "-502",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "3/3",
+        "visitante": "4/5"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_6.5",
+      "prob": 0.057,
+      "cuota_justa": "+1659",
+      "cuota_minima": "+1748",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "0/3",
+        "visitante": "0/5"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_6.5",
+      "prob": 0.943,
+      "cuota_justa": "-1659",
+      "cuota_minima": "-882",
+      "confianza": "baja",
+      "ultimos10": {
+        "local": "3/3",
+        "visitante": "5/5"
+      }
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "1",
+      "prob": 0.476,
+      "cuota_justa": "+110",
+      "cuota_minima": "+121",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "X",
+      "prob": 0.259,
+      "cuota_justa": "+286",
+      "cuota_minima": "+306",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "2",
+      "prob": 0.264,
+      "cuota_justa": "+278",
+      "cuota_minima": "+298",
+      "confianza": "baja"
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Tjaronn Chery:mas_0.5",
+      "prob": 0.638,
+      "cuota_justa": "-177",
+      "cuota_minima": "-138",
+      "confianza": "baja",
+      "jugador": "Tjaronn Chery",
+      "jugador_id": "116893",
+      "equipo": "NEC Nijmegen",
+      "posicion": "F",
+      "tiros_esperados": 1.127
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Tjaronn Chery:mas_1.5",
+      "prob": 0.287,
+      "cuota_justa": "+249",
+      "cuota_minima": "+284",
+      "confianza": "baja",
+      "jugador": "Tjaronn Chery",
+      "jugador_id": "116893",
+      "equipo": "NEC Nijmegen",
+      "posicion": "F",
+      "tiros_esperados": 1.127
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Tjaronn Chery:mas_2.5",
+      "prob": 0.096,
+      "cuota_justa": "+941",
+      "cuota_minima": "+1045",
+      "confianza": "baja",
+      "jugador": "Tjaronn Chery",
+      "jugador_id": "116893",
+      "equipo": "NEC Nijmegen",
+      "posicion": "F",
+      "tiros_esperados": 1.127
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Bryan Linssen:mas_0.5",
+      "prob": 0.599,
+      "cuota_justa": "-150",
+      "cuota_minima": "-119",
+      "confianza": "baja",
+      "jugador": "Bryan Linssen",
+      "jugador_id": "122954",
+      "equipo": "NEC Nijmegen",
+      "posicion": "F",
+      "tiros_esperados": 1.002
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Bryan Linssen:mas_1.5",
+      "prob": 0.245,
+      "cuota_justa": "+308",
+      "cuota_minima": "+349",
+      "confianza": "baja",
+      "jugador": "Bryan Linssen",
+      "jugador_id": "122954",
+      "equipo": "NEC Nijmegen",
+      "posicion": "F",
+      "tiros_esperados": 1.002
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Bryan Linssen:mas_2.5",
+      "prob": 0.074,
+      "cuota_justa": "+1251",
+      "cuota_minima": "+1386",
+      "confianza": "baja",
+      "jugador": "Bryan Linssen",
+      "jugador_id": "122954",
+      "equipo": "NEC Nijmegen",
+      "posicion": "F",
+      "tiros_esperados": 1.002
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ayodele Thomas:mas_0.5",
+      "prob": 0.572,
+      "cuota_justa": "-134",
+      "cuota_minima": "-108",
+      "confianza": "baja",
+      "jugador": "Ayodele Thomas",
+      "jugador_id": "380942",
+      "equipo": "NEC Nijmegen",
+      "posicion": "M",
+      "tiros_esperados": 0.922
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ayodele Thomas:mas_1.5",
+      "prob": 0.219,
+      "cuota_justa": "+357",
+      "cuota_minima": "+403",
+      "confianza": "baja",
+      "jugador": "Ayodele Thomas",
+      "jugador_id": "380942",
+      "equipo": "NEC Nijmegen",
+      "posicion": "M",
+      "tiros_esperados": 0.922
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ayodele Thomas:mas_2.5",
+      "prob": 0.061,
+      "cuota_justa": "+1529",
+      "cuota_minima": "+1692",
+      "confianza": "baja",
+      "jugador": "Ayodele Thomas",
+      "jugador_id": "380942",
+      "equipo": "NEC Nijmegen",
+      "posicion": "M",
+      "tiros_esperados": 0.922
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Noé Lebreton:mas_0.5",
+      "prob": 0.549,
+      "cuota_justa": "-122",
+      "cuota_minima": "+101",
+      "confianza": "baja",
+      "jugador": "Noé Lebreton",
+      "jugador_id": "340685",
+      "equipo": "NEC Nijmegen",
+      "posicion": "F",
+      "tiros_esperados": 0.86
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Noé Lebreton:mas_1.5",
+      "prob": 0.199,
+      "cuota_justa": "+404",
+      "cuota_minima": "+455",
+      "confianza": "baja",
+      "jugador": "Noé Lebreton",
+      "jugador_id": "340685",
+      "equipo": "NEC Nijmegen",
+      "posicion": "F",
+      "tiros_esperados": 0.86
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Noé Lebreton:mas_2.5",
+      "prob": 0.052,
+      "cuota_justa": "+1814",
+      "cuota_minima": "+2006",
+      "confianza": "baja",
+      "jugador": "Noé Lebreton",
+      "jugador_id": "340685",
+      "equipo": "NEC Nijmegen",
+      "posicion": "F",
+      "tiros_esperados": 0.86
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Jamiro Monteiro:mas_0.5",
+      "prob": 0.442,
+      "cuota_justa": "+126",
+      "cuota_minima": "+149",
+      "confianza": "baja",
+      "jugador": "Jamiro Monteiro",
+      "jugador_id": "227441",
+      "equipo": "NEC Nijmegen",
+      "posicion": "M",
+      "tiros_esperados": 0.612
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Jamiro Monteiro:mas_1.5",
+      "prob": 0.12,
+      "cuota_justa": "+730",
+      "cuota_minima": "+814",
+      "confianza": "baja",
+      "jugador": "Jamiro Monteiro",
+      "jugador_id": "227441",
+      "equipo": "NEC Nijmegen",
+      "posicion": "M",
+      "tiros_esperados": 0.612
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Clement Bischoff:mas_0.5",
+      "prob": 0.407,
+      "cuota_justa": "+146",
+      "cuota_minima": "+171",
+      "confianza": "baja",
+      "jugador": "Clement Bischoff",
+      "jugador_id": "372851",
+      "equipo": "NEC Nijmegen",
+      "posicion": "M",
+      "tiros_esperados": 0.543
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Clement Bischoff:mas_1.5",
+      "prob": 0.1,
+      "cuota_justa": "+898",
+      "cuota_minima": "+998",
+      "confianza": "baja",
+      "jugador": "Clement Bischoff",
+      "jugador_id": "372851",
+      "equipo": "NEC Nijmegen",
+      "posicion": "M",
+      "tiros_esperados": 0.543
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Jaden Montnor:mas_0.5",
+      "prob": 0.563,
+      "cuota_justa": "-129",
+      "cuota_minima": "-104",
+      "confianza": "baja",
+      "jugador": "Jaden Montnor",
+      "jugador_id": "366131",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.897
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Jaden Montnor:mas_1.5",
+      "prob": 0.211,
+      "cuota_justa": "+374",
+      "cuota_minima": "+422",
+      "confianza": "baja",
+      "jugador": "Jaden Montnor",
+      "jugador_id": "366131",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.897
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Jaden Montnor:mas_2.5",
+      "prob": 0.058,
+      "cuota_justa": "+1635",
+      "cuota_minima": "+1809",
+      "confianza": "baja",
+      "jugador": "Jaden Montnor",
+      "jugador_id": "366131",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.897
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Panagiotis Andreou:mas_0.5",
+      "prob": 0.475,
+      "cuota_justa": "+111",
+      "cuota_minima": "+132",
+      "confianza": "baja",
+      "jugador": "Panagiotis Andreou",
+      "jugador_id": "366462",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.681
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Panagiotis Andreou:mas_1.5",
+      "prob": 0.141,
+      "cuota_justa": "+607",
+      "cuota_minima": "+678",
+      "confianza": "baja",
+      "jugador": "Panagiotis Andreou",
+      "jugador_id": "366462",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.681
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ewandro:mas_0.5",
+      "prob": 0.456,
+      "cuota_justa": "+119",
+      "cuota_minima": "+142",
+      "confianza": "baja",
+      "jugador": "Ewandro",
+      "jugador_id": "199675",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.641
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ewandro:mas_1.5",
+      "prob": 0.129,
+      "cuota_justa": "+675",
+      "cuota_minima": "+754",
+      "confianza": "baja",
+      "jugador": "Ewandro",
+      "jugador_id": "199675",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.641
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Loïs Diony:mas_0.5",
+      "prob": 0.424,
+      "cuota_justa": "+136",
+      "cuota_minima": "+160",
+      "confianza": "baja",
+      "jugador": "Loïs Diony",
+      "jugador_id": "181007",
+      "equipo": "Omonia Nicosia",
+      "posicion": "F",
+      "tiros_esperados": 0.576
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Loïs Diony:mas_1.5",
+      "prob": 0.11,
+      "cuota_justa": "+811",
+      "cuota_minima": "+903",
+      "confianza": "baja",
+      "jugador": "Loïs Diony",
+      "jugador_id": "181007",
+      "equipo": "Omonia Nicosia",
+      "posicion": "F",
+      "tiros_esperados": 0.576
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Mateo Maric:mas_0.5",
+      "prob": 0.416,
+      "cuota_justa": "+140",
+      "cuota_minima": "+165",
+      "confianza": "baja",
+      "jugador": "Mateo Maric",
+      "jugador_id": "275269",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.56
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Mateo Maric:mas_1.5",
+      "prob": 0.105,
+      "cuota_justa": "+852",
+      "cuota_minima": "+948",
+      "confianza": "baja",
+      "jugador": "Mateo Maric",
+      "jugador_id": "275269",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.56
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Florin Tanase:mas_0.5",
+      "prob": 0.413,
+      "cuota_justa": "+142",
+      "cuota_minima": "+167",
+      "confianza": "baja",
+      "jugador": "Florin Tanase",
+      "jugador_id": "205279",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.554
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Florin Tanase:mas_1.5",
+      "prob": 0.103,
+      "cuota_justa": "+868",
+      "cuota_minima": "+966",
+      "confianza": "baja",
+      "jugador": "Florin Tanase",
+      "jugador_id": "205279",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.554
+    }
+  ],
+  "estado": "pendiente",
+  "respaldo": {
+    "forma_local": {
+      "racha": "PEG",
+      "puntos": 4,
+      "de": 9,
+      "goles_favor": 5,
+      "goles_contra": 8,
+      "partidos": 3
+    },
+    "forma_visitante": {
+      "racha": "PPGGP",
+      "puntos": 6,
+      "de": 15,
+      "goles_favor": 5,
+      "goles_contra": 7,
+      "partidos": 5
+    },
+    "historial_directo": []
+  },
+  "tiros_jugador": [
+    {
+      "jugador": "Tjaronn Chery",
+      "equipo": "NEC Nijmegen",
+      "posicion": "F",
+      "tiros_esperados": 1.127,
+      "tasa90": 1.0,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 270
+    },
+    {
+      "jugador": "Bryan Linssen",
+      "equipo": "NEC Nijmegen",
+      "posicion": "F",
+      "tiros_esperados": 1.002,
+      "tasa90": 0.889,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 259
+    },
+    {
+      "jugador": "Ayodele Thomas",
+      "equipo": "NEC Nijmegen",
+      "posicion": "M",
+      "tiros_esperados": 0.922,
+      "tasa90": 0.891,
+      "minutos_esperados": 78.0,
+      "minutos_historial": 90
+    },
+    {
+      "jugador": "Noé Lebreton",
+      "equipo": "NEC Nijmegen",
+      "posicion": "F",
+      "tiros_esperados": 0.86,
+      "tasa90": 0.763,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 258
+    },
+    {
+      "jugador": "Jamiro Monteiro",
+      "equipo": "NEC Nijmegen",
+      "posicion": "M",
+      "tiros_esperados": 0.612,
+      "tasa90": 0.592,
+      "minutos_esperados": 78.0,
+      "minutos_historial": 59
+    },
+    {
+      "jugador": "Clement Bischoff",
+      "equipo": "NEC Nijmegen",
+      "posicion": "M",
+      "tiros_esperados": 0.543,
+      "tasa90": 0.597,
+      "minutos_esperados": 68.7,
+      "minutos_historial": 206
+    },
+    {
+      "jugador": "Jaden Montnor",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.897,
+      "tasa90": 1.029,
+      "minutos_esperados": 82.0,
+      "minutos_historial": 246
+    },
+    {
+      "jugador": "Panagiotis Andreou",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.681,
+      "tasa90": 0.754,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 261
+    },
+    {
+      "jugador": "Ewandro",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.641,
+      "tasa90": 0.789,
+      "minutos_esperados": 76.3,
+      "minutos_historial": 229
+    },
+    {
+      "jugador": "Loïs Diony",
+      "equipo": "Omonia Nicosia",
+      "posicion": "F",
+      "tiros_esperados": 0.576,
+      "tasa90": 0.722,
+      "minutos_esperados": 75.0,
+      "minutos_historial": 173
+    },
+    {
+      "jugador": "Mateo Maric",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.56,
+      "tasa90": 0.619,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 270
+    },
+    {
+      "jugador": "Florin Tanase",
+      "equipo": "Omonia Nicosia",
+      "posicion": "M",
+      "tiros_esperados": 0.554,
+      "tasa90": 0.668,
+      "minutos_esperados": 78.0,
+      "minutos_historial": 83
+    }
+  ],
+  "id": "P-20261105-310fa1",
+  "creado": "2026-11-05T10:01:13.497708-07:00"
+}
