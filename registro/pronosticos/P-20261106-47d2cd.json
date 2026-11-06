@@ -1,0 +1,1318 @@
+{
+  "deporte": "futbol",
+  "liga": "laliga",
+  "partido": "Sevilla vs Alavés",
+  "local": "Sevilla",
+  "visitante": "Alavés",
+  "espn_id": "401882809",
+  "inicio_utc": "2026-11-06T20:00:00+00:00",
+  "inicio_sonora": "2026-11-06 13:00",
+  "estadio": "Ramón Sánchez Pizjuán Stadium",
+  "techado": false,
+  "neutral": false,
+  "pago_anticipado": true,
+  "clima": {
+    "temperatura_c": 19.0,
+    "lluvia_mm_h": 0.0,
+    "viento_kmh": 2.3,
+    "altitud_m": 15.0
+  },
+  "arbitro": "Luis Bestard",
+  "factor_arbitro": 1.001,
+  "pinnacle": {
+    "1": 1.9803921568627452,
+    "X": 3.31,
+    "2": 4.55,
+    "mas_2.5": 2.4,
+    "menos_2.5": 1.6329113924050633
+  },
+  "goles_esperados": [
+    1.44,
+    0.85
+  ],
+  "modelo_1x2": {
+    "1": 0.503,
+    "X": 0.252,
+    "2": 0.295
+  },
+  "marcadores_probables": [
+    [
+      "1-1",
+      0.1359588301840681
+    ],
+    [
+      "1-0",
+      0.13388902005274841
+    ],
+    [
+      "0-0",
+      0.11327865799480219
+    ]
+  ],
+  "notas": [
+    "Base: Pinnacle sin margen (modelo solo como referencia)",
+    "Goles esperados del modelo solo: 1.66 – 1.19",
+    "Pago anticipado de Winpot: el ganador local/visitante incluye la probabilidad de ir 2 goles arriba y no ganar (local +1.3%, visitante +1.5%)",
+    "Córners esperados: 8.6",
+    "Tarjetas esperadas: 5.6 (factor árbitro x1.00)",
+    "Modelo y Pinnacle discrepan mucho en goles_2.5: baja la confianza de los mercados relacionados",
+    "Clima ya incluido en el precio de Pinnacle: no se ajusta",
+    "Tiros a puerta de jugador de Sevilla: 49 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador de Alavés: 49 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador: alineación oficial de ESPN; modelo Poisson con tasa por 90, minutos y rival; confianza siempre baja; solo con valor de 10% o más"
+  ],
+  "confianza": "alta",
+  "selecciones": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "prob": 0.509,
+      "cuota_justa": "-104",
+      "cuota_minima": "+103",
+      "confianza": "alta",
+      "prob_sin_pago_anticipado": 0.496,
+      "ultimos10": {
+        "local": "4/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "X",
+      "prob": 0.293,
+      "cuota_justa": "+242",
+      "cuota_minima": "+252",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "2/10",
+        "visitante": "3/10"
+      }
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
+      "prob": 0.226,
+      "cuota_justa": "+343",
+      "cuota_minima": "+356",
+      "confianza": "alta",
+      "prob_sin_pago_anticipado": 0.211,
+      "ultimos10": {
+        "local": "4/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "1X",
+      "prob": 0.789,
+      "cuota_justa": "-373",
+      "cuota_minima": "-326",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "6/10",
+        "visitante": "8/10"
+      }
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "12",
+      "prob": 0.707,
+      "cuota_justa": "-242",
+      "cuota_minima": "-219",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "8/10",
+        "visitante": "7/10"
+      }
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "X2",
+      "prob": 0.504,
+      "cuota_justa": "-102",
+      "cuota_minima": "+105",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "6/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_0.5",
+      "prob": 0.887,
+      "cuota_justa": "-783",
+      "cuota_minima": "-618",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "9/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_0.5",
+      "prob": 0.113,
+      "cuota_justa": "+783",
+      "cuota_minima": "+810",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "1/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_1.5",
+      "prob": 0.678,
+      "cuota_justa": "-211",
+      "cuota_minima": "-192",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "8/10",
+        "visitante": "7/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_1.5",
+      "prob": 0.322,
+      "cuota_justa": "+211",
+      "cuota_minima": "+221",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "2/10",
+        "visitante": "3/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "prob": 0.401,
+      "cuota_justa": "+150",
+      "cuota_minima": "+157",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "6/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_2.5",
+      "prob": 0.599,
+      "cuota_justa": "-150",
+      "cuota_minima": "-139",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "4/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_3.5",
+      "prob": 0.198,
+      "cuota_justa": "+404",
+      "cuota_minima": "+420",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "6/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "prob": 0.802,
+      "cuota_justa": "-404",
+      "cuota_minima": "-351",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "4/10",
+        "visitante": "8/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_4.5",
+      "prob": 0.082,
+      "cuota_justa": "+1114",
+      "cuota_minima": "+1151",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "2/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_4.5",
+      "prob": 0.918,
+      "cuota_justa": "-1114",
+      "cuota_minima": "-816",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "8/10",
+        "visitante": "8/10"
+      }
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "prob": 0.449,
+      "cuota_justa": "+123",
+      "cuota_minima": "+130",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "7/10"
+      }
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "no",
+      "prob": 0.551,
+      "cuota_justa": "-123",
+      "cuota_minima": "-115",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "3/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_0.5",
+      "prob": 0.762,
+      "cuota_justa": "-320",
+      "cuota_minima": "-284",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "8/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_0.5",
+      "prob": 0.238,
+      "cuota_justa": "+320",
+      "cuota_minima": "+334",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_0.5",
+      "prob": 0.573,
+      "cuota_justa": "-134",
+      "cuota_minima": "-125",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "8/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_0.5",
+      "prob": 0.427,
+      "cuota_justa": "+134",
+      "cuota_minima": "+142",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_1.5",
+      "prob": 0.421,
+      "cuota_justa": "+138",
+      "cuota_minima": "+145",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_1.5",
+      "prob": 0.579,
+      "cuota_justa": "-138",
+      "cuota_minima": "-128",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_1.5",
+      "prob": 0.21,
+      "cuota_justa": "+376",
+      "cuota_minima": "+391",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "1/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_1.5",
+      "prob": 0.79,
+      "cuota_justa": "-376",
+      "cuota_minima": "-329",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "9/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_2.5",
+      "prob": 0.175,
+      "cuota_justa": "+470",
+      "cuota_minima": "+488",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "2/10",
+        "visitante": "1/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_2.5",
+      "prob": 0.825,
+      "cuota_justa": "-470",
+      "cuota_minima": "-401",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "8/10",
+        "visitante": "9/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_2.5",
+      "prob": 0.055,
+      "cuota_justa": "+1712",
+      "cuota_minima": "+1767",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "1/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_2.5",
+      "prob": 0.945,
+      "cuota_justa": "-1712",
+      "cuota_minima": "-1109",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "9/10"
+      }
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_1",
+      "prob": 0.362,
+      "cuota_justa": "+176",
+      "cuota_minima": "+185",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_X",
+      "prob": 0.451,
+      "cuota_justa": "+122",
+      "cuota_minima": "+129",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_2",
+      "prob": 0.187,
+      "cuota_justa": "+435",
+      "cuota_minima": "+451",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_0.5",
+      "prob": 0.643,
+      "cuota_justa": "-180",
+      "cuota_minima": "-166",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_0.5",
+      "prob": 0.357,
+      "cuota_justa": "+180",
+      "cuota_minima": "+189",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_1.5",
+      "prob": 0.275,
+      "cuota_justa": "+263",
+      "cuota_minima": "+275",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_1.5",
+      "prob": 0.725,
+      "cuota_justa": "-263",
+      "cuota_minima": "-237",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "prob": 0.253,
+      "cuota_justa": "+296",
+      "cuota_minima": "+308",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "2/10",
+        "visitante": "1/10"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1.5",
+      "prob": 0.072,
+      "cuota_justa": "+1293",
+      "cuota_minima": "+1335",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "4/10",
+        "visitante": "1/10"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1",
+      "prob": 0.253,
+      "cuota_justa": "+199",
+      "cuota_minima": "+212",
+      "confianza": "alta",
+      "devolucion": 0.243,
+      "ultimos10": {
+        "local": "2/8",
+        "visitante": "1/6"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1",
+      "prob": 0.072,
+      "cuota_justa": "+1099",
+      "cuota_minima": "+1141",
+      "confianza": "alta",
+      "devolucion": 0.139,
+      "ultimos10": {
+        "local": "4/10",
+        "visitante": "1/9"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+0",
+      "prob": 0.496,
+      "cuota_justa": "-235",
+      "cuota_minima": "-205",
+      "confianza": "alta",
+      "devolucion": 0.293,
+      "ultimos10": {
+        "local": "4/8",
+        "visitante": "5/7"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+0",
+      "prob": 0.211,
+      "cuota_justa": "+235",
+      "cuota_minima": "+250",
+      "confianza": "alta",
+      "devolucion": 0.293,
+      "ultimos10": {
+        "local": "4/8",
+        "visitante": "2/7"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1",
+      "prob": 0.789,
+      "cuota_justa": "-1099",
+      "cuota_minima": "-774",
+      "confianza": "alta",
+      "devolucion": 0.139,
+      "ultimos10": {
+        "local": "6/10",
+        "visitante": "8/9"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1",
+      "prob": 0.504,
+      "cuota_justa": "-199",
+      "cuota_minima": "-178",
+      "confianza": "alta",
+      "devolucion": 0.243,
+      "ultimos10": {
+        "local": "6/8",
+        "visitante": "5/6"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1.5",
+      "prob": 0.928,
+      "cuota_justa": "-1293",
+      "cuota_minima": "-911",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "6/10",
+        "visitante": "9/10"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1.5",
+      "prob": 0.747,
+      "cuota_justa": "-296",
+      "cuota_minima": "-264",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "8/10",
+        "visitante": "9/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "prob": 0.661,
+      "cuota_justa": "-195",
+      "cuota_minima": "-169",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "4/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_7.5",
+      "prob": 0.339,
+      "cuota_justa": "+195",
+      "cuota_minima": "+210",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "6/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "prob": 0.538,
+      "cuota_justa": "-117",
+      "cuota_minima": "-105",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_8.5",
+      "prob": 0.462,
+      "cuota_justa": "+117",
+      "cuota_minima": "+128",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_9.5",
+      "prob": 0.438,
+      "cuota_justa": "+128",
+      "cuota_minima": "+140",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "4/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_9.5",
+      "prob": 0.562,
+      "cuota_justa": "-128",
+      "cuota_minima": "-115",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_10.5",
+      "prob": 0.325,
+      "cuota_justa": "+208",
+      "cuota_minima": "+224",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "2/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_10.5",
+      "prob": 0.675,
+      "cuota_justa": "-208",
+      "cuota_minima": "-179",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "8/10",
+        "visitante": "8/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_11.5",
+      "prob": 0.241,
+      "cuota_justa": "+314",
+      "cuota_minima": "+336",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "1/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_11.5",
+      "prob": 0.759,
+      "cuota_justa": "-314",
+      "cuota_minima": "-260",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "9/10",
+        "visitante": "8/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_2.5",
+      "prob": 0.867,
+      "cuota_justa": "-654",
+      "cuota_minima": "-475",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "9/10",
+        "visitante": "8/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_2.5",
+      "prob": 0.133,
+      "cuota_justa": "+654",
+      "cuota_minima": "+692",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "1/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "prob": 0.732,
+      "cuota_justa": "-273",
+      "cuota_minima": "-230",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_3.5",
+      "prob": 0.268,
+      "cuota_justa": "+273",
+      "cuota_minima": "+292",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_4.5",
+      "prob": 0.572,
+      "cuota_justa": "-134",
+      "cuota_minima": "-119",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_4.5",
+      "prob": 0.428,
+      "cuota_justa": "+134",
+      "cuota_minima": "+146",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_5.5",
+      "prob": 0.425,
+      "cuota_justa": "+135",
+      "cuota_minima": "+147",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "1/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_5.5",
+      "prob": 0.575,
+      "cuota_justa": "-135",
+      "cuota_minima": "-120",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "9/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_6.5",
+      "prob": 0.284,
+      "cuota_justa": "+252",
+      "cuota_minima": "+270",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "1/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_6.5",
+      "prob": 0.716,
+      "cuota_justa": "-252",
+      "cuota_minima": "-214",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "9/10"
+      }
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "1",
+      "prob": 0.457,
+      "cuota_justa": "+119",
+      "cuota_minima": "+130",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "X",
+      "prob": 0.211,
+      "cuota_justa": "+373",
+      "cuota_minima": "+397",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "2",
+      "prob": 0.332,
+      "cuota_justa": "+201",
+      "cuota_minima": "+217",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Lucas Stassin:mas_0.5",
+      "prob": 0.562,
+      "cuota_justa": "-128",
+      "cuota_minima": "-104",
+      "confianza": "baja",
+      "jugador": "Lucas Stassin",
+      "jugador_id": "323033",
+      "equipo": "Sevilla",
+      "posicion": "F",
+      "tiros_esperados": 0.895
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Lucas Stassin:mas_1.5",
+      "prob": 0.21,
+      "cuota_justa": "+376",
+      "cuota_minima": "+424",
+      "confianza": "baja",
+      "jugador": "Lucas Stassin",
+      "jugador_id": "323033",
+      "equipo": "Sevilla",
+      "posicion": "F",
+      "tiros_esperados": 0.895
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Lucas Stassin:mas_2.5",
+      "prob": 0.057,
+      "cuota_justa": "+1645",
+      "cuota_minima": "+1820",
+      "confianza": "baja",
+      "jugador": "Lucas Stassin",
+      "jugador_id": "323033",
+      "equipo": "Sevilla",
+      "posicion": "F",
+      "tiros_esperados": 0.895
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Youssouf Fofana:mas_0.5",
+      "prob": 0.485,
+      "cuota_justa": "+106",
+      "cuota_minima": "+127",
+      "confianza": "baja",
+      "jugador": "Youssouf Fofana",
+      "jugador_id": "277307",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.705
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Youssouf Fofana:mas_1.5",
+      "prob": 0.149,
+      "cuota_justa": "+572",
+      "cuota_minima": "+640",
+      "confianza": "baja",
+      "jugador": "Youssouf Fofana",
+      "jugador_id": "277307",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.705
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Isaac Romero:mas_0.5",
+      "prob": 0.454,
+      "cuota_justa": "+120",
+      "cuota_minima": "+143",
+      "confianza": "baja",
+      "jugador": "Isaac Romero",
+      "jugador_id": "365821",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.637
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Isaac Romero:mas_1.5",
+      "prob": 0.128,
+      "cuota_justa": "+682",
+      "cuota_minima": "+761",
+      "confianza": "baja",
+      "jugador": "Isaac Romero",
+      "jugador_id": "365821",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.637
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Felix Correia:mas_0.5",
+      "prob": 0.395,
+      "cuota_justa": "+153",
+      "cuota_minima": "+179",
+      "confianza": "baja",
+      "jugador": "Felix Correia",
+      "jugador_id": "288900",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.52
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Felix Correia:mas_1.5",
+      "prob": 0.094,
+      "cuota_justa": "+966",
+      "cuota_minima": "+1073",
+      "confianza": "baja",
+      "jugador": "Felix Correia",
+      "jugador_id": "288900",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.52
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Rubén Vargas:mas_0.5",
+      "prob": 0.318,
+      "cuota_justa": "+214",
+      "cuota_minima": "+246",
+      "confianza": "baja",
+      "jugador": "Rubén Vargas",
+      "jugador_id": "259513",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.386
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Rubén Vargas:mas_1.5",
+      "prob": 0.059,
+      "cuota_justa": "+1591",
+      "cuota_minima": "+1761",
+      "confianza": "baja",
+      "jugador": "Rubén Vargas",
+      "jugador_id": "259513",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.386
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Lucien Agoumé:mas_0.5",
+      "prob": 0.128,
+      "cuota_justa": "+680",
+      "cuota_minima": "+759",
+      "confianza": "baja",
+      "jugador": "Lucien Agoumé",
+      "jugador_id": "282289",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.115
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Toni Martínez:mas_0.5",
+      "prob": 0.514,
+      "cuota_justa": "-106",
+      "cuota_minima": "+114",
+      "confianza": "baja",
+      "jugador": "Toni Martínez",
+      "jugador_id": "181757",
+      "equipo": "Alavés",
+      "posicion": "F",
+      "tiros_esperados": 0.772
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Toni Martínez:mas_1.5",
+      "prob": 0.17,
+      "cuota_justa": "+488",
+      "cuota_minima": "+547",
+      "confianza": "baja",
+      "jugador": "Toni Martínez",
+      "jugador_id": "181757",
+      "equipo": "Alavés",
+      "posicion": "F",
+      "tiros_esperados": 0.772
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Lucas Boyé:mas_0.5",
+      "prob": 0.495,
+      "cuota_justa": "+102",
+      "cuota_minima": "+123",
+      "confianza": "baja",
+      "jugador": "Lucas Boyé",
+      "jugador_id": "207236",
+      "equipo": "Alavés",
+      "posicion": "F",
+      "tiros_esperados": 0.727
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Lucas Boyé:mas_1.5",
+      "prob": 0.156,
+      "cuota_justa": "+542",
+      "cuota_minima": "+606",
+      "confianza": "baja",
+      "jugador": "Lucas Boyé",
+      "jugador_id": "207236",
+      "equipo": "Alavés",
+      "posicion": "F",
+      "tiros_esperados": 0.727
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ángel Pérez:mas_0.5",
+      "prob": 0.277,
+      "cuota_justa": "+261",
+      "cuota_minima": "+297",
+      "confianza": "baja",
+      "jugador": "Ángel Pérez",
+      "jugador_id": "374621",
+      "equipo": "Alavés",
+      "posicion": "M",
+      "tiros_esperados": 0.321
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Pablo Ibáñez:mas_0.5",
+      "prob": 0.251,
+      "cuota_justa": "+299",
+      "cuota_minima": "+340",
+      "confianza": "baja",
+      "jugador": "Pablo Ibáñez",
+      "jugador_id": "106326",
+      "equipo": "Alavés",
+      "posicion": "M",
+      "tiros_esperados": 0.281
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Antonio Blanco:mas_0.5",
+      "prob": 0.216,
+      "cuota_justa": "+363",
+      "cuota_minima": "+410",
+      "confianza": "baja",
+      "jugador": "Antonio Blanco",
+      "jugador_id": "265997",
+      "equipo": "Alavés",
+      "posicion": "M",
+      "tiros_esperados": 0.231
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ander Guevara:mas_0.5",
+      "prob": 0.151,
+      "cuota_justa": "+561",
+      "cuota_minima": "+628",
+      "confianza": "baja",
+      "jugador": "Ander Guevara",
+      "jugador_id": "260256",
+      "equipo": "Alavés",
+      "posicion": "M",
+      "tiros_esperados": 0.145
+    }
+  ],
+  "estado": "pendiente",
+  "respaldo": {
+    "forma_local": {
+      "racha": "PEPGP",
+      "puntos": 4,
+      "de": 15,
+      "goles_favor": 8,
+      "goles_contra": 13,
+      "partidos": 5
+    },
+    "forma_visitante": {
+      "racha": "EPPEP",
+      "puntos": 2,
+      "de": 15,
+      "goles_favor": 4,
+      "goles_contra": 11,
+      "partidos": 5
+    },
+    "historial_directo": [
+      {
+        "fecha": "2024-01-12",
+        "local": "Sevilla",
+        "visitante": "Alavés",
+        "marcador": "2-3"
+      },
+      {
+        "fecha": "2024-09-20",
+        "local": "Alavés",
+        "visitante": "Sevilla",
+        "marcador": "2-1"
+      },
+      {
+        "fecha": "2025-04-20",
+        "local": "Sevilla",
+        "visitante": "Alavés",
+        "marcador": "1-1"
+      },
+      {
+        "fecha": "2025-09-20",
+        "local": "Alavés",
+        "visitante": "Sevilla",
+        "marcador": "1-2"
+      },
+      {
+        "fecha": "2026-02-14",
+        "local": "Sevilla",
+        "visitante": "Alavés",
+        "marcador": "1-1"
+      }
+    ]
+  },
+  "tiros_jugador": [
+    {
+      "jugador": "Lucas Stassin",
+      "equipo": "Sevilla",
+      "posicion": "F",
+      "tiros_esperados": 0.895,
+      "tasa90": 0.899,
+      "minutos_esperados": 78.0,
+      "minutos_historial": 382
+    },
+    {
+      "jugador": "Youssouf Fofana",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.705,
+      "tasa90": 0.664,
+      "minutos_esperados": 83.1,
+      "minutos_historial": 618
+    },
+    {
+      "jugador": "Isaac Romero",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.637,
+      "tasa90": 0.748,
+      "minutos_esperados": 66.7,
+      "minutos_historial": 1821
+    },
+    {
+      "jugador": "Felix Correia",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.52,
+      "tasa90": 0.542,
+      "minutos_esperados": 75.1,
+      "minutos_historial": 526
+    },
+    {
+      "jugador": "Rubén Vargas",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.386,
+      "tasa90": 0.412,
+      "minutos_esperados": 73.5,
+      "minutos_historial": 1710
+    },
+    {
+      "jugador": "Lucien Agoumé",
+      "equipo": "Sevilla",
+      "posicion": "M",
+      "tiros_esperados": 0.115,
+      "tasa90": 0.106,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 3680
+    },
+    {
+      "jugador": "Toni Martínez",
+      "equipo": "Alavés",
+      "posicion": "F",
+      "tiros_esperados": 0.772,
+      "tasa90": 1.098,
+      "minutos_esperados": 79.5,
+      "minutos_historial": 3273
+    },
+    {
+      "jugador": "Lucas Boyé",
+      "equipo": "Alavés",
+      "posicion": "F",
+      "tiros_esperados": 0.727,
+      "tasa90": 1.021,
+      "minutos_esperados": 80.5,
+      "minutos_historial": 2761
+    },
+    {
+      "jugador": "Ángel Pérez",
+      "equipo": "Alavés",
+      "posicion": "M",
+      "tiros_esperados": 0.321,
+      "tasa90": 0.431,
+      "minutos_esperados": 84.1,
+      "minutos_historial": 2008
+    },
+    {
+      "jugador": "Pablo Ibáñez",
+      "equipo": "Alavés",
+      "posicion": "M",
+      "tiros_esperados": 0.281,
+      "tasa90": 0.422,
+      "minutos_esperados": 75.4,
+      "minutos_historial": 3133
+    },
+    {
+      "jugador": "Antonio Blanco",
+      "equipo": "Alavés",
+      "posicion": "M",
+      "tiros_esperados": 0.231,
+      "tasa90": 0.308,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 3871
+    },
+    {
+      "jugador": "Ander Guevara",
+      "equipo": "Alavés",
+      "posicion": "M",
+      "tiros_esperados": 0.145,
+      "tasa90": 0.193,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 850
+    }
+  ],
+  "id": "P-20261106-47d2cd",
+  "creado": "2026-11-06T12:06:20.740894-07:00",
+  "lectura": {
+    "texto": "Dos equipos en mala forma (Sevilla 4/15, Alavés 2/15); Alavés no gana fuera (0G 2E 3P, 4 goles) y los últimos 3 en el Pizjuán fueron cerrados (2-3, 1-1, 1-1). Sevilla sin Peque. Partido trabado: Sevilla no pierde y pocos goles.",
+    "patas": [
+      {
+        "mercado": "doble_oportunidad",
+        "seleccion": "1X",
+        "prob": 0.789,
+        "confianza": "alta"
+      },
+      {
+        "mercado": "goles",
+        "seleccion": "menos_3.5",
+        "prob": 0.802,
+        "confianza": "media"
+      }
+    ],
+    "prob_conjunta": 0.6202,
+    "creado": "2026-11-06T12:06:36.116799-07:00",
+    "despues_de_winpot": false
+  }
+}
