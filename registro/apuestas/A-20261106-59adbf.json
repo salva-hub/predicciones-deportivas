@@ -1,0 +1,68 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261106-4ef216",
+      "partido": "Everton vs Coventry",
+      "liga": "premier",
+      "deporte": "futbol",
+      "espn_id": "401879242",
+      "mercado": "ganador",
+      "seleccion": "1",
+      "cuota": 1.4643079,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261106-4ef216",
+      "partido": "Everton vs Coventry",
+      "liga": "premier",
+      "deporte": "futbol",
+      "espn_id": "401879242",
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota": 1.4643079,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261106-47d2cd",
+      "partido": "Sevilla vs Alavés",
+      "liga": "laliga",
+      "deporte": "futbol",
+      "espn_id": "401882809",
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota": 1.3438908,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261106-47d2cd",
+      "partido": "Sevilla vs Alavés",
+      "liga": "laliga",
+      "deporte": "futbol",
+      "espn_id": "401882809",
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "cuota": 1.3438908,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261106-47d2cd",
+      "partido": "Sevilla vs Alavés",
+      "liga": "laliga",
+      "deporte": "futbol",
+      "espn_id": "401882809",
+      "mercado": "doble_oportunidad",
+      "seleccion": "1X",
+      "cuota": 1.3438908,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 5.2042,
+  "cuota_americana": "+420",
+  "monto": 300.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261106-59adbf",
+  "creado": "2026-11-06T13:16:49.140775-07:00",
+  "estado": "pendiente"
+}
