@@ -74,7 +74,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "6/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "ganador",
@@ -86,7 +87,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "0/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ganador",
@@ -99,7 +101,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "3/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -111,7 +114,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "9/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -123,7 +127,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "0/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -135,7 +140,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "5/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -147,7 +153,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "4/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -159,7 +166,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "5/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -171,7 +179,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "4/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -183,7 +192,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "4/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -195,7 +205,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "5/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -207,7 +218,8 @@
       "ultimos10": {
         "local": "0/10",
         "visitante": "2/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -219,7 +231,8 @@
       "ultimos10": {
         "local": "10/10",
         "visitante": "7/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "ambos_anotan",
@@ -231,7 +244,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "3/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "ambos_anotan",
@@ -243,7 +257,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "6/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -255,7 +270,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "8/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -267,7 +283,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "1/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -279,7 +296,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "4/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -291,7 +309,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "5/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -303,7 +322,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "3/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -315,7 +335,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "6/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -327,7 +348,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "2/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -339,7 +361,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "7/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -351,7 +374,8 @@
       "ultimos10": {
         "local": "0/10",
         "visitante": "3/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -363,7 +387,8 @@
       "ultimos10": {
         "local": "10/10",
         "visitante": "6/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -375,7 +400,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "2/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -387,7 +413,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "7/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -395,7 +422,8 @@
       "prob": 0.429,
       "cuota_justa": "+133",
       "cuota_minima": "+140",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -403,7 +431,8 @@
       "prob": 0.384,
       "cuota_justa": "+161",
       "cuota_minima": "+169",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -411,7 +440,8 @@
       "prob": 0.187,
       "cuota_justa": "+434",
       "cuota_minima": "+451",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -419,7 +449,8 @@
       "prob": 0.733,
       "cuota_justa": "-275",
       "cuota_minima": "-247",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -427,7 +458,8 @@
       "prob": 0.267,
       "cuota_justa": "+275",
       "cuota_minima": "+287",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -435,7 +467,8 @@
       "prob": 0.381,
       "cuota_justa": "+163",
       "cuota_minima": "+171",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -443,7 +476,8 @@
       "prob": 0.619,
       "cuota_justa": "-163",
       "cuota_minima": "-150",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -455,7 +489,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "3/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -467,7 +502,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "2/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -480,7 +516,8 @@
       "ultimos10": {
         "local": "1/9",
         "visitante": "3/6"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -493,7 +530,8 @@
       "ultimos10": {
         "local": "3/9",
         "visitante": "2/8"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -506,7 +544,8 @@
       "ultimos10": {
         "local": "2/6",
         "visitante": "6/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -519,7 +558,8 @@
       "ultimos10": {
         "local": "4/6",
         "visitante": "3/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -532,7 +572,8 @@
       "ultimos10": {
         "local": "6/9",
         "visitante": "6/8"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -545,7 +586,8 @@
       "ultimos10": {
         "local": "8/9",
         "visitante": "3/6"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -557,7 +599,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "7/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -569,7 +612,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "6/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -581,7 +625,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "9/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -593,7 +638,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "0/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -605,7 +651,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "3/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -617,7 +664,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "6/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -629,7 +677,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "2/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -641,7 +690,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "7/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -653,7 +703,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "0/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -665,7 +716,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "9/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -677,7 +729,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "0/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -689,7 +742,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "9/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -701,7 +755,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "4/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -713,7 +768,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "5/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -725,7 +781,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "3/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -737,7 +794,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "6/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -749,7 +807,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "2/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -761,7 +820,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "7/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -773,7 +833,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "0/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -785,7 +846,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "9/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -797,7 +859,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "0/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -809,7 +872,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "9/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -817,7 +881,8 @@
       "prob": 0.395,
       "cuota_justa": "+153",
       "cuota_minima": "+166",
-      "confianza": "alta"
+      "confianza": "alta",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -825,7 +890,8 @@
       "prob": 0.267,
       "cuota_justa": "+275",
       "cuota_minima": "+294",
-      "confianza": "alta"
+      "confianza": "alta",
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -833,7 +899,8 @@
       "prob": 0.338,
       "cuota_justa": "+196",
       "cuota_minima": "+211",
-      "confianza": "alta"
+      "confianza": "alta",
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -846,7 +913,8 @@
       "jugador_id": "301166",
       "equipo": "Everton",
       "posicion": "F",
-      "tiros_esperados": 0.85
+      "tiros_esperados": 0.85,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -859,7 +927,8 @@
       "jugador_id": "301166",
       "equipo": "Everton",
       "posicion": "F",
-      "tiros_esperados": 0.85
+      "tiros_esperados": 0.85,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -872,7 +941,8 @@
       "jugador_id": "301166",
       "equipo": "Everton",
       "posicion": "F",
-      "tiros_esperados": 0.85
+      "tiros_esperados": 0.85,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -885,7 +955,8 @@
       "jugador_id": "252389",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.554
+      "tiros_esperados": 0.554,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -898,7 +969,8 @@
       "jugador_id": "252389",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.554
+      "tiros_esperados": 0.554,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -911,7 +983,8 @@
       "jugador_id": "368864",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.516
+      "tiros_esperados": 0.516,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -924,7 +997,8 @@
       "jugador_id": "368864",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.516
+      "tiros_esperados": 0.516,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -937,7 +1011,8 @@
       "jugador_id": "276220",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.37
+      "tiros_esperados": 0.37,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -950,7 +1025,8 @@
       "jugador_id": "276220",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.37
+      "tiros_esperados": 0.37,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -963,7 +1039,8 @@
       "jugador_id": "378458",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.321
+      "tiros_esperados": 0.321,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -976,7 +1053,8 @@
       "jugador_id": "340640",
       "equipo": "Everton",
       "posicion": "M",
-      "tiros_esperados": 0.268
+      "tiros_esperados": 0.268,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -989,7 +1067,8 @@
       "jugador_id": "194686",
       "equipo": "Coventry City",
       "posicion": "F",
-      "tiros_esperados": 0.561
+      "tiros_esperados": 0.561,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1002,7 +1081,8 @@
       "jugador_id": "194686",
       "equipo": "Coventry City",
       "posicion": "F",
-      "tiros_esperados": 0.561
+      "tiros_esperados": 0.561,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1015,7 +1095,8 @@
       "jugador_id": "286967",
       "equipo": "Coventry City",
       "posicion": "M",
-      "tiros_esperados": 0.528
+      "tiros_esperados": 0.528,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1028,7 +1109,8 @@
       "jugador_id": "286967",
       "equipo": "Coventry City",
       "posicion": "M",
-      "tiros_esperados": 0.528
+      "tiros_esperados": 0.528,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1041,7 +1123,8 @@
       "jugador_id": "277383",
       "equipo": "Coventry City",
       "posicion": "M",
-      "tiros_esperados": 0.405
+      "tiros_esperados": 0.405,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1054,7 +1137,8 @@
       "jugador_id": "277383",
       "equipo": "Coventry City",
       "posicion": "M",
-      "tiros_esperados": 0.405
+      "tiros_esperados": 0.405,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1067,7 +1151,8 @@
       "jugador_id": "302002",
       "equipo": "Coventry City",
       "posicion": "M",
-      "tiros_esperados": 0.3
+      "tiros_esperados": 0.3,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1080,7 +1165,8 @@
       "jugador_id": "256015",
       "equipo": "Coventry City",
       "posicion": "M",
-      "tiros_esperados": 0.234
+      "tiros_esperados": 0.234,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1093,10 +1179,11 @@
       "jugador_id": "387659",
       "equipo": "Coventry City",
       "posicion": "M",
-      "tiros_esperados": 0.13
+      "tiros_esperados": 0.13,
+      "estado": "perdida"
     }
   ],
-  "estado": "pendiente",
+  "estado": "calificado",
   "respaldo": {
     "forma_local": {
       "racha": "EGEPP",
@@ -1505,7 +1592,268 @@
       "prob": 0.728,
       "confianza": "alta",
       "evaluado": "2026-11-06T12:29:09.584320-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 209.79
     }
-  ]
+  ],
+  "resultado": {
+    "goles_local": 3,
+    "goles_visitante": 1,
+    "goles_local_pt": 0,
+    "goles_visitante_pt": 0,
+    "corners_local": 2.0,
+    "corners_visitante": 2.0,
+    "tarjetas_local": 1.0,
+    "tarjetas_visitante": 1.0,
+    "amarillas_local": 1.0,
+    "amarillas_visitante": 1.0,
+    "rojas_local": 0.0,
+    "rojas_visitante": 0.0,
+    "segundas_amarillas_local": 0,
+    "segundas_amarillas_visitante": 0,
+    "ventaja_max_local": 2,
+    "ventaja_max_visitante": 1,
+    "tiros_jugadores": {
+      "159443": {
+        "nombre": "Jordan Pickford",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "286965": {
+        "nombre": "Jarrad Branthwaite",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "155226": {
+        "nombre": "James Tarkowski",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "262594": {
+        "nombre": "Vitaliy Mykolenko",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "311963": {
+        "nombre": "Merlin Röhl",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "252389": {
+        "nombre": "Kiernan Dewsbury-Hall",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "276220": {
+        "nombre": "James Garner",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "378458": {
+        "nombre": "Harrison Armstrong",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "301166": {
+        "nombre": "Thierno Barry",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 2.0
+      },
+      "368864": {
+        "nombre": "Tyrique George",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "340640": {
+        "nombre": "Tyler Dibling",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "283586": {
+        "nombre": "Jake O'Brien",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "367559": {
+        "nombre": "Braiden Graham",
+        "equipo": "Everton",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "4946": {
+        "nombre": "Michael Keane",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "302162": {
+        "nombre": "Charly Alcaraz",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "7441": {
+        "nombre": "Mark Travers",
+        "equipo": "Everton",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "291307": {
+        "nombre": "Brennan Johnson",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "178077": {
+        "nombre": "Christian Nørgaard",
+        "equipo": "Everton",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "214402": {
+        "nombre": "Ainsley Maitland-Niles",
+        "equipo": "Everton",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "282978": {
+        "nombre": "Hayden Hackney",
+        "equipo": "Everton",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "307069": {
+        "nombre": "Carl Rushworth",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "241093": {
+        "nombre": "Ethan Pinnock",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "374220": {
+        "nombre": "Stephen Mfuni",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "206172": {
+        "nombre": "Jay Da Silva",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "281139": {
+        "nombre": "Milan van Ewijk",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "286967": {
+        "nombre": "Jack Rudoni",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "256015": {
+        "nombre": "Victor Torp",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "387659": {
+        "nombre": "Caleb Yirenkyi",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "194686": {
+        "nombre": "Taiwo Awoniyi",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "277383": {
+        "nombre": "Yann Gboho",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 2.0
+      },
+      "302002": {
+        "nombre": "Tatsuhiro Sakamoto",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "260168": {
+        "nombre": "Joel Latibeaudiere",
+        "equipo": "Coventry City",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "366817": {
+        "nombre": "Sidiki Cherif",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "324541": {
+        "nombre": "Loum Tchaouna",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "191337": {
+        "nombre": "Matt Grimes",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "236912": {
+        "nombre": "Gustavo Hamer",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "143007": {
+        "nombre": "Daniel Bentley",
+        "equipo": "Coventry City",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "294308": {
+        "nombre": "Kaine Kesler Hayden",
+        "equipo": "Coventry City",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "240495": {
+        "nombre": "Brandon Thomas-Asante",
+        "equipo": "Coventry City",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "282647": {
+        "nombre": "Ellis Simms",
+        "equipo": "Coventry City",
+        "participo": false,
+        "tiros_puerta": 0.0
+      }
+    }
+  }
 }
