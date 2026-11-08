@@ -1,0 +1,43 @@
+{
+  "id": "parlays-20261108",
+  "fecha": "2026-11-08",
+  "creado": "2026-11-08T12:24:23.818886-07:00",
+  "parlays": [
+    {
+      "clave": "P-20261108-09cdab:ganador:1|P-20261108-a037cf:ganador:1",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261108-09cdab",
+          "partido": "Fiorentina vs Juventus",
+          "liga": "serie_a",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 3.4,
+          "prob": 0.317,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261108-a037cf",
+          "partido": "Atlético Madrid vs Barcelona",
+          "liga": "laliga",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 3.66,
+          "prob": 0.313,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 12.444,
+      "cuota_americana": "+1144",
+      "prob": 0.0992,
+      "monto": 130.0,
+      "recortada": false,
+      "creado": "2026-11-08T12:24:23.817185-07:00",
+      "estado": "pendiente"
+    }
+  ]
+}
