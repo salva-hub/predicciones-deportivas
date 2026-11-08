@@ -10,7 +10,7 @@
       "mercado": "doble_oportunidad",
       "seleccion": "X2",
       "cuota": 1.454061,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261108-a037cf",
@@ -21,7 +21,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.454061,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261108-a037cf",
@@ -32,7 +32,7 @@
       "mercado": "tiros_jugador",
       "seleccion": "Raphinha:mas_1.5",
       "cuota": 1.454061,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261108-a037cf",
@@ -43,7 +43,7 @@
       "mercado": "tarjetas_1x2",
       "seleccion": "1",
       "cuota": 1.454061,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261108-a037cf",
@@ -54,7 +54,7 @@
       "mercado": "tiros_jugador",
       "seleccion": "Julián Álvarez:mas_0.5",
       "cuota": 1.454061,
-      "estado": "pendiente"
+      "estado": "ganada"
     }
   ],
   "cuota": 6.5,
@@ -64,7 +64,9 @@
   "categoria": "eleccion_salva",
   "id": "A-20261108-3b973d",
   "creado": "2026-11-08T12:33:12.465137-07:00",
-  "estado": "pendiente",
+  "estado": "perdida",
   "cuota_total_fija": true,
-  "nota": "Crea tu apuesta REAL de Salva (Winpot ID 5636690330, 08-nov 12:27 Sonora): X2 + ambos anotan sí + Raphinha más 1.5 remates a puerta + tarjetas 1X2 Atlético + Julián Álvarez más 0.5 remates a puerta (remates 'incl. suplente': revisar a mano si cuenta el sustituto o un poste), total +550, 300 MXN. Cuota total repartida entre patas. Prob. aprox. 4.5%."
+  "nota": "Crea tu apuesta REAL de Salva (Winpot ID 5636690330, 08-nov 12:27 Sonora): X2 + ambos anotan sí + Raphinha más 1.5 remates a puerta + tarjetas 1X2 Atlético + Julián Álvarez más 0.5 remates a puerta (remates 'incl. suplente': revisar a mano si cuenta el sustituto o un poste), total +550, 300 MXN. Cuota total repartida entre patas. Prob. aprox. 4.5%.",
+  "ganancia": -300.0,
+  "liquidada": "2026-11-08T15:45:24.444312-07:00"
 }
