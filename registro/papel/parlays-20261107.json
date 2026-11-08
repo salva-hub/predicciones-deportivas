@@ -1,0 +1,75 @@
+{
+  "id": "parlays-20261107",
+  "fecha": "2026-11-07",
+  "creado": "2026-11-07T17:17:49.416651-07:00",
+  "parlays": [
+    {
+      "clave": "lectura|P-20261107-e13c7c:ganador:1",
+      "tipo": "parlay",
+      "categoria": "lectura",
+      "patas": [
+        {
+          "pronostico": "P-20261107-e13c7c",
+          "partido": "Toluca vs Monterrey",
+          "liga": "liga_mx",
+          "deporte": "futbol",
+          "espn_id": "401876905",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.6667,
+          "prob": 0.609,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 1.6667,
+      "cuota_americana": "-150",
+      "prob": 0.609,
+      "ve": 0.015,
+      "confianza": "media",
+      "mismo_partido": false,
+      "monto": 350.0,
+      "lecturas": {
+        "P-20261107-e13c7c": "Toluca favorito claro en casa y en altura; historial de muchos goles contra Monterrey (6-2, 3-2, 2-1)"
+      },
+      "creado": "2026-11-07T17:17:49.416545-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261107-7dd01d:ganador:1|P-20261107-e13c7c:ganador:2",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261107-e13c7c",
+          "partido": "Toluca vs Monterrey",
+          "liga": "liga_mx",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 4.75,
+          "prob": 0.235,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261107-7dd01d",
+          "partido": "Tigres UANL vs Cruz Azul",
+          "liga": "liga_mx",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 3.6,
+          "prob": 0.299,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 17.1,
+      "cuota_americana": "+1610",
+      "prob": 0.0703,
+      "monto": 90.0,
+      "recortada": false,
+      "creado": "2026-11-07T17:17:55.481808-07:00",
+      "estado": "pendiente"
+    }
+  ]
+}
