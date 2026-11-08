@@ -1316,7 +1316,7 @@
   "id": "P-20261108-09cdab",
   "creado": "2026-11-08T12:15:13.662099-07:00",
   "lectura": {
-    "texto": "Juventus algo superior y Fiorentina en mala racha (2 de 15 puntos), pero el Franchi le ha costado a la Juve (sin ganar en los últimos 3 allí). Dudas: X2 y partido cerrado, menos de 3.5.",
+    "texto": "Juventus algo superior y Fiorentina en mala racha (2 de 15 puntos), pero la Juve no ganó en sus 2 últimas visitas al Franchi (0-3 y 1-1). Dudas: X2 y partido cerrado, menos de 3.5.",
     "patas": [
       {
         "mercado": "doble_oportunidad",
@@ -1332,7 +1332,7 @@
       }
     ],
     "prob_conjunta": 0.4969,
-    "creado": "2026-11-08T12:16:14.767544-07:00",
+    "creado": "2026-11-08T12:16:26.727527-07:00",
     "despues_de_winpot": false
   }
 }
