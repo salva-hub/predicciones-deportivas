@@ -17,7 +17,7 @@
           "cuota": 3.4,
           "prob": 0.317,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261108-a037cf",
@@ -37,7 +37,9 @@
       "monto": 130.0,
       "recortada": false,
       "creado": "2026-11-08T12:24:23.817185-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -130.0,
+      "liquidada": "2026-11-08T15:15:25.966973-07:00"
     },
     {
       "clave": "P-20261108-09cdab:ambos_anotan:si|P-20261108-09cdab:corners:mas_7.5|P-20261108-09cdab:ganador:2|P-20261108-09cdab:tarjetas:mas_3.5",
@@ -55,7 +57,7 @@
           "cuota": 1.654875,
           "prob": 0.45,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261108-09cdab",
@@ -68,7 +70,7 @@
           "cuota": 1.654875,
           "prob": 0.555,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261108-09cdab",
@@ -81,7 +83,7 @@
           "cuota": 1.654875,
           "prob": 0.659,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261108-09cdab",
@@ -94,7 +96,7 @@
           "cuota": 1.654875,
           "prob": 0.618,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 7.5,
@@ -110,7 +112,9 @@
       "creado": "2026-11-08T12:32:05.152192-07:00",
       "excepcion": "Elección de Salva en papel (8-nov): crea tu apuesta Fiorentina-Juventus, 4 patas; prob. conjunta 8.4%, justa +1088. Cuota total +650 de Winpot repartida entre patas.",
       "pago_anticipado": true,
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -300,
+      "liquidada": "2026-11-08T15:15:25.967003-07:00"
     }
   ]
 }
