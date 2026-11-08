@@ -38,6 +38,79 @@
       "recortada": false,
       "creado": "2026-11-08T12:24:23.817185-07:00",
       "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261108-09cdab:ambos_anotan:si|P-20261108-09cdab:corners:mas_7.5|P-20261108-09cdab:ganador:2|P-20261108-09cdab:tarjetas:mas_3.5",
+      "tipo": "parlay",
+      "categoria": "eleccion_salva",
+      "patas": [
+        {
+          "pronostico": "P-20261108-09cdab",
+          "partido": "Fiorentina vs Juventus",
+          "liga": "serie_a",
+          "deporte": "futbol",
+          "espn_id": "401875003",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.654875,
+          "prob": 0.45,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261108-09cdab",
+          "partido": "Fiorentina vs Juventus",
+          "liga": "serie_a",
+          "deporte": "futbol",
+          "espn_id": "401875003",
+          "mercado": "ambos_anotan",
+          "seleccion": "si",
+          "cuota": 1.654875,
+          "prob": 0.555,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261108-09cdab",
+          "partido": "Fiorentina vs Juventus",
+          "liga": "serie_a",
+          "deporte": "futbol",
+          "espn_id": "401875003",
+          "mercado": "corners",
+          "seleccion": "mas_7.5",
+          "cuota": 1.654875,
+          "prob": 0.659,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261108-09cdab",
+          "partido": "Fiorentina vs Juventus",
+          "liga": "serie_a",
+          "deporte": "futbol",
+          "espn_id": "401875003",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "cuota": 1.654875,
+          "prob": 0.618,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 7.5,
+      "cuota_americana": "+650",
+      "prob": 0.0842,
+      "ve": -0.3689,
+      "confianza": "alta",
+      "mismo_partido": true,
+      "cuota_total_fija": true,
+      "fija": true,
+      "monto": 300,
+      "recortada": false,
+      "creado": "2026-11-08T12:32:05.152192-07:00",
+      "excepcion": "Elección de Salva en papel (8-nov): crea tu apuesta Fiorentina-Juventus, 4 patas; prob. conjunta 8.4%, justa +1088. Cuota total +650 de Winpot repartida entre patas.",
+      "pago_anticipado": true,
+      "estado": "pendiente"
     }
   ]
 }
