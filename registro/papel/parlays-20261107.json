@@ -19,7 +19,7 @@
           "cuota": 1.6667,
           "prob": 0.609,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 1.6667,
@@ -33,7 +33,9 @@
         "P-20261107-e13c7c": "Toluca favorito claro en casa y en altura; historial de muchos goles contra Monterrey (6-2, 3-2, 2-1)"
       },
       "creado": "2026-11-07T17:17:49.416545-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 233.35,
+      "liquidada": "2026-11-07T20:30:25.491694-07:00"
     },
     {
       "clave": "P-20261107-7dd01d:ganador:1|P-20261107-e13c7c:ganador:2",
@@ -49,7 +51,7 @@
           "cuota": 4.75,
           "prob": 0.235,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261107-7dd01d",
@@ -60,7 +62,7 @@
           "cuota": 3.6,
           "prob": 0.299,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 17.1,
@@ -69,7 +71,9 @@
       "monto": 90.0,
       "recortada": false,
       "creado": "2026-11-07T17:17:55.481808-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -90.0,
+      "liquidada": "2026-11-07T20:30:25.491718-07:00"
     }
   ]
 }
