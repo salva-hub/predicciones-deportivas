@@ -68,7 +68,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ganador",
@@ -80,7 +81,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ganador",
@@ -93,7 +95,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "doble_oportunidad",
@@ -105,7 +108,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "doble_oportunidad",
@@ -117,7 +121,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "doble_oportunidad",
@@ -129,7 +134,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -141,7 +147,8 @@
       "ultimos10": {
         "local": "10/10",
         "visitante": "10/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -153,7 +160,8 @@
       "ultimos10": {
         "local": "0/10",
         "visitante": "0/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -165,7 +173,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -177,7 +186,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -189,7 +199,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -201,7 +212,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -213,7 +225,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "2/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -225,7 +238,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "8/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles",
@@ -237,7 +251,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "1/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles",
@@ -249,7 +264,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "9/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "ambos_anotan",
@@ -261,7 +277,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "ambos_anotan",
@@ -273,7 +290,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -285,7 +303,8 @@
       "ultimos10": {
         "local": "10/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -297,7 +316,8 @@
       "ultimos10": {
         "local": "0/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -309,7 +329,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -321,7 +342,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -333,7 +355,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -345,7 +368,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -357,7 +381,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -369,7 +394,8 @@
       "ultimos10": {
         "local": "5/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -381,7 +407,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "goles_equipo",
@@ -393,7 +420,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -405,7 +433,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "goles_equipo",
@@ -417,7 +446,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -425,7 +455,8 @@
       "prob": 0.308,
       "cuota_justa": "+225",
       "cuota_minima": "+235",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -433,7 +464,8 @@
       "prob": 0.389,
       "cuota_justa": "+157",
       "cuota_minima": "+165",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -441,7 +473,8 @@
       "prob": 0.303,
       "cuota_justa": "+230",
       "cuota_minima": "+240",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -449,7 +482,8 @@
       "prob": 0.744,
       "cuota_justa": "-291",
       "cuota_minima": "-260",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -457,7 +491,8 @@
       "prob": 0.256,
       "cuota_justa": "+291",
       "cuota_minima": "+304",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "primer_tiempo",
@@ -465,7 +500,8 @@
       "prob": 0.396,
       "cuota_justa": "+153",
       "cuota_minima": "+161",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "ganada"
     },
     {
       "mercado": "primer_tiempo",
@@ -473,7 +509,8 @@
       "prob": 0.604,
       "cuota_justa": "-153",
       "cuota_minima": "-141",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -485,7 +522,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "0/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -497,7 +535,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -510,7 +549,8 @@
       "ultimos10": {
         "local": "1/7",
         "visitante": "0/7"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -523,7 +563,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "3/9"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -536,7 +577,8 @@
       "ultimos10": {
         "local": "4/7",
         "visitante": "3/7"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -549,7 +591,8 @@
       "ultimos10": {
         "local": "3/7",
         "visitante": "4/7"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -562,7 +605,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "6/9"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -575,7 +619,8 @@
       "ultimos10": {
         "local": "6/7",
         "visitante": "7/7"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "handicap",
@@ -587,7 +632,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "handicap",
@@ -599,7 +645,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "10/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -611,7 +658,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "9/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -623,7 +671,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "1/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -635,7 +684,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -647,7 +697,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -659,7 +710,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -671,7 +723,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -683,7 +736,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "4/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -695,7 +749,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "6/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "corners",
@@ -707,7 +762,8 @@
       "ultimos10": {
         "local": "6/10",
         "visitante": "2/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "corners",
@@ -719,7 +775,8 @@
       "ultimos10": {
         "local": "4/10",
         "visitante": "8/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -731,7 +788,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "10/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -743,7 +801,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "0/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -755,7 +814,8 @@
       "ultimos10": {
         "local": "8/10",
         "visitante": "10/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -767,7 +827,8 @@
       "ultimos10": {
         "local": "2/10",
         "visitante": "0/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -779,7 +840,8 @@
       "ultimos10": {
         "local": "3/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -791,7 +853,8 @@
       "ultimos10": {
         "local": "7/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -803,7 +866,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas",
@@ -815,7 +879,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "5/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -827,7 +892,8 @@
       "ultimos10": {
         "local": "1/10",
         "visitante": "3/10"
-      }
+      },
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas",
@@ -839,7 +905,8 @@
       "ultimos10": {
         "local": "9/10",
         "visitante": "7/10"
-      }
+      },
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -847,7 +914,8 @@
       "prob": 0.347,
       "cuota_justa": "+189",
       "cuota_minima": "+203",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "ganada"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -855,7 +923,8 @@
       "prob": 0.194,
       "cuota_justa": "+416",
       "cuota_minima": "+442",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "tarjetas_1x2",
@@ -863,7 +932,8 @@
       "prob": 0.459,
       "cuota_justa": "+118",
       "cuota_minima": "+129",
-      "confianza": "media"
+      "confianza": "media",
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -876,7 +946,8 @@
       "jugador_id": "309574",
       "equipo": "Atlas",
       "posicion": "F",
-      "tiros_esperados": 0.783
+      "tiros_esperados": 0.783,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -889,7 +960,8 @@
       "jugador_id": "309574",
       "equipo": "Atlas",
       "posicion": "F",
-      "tiros_esperados": 0.783
+      "tiros_esperados": 0.783,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -902,7 +974,8 @@
       "jugador_id": "312549",
       "equipo": "Atlas",
       "posicion": "M",
-      "tiros_esperados": 0.679
+      "tiros_esperados": 0.679,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -915,7 +988,8 @@
       "jugador_id": "312549",
       "equipo": "Atlas",
       "posicion": "M",
-      "tiros_esperados": 0.679
+      "tiros_esperados": 0.679,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -928,7 +1002,8 @@
       "jugador_id": "290593",
       "equipo": "Atlas",
       "posicion": "M",
-      "tiros_esperados": 0.621
+      "tiros_esperados": 0.621,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -941,7 +1016,8 @@
       "jugador_id": "290593",
       "equipo": "Atlas",
       "posicion": "M",
-      "tiros_esperados": 0.621
+      "tiros_esperados": 0.621,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -954,7 +1030,8 @@
       "jugador_id": "364455",
       "equipo": "Atlas",
       "posicion": "M",
-      "tiros_esperados": 0.26
+      "tiros_esperados": 0.26,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -967,7 +1044,8 @@
       "jugador_id": "386935",
       "equipo": "Atlas",
       "posicion": "M",
-      "tiros_esperados": 0.204
+      "tiros_esperados": 0.204,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -980,7 +1058,8 @@
       "jugador_id": "178839",
       "equipo": "Atlas",
       "posicion": "M",
-      "tiros_esperados": 0.159
+      "tiros_esperados": 0.159,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -993,7 +1072,8 @@
       "jugador_id": "127570",
       "equipo": "Pachuca",
       "posicion": "F",
-      "tiros_esperados": 1.085
+      "tiros_esperados": 1.085,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1006,7 +1086,8 @@
       "jugador_id": "127570",
       "equipo": "Pachuca",
       "posicion": "F",
-      "tiros_esperados": 1.085
+      "tiros_esperados": 1.085,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1019,7 +1100,8 @@
       "jugador_id": "127570",
       "equipo": "Pachuca",
       "posicion": "F",
-      "tiros_esperados": 1.085
+      "tiros_esperados": 1.085,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1032,7 +1114,8 @@
       "jugador_id": "160562",
       "equipo": "Pachuca",
       "posicion": "M",
-      "tiros_esperados": 0.532
+      "tiros_esperados": 0.532,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1045,7 +1128,8 @@
       "jugador_id": "160562",
       "equipo": "Pachuca",
       "posicion": "M",
-      "tiros_esperados": 0.532
+      "tiros_esperados": 0.532,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1058,7 +1142,8 @@
       "jugador_id": "229552",
       "equipo": "Pachuca",
       "posicion": "M",
-      "tiros_esperados": 0.396
+      "tiros_esperados": 0.396,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1071,7 +1156,8 @@
       "jugador_id": "229552",
       "equipo": "Pachuca",
       "posicion": "M",
-      "tiros_esperados": 0.396
+      "tiros_esperados": 0.396,
+      "estado": "ganada"
     },
     {
       "mercado": "tiros_jugador",
@@ -1084,7 +1170,8 @@
       "jugador_id": "326072",
       "equipo": "Pachuca",
       "posicion": "M",
-      "tiros_esperados": 0.339
+      "tiros_esperados": 0.339,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1097,7 +1184,8 @@
       "jugador_id": "176489",
       "equipo": "Pachuca",
       "posicion": "M",
-      "tiros_esperados": 0.331
+      "tiros_esperados": 0.331,
+      "estado": "perdida"
     },
     {
       "mercado": "tiros_jugador",
@@ -1110,10 +1198,11 @@
       "jugador_id": "233978",
       "equipo": "Pachuca",
       "posicion": "M",
-      "tiros_esperados": 0.126
+      "tiros_esperados": 0.126,
+      "estado": "perdida"
     }
   ],
-  "estado": "pendiente",
+  "estado": "calificado",
   "respaldo": {
     "forma_local": {
       "racha": "EGPGG",
@@ -1467,10 +1556,11 @@
       "prob": 0.402,
       "confianza": "media",
       "evaluado": "2026-11-07T15:25:13.139185-07:00",
-      "estado": "pendiente",
+      "estado": "perdida",
       "categoria": "valor",
       "recortada": false,
-      "monto": 130.0
+      "monto": 130.0,
+      "ganancia": -130.0
     },
     {
       "mercado": "ganador",
@@ -1482,10 +1572,11 @@
       "prob": 0.395,
       "confianza": "media",
       "evaluado": "2026-11-07T15:25:13.139201-07:00",
-      "estado": "pendiente",
+      "estado": "ganada",
       "categoria": "valor",
       "recortada": false,
-      "monto": 130.0
+      "monto": 130.0,
+      "ganancia": 215.8
     },
     {
       "mercado": "tarjetas",
@@ -1497,10 +1588,11 @@
       "prob": 0.675,
       "confianza": "media",
       "evaluado": "2026-11-07T15:25:13.139093-07:00",
-      "estado": "pendiente",
+      "estado": "ganada",
       "categoria": "sencilla_prob",
       "recortada": false,
-      "monto": 290.0
+      "monto": 290.0,
+      "ganancia": 145.0
     },
     {
       "mercado": "ganador",
@@ -1514,7 +1606,280 @@
       "prob": 0.395,
       "confianza": "media",
       "evaluado": "2026-11-07T15:25:13.139230-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 498.0
     }
-  ]
+  ],
+  "resultado": {
+    "goles_local": 1,
+    "goles_visitante": 4,
+    "goles_local_pt": 0,
+    "goles_visitante_pt": 2,
+    "corners_local": 7.0,
+    "corners_visitante": 5.0,
+    "tarjetas_local": 5.0,
+    "tarjetas_visitante": 1.0,
+    "amarillas_local": 3.0,
+    "amarillas_visitante": 1.0,
+    "rojas_local": 1.0,
+    "rojas_visitante": 0.0,
+    "segundas_amarillas_local": 0,
+    "segundas_amarillas_visitante": 0,
+    "ventaja_max_local": 0,
+    "ventaja_max_visitante": 3,
+    "tiros_jugadores": {
+      "185147": {
+        "nombre": "Camilo Vargas",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "225440": {
+        "nombre": "Manuel Capasso",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "263224": {
+        "nombre": "Juanjo Purata",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "234447": {
+        "nombre": "Adonis Frias",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "178839": {
+        "nombre": "Aldo Rocha",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "364455": {
+        "nombre": "Elías Montiel",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "233688": {
+        "nombre": "Milton Valenzuela",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "386935": {
+        "nombre": "Sergio Hernandez",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "309574": {
+        "nombre": "Florián Monzón",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "312549": {
+        "nombre": "Luís Esteves",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "290593": {
+        "nombre": "Kevin Zenón",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 3.0
+      },
+      "383233": {
+        "nombre": "Jesús Serrato",
+        "equipo": "Atlas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "270210": {
+        "nombre": "Adrián Mora",
+        "equipo": "Atlas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "233106": {
+        "nombre": "Gaddi Aguirre",
+        "equipo": "Atlas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "366679": {
+        "nombre": "Víctor Ríos",
+        "equipo": "Atlas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "271502": {
+        "nombre": "José Lozano",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "312586": {
+        "nombre": "Jorge Rodríguez",
+        "equipo": "Atlas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "407291": {
+        "nombre": "José Martín",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "291114": {
+        "nombre": "Antonio Sánchez",
+        "equipo": "Atlas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "219646": {
+        "nombre": "Ryan Mmaee",
+        "equipo": "Atlas",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "12425": {
+        "nombre": "Alfonso González",
+        "equipo": "Atlas",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "259439": {
+        "nombre": "Carlos Moreno",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "268843": {
+        "nombre": "Sergio Barreto",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "194921": {
+        "nombre": "Eduardo Bauermann",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "228355": {
+        "nombre": "Francisco Venegas",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "364454": {
+        "nombre": "Jorge Berlanga",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "176489": {
+        "nombre": "Rodolfo Pizarro",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "326072": {
+        "nombre": "Alan Bautista",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "233978": {
+        "nombre": "Christian Rivera",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "127570": {
+        "nombre": "Salomón Rondón",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "229552": {
+        "nombre": "Oussama Idrissi",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 2.0
+      },
+      "160562": {
+        "nombre": "Javier Vallejo",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "333706": {
+        "nombre": "Adrián Alcaraz",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 1.0
+      },
+      "3145685": {
+        "nombre": "Ian Josué Zavala Osorio",
+        "equipo": "Pachuca",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "357437": {
+        "nombre": "Sebastian Santos",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "347613": {
+        "nombre": "Pedro Budib",
+        "equipo": "Pachuca",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "313058": {
+        "nombre": "Jose Eulogio Téllez",
+        "equipo": "Pachuca",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "417623": {
+        "nombre": "Cristóbal Hernández",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "3129848": {
+        "nombre": "Thomas Alexander Contreras Hernández",
+        "equipo": "Pachuca",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "302128": {
+        "nombre": "Mauricio Isais",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 0.0
+      },
+      "286713": {
+        "nombre": "Andrés Arroyo",
+        "equipo": "Pachuca",
+        "participo": false,
+        "tiros_puerta": 0.0
+      },
+      "195349": {
+        "nombre": "Kenedy",
+        "equipo": "Pachuca",
+        "participo": true,
+        "tiros_puerta": 1.0
+      }
+    }
+  }
 }
