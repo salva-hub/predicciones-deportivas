@@ -1,0 +1,122 @@
+{
+  "id": "parlays-20261113",
+  "fecha": "2026-11-13",
+  "creado": "2026-11-13T12:17:53.701915-07:00",
+  "parlays": [
+    {
+      "clave": "prob|P-20261113-61b725:goles:menos_2.5|P-20261113-d58425:ganador:1|P-20261113-ea7c6c:handicap:local_-1.5",
+      "tipo": "parlay",
+      "categoria": "combinada_prob",
+      "patas": [
+        {
+          "pronostico": "P-20261113-d58425",
+          "partido": "Netherlands vs Greece",
+          "liga": "nations_league",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.5,
+          "prob": 0.659,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261113-ea7c6c",
+          "partido": "Scotland vs North Macedonia",
+          "liga": "nations_league",
+          "mercado": "handicap",
+          "seleccion": "local_-1.5",
+          "cuota": 1.5434782608695652,
+          "prob": 0.632,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261113-61b725",
+          "partido": "Slovenia vs Switzerland",
+          "liga": "nations_league",
+          "mercado": "goles",
+          "seleccion": "menos_2.5",
+          "cuota": 1.4444444444444444,
+          "prob": 0.665,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.3442,
+      "cuota_americana": "+234",
+      "prob": 0.277,
+      "monto": 190.0,
+      "recortada": false,
+      "creado": "2026-11-13T12:17:53.699863-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261113-13d1d2:ganador:1|P-20261113-d58425:ganador:2",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261113-13d1d2",
+          "partido": "Serbia vs Germany",
+          "liga": "nations_league",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 11.0,
+          "prob": 0.107,
+          "confianza": "alta",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261113-d58425",
+          "partido": "Netherlands vs Greece",
+          "liga": "nations_league",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 5.5,
+          "prob": 0.192,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 60.5,
+      "cuota_americana": "+5950",
+      "prob": 0.0205,
+      "monto": 110.0,
+      "recortada": false,
+      "creado": "2026-11-13T12:17:53.699899-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "lectura|P-20261113-d58425:ganador:1",
+      "tipo": "parlay",
+      "categoria": "lectura",
+      "patas": [
+        {
+          "pronostico": "P-20261113-d58425",
+          "partido": "Netherlands vs Greece",
+          "liga": "nations_league",
+          "deporte": "futbol",
+          "espn_id": "401861159",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.5,
+          "prob": 0.659,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 1.5,
+      "cuota_americana": "-200",
+      "prob": 0.659,
+      "ve": -0.0115,
+      "confianza": "media",
+      "mismo_partido": false,
+      "monto": 480.0,
+      "lecturas": {
+        "P-20261113-d58425": "Paises Bajos lider en casa con Gakpo de vuelta; Grecia llega invicta pero el partido pinta abierto"
+      },
+      "creado": "2026-11-13T12:18:00.003827-07:00",
+      "estado": "pendiente"
+    }
+  ]
+}
