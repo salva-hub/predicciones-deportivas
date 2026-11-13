@@ -1,0 +1,632 @@
+{
+  "deporte": "futbol",
+  "liga": "nations_league",
+  "partido": "Netherlands vs Greece",
+  "local": "Netherlands",
+  "visitante": "Greece",
+  "espn_id": "401861159",
+  "inicio_utc": "2026-11-13T19:45:00+00:00",
+  "inicio_sonora": "2026-11-13 12:45",
+  "estadio": "Johan Cruijff Arena",
+  "techado": true,
+  "neutral": false,
+  "pago_anticipado": true,
+  "clima": {
+    "temperatura_c": 7.7,
+    "lluvia_mm_h": 0.0,
+    "viento_kmh": 5.95,
+    "altitud_m": 14.0
+  },
+  "arbitro": "Rohit Saggi",
+  "factor_arbitro": 1.0,
+  "pinnacle": {
+    "2": 5.71,
+    "1": 1.5405405405405406,
+    "X": 4.609999999999999,
+    "mas_2.5": 1.510204081632653,
+    "menos_2.5": 2.59
+  },
+  "goles_esperados": [
+    2.25,
+    1.06
+  ],
+  "modelo_1x2": {
+    "1": 0.546,
+    "X": 0.256,
+    "2": 0.238
+  },
+  "marcadores_probables": [
+    [
+      "2-1",
+      0.0980398314759384
+    ],
+    [
+      "2-0",
+      0.09259415469510303
+    ],
+    [
+      "1-1",
+      0.09243773345297596
+    ]
+  ],
+  "notas": [
+    "Base: Pinnacle sin margen (modelo solo como referencia)",
+    "Goles esperados del modelo solo: 1.67 – 0.99",
+    "Pago anticipado de Winpot: el ganador local/visitante incluye la probabilidad de ir 2 goles arriba y no ganar (local +2.3%, visitante +3.0%)",
+    "Modelo y Pinnacle discrepan mucho en 1x2, goles_2.5: baja la confianza de los mercados relacionados",
+    "Tiros a puerta de jugador: ESPN no trae estadísticas por jugador de Netherlands (0 partidos); no se calculan para ese equipo",
+    "Tiros a puerta de jugador: ESPN no trae estadísticas por jugador de Greece (0 partidos); no se calculan para ese equipo"
+  ],
+  "confianza": "alta",
+  "selecciones": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "prob": 0.659,
+      "cuota_justa": "-193",
+      "cuota_minima": "-177",
+      "confianza": "media",
+      "prob_sin_pago_anticipado": 0.636,
+      "ultimos10": {
+        "local": "6/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "X",
+      "prob": 0.202,
+      "cuota_justa": "+395",
+      "cuota_minima": "+410",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "4/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
+      "prob": 0.192,
+      "cuota_justa": "+422",
+      "cuota_minima": "+438",
+      "confianza": "alta",
+      "prob_sin_pago_anticipado": 0.162,
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_0.5",
+      "prob": 0.958,
+      "cuota_justa": "-2290",
+      "cuota_minima": "-1333",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_0.5",
+      "prob": 0.042,
+      "cuota_justa": "+2290",
+      "cuota_minima": "+2362",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "4/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_1.5",
+      "prob": 0.847,
+      "cuota_justa": "-553",
+      "cuota_minima": "-462",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "3/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_1.5",
+      "prob": 0.153,
+      "cuota_justa": "+553",
+      "cuota_minima": "+574",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "7/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "prob": 0.641,
+      "cuota_justa": "-179",
+      "cuota_minima": "-165",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "3/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_2.5",
+      "prob": 0.359,
+      "cuota_justa": "+179",
+      "cuota_minima": "+188",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "7/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_3.5",
+      "prob": 0.42,
+      "cuota_justa": "+138",
+      "cuota_minima": "+145",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "prob": 0.58,
+      "cuota_justa": "-138",
+      "cuota_minima": "-128",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "8/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_4.5",
+      "prob": 0.238,
+      "cuota_justa": "+320",
+      "cuota_minima": "+333",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "2/10",
+        "visitante": "0/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_4.5",
+      "prob": 0.762,
+      "cuota_justa": "-320",
+      "cuota_minima": "-284",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "8/10",
+        "visitante": "10/10"
+      }
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "prob": 0.589,
+      "cuota_justa": "-143",
+      "cuota_minima": "-133",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "3/10"
+      }
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "no",
+      "prob": 0.411,
+      "cuota_justa": "+143",
+      "cuota_minima": "+151",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "7/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_0.5",
+      "prob": 0.894,
+      "cuota_justa": "-844",
+      "cuota_minima": "-657",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_0.5",
+      "prob": 0.106,
+      "cuota_justa": "+844",
+      "cuota_minima": "+873",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_0.5",
+      "prob": 0.653,
+      "cuota_justa": "-188",
+      "cuota_minima": "-173",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "4/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_0.5",
+      "prob": 0.347,
+      "cuota_justa": "+188",
+      "cuota_minima": "+197",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_1.5",
+      "prob": 0.656,
+      "cuota_justa": "-191",
+      "cuota_minima": "-175",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_1.5",
+      "prob": 0.344,
+      "cuota_justa": "+191",
+      "cuota_minima": "+200",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "8/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_1.5",
+      "prob": 0.286,
+      "cuota_justa": "+250",
+      "cuota_minima": "+261",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "1/10",
+        "visitante": "3/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_1.5",
+      "prob": 0.714,
+      "cuota_justa": "-250",
+      "cuota_minima": "-226",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "9/10",
+        "visitante": "7/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_2.5",
+      "prob": 0.389,
+      "cuota_justa": "+157",
+      "cuota_minima": "+165",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "4/10",
+        "visitante": "0/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_2.5",
+      "prob": 0.611,
+      "cuota_justa": "-157",
+      "cuota_minima": "-145",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "6/10",
+        "visitante": "10/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_2.5",
+      "prob": 0.091,
+      "cuota_justa": "+994",
+      "cuota_minima": "+1027",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "0/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_2.5",
+      "prob": 0.909,
+      "cuota_justa": "-994",
+      "cuota_minima": "-748",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "10/10"
+      }
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_1",
+      "prob": 0.48,
+      "cuota_justa": "+108",
+      "cuota_minima": "+115",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_X",
+      "prob": 0.349,
+      "cuota_justa": "+187",
+      "cuota_minima": "+196",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_2",
+      "prob": 0.171,
+      "cuota_justa": "+485",
+      "cuota_minima": "+503",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_0.5",
+      "prob": 0.774,
+      "cuota_justa": "-342",
+      "cuota_minima": "-302",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_0.5",
+      "prob": 0.226,
+      "cuota_justa": "+342",
+      "cuota_minima": "+356",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_1.5",
+      "prob": 0.438,
+      "cuota_justa": "+128",
+      "cuota_minima": "+136",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_1.5",
+      "prob": 0.562,
+      "cuota_justa": "-128",
+      "cuota_minima": "-120",
+      "confianza": "media"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "prob": 0.413,
+      "cuota_justa": "+142",
+      "cuota_minima": "+150",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "4/10",
+        "visitante": "0/10"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1.5",
+      "prob": 0.059,
+      "cuota_justa": "+1591",
+      "cuota_minima": "+1642",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "0/10"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1",
+      "prob": 0.413,
+      "cuota_justa": "-114",
+      "cuota_minima": "-104",
+      "confianza": "media",
+      "devolucion": 0.223,
+      "ultimos10": {
+        "local": "4/8",
+        "visitante": "0/8"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1",
+      "prob": 0.059,
+      "cuota_justa": "+1418",
+      "cuota_minima": "+1469",
+      "confianza": "media",
+      "devolucion": 0.102,
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "0/8"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+0",
+      "prob": 0.636,
+      "cuota_justa": "-394",
+      "cuota_minima": "-332",
+      "confianza": "media",
+      "devolucion": 0.202,
+      "ultimos10": {
+        "local": "6/6",
+        "visitante": "2/4"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+0",
+      "prob": 0.162,
+      "cuota_justa": "+394",
+      "cuota_minima": "+413",
+      "confianza": "media",
+      "devolucion": 0.202,
+      "ultimos10": {
+        "local": "0/6",
+        "visitante": "2/4"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1",
+      "prob": 0.838,
+      "cuota_justa": "-1418",
+      "cuota_minima": "-940",
+      "confianza": "media",
+      "devolucion": 0.102,
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "8/8"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1",
+      "prob": 0.364,
+      "cuota_justa": "+114",
+      "cuota_minima": "+122",
+      "confianza": "media",
+      "devolucion": 0.223,
+      "ultimos10": {
+        "local": "4/8",
+        "visitante": "8/8"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1.5",
+      "prob": 0.941,
+      "cuota_justa": "-1591",
+      "cuota_minima": "-1055",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "10/10"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1.5",
+      "prob": 0.587,
+      "cuota_justa": "-142",
+      "cuota_minima": "-132",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "6/10",
+        "visitante": "10/10"
+      }
+    }
+  ],
+  "estado": "pendiente",
+  "respaldo": {
+    "forma_local": {
+      "racha": "EEGEG",
+      "puntos": 9,
+      "de": 15,
+      "goles_favor": 8,
+      "goles_contra": 6,
+      "partidos": 5
+    },
+    "forma_visitante": {
+      "racha": "PGGEE",
+      "puntos": 8,
+      "de": 15,
+      "goles_favor": 5,
+      "goles_contra": 4,
+      "partidos": 5
+    },
+    "historial_directo": [
+      {
+        "fecha": "2023-09-07",
+        "local": "Netherlands",
+        "visitante": "Greece",
+        "marcador": "3-0"
+      },
+      {
+        "fecha": "2023-10-16",
+        "local": "Greece",
+        "visitante": "Netherlands",
+        "marcador": "0-1"
+      },
+      {
+        "fecha": "2026-10-01",
+        "local": "Greece",
+        "visitante": "Netherlands",
+        "marcador": "2-2"
+      }
+    ]
+  },
+  "id": "P-20261113-d58425",
+  "creado": "2026-11-13T11:51:52.166308-07:00",
+  "lectura": {
+    "texto": "Paises Bajos lider en casa con Gakpo de vuelta; Grecia llega invicta pero el partido pinta abierto",
+    "patas": [
+      {
+        "mercado": "ganador",
+        "seleccion": "1",
+        "prob": 0.659,
+        "confianza": "media"
+      },
+      {
+        "mercado": "goles",
+        "seleccion": "mas_2.5",
+        "prob": 0.641,
+        "confianza": "media"
+      }
+    ],
+    "prob_conjunta": 0.4647,
+    "creado": "2026-11-13T11:52:04.454528-07:00",
+    "despues_de_winpot": false
+  }
+}
