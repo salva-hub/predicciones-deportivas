@@ -1,0 +1,47 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261113-d58425",
+      "partido": "Netherlands vs Greece",
+      "liga": "nations_league",
+      "deporte": "futbol",
+      "espn_id": "401861159",
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "cuota": 1.5181347150259068,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261113-13d1d2",
+      "partido": "Serbia vs Germany",
+      "liga": "nations_league",
+      "deporte": "futbol",
+      "espn_id": "401861158",
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "cuota": 1.4166666666666667,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261113-61b725",
+      "partido": "Slovenia vs Switzerland",
+      "liga": "nations_league",
+      "deporte": "futbol",
+      "espn_id": "401861156",
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "cuota": 2.6,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 5.5918,
+  "cuota_americana": "+459",
+  "monto": 300.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261113-f8e41d",
+  "creado": "2026-11-13T12:34:23.147847-07:00",
+  "estado": "pendiente",
+  "nota": "Parlay REAL de Salva (Winpot ID 5651725032, 13-nov 12:28 Sonora): más 2.5 en P.Bajos-Grecia (−193), Serbia-Alemania (−240) y Eslovenia-Suiza (+160), total +459, 300 MXN (Winpot añadió bono 68.99)."
+}

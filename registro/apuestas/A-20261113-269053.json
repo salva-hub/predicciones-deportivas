@@ -1,0 +1,70 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261113-61b725",
+      "partido": "Slovenia vs Switzerland",
+      "liga": "nations_league",
+      "deporte": "futbol",
+      "espn_id": "401861156",
+      "mercado": "ganador",
+      "seleccion": "2",
+      "cuota": 1.5537,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261113-61b725",
+      "partido": "Slovenia vs Switzerland",
+      "liga": "nations_league",
+      "deporte": "futbol",
+      "espn_id": "401861156",
+      "mercado": "goles",
+      "seleccion": "mas_1.5",
+      "cuota": 1.5537,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261113-61b725",
+      "partido": "Slovenia vs Switzerland",
+      "liga": "nations_league",
+      "deporte": "futbol",
+      "espn_id": "401861156",
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota": 1.5537,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261113-7c9e33",
+      "partido": "Bulgaria vs Iceland",
+      "liga": "nations_league",
+      "deporte": "futbol",
+      "espn_id": "401861157",
+      "mercado": "doble_oportunidad",
+      "seleccion": "X2",
+      "cuota": 1.3093,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261113-7c9e33",
+      "partido": "Bulgaria vs Iceland",
+      "liga": "nations_league",
+      "deporte": "futbol",
+      "espn_id": "401861157",
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota": 1.3093,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 6.42,
+  "cuota_americana": "+542",
+  "monto": 300.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261113-269053",
+  "creado": "2026-11-13T12:34:17.446499-07:00",
+  "estado": "pendiente",
+  "cuota_total_fija": true,
+  "nota": "Parlay REAL de Salva (Winpot ID 5651722110, 13-nov 12:27 Sonora): BB Eslovenia-Suiza Suiza gana (PA) + más 1.5 + córners más 7.5 (+275) y BB Bulgaria-Islandia X2 + córners más 7.5 (−140), total +542, 300 MXN. Cuotas por pata escaladas."
+}
