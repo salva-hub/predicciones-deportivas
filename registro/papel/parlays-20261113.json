@@ -17,7 +17,7 @@
           "cuota": 1.5,
           "prob": 0.659,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261113-ea7c6c",
@@ -28,7 +28,7 @@
           "cuota": 1.5434782608695652,
           "prob": 0.632,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261113-61b725",
@@ -39,7 +39,7 @@
           "cuota": 1.4444444444444444,
           "prob": 0.665,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 3.3442,
@@ -48,7 +48,9 @@
       "monto": 190.0,
       "recortada": false,
       "creado": "2026-11-13T12:17:53.699863-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -190.0,
+      "liquidada": "2026-11-13T15:15:30.297760-07:00"
     },
     {
       "clave": "P-20261113-13d1d2:ganador:1|P-20261113-d58425:ganador:2",
@@ -64,7 +66,7 @@
           "cuota": 11.0,
           "prob": 0.107,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261113-d58425",
@@ -75,7 +77,7 @@
           "cuota": 5.5,
           "prob": 0.192,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 60.5,
@@ -84,7 +86,9 @@
       "monto": 110.0,
       "recortada": false,
       "creado": "2026-11-13T12:17:53.699899-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -110.0,
+      "liquidada": "2026-11-13T15:15:30.297775-07:00"
     },
     {
       "clave": "lectura|P-20261113-d58425:ganador:1",
@@ -102,7 +106,7 @@
           "cuota": 1.5,
           "prob": 0.659,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 1.5,
@@ -116,7 +120,9 @@
         "P-20261113-d58425": "Paises Bajos lider en casa con Gakpo de vuelta; Grecia llega invicta pero el partido pinta abierto"
       },
       "creado": "2026-11-13T12:18:00.003827-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 240.0,
+      "liquidada": "2026-11-13T15:15:30.297791-07:00"
     }
   ]
 }
