@@ -17,7 +17,7 @@
           "cuota": 3.4,
           "prob": 0.308,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261116-8e7882",
@@ -28,7 +28,7 @@
           "cuota": 1.4273504273504274,
           "prob": 0.719,
           "confianza": "baja",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261116-badd5f",
@@ -39,7 +39,7 @@
           "cuota": 1.4,
           "prob": 0.885,
           "confianza": "baja",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261116-ab05b3",
@@ -50,7 +50,7 @@
           "cuota": 2.1,
           "prob": 0.535,
           "confianza": "baja",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 14.2678,
@@ -59,7 +59,9 @@
       "monto": 60.0,
       "recortada": false,
       "creado": "2026-11-16T12:02:02.034587-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -60.0,
+      "liquidada": "2026-11-16T15:15:27.379270-07:00"
     },
     {
       "clave": "P-20261116-badd5f:ganador:1|P-20261116-ee2353:ganador:1",
@@ -75,7 +77,7 @@
           "cuota": 1.8620689655172413,
           "prob": 0.552,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261116-badd5f",
@@ -86,7 +88,7 @@
           "cuota": 8.0,
           "prob": 0.13,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 14.8966,
@@ -95,7 +97,9 @@
       "monto": 60.0,
       "recortada": false,
       "creado": "2026-11-16T12:02:02.034645-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -60.0,
+      "liquidada": "2026-11-16T15:15:27.379285-07:00"
     },
     {
       "clave": "lectura|P-20261116-badd5f:ganador:2",
@@ -113,7 +117,7 @@
           "cuota": 1.5,
           "prob": 0.66,
           "confianza": "baja",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 1.5,
@@ -127,7 +131,9 @@
         "P-20261116-badd5f": "Macedonia del Norte 0 goles en 5 partidos y sin puntos; Eslovenia pelea el 2o lugar. Eslovenia gana y Macedonia casi no anota"
       },
       "creado": "2026-11-16T12:02:14.080479-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 95.0,
+      "liquidada": "2026-11-16T15:15:27.379303-07:00"
     }
   ]
 }

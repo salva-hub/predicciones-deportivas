@@ -10,7 +10,7 @@
       "mercado": "doble_oportunidad",
       "seleccion": "X2",
       "cuota": 1.5409,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261116-ee2353",
@@ -21,7 +21,7 @@
       "mercado": "ambos_anotan",
       "seleccion": "si",
       "cuota": 1.5409,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261116-ee2353",
@@ -32,7 +32,7 @@
       "mercado": "corners",
       "seleccion": "mas_8.5",
       "cuota": 1.5409,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261116-ab05b3",
@@ -43,7 +43,7 @@
       "mercado": "doble_oportunidad",
       "seleccion": "1X",
       "cuota": 1.3153,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261116-ab05b3",
@@ -54,7 +54,7 @@
       "mercado": "corners",
       "seleccion": "mas_7.5",
       "cuota": 1.3153,
-      "estado": "pendiente"
+      "estado": "ganada"
     }
   ],
   "cuota": 6.35,
@@ -64,7 +64,9 @@
   "categoria": "eleccion_salva",
   "id": "A-20261116-475b5a",
   "creado": "2026-11-16T12:16:31.773486-07:00",
-  "estado": "pendiente",
+  "estado": "perdida",
   "cuota_total_fija": true,
-  "nota": "Parlay REAL de Salva (Winpot ID 5662953593, 16-nov 09:41): BB Alemania-P.Bajos X2 + ambos anotan + córners más 8.5 (+266) y BB Suiza-Escocia 1X + córners más 7.5 (−137); total +535, 356.30 MXN (ganancia total 2,264.59). Cuotas por pata escaladas."
+  "nota": "Parlay REAL de Salva (Winpot ID 5662953593, 16-nov 09:41): BB Alemania-P.Bajos X2 + ambos anotan + córners más 8.5 (+266) y BB Suiza-Escocia 1X + córners más 7.5 (−137); total +535, 356.30 MXN (ganancia total 2,264.59). Cuotas por pata escaladas.",
+  "ganancia": -356.3,
+  "liquidada": "2026-11-16T15:15:27.377769-07:00"
 }
