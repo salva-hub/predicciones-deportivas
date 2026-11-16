@@ -1,0 +1,70 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261116-badd5f",
+      "partido": "North Macedonia vs Slovenia",
+      "liga": "nations_league",
+      "deporte": "futbol",
+      "espn_id": "401861187",
+      "mercado": "ganador",
+      "seleccion": "2",
+      "cuota": 1.5,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261116-8e7882",
+      "partido": "Greece vs Serbia",
+      "liga": "nations_league",
+      "deporte": "futbol",
+      "espn_id": "401861188",
+      "mercado": "ganador",
+      "seleccion": "1",
+      "cuota": 1.4274,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261116-ab05b3",
+      "partido": "Switzerland vs Scotland",
+      "liga": "nations_league",
+      "deporte": "futbol",
+      "espn_id": "401861186",
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "cuota": 1.3817,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261116-ab05b3",
+      "partido": "Switzerland vs Scotland",
+      "liga": "nations_league",
+      "deporte": "futbol",
+      "espn_id": "401861186",
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota": 1.3817,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261116-507391",
+      "partido": "Gibraltar vs Malta",
+      "liga": "nations_league",
+      "deporte": "futbol",
+      "espn_id": "401861179",
+      "mercado": "ganador",
+      "seleccion": "2",
+      "cuota": 1.6667,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 6.81,
+  "cuota_americana": "+581",
+  "monto": 320.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261116-65194a",
+  "creado": "2026-11-16T12:16:30.726596-07:00",
+  "estado": "pendiente",
+  "cuota_total_fija": true,
+  "nota": "Parlay REAL de Salva (Winpot, 16-nov 12:15 Sonora): Eslovenia gana −200 (PA), Grecia gana −234 (PA), BB Suiza-Escocia menos 3.5 + córners más 7.5 (−110), Malta gana −150 (PA); total +581, 320 MXN + bono 93.10 (ganancia total 2,275.01). Cuotas de BB por pata escaladas."
+}
