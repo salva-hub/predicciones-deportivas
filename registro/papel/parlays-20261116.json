@@ -1,0 +1,133 @@
+{
+  "id": "parlays-20261116",
+  "fecha": "2026-11-16",
+  "creado": "2026-11-16T12:02:02.034955-07:00",
+  "parlays": [
+    {
+      "clave": "P-20261116-8e7882:ganador:1|P-20261116-ab05b3:ganador:1|P-20261116-badd5f:goles_equipo:local_menos_1.5|P-20261116-ee2353:ganador:2",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261116-ee2353",
+          "partido": "Germany vs Netherlands",
+          "liga": "nations_league",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 3.4,
+          "prob": 0.308,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261116-8e7882",
+          "partido": "Greece vs Serbia",
+          "liga": "nations_league",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.4273504273504274,
+          "prob": 0.719,
+          "confianza": "baja",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261116-badd5f",
+          "partido": "North Macedonia vs Slovenia",
+          "liga": "nations_league",
+          "mercado": "goles_equipo",
+          "seleccion": "local_menos_1.5",
+          "cuota": 1.4,
+          "prob": 0.885,
+          "confianza": "baja",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261116-ab05b3",
+          "partido": "Switzerland vs Scotland",
+          "liga": "nations_league",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 2.1,
+          "prob": 0.535,
+          "confianza": "baja",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 14.2678,
+      "cuota_americana": "+1327",
+      "prob": 0.1049,
+      "monto": 60.0,
+      "recortada": false,
+      "creado": "2026-11-16T12:02:02.034587-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261116-badd5f:ganador:1|P-20261116-ee2353:ganador:1",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261116-ee2353",
+          "partido": "Germany vs Netherlands",
+          "liga": "nations_league",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.8620689655172413,
+          "prob": 0.552,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261116-badd5f",
+          "partido": "North Macedonia vs Slovenia",
+          "liga": "nations_league",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 8.0,
+          "prob": 0.13,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 14.8966,
+      "cuota_americana": "+1390",
+      "prob": 0.0718,
+      "monto": 60.0,
+      "recortada": false,
+      "creado": "2026-11-16T12:02:02.034645-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "lectura|P-20261116-badd5f:ganador:2",
+      "tipo": "parlay",
+      "categoria": "lectura",
+      "patas": [
+        {
+          "pronostico": "P-20261116-badd5f",
+          "partido": "North Macedonia vs Slovenia",
+          "liga": "nations_league",
+          "deporte": "futbol",
+          "espn_id": "401861187",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.5,
+          "prob": 0.66,
+          "confianza": "baja",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 1.5,
+      "cuota_americana": "-200",
+      "prob": 0.66,
+      "ve": -0.01,
+      "confianza": "baja",
+      "mismo_partido": false,
+      "monto": 190.0,
+      "lecturas": {
+        "P-20261116-badd5f": "Macedonia del Norte 0 goles en 5 partidos y sin puntos; Eslovenia pelea el 2o lugar. Eslovenia gana y Macedonia casi no anota"
+      },
+      "creado": "2026-11-16T12:02:14.080479-07:00",
+      "estado": "pendiente"
+    }
+  ]
+}
