@@ -10,7 +10,7 @@
       "mercado": "handicap",
       "seleccion": "local_-1.5",
       "cuota": 1.5166,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261124-c9a583",
@@ -21,7 +21,7 @@
       "mercado": "corners",
       "seleccion": "mas_8.5",
       "cuota": 1.5166,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261124-83d1d7",
@@ -32,7 +32,7 @@
       "mercado": "handicap",
       "seleccion": "local_-1.5",
       "cuota": 1.6406,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261124-7522c0",
@@ -43,7 +43,7 @@
       "mercado": "ganador",
       "seleccion": "2",
       "cuota": 1.2857,
-      "estado": "pendiente"
+      "estado": "ganada"
     },
     {
       "pronostico": "P-20261124-8de5cd",
@@ -54,7 +54,7 @@
       "mercado": "ganador",
       "seleccion": "1",
       "cuota": 1.3673,
-      "estado": "pendiente"
+      "estado": "perdida"
     },
     {
       "pronostico": "P-20261124-8de5cd",
@@ -65,7 +65,7 @@
       "mercado": "corners",
       "seleccion": "mas_8.5",
       "cuota": 1.3673,
-      "estado": "pendiente"
+      "estado": "ganada"
     }
   ],
   "cuota": 9.0701,
@@ -75,5 +75,7 @@
   "categoria": "eleccion_salva",
   "id": "A-20261124-4b2f54",
   "creado": "2026-11-24T12:39:38.846930-07:00",
-  "estado": "pendiente"
+  "estado": "perdida",
+  "ganancia": -300.0,
+  "liquidada": "2026-11-24T15:30:24.209753-07:00"
 }
