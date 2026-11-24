@@ -1,0 +1,79 @@
+{
+  "tipo": "parlay",
+  "patas": [
+    {
+      "pronostico": "P-20261124-c9a583",
+      "partido": "Real Madrid vs PSV Eindhoven",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915298",
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "cuota": 1.5166,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261124-c9a583",
+      "partido": "Real Madrid vs PSV Eindhoven",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915298",
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "cuota": 1.5166,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261124-83d1d7",
+      "partido": "Como vs AEK Athens",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915296",
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "cuota": 1.6406,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261124-7522c0",
+      "partido": "Slovan Bratislava vs Real Betis",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915297",
+      "mercado": "ganador",
+      "seleccion": "2",
+      "cuota": 1.2857,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261124-8de5cd",
+      "partido": "Manchester City vs Napoli",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915379",
+      "mercado": "ganador",
+      "seleccion": "1",
+      "cuota": 1.3673,
+      "estado": "pendiente"
+    },
+    {
+      "pronostico": "P-20261124-8de5cd",
+      "partido": "Manchester City vs Napoli",
+      "liga": "champions",
+      "deporte": "futbol",
+      "espn_id": "401915379",
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "cuota": 1.3673,
+      "estado": "pendiente"
+    }
+  ],
+  "cuota": 9.0701,
+  "cuota_americana": "+807",
+  "monto": 300.0,
+  "casa": "Winpot",
+  "categoria": "eleccion_salva",
+  "id": "A-20261124-4b2f54",
+  "creado": "2026-11-24T12:39:38.846930-07:00",
+  "estado": "pendiente"
+}
