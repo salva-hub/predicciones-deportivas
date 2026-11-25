@@ -1,0 +1,1290 @@
+{
+  "deporte": "futbol",
+  "liga": "champions",
+  "partido": "Paris Saint-Germain vs AS Roma",
+  "local": "Paris Saint-Germain",
+  "visitante": "AS Roma",
+  "espn_id": "401915374",
+  "inicio_utc": "2026-11-25T20:00:00+00:00",
+  "inicio_sonora": "2026-11-25 13:00",
+  "estadio": "Parc des Princes",
+  "techado": false,
+  "neutral": false,
+  "pago_anticipado": true,
+  "clima": {
+    "temperatura_c": 5.7,
+    "lluvia_mm_h": 0.75,
+    "viento_kmh": 7.35,
+    "altitud_m": 43.0
+  },
+  "arbitro": "Glenn Nyberg",
+  "factor_arbitro": 0.781,
+  "pinnacle": {
+    "1": 1.510204081632653,
+    "X": 4.609999999999999,
+    "2": 6.13,
+    "mas_2.5": 1.4291845493562232,
+    "menos_2.5": 2.91
+  },
+  "goles_esperados": [
+    2.4,
+    1.11
+  ],
+  "modelo_1x2": {
+    "1": 0.595,
+    "X": 0.207,
+    "2": 0.268
+  },
+  "marcadores_probables": [
+    [
+      "2-1",
+      0.09550576216685351
+    ],
+    [
+      "1-1",
+      0.08972795397000168
+    ],
+    [
+      "2-0",
+      0.08598266865965172
+    ]
+  ],
+  "notas": [
+    "Base: Pinnacle sin margen (modelo solo como referencia)",
+    "Goles esperados del modelo solo: 2.15 – 1.32",
+    "Pago anticipado de Winpot: el ganador local/visitante incluye la probabilidad de ir 2 goles arriba y no ganar (local +2.5%, visitante +3.4%)",
+    "Córners esperados: 8.8",
+    "Tarjetas esperadas: 2.5 (factor árbitro x0.78)",
+    "Modelo y Pinnacle discrepan mucho en 1x2: baja la confianza de los mercados relacionados",
+    "Clima ya incluido en el precio de Pinnacle: no se ajusta",
+    "Tiros a puerta de jugador de Paris Saint-Germain: 50 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador de AS Roma: 50 partidos (temporada actual y anterior)",
+    "Tiros a puerta de jugador: alineación oficial de ESPN; modelo Poisson con tasa por 90, minutos y rival; confianza siempre baja; solo con valor de 10% o más"
+  ],
+  "confianza": "alta",
+  "selecciones": [
+    {
+      "mercado": "ganador",
+      "seleccion": "1",
+      "prob": 0.674,
+      "cuota_justa": "-207",
+      "cuota_minima": "-189",
+      "confianza": "alta",
+      "prob_sin_pago_anticipado": 0.649,
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "X",
+      "prob": 0.201,
+      "cuota_justa": "+396",
+      "cuota_minima": "+412",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
+      "prob": 0.183,
+      "cuota_justa": "+446",
+      "cuota_minima": "+463",
+      "confianza": "media",
+      "prob_sin_pago_anticipado": 0.149,
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_0.5",
+      "prob": 0.96,
+      "cuota_justa": "-2398",
+      "cuota_minima": "-1370",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "9/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_0.5",
+      "prob": 0.04,
+      "cuota_justa": "+2398",
+      "cuota_minima": "+2474",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "1/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_1.5",
+      "prob": 0.876,
+      "cuota_justa": "-706",
+      "cuota_minima": "-568",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "9/10",
+        "visitante": "9/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_1.5",
+      "prob": 0.124,
+      "cuota_justa": "+706",
+      "cuota_minima": "+731",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "1/10",
+        "visitante": "1/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "prob": 0.682,
+      "cuota_justa": "-214",
+      "cuota_minima": "-195",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "8/10",
+        "visitante": "8/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_2.5",
+      "prob": 0.318,
+      "cuota_justa": "+214",
+      "cuota_minima": "+224",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "2/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_3.5",
+      "prob": 0.467,
+      "cuota_justa": "+114",
+      "cuota_minima": "+121",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "7/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "prob": 0.533,
+      "cuota_justa": "-114",
+      "cuota_minima": "-107",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "3/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_4.5",
+      "prob": 0.277,
+      "cuota_justa": "+261",
+      "cuota_minima": "+272",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_4.5",
+      "prob": 0.723,
+      "cuota_justa": "-261",
+      "cuota_minima": "-235",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "4/10"
+      }
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "prob": 0.62,
+      "cuota_justa": "-163",
+      "cuota_minima": "-151",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "no",
+      "prob": 0.38,
+      "cuota_justa": "+163",
+      "cuota_minima": "+172",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "4/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_0.5",
+      "prob": 0.91,
+      "cuota_justa": "-1007",
+      "cuota_minima": "-755",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_0.5",
+      "prob": 0.09,
+      "cuota_justa": "+1007",
+      "cuota_minima": "+1041",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "4/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_0.5",
+      "prob": 0.671,
+      "cuota_justa": "-204",
+      "cuota_minima": "-186",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "9/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_0.5",
+      "prob": 0.329,
+      "cuota_justa": "+204",
+      "cuota_minima": "+213",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "1/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_1.5",
+      "prob": 0.692,
+      "cuota_justa": "-225",
+      "cuota_minima": "-205",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "9/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_1.5",
+      "prob": 0.308,
+      "cuota_justa": "+225",
+      "cuota_minima": "+235",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "1/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_1.5",
+      "prob": 0.305,
+      "cuota_justa": "+228",
+      "cuota_minima": "+238",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "9/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_1.5",
+      "prob": 0.695,
+      "cuota_justa": "-228",
+      "cuota_minima": "-207",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "1/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_mas_2.5",
+      "prob": 0.431,
+      "cuota_justa": "+132",
+      "cuota_minima": "+139",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "3/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "local_menos_2.5",
+      "prob": 0.569,
+      "cuota_justa": "-132",
+      "cuota_minima": "-123",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "7/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_mas_2.5",
+      "prob": 0.102,
+      "cuota_justa": "+883",
+      "cuota_minima": "+913",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "7/10"
+      }
+    },
+    {
+      "mercado": "goles_equipo",
+      "seleccion": "visitante_menos_2.5",
+      "prob": 0.898,
+      "cuota_justa": "-883",
+      "cuota_minima": "-681",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "3/10"
+      }
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_1",
+      "prob": 0.498,
+      "cuota_justa": "+101",
+      "cuota_minima": "+107",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_X",
+      "prob": 0.333,
+      "cuota_justa": "+200",
+      "cuota_minima": "+210",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_2",
+      "prob": 0.169,
+      "cuota_justa": "+490",
+      "cuota_minima": "+509",
+      "confianza": "media"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_0.5",
+      "prob": 0.794,
+      "cuota_justa": "-386",
+      "cuota_minima": "-337",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_0.5",
+      "prob": 0.206,
+      "cuota_justa": "+386",
+      "cuota_minima": "+401",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_mas_1.5",
+      "prob": 0.469,
+      "cuota_justa": "+113",
+      "cuota_minima": "+120",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "primer_tiempo",
+      "seleccion": "pt_menos_1.5",
+      "prob": 0.531,
+      "cuota_justa": "-113",
+      "cuota_minima": "-106",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1.5",
+      "prob": 0.439,
+      "cuota_justa": "+128",
+      "cuota_minima": "+135",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "0/10"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1.5",
+      "prob": 0.058,
+      "cuota_justa": "+1627",
+      "cuota_minima": "+1679",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_-1",
+      "prob": 0.439,
+      "cuota_justa": "-125",
+      "cuota_minima": "-115",
+      "confianza": "media",
+      "devolucion": 0.21,
+      "ultimos10": {
+        "local": "7/7",
+        "visitante": "0/8"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_-1",
+      "prob": 0.058,
+      "cuota_justa": "+1469",
+      "cuota_minima": "+1521",
+      "confianza": "media",
+      "devolucion": 0.092,
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+0",
+      "prob": 0.649,
+      "cuota_justa": "-434",
+      "cuota_minima": "-361",
+      "confianza": "media",
+      "devolucion": 0.201,
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "2/8"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+0",
+      "prob": 0.149,
+      "cuota_justa": "+434",
+      "cuota_minima": "+455",
+      "confianza": "media",
+      "devolucion": 0.201,
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "6/8"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1",
+      "prob": 0.851,
+      "cuota_justa": "-1469",
+      "cuota_minima": "-967",
+      "confianza": "media",
+      "devolucion": 0.092,
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "4/10"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1",
+      "prob": 0.351,
+      "cuota_justa": "+125",
+      "cuota_minima": "+134",
+      "confianza": "media",
+      "devolucion": 0.21,
+      "ultimos10": {
+        "local": "0/7",
+        "visitante": "8/8"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "local_+1.5",
+      "prob": 0.942,
+      "cuota_justa": "-1627",
+      "cuota_minima": "-1071",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "4/10"
+      }
+    },
+    {
+      "mercado": "handicap",
+      "seleccion": "visitante_+1.5",
+      "prob": 0.561,
+      "cuota_justa": "-128",
+      "cuota_minima": "-119",
+      "confianza": "media",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "10/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "prob": 0.673,
+      "cuota_justa": "-206",
+      "cuota_minima": "-178",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "9/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_7.5",
+      "prob": 0.327,
+      "cuota_justa": "+206",
+      "cuota_minima": "+222",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "1/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "prob": 0.558,
+      "cuota_justa": "-126",
+      "cuota_minima": "-113",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "7/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_8.5",
+      "prob": 0.442,
+      "cuota_justa": "+126",
+      "cuota_minima": "+138",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "3/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_9.5",
+      "prob": 0.446,
+      "cuota_justa": "+124",
+      "cuota_minima": "+136",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "4/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_9.5",
+      "prob": 0.554,
+      "cuota_justa": "-124",
+      "cuota_minima": "-111",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "6/10",
+        "visitante": "4/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_10.5",
+      "prob": 0.334,
+      "cuota_justa": "+200",
+      "cuota_minima": "+215",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_10.5",
+      "prob": 0.666,
+      "cuota_justa": "-200",
+      "cuota_minima": "-173",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "4/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_11.5",
+      "prob": 0.245,
+      "cuota_justa": "+309",
+      "cuota_minima": "+330",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "2/10",
+        "visitante": "4/10"
+      }
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_11.5",
+      "prob": 0.755,
+      "cuota_justa": "-309",
+      "cuota_minima": "-256",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "8/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_2.5",
+      "prob": 0.545,
+      "cuota_justa": "-120",
+      "cuota_minima": "-107",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_2.5",
+      "prob": 0.455,
+      "cuota_justa": "+120",
+      "cuota_minima": "+131",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "4/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "prob": 0.325,
+      "cuota_justa": "+208",
+      "cuota_minima": "+224",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_3.5",
+      "prob": 0.675,
+      "cuota_justa": "-208",
+      "cuota_minima": "-180",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "5/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_4.5",
+      "prob": 0.169,
+      "cuota_justa": "+493",
+      "cuota_minima": "+523",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "4/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_4.5",
+      "prob": 0.831,
+      "cuota_justa": "-493",
+      "cuota_minima": "-380",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "6/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_5.5",
+      "prob": 0.079,
+      "cuota_justa": "+1166",
+      "cuota_minima": "+1230",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_5.5",
+      "prob": 0.921,
+      "cuota_justa": "-1166",
+      "cuota_minima": "-714",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "8/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_6.5",
+      "prob": 0.032,
+      "cuota_justa": "+2984",
+      "cuota_minima": "+3139",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "0/10",
+        "visitante": "2/10"
+      }
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_6.5",
+      "prob": 0.968,
+      "cuota_justa": "-2984",
+      "cuota_minima": "-1173",
+      "confianza": "alta",
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "8/10"
+      }
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "1",
+      "prob": 0.229,
+      "cuota_justa": "+337",
+      "cuota_minima": "+359",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "X",
+      "prob": 0.269,
+      "cuota_justa": "+272",
+      "cuota_minima": "+291",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tarjetas_1x2",
+      "seleccion": "2",
+      "prob": 0.502,
+      "cuota_justa": "-101",
+      "cuota_minima": "+109",
+      "confianza": "alta"
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ferran Torres:mas_0.5",
+      "prob": 0.76,
+      "cuota_justa": "-316",
+      "cuota_minima": "-223",
+      "confianza": "baja",
+      "jugador": "Ferran Torres",
+      "jugador_id": "265869",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "F",
+      "tiros_esperados": 1.666
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ferran Torres:mas_1.5",
+      "prob": 0.453,
+      "cuota_justa": "+121",
+      "cuota_minima": "+143",
+      "confianza": "baja",
+      "jugador": "Ferran Torres",
+      "jugador_id": "265869",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "F",
+      "tiros_esperados": 1.666
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Ferran Torres:mas_2.5",
+      "prob": 0.212,
+      "cuota_justa": "+372",
+      "cuota_minima": "+420",
+      "confianza": "baja",
+      "jugador": "Ferran Torres",
+      "jugador_id": "265869",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "F",
+      "tiros_esperados": 1.666
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Senny Mayulu:mas_0.5",
+      "prob": 0.55,
+      "cuota_justa": "-122",
+      "cuota_minima": "-100",
+      "confianza": "baja",
+      "jugador": "Senny Mayulu",
+      "jugador_id": "379088",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "F",
+      "tiros_esperados": 0.863
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Senny Mayulu:mas_1.5",
+      "prob": 0.2,
+      "cuota_justa": "+401",
+      "cuota_minima": "+451",
+      "confianza": "baja",
+      "jugador": "Senny Mayulu",
+      "jugador_id": "379088",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "F",
+      "tiros_esperados": 0.863
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Senny Mayulu:mas_2.5",
+      "prob": 0.053,
+      "cuota_justa": "+1796",
+      "cuota_minima": "+1987",
+      "confianza": "baja",
+      "jugador": "Senny Mayulu",
+      "jugador_id": "379088",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "F",
+      "tiros_esperados": 0.863
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Maghnes Akliouche:mas_0.5",
+      "prob": 0.525,
+      "cuota_justa": "-111",
+      "cuota_minima": "+110",
+      "confianza": "baja",
+      "jugador": "Maghnes Akliouche",
+      "jugador_id": "329690",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "F",
+      "tiros_esperados": 0.799
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Maghnes Akliouche:mas_1.5",
+      "prob": 0.179,
+      "cuota_justa": "+460",
+      "cuota_minima": "+516",
+      "confianza": "baja",
+      "jugador": "Maghnes Akliouche",
+      "jugador_id": "329690",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "F",
+      "tiros_esperados": 0.799
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Fabián Ruiz:mas_0.5",
+      "prob": 0.457,
+      "cuota_justa": "+119",
+      "cuota_minima": "+141",
+      "confianza": "baja",
+      "jugador": "Fabián Ruiz",
+      "jugador_id": "214596",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "M",
+      "tiros_esperados": 0.644
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Fabián Ruiz:mas_1.5",
+      "prob": 0.13,
+      "cuota_justa": "+669",
+      "cuota_minima": "+747",
+      "confianza": "baja",
+      "jugador": "Fabián Ruiz",
+      "jugador_id": "214596",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "M",
+      "tiros_esperados": 0.644
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Vitinha:mas_0.5",
+      "prob": 0.385,
+      "cuota_justa": "+160",
+      "cuota_minima": "+186",
+      "confianza": "baja",
+      "jugador": "Vitinha",
+      "jugador_id": "288897",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "M",
+      "tiros_esperados": 0.502
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Vitinha:mas_1.5",
+      "prob": 0.089,
+      "cuota_justa": "+1028",
+      "cuota_minima": "+1142",
+      "confianza": "baja",
+      "jugador": "Vitinha",
+      "jugador_id": "288897",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "M",
+      "tiros_esperados": 0.502
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "João Neves:mas_0.5",
+      "prob": 0.371,
+      "cuota_justa": "+169",
+      "cuota_minima": "+197",
+      "confianza": "baja",
+      "jugador": "João Neves",
+      "jugador_id": "355061",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "M",
+      "tiros_esperados": 0.476
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "João Neves:mas_1.5",
+      "prob": 0.082,
+      "cuota_justa": "+1122",
+      "cuota_minima": "+1245",
+      "confianza": "baja",
+      "jugador": "João Neves",
+      "jugador_id": "355061",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "M",
+      "tiros_esperados": 0.476
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Matìas Soulè:mas_0.5",
+      "prob": 0.453,
+      "cuota_justa": "+121",
+      "cuota_minima": "+143",
+      "confianza": "baja",
+      "jugador": "Matìas Soulè",
+      "jugador_id": "323974",
+      "equipo": "AS Roma",
+      "posicion": "F",
+      "tiros_esperados": 0.635
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Matìas Soulè:mas_1.5",
+      "prob": 0.127,
+      "cuota_justa": "+687",
+      "cuota_minima": "+766",
+      "confianza": "baja",
+      "jugador": "Matìas Soulè",
+      "jugador_id": "323974",
+      "equipo": "AS Roma",
+      "posicion": "F",
+      "tiros_esperados": 0.635
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Santiago Castro:mas_0.5",
+      "prob": 0.437,
+      "cuota_justa": "+129",
+      "cuota_minima": "+152",
+      "confianza": "baja",
+      "jugador": "Santiago Castro",
+      "jugador_id": "250284",
+      "equipo": "AS Roma",
+      "posicion": "F",
+      "tiros_esperados": 0.602
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Santiago Castro:mas_1.5",
+      "prob": 0.117,
+      "cuota_justa": "+753",
+      "cuota_minima": "+839",
+      "confianza": "baja",
+      "jugador": "Santiago Castro",
+      "jugador_id": "250284",
+      "equipo": "AS Roma",
+      "posicion": "F",
+      "tiros_esperados": 0.602
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Niccolò Pisilli:mas_0.5",
+      "prob": 0.356,
+      "cuota_justa": "+181",
+      "cuota_minima": "+210",
+      "confianza": "baja",
+      "jugador": "Niccolò Pisilli",
+      "jugador_id": "360235",
+      "equipo": "AS Roma",
+      "posicion": "F",
+      "tiros_esperados": 0.45
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Niccolò Pisilli:mas_1.5",
+      "prob": 0.075,
+      "cuota_justa": "+1237",
+      "cuota_minima": "+1371",
+      "confianza": "baja",
+      "jugador": "Niccolò Pisilli",
+      "jugador_id": "360235",
+      "equipo": "AS Roma",
+      "posicion": "F",
+      "tiros_esperados": 0.45
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Nahuel Molina:mas_0.5",
+      "prob": 0.198,
+      "cuota_justa": "+404",
+      "cuota_minima": "+455",
+      "confianza": "baja",
+      "jugador": "Nahuel Molina",
+      "jugador_id": "164826",
+      "equipo": "AS Roma",
+      "posicion": "M",
+      "tiros_esperados": 0.207
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Manu Koné:mas_0.5",
+      "prob": 0.193,
+      "cuota_justa": "+419",
+      "cuota_minima": "+471",
+      "confianza": "baja",
+      "jugador": "Manu Koné",
+      "jugador_id": "285226",
+      "equipo": "AS Roma",
+      "posicion": "M",
+      "tiros_esperados": 0.199
+    },
+    {
+      "mercado": "tiros_jugador",
+      "seleccion": "Wesley:mas_0.5",
+      "prob": 0.159,
+      "cuota_justa": "+527",
+      "cuota_minima": "+591",
+      "confianza": "baja",
+      "jugador": "Wesley",
+      "jugador_id": "332354",
+      "equipo": "AS Roma",
+      "posicion": "M",
+      "tiros_esperados": 0.155
+    }
+  ],
+  "estado": "pendiente",
+  "respaldo": {
+    "forma_local": {
+      "racha": "GGGGG",
+      "puntos": 15,
+      "de": 15,
+      "goles_favor": 17,
+      "goles_contra": 3,
+      "partidos": 5
+    },
+    "forma_visitante": {
+      "racha": "GGPGG",
+      "puntos": 12,
+      "de": 15,
+      "goles_favor": 19,
+      "goles_contra": 8,
+      "partidos": 5
+    },
+    "historial_directo": []
+  },
+  "tiros_jugador": [
+    {
+      "jugador": "Ferran Torres",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "F",
+      "tiros_esperados": 1.666,
+      "tasa90": 1.965,
+      "minutos_esperados": 78.4,
+      "minutos_historial": 890
+    },
+    {
+      "jugador": "Senny Mayulu",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "F",
+      "tiros_esperados": 0.863,
+      "tasa90": 1.104,
+      "minutos_esperados": 72.3,
+      "minutos_historial": 1691
+    },
+    {
+      "jugador": "Maghnes Akliouche",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "F",
+      "tiros_esperados": 0.799,
+      "tasa90": 0.973,
+      "minutos_esperados": 75.9,
+      "minutos_historial": 869
+    },
+    {
+      "jugador": "Fabián Ruiz",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "M",
+      "tiros_esperados": 0.644,
+      "tasa90": 0.751,
+      "minutos_esperados": 79.3,
+      "minutos_historial": 2078
+    },
+    {
+      "jugador": "Vitinha",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "M",
+      "tiros_esperados": 0.502,
+      "tasa90": 0.546,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 3524
+    },
+    {
+      "jugador": "João Neves",
+      "equipo": "Paris Saint-Germain",
+      "posicion": "M",
+      "tiros_esperados": 0.476,
+      "tasa90": 0.536,
+      "minutos_esperados": 82.2,
+      "minutos_historial": 2755
+    },
+    {
+      "jugador": "Matìas Soulè",
+      "equipo": "AS Roma",
+      "posicion": "F",
+      "tiros_esperados": 0.635,
+      "tasa90": 0.99,
+      "minutos_esperados": 72.8,
+      "minutos_historial": 2760
+    },
+    {
+      "jugador": "Santiago Castro",
+      "equipo": "AS Roma",
+      "posicion": "F",
+      "tiros_esperados": 0.602,
+      "tasa90": 0.911,
+      "minutos_esperados": 75.0,
+      "minutos_historial": 370
+    },
+    {
+      "jugador": "Niccolò Pisilli",
+      "equipo": "AS Roma",
+      "posicion": "F",
+      "tiros_esperados": 0.45,
+      "tasa90": 0.613,
+      "minutos_esperados": 83.3,
+      "minutos_historial": 2385
+    },
+    {
+      "jugador": "Nahuel Molina",
+      "equipo": "AS Roma",
+      "posicion": "M",
+      "tiros_esperados": 0.207,
+      "tasa90": 0.294,
+      "minutos_esperados": 80.0,
+      "minutos_historial": 834
+    },
+    {
+      "jugador": "Manu Koné",
+      "equipo": "AS Roma",
+      "posicion": "M",
+      "tiros_esperados": 0.199,
+      "tasa90": 0.301,
+      "minutos_esperados": 75.3,
+      "minutos_historial": 2303
+    },
+    {
+      "jugador": "Wesley",
+      "equipo": "AS Roma",
+      "posicion": "M",
+      "tiros_esperados": 0.155,
+      "tasa90": 0.207,
+      "minutos_esperados": 85.0,
+      "minutos_historial": 3108
+    }
+  ],
+  "id": "P-20261125-98b107",
+  "creado": "2026-11-25T12:02:43.631665-07:00",
+  "lectura": {
+    "texto": "PSG favorito en casa aun con ataque rotado (sin Dembélé ni Kvaratskhelia); Roma ordenada",
+    "patas": [
+      {
+        "mercado": "ganador",
+        "seleccion": "1",
+        "prob": 0.674,
+        "confianza": "alta"
+      },
+      {
+        "mercado": "goles",
+        "seleccion": "mas_1.5",
+        "prob": 0.876,
+        "confianza": "alta"
+      }
+    ],
+    "prob_conjunta": 0.5863,
+    "creado": "2026-11-25T12:03:27.415405-07:00",
+    "despues_de_winpot": false
+  }
+}
