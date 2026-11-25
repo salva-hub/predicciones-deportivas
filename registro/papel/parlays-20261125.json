@@ -17,7 +17,7 @@
           "cuota": 2.1,
           "prob": 0.603,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261125-b5853f",
@@ -28,7 +28,7 @@
           "cuota": 1.5555555555555556,
           "prob": 0.671,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 3.2667,
@@ -37,7 +37,9 @@
       "monto": 120.0,
       "recortada": false,
       "creado": "2026-11-25T10:12:18.443452-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -120.0,
+      "liquidada": "2026-11-25T13:15:33.246792-07:00"
     },
     {
       "clave": "P-20261125-677e5f:tarjetas:mas_5.5|P-20261125-b5853f:ganador:2",
@@ -53,7 +55,7 @@
           "cuota": 5.0,
           "prob": 0.267,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261125-b5853f",
@@ -64,7 +66,7 @@
           "cuota": 2.3600000000000003,
           "prob": 0.47,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 11.8,
@@ -73,7 +75,9 @@
       "monto": 50.0,
       "recortada": false,
       "creado": "2026-11-25T10:12:18.443502-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -50.0,
+      "liquidada": "2026-11-25T13:15:33.246841-07:00"
     },
     {
       "clave": "P-20261125-677e5f:tarjetas_1x2:2|P-20261125-b5853f:corners:menos_7.5",
@@ -89,7 +93,7 @@
           "cuota": 7.0,
           "prob": 0.186,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261125-b5853f",
@@ -100,7 +104,7 @@
           "cuota": 3.75,
           "prob": 0.292,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 26.25,
@@ -109,7 +113,9 @@
       "monto": 50.0,
       "recortada": false,
       "creado": "2026-11-25T10:12:18.443524-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -50.0,
+      "liquidada": "2026-11-25T13:15:33.246858-07:00"
     },
     {
       "clave": "P-20261125-677e5f:tarjetas:mas_3.5|P-20261125-b5853f:corners:menos_8.5",
@@ -125,7 +131,7 @@
           "cuota": 2.1,
           "prob": 0.603,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "perdida"
         },
         {
           "pronostico": "P-20261125-b5853f",
@@ -136,7 +142,7 @@
           "cuota": 2.7,
           "prob": 0.403,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 5.67,
@@ -145,7 +151,9 @@
       "monto": 50.0,
       "recortada": false,
       "creado": "2026-11-25T10:12:18.443542-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -50.0,
+      "liquidada": "2026-11-25T13:15:33.246869-07:00"
     },
     {
       "clave": "P-20261125-677e5f:corners:mas_8.5|P-20261125-b5853f:tarjetas:mas_3.5",
@@ -161,7 +169,7 @@
           "cuota": 1.526315789473684,
           "prob": 0.676,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261125-b5853f",
@@ -172,7 +180,7 @@
           "cuota": 1.5555555555555556,
           "prob": 0.671,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 2.3743,
@@ -181,7 +189,9 @@
       "monto": 50.0,
       "recortada": false,
       "creado": "2026-11-25T10:12:18.443558-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 68.71,
+      "liquidada": "2026-11-25T13:15:33.246888-07:00"
     },
     {
       "clave": "lectura|P-20261125-02af91:ganador:2|P-20261125-60a033:ganador:1|P-20261125-98b107:ganador:1",
