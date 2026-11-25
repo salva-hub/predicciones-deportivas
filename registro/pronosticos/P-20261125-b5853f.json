@@ -911,5 +911,251 @@
     "prob_conjunta": 0.4451,
     "creado": "2026-11-25T09:52:51.690630-07:00",
     "despues_de_winpot": false
+  },
+  "evaluacion": [
+    {
+      "mercado": "ganador",
+      "seleccion": "2",
+      "cuota_winpot": "+136",
+      "cuota_minima": "+120",
+      "cuota_justa": "+113",
+      "prob": 0.47,
+      "ve": 0.1092,
+      "confianza": "media",
+      "categoria": null,
+      "con_valor": true,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "4/10"
+      },
+      "motivo": "pausa"
+    },
+    {
+      "mercado": "doble_oportunidad",
+      "seleccion": "X2",
+      "cuota_winpot": "-250",
+      "cuota_minima": "-210",
+      "cuota_justa": "-231",
+      "prob": 0.698,
+      "ve": -0.0228,
+      "confianza": "alta",
+      "categoria": null,
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "10/10",
+        "visitante": "5/10"
+      },
+      "motivo": "pausa"
+    },
+    {
+      "mercado": "ambos_anotan",
+      "seleccion": "si",
+      "cuota_winpot": "-200",
+      "cuota_minima": "-154",
+      "cuota_justa": "-167",
+      "prob": 0.626,
+      "ve": -0.061,
+      "confianza": "alta",
+      "categoria": null,
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "5/10",
+        "visitante": "5/10"
+      },
+      "motivo": "pausa"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "mas_2.5",
+      "cuota_winpot": "-167",
+      "cuota_minima": "-138",
+      "cuota_justa": "-149",
+      "prob": 0.598,
+      "ve": -0.0439,
+      "confianza": "alta",
+      "categoria": null,
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "6/10"
+      },
+      "motivo": "pausa"
+    },
+    {
+      "mercado": "goles",
+      "seleccion": "menos_3.5",
+      "cuota_winpot": "-184",
+      "cuota_minima": "-155",
+      "cuota_justa": "-167",
+      "prob": 0.626,
+      "ve": -0.0338,
+      "confianza": "alta",
+      "categoria": "sencilla_prob",
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "6/10",
+        "visitante": "5/10"
+      },
+      "motivo": "pausa"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_7.5",
+      "cuota_winpot": "-425",
+      "cuota_minima": "-206",
+      "cuota_justa": "-242",
+      "prob": 0.708,
+      "ve": -0.1254,
+      "confianza": "alta",
+      "categoria": null,
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "8/10",
+        "visitante": "10/10"
+      },
+      "motivo": "pausa"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_7.5",
+      "cuota_winpot": "+275",
+      "cuota_minima": "+260",
+      "cuota_justa": "+242",
+      "prob": 0.292,
+      "ve": 0.095,
+      "confianza": "alta",
+      "categoria": null,
+      "con_valor": true,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "2/10",
+        "visitante": "0/10"
+      },
+      "motivo": "pausa"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "mas_8.5",
+      "cuota_winpot": "-240",
+      "cuota_minima": "-131",
+      "cuota_justa": "-148",
+      "prob": 0.597,
+      "ve": -0.1542,
+      "confianza": "alta",
+      "categoria": null,
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "8/10"
+      },
+      "motivo": "pausa"
+    },
+    {
+      "mercado": "corners",
+      "seleccion": "menos_8.5",
+      "cuota_winpot": "+170",
+      "cuota_minima": "+161",
+      "cuota_justa": "+148",
+      "prob": 0.403,
+      "ve": 0.0881,
+      "confianza": "alta",
+      "categoria": null,
+      "con_valor": true,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "2/10"
+      },
+      "motivo": "pausa"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "mas_3.5",
+      "cuota_winpot": "-180",
+      "cuota_minima": "-177",
+      "cuota_justa": "-204",
+      "prob": 0.671,
+      "ve": 0.0438,
+      "confianza": "alta",
+      "categoria": "sencilla_prob",
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "7/10",
+        "visitante": "8/10"
+      },
+      "motivo": "pausa"
+    },
+    {
+      "mercado": "tarjetas",
+      "seleccion": "menos_3.5",
+      "cuota_winpot": "+120",
+      "cuota_minima": "+220",
+      "cuota_justa": "+204",
+      "prob": 0.329,
+      "ve": -0.2762,
+      "confianza": "alta",
+      "categoria": null,
+      "con_valor": false,
+      "apostar": false,
+      "monto_sencilla": 0,
+      "sirve_para_parlay": false,
+      "sirve_para_combinada": false,
+      "ultimos10": {
+        "local": "3/10",
+        "visitante": "2/10"
+      },
+      "motivo": "pausa"
+    }
+  ],
+  "cuotas_winpot": {
+    "ganador:2": "+136",
+    "doble_oportunidad:X2": "-250",
+    "ambos_anotan:si": "-200",
+    "goles:mas_2.5": "-167",
+    "goles:menos_3.5": "-184",
+    "corners:mas_7.5": "-425",
+    "corners:menos_7.5": "+275",
+    "corners:mas_8.5": "-240",
+    "corners:menos_8.5": "+170",
+    "tarjetas:mas_3.5": "-180",
+    "tarjetas:menos_3.5": "+120"
   }
 }
