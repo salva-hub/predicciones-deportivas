@@ -209,7 +209,7 @@
           "cuota": 1.6897,
           "prob": 0.617,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261125-60a033",
@@ -222,7 +222,7 @@
           "cuota": 1.4,
           "prob": 0.732,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261125-98b107",
@@ -235,7 +235,7 @@
           "cuota": 1.4785,
           "prob": 0.674,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "perdida"
         }
       ],
       "cuota": 3.4975,
@@ -251,7 +251,9 @@
         "P-20261125-98b107": "PSG favorito en casa aun con ataque rotado (sin Dembélé ni Kvaratskhelia); Roma ordenada"
       },
       "creado": "2026-11-25T12:18:55.498045-07:00",
-      "estado": "pendiente"
+      "estado": "perdida",
+      "ganancia": -290.0,
+      "liquidada": "2026-11-25T15:30:26.853455-07:00"
     },
     {
       "clave": "prob|P-20261125-02af91:ganador:2|P-20261125-60a033:ganador:1|P-20261125-98b107:tarjetas:menos_3.5",
@@ -267,7 +269,7 @@
           "cuota": 1.6896551724137931,
           "prob": 0.617,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261125-60a033",
@@ -278,7 +280,7 @@
           "cuota": 1.4,
           "prob": 0.732,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261125-98b107",
@@ -289,7 +291,7 @@
           "cuota": 1.5988023952095807,
           "prob": 0.675,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 3.782,
@@ -298,7 +300,9 @@
       "monto": 120.0,
       "recortada": false,
       "creado": "2026-11-25T12:18:56.998222-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 333.84,
+      "liquidada": "2026-11-25T15:30:26.853491-07:00"
     },
     {
       "clave": "P-20261125-02af91:ganador:2|P-20261125-60a033:ganador:1|P-20261125-98b107:tarjetas:menos_3.5",
@@ -314,7 +318,7 @@
           "cuota": 1.6896551724137931,
           "prob": 0.617,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261125-60a033",
@@ -325,7 +329,7 @@
           "cuota": 1.4,
           "prob": 0.732,
           "confianza": "media",
-          "estado": "pendiente"
+          "estado": "ganada"
         },
         {
           "pronostico": "P-20261125-98b107",
@@ -336,7 +340,7 @@
           "cuota": 1.5988023952095807,
           "prob": 0.675,
           "confianza": "alta",
-          "estado": "pendiente"
+          "estado": "ganada"
         }
       ],
       "cuota": 3.782,
@@ -345,7 +349,9 @@
       "monto": 50.0,
       "recortada": false,
       "creado": "2026-11-25T12:18:56.998263-07:00",
-      "estado": "pendiente"
+      "estado": "ganada",
+      "ganancia": 139.1,
+      "liquidada": "2026-11-25T15:30:26.853511-07:00"
     }
   ]
 }
