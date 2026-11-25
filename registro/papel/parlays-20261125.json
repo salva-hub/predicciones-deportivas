@@ -1,0 +1,187 @@
+{
+  "id": "parlays-20261125",
+  "fecha": "2026-11-25",
+  "creado": "2026-11-25T10:12:18.446463-07:00",
+  "parlays": [
+    {
+      "clave": "prob|P-20261125-677e5f:tarjetas:mas_3.5|P-20261125-b5853f:tarjetas:mas_3.5",
+      "tipo": "parlay",
+      "categoria": "combinada_prob",
+      "patas": [
+        {
+          "pronostico": "P-20261125-677e5f",
+          "partido": "Sabah FK vs Barcelona",
+          "liga": "champions",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "cuota": 2.1,
+          "prob": 0.603,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261125-b5853f",
+          "partido": "Slavia Prague vs Villarreal",
+          "liga": "champions",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "cuota": 1.5555555555555556,
+          "prob": 0.671,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.2667,
+      "cuota_americana": "+227",
+      "prob": 0.4046,
+      "monto": 120.0,
+      "recortada": false,
+      "creado": "2026-11-25T10:12:18.443452-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261125-677e5f:tarjetas:mas_5.5|P-20261125-b5853f:ganador:2",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261125-677e5f",
+          "partido": "Sabah FK vs Barcelona",
+          "liga": "champions",
+          "mercado": "tarjetas",
+          "seleccion": "mas_5.5",
+          "cuota": 5.0,
+          "prob": 0.267,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261125-b5853f",
+          "partido": "Slavia Prague vs Villarreal",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 2.3600000000000003,
+          "prob": 0.47,
+          "confianza": "media",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 11.8,
+      "cuota_americana": "+1080",
+      "prob": 0.1255,
+      "monto": 50.0,
+      "recortada": false,
+      "creado": "2026-11-25T10:12:18.443502-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261125-677e5f:tarjetas_1x2:2|P-20261125-b5853f:corners:menos_7.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261125-677e5f",
+          "partido": "Sabah FK vs Barcelona",
+          "liga": "champions",
+          "mercado": "tarjetas_1x2",
+          "seleccion": "2",
+          "cuota": 7.0,
+          "prob": 0.186,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261125-b5853f",
+          "partido": "Slavia Prague vs Villarreal",
+          "liga": "champions",
+          "mercado": "corners",
+          "seleccion": "menos_7.5",
+          "cuota": 3.75,
+          "prob": 0.292,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 26.25,
+      "cuota_americana": "+2525",
+      "prob": 0.0543,
+      "monto": 50.0,
+      "recortada": false,
+      "creado": "2026-11-25T10:12:18.443524-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261125-677e5f:tarjetas:mas_3.5|P-20261125-b5853f:corners:menos_8.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261125-677e5f",
+          "partido": "Sabah FK vs Barcelona",
+          "liga": "champions",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "cuota": 2.1,
+          "prob": 0.603,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261125-b5853f",
+          "partido": "Slavia Prague vs Villarreal",
+          "liga": "champions",
+          "mercado": "corners",
+          "seleccion": "menos_8.5",
+          "cuota": 2.7,
+          "prob": 0.403,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 5.67,
+      "cuota_americana": "+467",
+      "prob": 0.243,
+      "monto": 50.0,
+      "recortada": false,
+      "creado": "2026-11-25T10:12:18.443542-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261125-677e5f:corners:mas_8.5|P-20261125-b5853f:tarjetas:mas_3.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261125-677e5f",
+          "partido": "Sabah FK vs Barcelona",
+          "liga": "champions",
+          "mercado": "corners",
+          "seleccion": "mas_8.5",
+          "cuota": 1.526315789473684,
+          "prob": 0.676,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261125-b5853f",
+          "partido": "Slavia Prague vs Villarreal",
+          "liga": "champions",
+          "mercado": "tarjetas",
+          "seleccion": "mas_3.5",
+          "cuota": 1.5555555555555556,
+          "prob": 0.671,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 2.3743,
+      "cuota_americana": "+137",
+      "prob": 0.4536,
+      "monto": 50.0,
+      "recortada": false,
+      "creado": "2026-11-25T10:12:18.443558-07:00",
+      "estado": "pendiente"
+    }
+  ]
+}
