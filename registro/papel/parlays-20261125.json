@@ -182,6 +182,160 @@
       "recortada": false,
       "creado": "2026-11-25T10:12:18.443558-07:00",
       "estado": "pendiente"
+    },
+    {
+      "clave": "lectura|P-20261125-02af91:ganador:2|P-20261125-60a033:ganador:1|P-20261125-98b107:ganador:1",
+      "tipo": "parlay",
+      "categoria": "lectura",
+      "patas": [
+        {
+          "pronostico": "P-20261125-02af91",
+          "partido": "Club Brugge vs Liverpool",
+          "liga": "champions",
+          "deporte": "futbol",
+          "espn_id": "401915292",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.6897,
+          "prob": 0.617,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261125-60a033",
+          "partido": "Internazionale vs VfB Stuttgart",
+          "liga": "champions",
+          "deporte": "futbol",
+          "espn_id": "401915376",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.4,
+          "prob": 0.732,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261125-98b107",
+          "partido": "Paris Saint-Germain vs AS Roma",
+          "liga": "champions",
+          "deporte": "futbol",
+          "espn_id": "401915374",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.4785,
+          "prob": 0.674,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.4975,
+      "cuota_americana": "+250",
+      "prob": 0.3044,
+      "ve": 0.0647,
+      "confianza": "media",
+      "mismo_partido": false,
+      "monto": 290.0,
+      "lecturas": {
+        "P-20261125-02af91": "Liverpool superior aunque visita; Brujas fuerte en casa y anota: partido abierto",
+        "P-20261125-60a033": "Inter con su once titular, muy superior en San Siro; Stuttgart concede: Inter gana con goles",
+        "P-20261125-98b107": "PSG favorito en casa aun con ataque rotado (sin Dembélé ni Kvaratskhelia); Roma ordenada"
+      },
+      "creado": "2026-11-25T12:18:55.498045-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "prob|P-20261125-02af91:ganador:2|P-20261125-60a033:ganador:1|P-20261125-98b107:tarjetas:menos_3.5",
+      "tipo": "parlay",
+      "categoria": "combinada_prob",
+      "patas": [
+        {
+          "pronostico": "P-20261125-02af91",
+          "partido": "Club Brugge vs Liverpool",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.6896551724137931,
+          "prob": 0.617,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261125-60a033",
+          "partido": "Internazionale vs VfB Stuttgart",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.4,
+          "prob": 0.732,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261125-98b107",
+          "partido": "Paris Saint-Germain vs AS Roma",
+          "liga": "champions",
+          "mercado": "tarjetas",
+          "seleccion": "menos_3.5",
+          "cuota": 1.5988023952095807,
+          "prob": 0.675,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.782,
+      "cuota_americana": "+278",
+      "prob": 0.3049,
+      "monto": 120.0,
+      "recortada": false,
+      "creado": "2026-11-25T12:18:56.998222-07:00",
+      "estado": "pendiente"
+    },
+    {
+      "clave": "P-20261125-02af91:ganador:2|P-20261125-60a033:ganador:1|P-20261125-98b107:tarjetas:menos_3.5",
+      "tipo": "parlay",
+      "categoria": "valor",
+      "patas": [
+        {
+          "pronostico": "P-20261125-02af91",
+          "partido": "Club Brugge vs Liverpool",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "2",
+          "cuota": 1.6896551724137931,
+          "prob": 0.617,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261125-60a033",
+          "partido": "Internazionale vs VfB Stuttgart",
+          "liga": "champions",
+          "mercado": "ganador",
+          "seleccion": "1",
+          "cuota": 1.4,
+          "prob": 0.732,
+          "confianza": "media",
+          "estado": "pendiente"
+        },
+        {
+          "pronostico": "P-20261125-98b107",
+          "partido": "Paris Saint-Germain vs AS Roma",
+          "liga": "champions",
+          "mercado": "tarjetas",
+          "seleccion": "menos_3.5",
+          "cuota": 1.5988023952095807,
+          "prob": 0.675,
+          "confianza": "alta",
+          "estado": "pendiente"
+        }
+      ],
+      "cuota": 3.782,
+      "cuota_americana": "+278",
+      "prob": 0.3049,
+      "monto": 50.0,
+      "recortada": false,
+      "creado": "2026-11-25T12:18:56.998263-07:00",
+      "estado": "pendiente"
     }
   ]
 }
